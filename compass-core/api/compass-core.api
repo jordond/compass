@@ -1,0 +1,28 @@
+public final class dev/jordond/compass/Location {
+	public fun <init> (DD)V
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getLatitude ()D
+	public final fun getLongitude ()D
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class dev/jordond/compass/Place {
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAdministrativeArea ()Ljava/lang/String;
+	public final fun getCountry ()Ljava/lang/String;
+	public final fun getIsoCountryCode ()Ljava/lang/String;
+	public final fun getLocality ()Ljava/lang/String;
+	public final fun getName ()Ljava/lang/String;
+	public final fun getPostalCode ()Ljava/lang/String;
+	public final fun getStreet ()Ljava/lang/String;
+	public final fun getSubAdministrativeArea ()Ljava/lang/String;
+	public final fun getSubLocality ()Ljava/lang/String;
+	public final fun getSubThoroughfare ()Ljava/lang/String;
+	public final fun getThoroughfare ()Ljava/lang/String;
+	public fun hashCode ()I
+	public final fun isEmpty ()Z
+	public fun toString ()Ljava/lang/String;
+}
+
