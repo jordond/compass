@@ -15,6 +15,13 @@ import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
 /**
+ * Check if the device supports geocoding.
+ *
+ * @return `true` if the device supports geocoding, `false` otherwise.
+ */
+internal actual fun geocoderAvailable(): Boolean = Geocoder.isPresent()
+
+/**
  * Geocode a location to an address.
  *
  * @receiver The coordinates [Location] to geocode.
@@ -22,7 +29,7 @@ import kotlin.coroutines.suspendCoroutine
  * @throws GeocodeError If an error occurred while geocoding.
  * @throws NotSupportedException if the device does not support geocoding.
  */
-internal actual suspend fun Location.reverseGeocode(): Place? {
+internal actual suspend fun Location.reverseGeocode(): List<Place> {
     if (Geocoder.isPresent().not()) throw NotSupportedException()
     val geocoder = Geocoder(ContextProvider.getInstance().context)
 
@@ -34,13 +41,13 @@ internal actual suspend fun Location.reverseGeocode(): Place? {
 }
 
 @Suppress("DEPRECATION")
-private suspend fun Geocoder.deprecatedReverseGeocode(location: Location): Place? {
+private suspend fun Geocoder.deprecatedReverseGeocode(location: Location): List<Place> {
     val result: Result<List<Address>?> = withContext(Dispatchers.IO) {
         runCatching {
             getFromLocation(
                 /* latitude = */ location.latitude,
                 /* longitude = */ location.longitude,
-                /* maxResults = */ 1,
+                /* maxResults = */ 5,
             )?.toList()
         }
     }
@@ -48,31 +55,21 @@ private suspend fun Geocoder.deprecatedReverseGeocode(location: Location): Place
     val exception = result.exceptionOrNull()
     if (exception != null) throw GeocodeError(exception.message)
 
-    return result.getOrNull()?.firstOrNull()?.toPlace()
-}
-
-/**
- * Check if the device supports geocoding.
- *
- * @return `true` if the device supports geocoding, `false` otherwise.
- */
-internal actual fun geocoderAvailable(): Boolean {
-    return Geocoder.isPresent()
+    return result.getOrNull()?.map { it.toPlace() } ?: emptyList()
 }
 
 @TargetApi(Build.VERSION_CODES.TIRAMISU)
-private suspend fun Geocoder.reverseGeocode(location: Location): Place? {
+private suspend fun Geocoder.reverseGeocode(location: Location): List<Place> {
     return suspendCoroutine { continuation ->
         getFromLocation(
             /* latitude = */ location.latitude,
             /* longitude = */ location.longitude,
-            /* maxResults = */ 1,
+            /* maxResults = */ 5,
             object : GeocodeListener {
 
                 override fun onGeocode(addresses: MutableList<Address>) {
-                    if (addresses.isEmpty()) return continuation.resume(null)
-
-                    continuation.resume(addresses.first().toPlace())
+                    val places = addresses.map { it.toPlace() }
+                    continuation.resume(places)
                 }
 
                 override fun onError(errorMessage: String?) {

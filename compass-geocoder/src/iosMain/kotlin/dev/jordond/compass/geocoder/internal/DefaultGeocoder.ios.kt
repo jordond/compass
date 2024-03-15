@@ -22,7 +22,7 @@ internal actual fun geocoderAvailable(): Boolean = true
  * @throws GeocodeError If an error occurred while geocoding.
  * @throws NotSupportedException if the device does not support geocoding.
  */
-internal actual suspend fun Location.reverseGeocode(): Place? {
+internal actual suspend fun Location.reverseGeocode(): List<Place> {
     val geocoder = CLGeocoder()
     val location = CLLocation(latitude, longitude)
 
@@ -32,10 +32,9 @@ internal actual suspend fun Location.reverseGeocode(): Place? {
             when {
                 error != null ->
                     continuation.resumeWithException(GeocodeError(error.localizedDescription))
-                result.isNullOrEmpty() -> continuation.resume(null)
                 else -> {
                     val places = (result as? List<CLPlacemark>)?.map { it.toPlace() }
-                    continuation.resume(places?.firstOrNull())
+                    continuation.resume(places ?: emptyList())
                 }
             }
         }

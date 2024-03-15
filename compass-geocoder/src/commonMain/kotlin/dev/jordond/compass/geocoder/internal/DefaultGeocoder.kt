@@ -3,6 +3,7 @@ package dev.jordond.compass.geocoder.internal
 import dev.jordond.compass.Location
 import dev.jordond.compass.Place
 import dev.jordond.compass.geocoder.Geocoder
+import dev.jordond.compass.geocoder.GeocoderResult
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
@@ -13,21 +14,21 @@ internal class DefaultGeocoder(
 
     override fun available(): Boolean = geocoderAvailable()
 
-    override suspend fun reverseGeocode(coordinates: Location): Geocoder.Result {
+    override suspend fun places(coordinates: Location): GeocoderResult {
         try {
-            val location = withContext(dispatcher) { coordinates.reverseGeocode() }
-            if (location == null || location.isEmpty) {
-                return Geocoder.Result.NotFound
+            val place = withContext(dispatcher) { coordinates.reverseGeocode() }
+            if (place.isEmpty() || place.all { it.isEmpty }) {
+                return GeocoderResult.NotFound
             }
 
-            return Geocoder.Result.Success(location)
+            return GeocoderResult.Success(place)
         } catch (cause: CancellationException) {
             throw cause
         } catch (cause: Throwable) {
             return when (cause) {
-                is NotSupportedException -> Geocoder.Result.NotSupported
-                is IllegalArgumentException -> Geocoder.Result.InvalidCoordinates
-                else -> Geocoder.Result.GeocodeFailed(cause.message ?: "Unknown error")
+                is NotSupportedException -> GeocoderResult.NotSupported
+                is IllegalArgumentException -> GeocoderResult.InvalidCoordinates
+                else -> GeocoderResult.GeocodeFailed(cause.message ?: "Unknown error")
             }
         }
     }
@@ -48,4 +49,4 @@ internal expect fun geocoderAvailable(): Boolean
  * @throws GeocodeError If an error occurred while geocoding.
  * @throws NotSupportedException if the device does not support geocoding.
  */
-internal expect suspend fun Location.reverseGeocode(): Place?
+internal expect suspend fun Location.reverseGeocode(): List<Place>
