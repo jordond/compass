@@ -1,0 +1,33 @@
+[versions]
+sdk-target = "34"
+sdk-compile = "34"
+sdk-min = "21"
+agp = "8.2.2"
+kotlin = "1.9.23"
+kotlinx-coroutines = "1.8.0"
+compose-multiplatform = "1.6.1"
+androidx-startup = "1.1.1"
+kermit = "2.0.3"
+binaryCompatibility = "0.14.0"
+dokka = "1.9.20"
+publish = "0.28.0"
+poko = "0.15.2"
+versions = "0.51.0"
+
+[libraries]
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
+kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinx-coroutines" }
+kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
+androidx-startup = { module = "androidx.startup:startup-runtime", version.ref = "androidx-startup" }
+
+[plugins]
+multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+compose = { id = "org.jetbrains.compose", version.ref = "compose-multiplatform" }
+android-library = { id = "com.android.library", version.ref = "agp" }
+android-application = { id = "com.android.application", version.ref = "agp" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+dependencies = { id = "com.github.ben-manes.versions", version.ref = "versions" }
+binaryCompatibility = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version.ref = "binaryCompatibility" }
+dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
+publish = { id = "com.vanniktech.maven.publish", version.ref = "publish" }
+poko = { id = "dev.drewhamilton.poko", version.ref = "poko" }
