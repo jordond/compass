@@ -63,14 +63,14 @@ public sealed interface GeocoderResult<out T> {
      *
      * @return The result data or `null` if the result was unsuccessful.
      */
-    public fun locationsOrNull(): List<T>? = if (this is Success<T>) data else null
+    public fun getOrNull(): List<T>? = if (this is Success<T>) data else null
 
     /**
      * Get the first result data or `null` if the result was unsuccessful.
      *
      * @return The first result data or `null` if the result was unsuccessful.
      */
-    public fun locationOrNull(): T? = locationsOrNull()?.firstOrNull()
+    public fun getFirstOrNull(): T? = getOrNull()?.firstOrNull()
 
     /**
      * Get the error or `null` if the result was successful.

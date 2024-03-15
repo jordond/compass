@@ -31,6 +31,13 @@ internal class DefaultGeocoder(
         return handleResult { address.reverseGeocode() }
     }
 
+    /**
+     * @see Geocoder.locations
+     */
+    override suspend fun locations(address: String): GeocoderResult<Location> {
+        return handleResult { address.forwardGeocode() }
+    }
+
     private suspend fun <T> handleResult(block: suspend () -> List<T>): GeocoderResult<T> {
         try {
             val place = withContext(dispatcher) { block() }

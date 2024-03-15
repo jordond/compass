@@ -1,12 +1,8 @@
 package dev.jordond.compass.geocoder.internal
 
-import android.location.Geocoder
 import android.os.Build
 import dev.jordond.compass.Location
 import dev.jordond.compass.Place
-import dev.jordond.compass.geocoder.internal.context.ContextProvider
-
-private const val MAX_RESULTS = 5
 
 /**
  * Geocode a [Location] to a [Place].
@@ -20,11 +16,11 @@ internal actual suspend fun Location.reverseGeocode(): List<Place> {
     val geocoder = createGeocoder()
     return if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
         @Suppress("DEPRECATION")
-        syncOperation { geocoder.getFromLocation(latitude, longitude, MAX_RESULTS) }
+        syncOperation { geocoder.getFromLocation(latitude, longitude, MAX_RESULTS) }.toPlaces()
     } else {
         asyncOperation { listener ->
             geocoder.getFromLocation(latitude, longitude, MAX_RESULTS, listener)
-        }
+        }.toPlaces()
     }
 }
 
@@ -40,15 +36,10 @@ internal actual suspend fun String.reverseGeocode(): List<Place> {
     val geocoder = createGeocoder()
     return if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
         @Suppress("DEPRECATION")
-        syncOperation { geocoder.getFromLocationName(this, MAX_RESULTS) }
+        syncOperation { geocoder.getFromLocationName(this, MAX_RESULTS) }.toPlaces()
     } else {
         asyncOperation { listener ->
             geocoder.getFromLocationName(this, MAX_RESULTS, listener)
-        }
+        }.toPlaces()
     }
-}
-
-private fun createGeocoder(): Geocoder {
-    if (Geocoder.isPresent().not()) throw NotSupportedException()
-    return Geocoder(ContextProvider.getInstance().context)
 }

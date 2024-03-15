@@ -4,16 +4,21 @@ import android.annotation.TargetApi
 import android.location.Address
 import android.location.Geocoder
 import android.os.Build
-import dev.jordond.compass.Place
+import dev.jordond.compass.geocoder.internal.context.ContextProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
+internal fun createGeocoder(): Geocoder {
+    if (Geocoder.isPresent().not()) throw NotSupportedException()
+    return Geocoder(ContextProvider.getInstance().context)
+}
+
 internal suspend fun syncOperation(
     block: () -> MutableList<Address>?,
-): List<Place> {
+): List<Address> {
     val result: Result<List<Address>?> = withContext(Dispatchers.IO) {
         runCatching {
             block()
@@ -23,18 +28,17 @@ internal suspend fun syncOperation(
     val exception = result.exceptionOrNull()
     if (exception != null) throw GeocodeError(exception.message)
 
-    return result.getOrNull()?.map { it.toPlace() } ?: emptyList()
+    return result.getOrNull() ?: emptyList()
 }
 
 @TargetApi(Build.VERSION_CODES.TIRAMISU)
 internal suspend fun asyncOperation(
     block: (listener: Geocoder.GeocodeListener) -> Unit,
-): List<Place> {
+): List<Address> {
     return suspendCoroutine { continuation ->
         val listener = object : Geocoder.GeocodeListener {
             override fun onGeocode(addresses: MutableList<Address>) {
-                val places = addresses.map { it.toPlace() }
-                continuation.resume(places)
+                continuation.resume(addresses.toList())
             }
 
             override fun onError(errorMessage: String?) {
