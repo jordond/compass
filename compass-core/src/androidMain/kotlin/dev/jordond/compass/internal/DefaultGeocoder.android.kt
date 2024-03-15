@@ -5,8 +5,9 @@ import android.location.Address
 import android.location.Geocoder
 import android.location.Geocoder.GeocodeListener
 import android.os.Build
-import dev.jordond.compass.LatLng
 import dev.jordond.compass.Location
+import dev.jordond.compass.Place
+import dev.jordond.compass.internal.context.ContextProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlin.coroutines.resume
@@ -16,24 +17,24 @@ import kotlin.coroutines.suspendCoroutine
 /**
  * Geocode a location to an address.
  *
- * @receiver The coordinates [LatLng] to geocode.
+ * @receiver The coordinates [Location] to geocode.
  * @return The address of the coordinates or `null` if the address could not be found.
  * @throws GeocodeError If an error occurred while geocoding.
  * @throws NotSupportedException if the device does not support geocoding.
  */
-internal actual suspend fun LatLng.reverseGeocode(): Location? {
+internal actual suspend fun Location.reverseGeocode(): Place? {
     if (Geocoder.isPresent().not()) throw NotSupportedException()
     val geocoder = Geocoder(ContextProvider.getInstance().context)
 
     return if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
-        geocoder.reverseGeocode(this)
+        geocoder.deprecatedReverseGeocode(this)
     } else {
-        geocoder.reverseGeocodeSdk33(this)
+        geocoder.reverseGeocode(this)
     }
 }
 
 @Suppress("DEPRECATION")
-private suspend fun Geocoder.reverseGeocode(location: LatLng): Location? {
+private suspend fun Geocoder.deprecatedReverseGeocode(location: Location): Place? {
     val result: Result<List<Address>?> = withContext(Dispatchers.IO) {
         runCatching {
             getFromLocation(
@@ -47,7 +48,7 @@ private suspend fun Geocoder.reverseGeocode(location: LatLng): Location? {
     val exception = result.exceptionOrNull()
     if (exception != null) throw GeocodeError(exception.message)
 
-    return result.getOrNull()?.firstOrNull()?.toLocation()
+    return result.getOrNull()?.firstOrNull()?.toPlace()
 }
 
 /**
@@ -60,7 +61,7 @@ internal actual fun geocoderAvailable(): Boolean {
 }
 
 @TargetApi(Build.VERSION_CODES.TIRAMISU)
-private suspend fun Geocoder.reverseGeocodeSdk33(location: LatLng): Location? {
+private suspend fun Geocoder.reverseGeocode(location: Location): Place? {
     return suspendCoroutine { continuation ->
         getFromLocation(
             /* latitude = */ location.latitude,
@@ -71,7 +72,7 @@ private suspend fun Geocoder.reverseGeocodeSdk33(location: LatLng): Location? {
                 override fun onGeocode(addresses: MutableList<Address>) {
                     if (addresses.isEmpty()) return continuation.resume(null)
 
-                    continuation.resume(addresses.first().toLocation())
+                    continuation.resume(addresses.first().toPlace())
                 }
 
                 override fun onError(errorMessage: String?) {

@@ -35,6 +35,15 @@ This library is written for Kotlin Multiplatform, and can be used on the followi
 |-----------|:-------:|:---:|
 | `compass` |    ✅    |  ✅  |
 
+This library uses built-in services for both iOS and Android. That means that there is restrictrions
+to its usage. See
+the [Android documentation](https://developer.android.com/reference/android/location/Geocoder) as
+well as the [iOS documentation](https://developer.apple.com/documentation/corelocation/clgeocoder)
+for more information.
+
+You can be throttled or blocked from using the geocoding services if you make too many requests in a
+short period of time.
+
 ## Setup
 
 You can add this library to your project using Gradle.

@@ -12,7 +12,7 @@
             tools:node="merge"
             >
             <meta-data
-                android:name="dev.jordond.compass.internal.ContextProviderInitializer"
+                android:name="dev.jordond.compass.internal.context.ContextProviderInitializer"
                 android:value="androidx.startup"
                 />
         </provider>

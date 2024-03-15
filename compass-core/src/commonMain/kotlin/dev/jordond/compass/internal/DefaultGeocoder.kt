@@ -1,8 +1,9 @@
 package dev.jordond.compass.internal
 
 import dev.jordond.compass.Geocoder
-import dev.jordond.compass.LatLng
 import dev.jordond.compass.Location
+import dev.jordond.compass.Place
+import dev.jordond.compass.isEmpty
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
@@ -13,10 +14,12 @@ internal class DefaultGeocoder(
 
     override fun available(): Boolean = geocoderAvailable()
 
-    override suspend fun reverseGeocode(coordinates: LatLng): Geocoder.Result {
+    override suspend fun reverseGeocode(coordinates: Location): Geocoder.Result {
         try {
             val location = withContext(dispatcher) { coordinates.reverseGeocode() }
-                ?: return Geocoder.Result.NotFound
+            if (location == null || location.isEmpty) {
+                return Geocoder.Result.NotFound
+            }
 
             return Geocoder.Result.Success(location)
         } catch (cause: CancellationException) {
@@ -41,9 +44,9 @@ internal expect fun geocoderAvailable(): Boolean
 /**
  * Geocode a location to an address.
  *
- * @receiver The coordinates [LatLng] to geocode.
+ * @receiver The coordinates [Location] to geocode.
  * @return The address of the coordinates or `null` if the address could not be found.
  * @throws GeocodeError If an error occurred while geocoding.
  * @throws NotSupportedException if the device does not support geocoding.
  */
-internal expect suspend fun LatLng.reverseGeocode(): Location?
+internal expect suspend fun Location.reverseGeocode(): Place?

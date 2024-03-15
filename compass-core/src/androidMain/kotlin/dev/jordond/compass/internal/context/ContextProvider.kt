@@ -1,4 +1,4 @@
-package dev.jordond.compass.internal
+package dev.jordond.compass.internal.context
 
 import android.annotation.SuppressLint
 import android.content.Context
