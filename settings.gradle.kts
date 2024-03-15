@@ -32,4 +32,4 @@ gradleEnterprise {
     }
 }
 
-include(":compass-core")
+include(":compass-geocoder")

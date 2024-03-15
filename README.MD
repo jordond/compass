@@ -10,13 +10,15 @@
 ![badge-android](http://img.shields.io/badge/platform-android-6EDB8D.svg?style=flat)
 ![badge-ios](http://img.shields.io/badge/platform-ios-CDCDCD.svg?style=flat)
 
-Compass is a Kotlin Multiplatform library designed to provide geocoding capabilities. It allows
-developers to convert geographic coordinates into human-readable addresses and vice versa. The
+Compass is a Kotlin Multiplatform library location toolkit. It provides a set of tools for working
+with location data, including geocoding, reverse geocoding, and more. The
 library is built with a focus on simplicity and ease of use, providing a straightforward API for
 geocoding operations.
 
 ## Table of Contents
 
+- [Features](#features)
+    - [Planned Features](#planned-features)
 - [Platforms](#platforms)
 - [Setup](#setup)
     - [Version Catalog](#version-catalog)
@@ -27,13 +29,26 @@ geocoding operations.
 - [License](#license)
     - [Changes from original source](#changes-from-original-source)
 
+## Features
+
+- **Geocoding**:
+    - Convert an address to a latitude and longitude (forward geocoding)
+    - Convert a latitude and longitude to an address (reverse geocoding)
+
+### Planned Features
+
+- **Geolocation**:
+    - Get the current location of the device
+    - Monitor the location of the device
+
 ## Platforms
 
 This library is written for Kotlin Multiplatform, and can be used on the following platforms:
 
-| Artifact  | Android | iOS |
-|-----------|:-------:|:---:|
-| `compass` |    ✅    |  ✅  |
+| Artifact              | Android | iOS | Status  |
+|-----------------------|:-------:|:---:|---------|
+| `compass-geocoder`    |    ✅    |  ✅  | 🚧      |
+| `compass-geolocation` |    ❌    |  ❌  | planned |
 
 This library uses built-in services for both iOS and Android. That means that there is restrictrions
 to its usage. See
@@ -54,10 +69,10 @@ In `libs.versions.toml`:
 
 ```toml
 [versions]
-compass = "1.0.0"
+compass = "0.1.0"
 
 [libraries]
-compass-core = { module = "dev.jordond.compass:compass-core", version.ref = "compass" }
+compass-geocoder = { module = "dev.jordond.compass:compass-geocoder", version.ref = "compass" }
 ```
 
 To add to a multiplatform project, add the dependency to the common source-set:
