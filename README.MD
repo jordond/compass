@@ -48,7 +48,7 @@ In `libs.versions.toml`:
 compass = "1.0.0"
 
 [libraries]
-compass = { module = "dev.jordond.compass:compass", version.ref = "compass" }
+compass-core = { module = "dev.jordond.compass:compass-core", version.ref = "compass" }
 ```
 
 To add to a multiplatform project, add the dependency to the common source-set:
@@ -58,7 +58,7 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
-                implementation(libs.compass)
+                implementation(libs.compass.core)
             }
         }
     }
