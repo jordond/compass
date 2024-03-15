@@ -1,4 +1,4 @@
-rootProject.name = "compass"
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {
     repositories {
@@ -32,4 +32,9 @@ gradleEnterprise {
     }
 }
 
-include(":compass-geocoder")
+rootProject.name = "compass"
+
+include(
+    ":compass-core",
+    ":compass-geocoder",
+)

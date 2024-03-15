@@ -1,7 +1,7 @@
 package dev.jordond.compass.geocoder.internal
 
 import android.location.Address
-import dev.jordond.compass.geocoder.Place
+import dev.jordond.compass.Place
 
 internal fun Address.toPlace(): Place = Place(
     name = featureName,

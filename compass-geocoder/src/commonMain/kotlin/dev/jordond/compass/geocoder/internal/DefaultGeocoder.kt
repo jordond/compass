@@ -1,9 +1,8 @@
 package dev.jordond.compass.geocoder.internal
 
+import dev.jordond.compass.Location
+import dev.jordond.compass.Place
 import dev.jordond.compass.geocoder.Geocoder
-import dev.jordond.compass.geocoder.Location
-import dev.jordond.compass.geocoder.Place
-import dev.jordond.compass.geocoder.isEmpty
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext

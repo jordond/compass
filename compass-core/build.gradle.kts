@@ -21,26 +21,15 @@ kotlin {
         iosSimulatorArm64()
     ).forEach { framework ->
         framework.binaries.framework {
-            baseName = "compass-geocoder"
+            baseName = "compass-core"
             isStatic = true
         }
     }
 
     sourceSets {
-        commonMain.dependencies {
-            implementation(projects.compassCore)
-            implementation(libs.kotlinx.coroutines.core)
-        }
-
         commonTest.dependencies {
             implementation(kotlin("test"))
         }
-
-        androidMain.dependencies {
-            implementation(libs.kotlinx.coroutines.android)
-            implementation(libs.androidx.startup)
-        }
-
     }
 
     // https://kotlinlang.org/docs/native-objc-interop.html#export-of-kdoc-comments-to-generated-objective-c-headers
@@ -51,7 +40,7 @@ kotlin {
 }
 
 android {
-    namespace = "dev.jordond.compass.geocoder"
+    namespace = "dev.jordond.compass"
 
     compileSdk = libs.versions.sdk.compile.get().toInt()
     defaultConfig {

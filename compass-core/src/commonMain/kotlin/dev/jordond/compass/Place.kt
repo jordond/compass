@@ -1,4 +1,4 @@
-package dev.jordond.compass.geocoder
+package dev.jordond.compass
 
 import dev.drewhamilton.poko.Poko
 
@@ -15,9 +15,10 @@ public class Place(
     public val subLocality: String?,
     public val thoroughfare: String?,
     public val subThoroughfare: String?,
-)
+) {
 
-internal val Place.isEmpty: Boolean
-    get() = name == null && street == null && isoCountryCode == null && country == null &&
-        postalCode == null && administrativeArea == null && subAdministrativeArea == null &&
-        locality == null && subLocality == null && thoroughfare == null && subThoroughfare == null
+    public val isEmpty: Boolean = name == null && street == null && isoCountryCode == null &&
+        country == null && postalCode == null && administrativeArea == null &&
+        subAdministrativeArea == null && locality == null && subLocality == null &&
+        thoroughfare == null && subThoroughfare == null
+}

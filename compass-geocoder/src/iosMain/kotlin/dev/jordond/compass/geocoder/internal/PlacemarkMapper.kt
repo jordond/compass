@@ -1,6 +1,6 @@
 package dev.jordond.compass.geocoder.internal
 
-import dev.jordond.compass.geocoder.Place
+import dev.jordond.compass.Place
 import kotlinx.cinterop.ExperimentalForeignApi
 import platform.Contacts.CNPostalAddress
 import platform.CoreLocation.CLPlacemark

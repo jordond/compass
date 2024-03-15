@@ -1,6 +1,8 @@
 package dev.jordond.compass.geocoder
 
 import dev.drewhamilton.poko.Poko
+import dev.jordond.compass.Location
+import dev.jordond.compass.Place
 import dev.jordond.compass.geocoder.internal.DefaultGeocoder
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers

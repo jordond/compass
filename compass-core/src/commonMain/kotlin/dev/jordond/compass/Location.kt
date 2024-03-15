@@ -1,4 +1,4 @@
-package dev.jordond.compass.geocoder
+package dev.jordond.compass
 
 import dev.drewhamilton.poko.Poko
 

@@ -1,7 +1,7 @@
 package dev.jordond.compass.geocoder.internal
 
-import dev.jordond.compass.geocoder.Location
-import dev.jordond.compass.geocoder.Place
+import dev.jordond.compass.Location
+import dev.jordond.compass.Place
 import kotlinx.coroutines.suspendCancellableCoroutine
 import platform.CoreLocation.CLGeocoder
 import platform.CoreLocation.CLLocation

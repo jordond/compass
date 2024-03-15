@@ -5,8 +5,8 @@ import android.location.Address
 import android.location.Geocoder
 import android.location.Geocoder.GeocodeListener
 import android.os.Build
-import dev.jordond.compass.geocoder.Location
-import dev.jordond.compass.geocoder.Place
+import dev.jordond.compass.Location
+import dev.jordond.compass.Place
 import dev.jordond.compass.geocoder.internal.context.ContextProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
