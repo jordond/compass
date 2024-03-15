@@ -1,3 +1,6 @@
+import org.gradle.kotlin.dsl.support.kotlinCompilerOptions
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+
 plugins {
     alias(libs.plugins.multiplatform)
     alias(libs.plugins.android.library)
@@ -13,6 +16,11 @@ kotlin {
 
     androidTarget {
         publishAllLibraryVariants()
+    }
+
+    @OptIn(ExperimentalKotlinGradlePluginApi::class)
+    compilerOptions {
+        freeCompilerArgs.add("-Xexpect-actual-classes")
     }
 
     listOf(

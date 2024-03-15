@@ -81,5 +81,6 @@ public interface Geocoder {
  * @return A new [Geocoder] instance.
  */
 public fun Geocoder(
+    geocoder: PlatformGeocoder = PlatformGeocoder.getInstance(),
     dispatcher: CoroutineDispatcher = Dispatchers.Default,
-): Geocoder = DefaultGeocoder(dispatcher)
+): Geocoder = DefaultGeocoder(geocoder, dispatcher)

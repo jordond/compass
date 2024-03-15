@@ -4,17 +4,11 @@ import android.annotation.TargetApi
 import android.location.Address
 import android.location.Geocoder
 import android.os.Build
-import dev.jordond.compass.geocoder.internal.context.ContextProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
-
-internal fun createGeocoder(): Geocoder {
-    if (Geocoder.isPresent().not()) throw NotSupportedException()
-    return Geocoder(ContextProvider.getInstance().context)
-}
 
 internal suspend fun syncOperation(
     block: () -> MutableList<Address>?,
