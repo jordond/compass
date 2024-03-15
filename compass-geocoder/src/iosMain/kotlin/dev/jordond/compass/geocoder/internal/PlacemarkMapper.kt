@@ -6,6 +6,9 @@ import platform.Contacts.CNPostalAddress
 import platform.CoreLocation.CLPlacemark
 import platform.CoreLocation.postalAddress
 
+/**
+ * Map a [CLPlacemark] to a [Place].
+ */
 @Suppress("CAST_NEVER_SUCCEEDS")
 @OptIn(ExperimentalForeignApi::class)
 internal fun CLPlacemark.toPlace(): Place {

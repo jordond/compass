@@ -3,6 +3,9 @@ package dev.jordond.compass.geocoder.internal.context
 import android.annotation.SuppressLint
 import android.content.Context
 
+/**
+ * Class for providing the application context.
+ */
 internal class ContextProvider(internal val context: Context) {
 
     companion object {

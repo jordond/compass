@@ -12,12 +12,29 @@ internal class DefaultGeocoder(
     private val dispatcher: CoroutineDispatcher,
 ) : Geocoder {
 
+    /**
+     * @see Geocoder.available
+     */
     override fun available(): Boolean = geocoderAvailable()
 
-    override suspend fun places(coordinates: Location): GeocoderResult {
+    /**
+     * @see Geocoder.places
+     */
+    override suspend fun places(location: Location): GeocoderResult<Place> {
+        return handleResult { location.reverseGeocode() }
+    }
+
+    /**
+     * @see Geocoder.places
+     */
+    override suspend fun places(address: String): GeocoderResult<Place> {
+        return handleResult { address.reverseGeocode() }
+    }
+
+    private suspend fun <T> handleResult(block: suspend () -> List<T>): GeocoderResult<T> {
         try {
-            val place = withContext(dispatcher) { coordinates.reverseGeocode() }
-            if (place.isEmpty() || place.all { it.isEmpty }) {
+            val place = withContext(dispatcher) { block() }
+            if (place.isEmpty()) {
                 return GeocoderResult.NotFound
             }
 
@@ -40,13 +57,3 @@ internal class DefaultGeocoder(
  * @return `true` if the device supports geocoding, `false` otherwise.
  */
 internal expect fun geocoderAvailable(): Boolean
-
-/**
- * Geocode a location to an address.
- *
- * @receiver The coordinates [Location] to geocode.
- * @return The address of the coordinates or `null` if the address could not be found.
- * @throws GeocodeError If an error occurred while geocoding.
- * @throws NotSupportedException if the device does not support geocoding.
- */
-internal expect suspend fun Location.reverseGeocode(): List<Place>
