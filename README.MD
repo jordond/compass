@@ -19,7 +19,9 @@ geocoding operations.
 
 - [Features](#features)
     - [Planned Features](#planned-features)
-- [Platforms](#platforms)
+- [Artifacts](#artifacts)
+  - [`compass-geocoder-mobile`](#compass-geocoder-mobile)
+  - [Platforms](#platforms)
 - [Setup](#setup)
     - [Version Catalog](#version-catalog)
 - [Usage](#usage)
@@ -34,23 +36,26 @@ geocoding operations.
 - **Geocoding**:
     - Convert an address to a latitude and longitude (forward geocoding)
     - Convert a latitude and longitude to an address (reverse geocoding)
-
-### Planned Features
-
-- **Geolocation**:
+  - Support via native Android/iOS services
+  - Support via third party APIs for all platforms (planned)
+- **Geolocation**: (planned)
     - Get the current location of the device
     - Monitor the location of the device
 
-## Platforms
+## Artifacts
 
-This library is written for Kotlin Multiplatform, and can be used on the following platforms:
+This library includes the following artifacts:
 
-| Artifact              | Android | iOS | Status  |
-|-----------------------|:-------:|:---:|---------|
-| `compass-geocoder`    |    ✅    |  ✅  | 🚧      |
-| `compass-geolocation` |    ❌    |  ❌  | planned |
+| Artifact                  | Status  |
+|---------------------------|---------|
+| `compass-geocoder-core`   | 🚧      |
+| `compass-geocoder-mobile` | 🚧      |
+| `compass-geocoder-api`    | 🚧      |
+| `compass-geolocation`     | planned |
 
-This library uses built-in services for both iOS and Android. That means that there is restrictrions
+### `compass-geocoder-mobile`
+
+This artifact uses built-in services for both iOS and Android. That means that there is restrictions
 to its usage. See
 the [Android documentation](https://developer.android.com/reference/android/location/Geocoder) as
 well as the [iOS documentation](https://developer.apple.com/documentation/corelocation/clgeocoder)
@@ -58,6 +63,16 @@ for more information.
 
 You can be throttled or blocked from using the geocoding services if you make too many requests in a
 short period of time.
+
+### Platforms
+
+The artifacts are designed to work on the following platforms:
+
+| Artifact                  | Android | iOS | Desktop (jvm) | macOS | Browser (wasm) |
+|---------------------------|:-------:|:---:|:-------------:|:-----:|:--------------:|
+| `compass-core`            |    ✅    |  ✅  |       ✅       |   ✅   |       ✅        |
+| `compass-geocoder-core`   |    ✅    |  ✅  |       ✅       |   ✅   |       ✅        |
+| `compass-geocoder-mobile` |    ✅    |  ✅  |       ❌       |   ❌   |       ❌        |
 
 ## Setup
 

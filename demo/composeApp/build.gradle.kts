@@ -1,4 +1,6 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
+import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
+import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 
 plugins {
     alias(libs.plugins.multiplatform)
@@ -10,7 +12,27 @@ kotlin {
     androidTarget {
         publishAllLibraryVariants()
     }
-    
+
+    // TODO: Waiting on kotest 5.9
+//    @OptIn(ExperimentalWasmDsl::class)
+//    wasmJs {
+//        moduleName = "composeApp"
+//        browser {
+//            commonWebpackConfig {
+//                outputFileName = "composeApp.js"
+//                devServer = (devServer ?: KotlinWebpackConfig.DevServer()).apply {
+//                    static = (static ?: mutableListOf()).apply {
+//                        // Serve sources to debug inside browser
+//                        add(project.projectDir.path)
+//                    }
+//                }
+//            }
+//        }
+//        binaries.executable()
+//    }
+
+    jvm("desktop")
+
     listOf(
         iosX64(),
         iosArm64(),
@@ -30,13 +52,19 @@ kotlin {
 
         commonMain.dependencies {
             implementation(projects.compassCore)
-            implementation(projects.compassGeocoder)
+            implementation(projects.compassGeocoderCore)
 
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material)
             implementation(compose.ui)
             implementation(compose.components.uiToolingPreview)
+        }
+
+        val desktopMain by getting {
+            dependencies {
+                implementation(compose.desktop.currentOs)
+            }
         }
     }
 }
@@ -83,3 +111,18 @@ android {
     }
 }
 
+compose.desktop {
+    application {
+        mainClass = "MainKt"
+
+        nativeDistributions {
+            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
+            packageName = "dev.jordond.compass.demo"
+            packageVersion = "1.0.0"
+        }
+    }
+}
+
+//compose.experimental {
+//    web.application {}
+//}

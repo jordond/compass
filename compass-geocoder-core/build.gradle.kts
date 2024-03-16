@@ -41,12 +41,17 @@ kotlin {
         iosSimulatorArm64()
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
-            baseName = "compass-core"
+            baseName = "compass-geocoding-core"
             isStatic = true
         }
     }
 
     sourceSets {
+        commonMain.dependencies {
+            implementation(projects.compassCore)
+            implementation(libs.kotlinx.coroutines.core)
+        }
+
         commonTest.dependencies {
             implementation(kotlin("test"))
             implementation(libs.kotest.assertions)
@@ -61,7 +66,7 @@ kotlin {
 }
 
 android {
-    namespace = "dev.jordond.compass"
+    namespace = "dev.jordond.compass.geocoder.core"
 
     compileSdk = libs.versions.sdk.compile.get().toInt()
     defaultConfig {

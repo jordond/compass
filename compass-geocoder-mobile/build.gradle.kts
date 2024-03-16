@@ -1,6 +1,4 @@
-@file:OptIn(ExperimentalWasmDsl::class)
-
-import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 
 plugins {
     alias(libs.plugins.multiplatform)
@@ -19,37 +17,37 @@ kotlin {
         publishAllLibraryVariants()
     }
 
-    jvm("desktop")
-
-    // TODO: Waiting for kotest 5.9
-//    wasmJs {
-//        browser()
-//    }
-
-    js {
-        browser()
-    }
-
-    macosX64()
-    macosArm64()
-    linuxX64()
-    linuxArm64()
-
     listOf(
         iosX64(),
         iosArm64(),
         iosSimulatorArm64()
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
-            baseName = "compass-core"
+            baseName = "compass-geocoder-mobile"
             isStatic = true
         }
     }
 
+    @OptIn(ExperimentalKotlinGradlePluginApi::class)
+    compilerOptions {
+        freeCompilerArgs.add("-Xexpect-actual-classes")
+    }
+
     sourceSets {
+        commonMain.dependencies {
+            api(projects.compassCore)
+            api(projects.compassGeocoderCore)
+            implementation(libs.kotlinx.coroutines.core)
+        }
+
         commonTest.dependencies {
             implementation(kotlin("test"))
             implementation(libs.kotest.assertions)
+        }
+
+        androidMain.dependencies {
+            implementation(libs.kotlinx.coroutines.android)
+            implementation(libs.androidx.startup)
         }
     }
 
@@ -61,7 +59,7 @@ kotlin {
 }
 
 android {
-    namespace = "dev.jordond.compass"
+    namespace = "dev.jordond.compass.geocoder"
 
     compileSdk = libs.versions.sdk.compile.get().toInt()
     defaultConfig {

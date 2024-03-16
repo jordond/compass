@@ -36,7 +36,8 @@ rootProject.name = "compass"
 
 include(
     ":compass-core",
-    ":compass-geocoder",
+    ":compass-geocoder-core",
+    ":compass-geocoder-mobile",
 )
 
 include(":demo:composeApp")
