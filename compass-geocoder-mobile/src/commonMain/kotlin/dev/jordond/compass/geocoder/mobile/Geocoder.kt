@@ -12,9 +12,8 @@ import kotlinx.coroutines.Dispatchers
  * @return A new [Geocoder] instance.
  */
 public fun Geocoder(
-    geocoder: PlatformGeocoder = PlatformGeocoder.create(),
     dispatcher: CoroutineDispatcher = Dispatchers.Default,
-): Geocoder = Geocoder(geocoder, dispatcher)
+): Geocoder = Geocoder(PlatformGeocoder.create(), dispatcher)
 
 /**
  * Create an Android/iOS [PlatformGeocoder] instance for geocoding operations.

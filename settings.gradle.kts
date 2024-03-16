@@ -38,6 +38,7 @@ include(
     ":compass-core",
     ":compass-geocoder-core",
     ":compass-geocoder-mobile",
+    ":compass-geocoder-api",
 )
 
 include(":demo:composeApp")
