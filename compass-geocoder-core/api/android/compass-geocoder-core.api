@@ -131,10 +131,13 @@ public abstract interface class dev/jordond/compass/geocoder/PlatformGeocoder {
 }
 
 public final class dev/jordond/compass/geocoder/PlatformGeocoder$Companion {
-	public final fun getInstance ()Ldev/jordond/compass/geocoder/PlatformGeocoder;
 }
 
-public final class dev/jordond/compass/geocoder/internal/GeocodeError : java/lang/Throwable {
+public final class dev/jordond/compass/geocoder/exception/GeocodeException : java/lang/Throwable {
 	public fun <init> (Ljava/lang/String;)V
+}
+
+public final class dev/jordond/compass/geocoder/exception/NotSupportedException : java/lang/Throwable {
+	public fun <init> ()V
 }
 

@@ -1,0 +1,6 @@
+public final class dev/jordond/compass/geocoder/mobile/GeocoderKt {
+	public static final fun Geocoder (Ldev/jordond/compass/geocoder/PlatformGeocoder;Lkotlinx/coroutines/CoroutineDispatcher;)Ldev/jordond/compass/geocoder/Geocoder;
+	public static synthetic fun Geocoder$default (Ldev/jordond/compass/geocoder/PlatformGeocoder;Lkotlinx/coroutines/CoroutineDispatcher;ILjava/lang/Object;)Ldev/jordond/compass/geocoder/Geocoder;
+	public static final fun create (Ldev/jordond/compass/geocoder/PlatformGeocoder$Companion;)Ldev/jordond/compass/geocoder/PlatformGeocoder;
+}
+
