@@ -16,7 +16,7 @@ plugins {
 apiValidation {
     ignoredProjects.addAll(
         listOf(
-//            "composeApp",
+            "composeApp",
         ),
     )
 }
