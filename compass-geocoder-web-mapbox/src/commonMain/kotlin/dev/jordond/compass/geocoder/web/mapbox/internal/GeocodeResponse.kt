@@ -1,4 +1,4 @@
-package dev.jordond.compass.geocoder.web.internal
+package dev.jordond.compass.geocoder.web.mapbox.internal
 
 import dev.jordond.compass.Location
 import dev.jordond.compass.Place

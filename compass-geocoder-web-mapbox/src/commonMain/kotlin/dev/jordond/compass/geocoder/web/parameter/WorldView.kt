@@ -1,4 +1,4 @@
-package dev.jordond.compass.geocoder.web.parameters
+package dev.jordond.compass.geocoder.web.parameter
 
 import dev.jordond.compass.geocoder.web.parameter.QueryParamValue
 

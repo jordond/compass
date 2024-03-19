@@ -3,9 +3,9 @@
 package dev.jordond.compass.geocoder.web
 
 import dev.jordond.compass.geocoder.Geocoder
-import dev.jordond.compass.geocoder.web.parameters.MapBoxParameters
-import dev.jordond.compass.geocoder.web.parameters.MapBoxParametersBuilder
-import dev.jordond.compass.geocoder.web.parameters.mapBoxParameters
+import dev.jordond.compass.geocoder.web.parameter.MapBoxParameters
+import dev.jordond.compass.geocoder.web.parameter.MapBoxParametersBuilder
+import dev.jordond.compass.geocoder.web.parameter.mapBoxParameters
 import io.ktor.client.HttpClient
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers

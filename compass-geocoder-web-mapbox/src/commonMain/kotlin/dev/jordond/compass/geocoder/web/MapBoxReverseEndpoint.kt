@@ -2,11 +2,11 @@ package dev.jordond.compass.geocoder.web
 
 import dev.jordond.compass.Location
 import dev.jordond.compass.Place
-import dev.jordond.compass.geocoder.web.internal.GeocodeResponse
-import dev.jordond.compass.geocoder.web.internal.toPlaces
-import dev.jordond.compass.geocoder.web.parameters.MapBoxParameters
-import dev.jordond.compass.geocoder.web.parameters.MapBoxParametersBuilder
-import dev.jordond.compass.geocoder.web.parameters.mapBoxParameters
+import dev.jordond.compass.geocoder.web.mapbox.internal.GeocodeResponse
+import dev.jordond.compass.geocoder.web.mapbox.internal.toPlaces
+import dev.jordond.compass.geocoder.web.parameter.MapBoxParameters
+import dev.jordond.compass.geocoder.web.parameter.MapBoxParametersBuilder
+import dev.jordond.compass.geocoder.web.parameter.mapBoxParameters
 import io.ktor.client.call.body
 import io.ktor.client.statement.HttpResponse
 

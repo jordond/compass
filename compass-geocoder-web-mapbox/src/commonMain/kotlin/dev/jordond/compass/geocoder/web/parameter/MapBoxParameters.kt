@@ -1,10 +1,7 @@
-package dev.jordond.compass.geocoder.web.parameters
+package dev.jordond.compass.geocoder.web.parameter
 
 import dev.drewhamilton.poko.Poko
 import dev.jordond.compass.geocoder.Geocoder
-import dev.jordond.compass.geocoder.web.parameter.QueryParameters
-import dev.jordond.compass.geocoder.web.parameter.QueryParametersBuilder
-import dev.jordond.compass.geocoder.web.parameter.parametersOf
 
 /**
  * Options for the MapBox geocoder.
@@ -42,7 +39,7 @@ public class MapBoxParameters(
     public val permanent: Boolean = false,
     public val autocomplete: Boolean = true,
     public val limit: Int? = null,
-    public val bbox: BoundingBox? = null,
+    public val bbox: MapBoxBoundingBox? = null,
     public val country: String? = null,
     public val language: String? = null,
     public val proximity: String? = null,
@@ -87,7 +84,7 @@ public class MapBoxParametersBuilder : QueryParametersBuilder<MapBoxParameters> 
     /**
      * @see MapBoxParameters.bbox
      */
-    public var bbox: BoundingBox? = null
+    public var bbox: MapBoxBoundingBox? = null
 
     /**
      * @see MapBoxParameters.country
@@ -115,7 +112,7 @@ public class MapBoxParametersBuilder : QueryParametersBuilder<MapBoxParameters> 
     public var worldView: WorldView? = null
 
     /**
-     * Create a [BoundingBox] and set it to [bbox].
+     * Create a [MapBoxBoundingBox] and set it to [bbox].
      * @see MapBoxParameters.bbox
      */
     public fun boundingBox(
@@ -124,7 +121,7 @@ public class MapBoxParametersBuilder : QueryParametersBuilder<MapBoxParameters> 
         maxLongitude: Double,
         maxLatitude: Double,
     ): MapBoxParametersBuilder = apply {
-        this.bbox = BoundingBox(minLongitude, minLatitude, maxLongitude, maxLatitude)
+        this.bbox = MapBoxBoundingBox(minLongitude, minLatitude, maxLongitude, maxLatitude)
     }
 
     /**

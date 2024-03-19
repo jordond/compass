@@ -1,7 +1,6 @@
-package dev.jordond.compass.geocoder.web.parameters
+package dev.jordond.compass.geocoder.web.parameter
 
 import dev.drewhamilton.poko.Poko
-import dev.jordond.compass.geocoder.web.parameter.QueryParamValue
 
 /**
  * A bounding box to limit search results to a specific area.
@@ -15,7 +14,7 @@ import dev.jordond.compass.geocoder.web.parameter.QueryParamValue
  */
 @Poko
 @Suppress("MemberVisibilityCanBePrivate")
-public class BoundingBox(
+public class MapBoxBoundingBox(
     public val minLongitude: Double,
     public val minLatitude: Double,
     public val maxLongitude: Double,
@@ -25,7 +24,7 @@ public class BoundingBox(
     public override val value: String = "$minLongitude,$minLatitude,$maxLongitude,$maxLatitude"
 
     /**
-     * Create a copy of [BoundingBox] with the given or current values.
+     * Create a copy of [MapBoxBoundingBox] with the given or current values.
      *
      * @param minLongitude The minimum longitude of the bounding box.
      * @param minLatitude The minimum latitude of the bounding box.
@@ -37,5 +36,5 @@ public class BoundingBox(
         minLatitude: Double = this.minLatitude,
         maxLongitude: Double = this.maxLongitude,
         maxLatitude: Double = this.maxLatitude,
-    ): BoundingBox = BoundingBox(minLongitude, minLatitude, maxLongitude, maxLatitude)
+    ): MapBoxBoundingBox = MapBoxBoundingBox(minLongitude, minLatitude, maxLongitude, maxLatitude)
 }
