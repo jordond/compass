@@ -21,15 +21,15 @@ public interface MapBoxPlatformGeocoder : HttpApiPlatformGeocoder {
             "$BASE_URL/$target&${params.encode()}&access_token=$apiKey"
 
         internal fun forwardUrl(query: String, apiKey: String, params: MapBoxParameters) =
-            createUrl("/forward?q=$query", apiKey, params)
+            createUrl("forward?q=$query", apiKey, params)
 
         internal fun reverseUrl(
-            longitude: Double,
             latitude: Double,
+            longitude: Double,
             apiKey: String,
             params: MapBoxParameters,
         ) = createUrl(
-            target = "$BASE_URL/reverse?longitude=$longitude&latitude=$latitude",
+            target = "reverse?latitude=$latitude&longitude=$longitude",
             apiKey = apiKey,
             params = params,
         )

@@ -1,5 +1,6 @@
 package dev.jordond.compass.geocoder.web.parameters
 
+import dev.jordond.compass.geocoder.web.parameter.QueryParamListValue
 import dev.jordond.compass.geocoder.web.parameter.QueryParamValue
 
 /**
@@ -19,4 +20,14 @@ public enum class MapBoxTypes : QueryParamValue {
     Address;
 
     override val value: String = name.lowercase()
+}
+
+/**
+ * A list of [MapBoxTypes] to be used as a query parameter.
+ */
+public class MapBoxTypesList(
+    override val values: List<MapBoxTypes>,
+) : QueryParamListValue<MapBoxTypes> {
+
+    public constructor(vararg values: MapBoxTypes) : this(values.toList())
 }

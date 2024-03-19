@@ -37,7 +37,7 @@ kotlin {
         iosSimulatorArm64()
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
-            baseName = "compass-geocoding-api"
+            baseName = "compass-geocoding-web"
             isStatic = true
         }
     }
@@ -51,9 +51,11 @@ kotlin {
 
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.kotlinx.serialization.json)
-            api(libs.ktor.client.core)
+            implementation(libs.ktor.client.core)
             api(libs.ktor.client.contentNegotiation)
+            api(libs.ktor.client.logging)
             api(libs.ktor.serialization.json)
+            implementation(libs.kermit)
         }
 
         commonTest.dependencies {
@@ -86,7 +88,7 @@ kotlin {
 }
 
 android {
-    namespace = "dev.jordond.compass.geocoder.api"
+    namespace = "dev.jordond.compass.geocoder.web"
 
     compileSdk = libs.versions.sdk.compile.get().toInt()
     defaultConfig {

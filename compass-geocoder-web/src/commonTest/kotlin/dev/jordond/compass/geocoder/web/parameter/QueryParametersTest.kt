@@ -73,4 +73,34 @@ class QueryParametersTest {
             "key7%3Dvalue7%2Bwith%26key8%3Dvalue8%25with"
         actual shouldBeEqual expected
     }
+
+    @Test
+    fun shouldHandleDefaultQueryListParam() {
+        val actual = internalParametersOf(
+            "key1" to FooParamList(listOf(FooParam.Bar, FooParam.Baz)),
+        )
+        val expected = mapOf("key1" to "bar,baz")
+        actual shouldBeEqual expected
+    }
+
+    @Test
+    fun shouldHandleCustomQueryListParamSeparator() {
+        val actual = internalParametersOf(
+            "key1" to FooParamList(listOf(FooParam.Bar, FooParam.Baz), "|"),
+        )
+        val expected = mapOf("key1" to "bar|baz")
+        actual shouldBeEqual expected
+    }
 }
+
+private enum class FooParam : QueryParamValue {
+    Bar,
+    Baz;
+
+    override val value: String = name.lowercase()
+}
+
+private class FooParamList(
+    override val values: List<FooParam>,
+    override val separator: String = ",",
+) : QueryParamListValue<FooParam>

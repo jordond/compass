@@ -38,7 +38,7 @@ kotlin {
         iosSimulatorArm64()
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
-            baseName = "compass-geocoding-core"
+            baseName = "compass-geocoding-web-mapbox"
             isStatic = true
         }
     }
@@ -67,7 +67,7 @@ kotlin {
 }
 
 android {
-    namespace = "dev.jordond.compass.geocoder.core"
+    namespace = "dev.jordond.compass.geocoder.web.mapbox"
 
     compileSdk = libs.versions.sdk.compile.get().toInt()
     defaultConfig {

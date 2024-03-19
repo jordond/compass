@@ -6,5 +6,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 internal data class FeatureResponse(
     @SerialName("properties")
-    val properties: PropertiesResponse,
+    val properties: PropertiesResponse? = null,
 )

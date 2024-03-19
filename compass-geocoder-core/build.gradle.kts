@@ -66,7 +66,7 @@ kotlin {
 }
 
 android {
-    namespace = "dev.jordond.compass.geocoder.core"
+    namespace = "dev.jordond.compass.geocoder"
 
     compileSdk = libs.versions.sdk.compile.get().toInt()
     defaultConfig {

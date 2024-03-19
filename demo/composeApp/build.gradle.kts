@@ -9,6 +9,7 @@ plugins {
 }
 
 kotlin {
+    applyDefaultHierarchyTemplate()
     androidTarget {
         publishAllLibraryVariants()
     }
@@ -53,18 +54,37 @@ kotlin {
         commonMain.dependencies {
             implementation(projects.compassCore)
             implementation(projects.compassGeocoderCore)
-            implementation(projects.compassGeocoderWebMapbox)
 
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material)
             implementation(compose.ui)
             implementation(compose.components.uiToolingPreview)
+
+            implementation(projects.compassGeocoderWebMapbox)
         }
 
         val desktopMain by getting {
             dependencies {
                 implementation(compose.desktop.currentOs)
+            }
+        }
+
+        val mobileMain by creating {
+            dependsOn(commonMain.get())
+            androidMain.get().dependsOn(this)
+            iosMain.get().dependsOn(this)
+            dependencies {
+                implementation(projects.compassGeocoderMobile)
+            }
+        }
+
+        val nonMobileMain by creating {
+            dependsOn(commonMain.get())
+            desktopMain.dependsOn(this)
+//            wasmJsMain.get().dependsOn(this)
+            dependencies {
+                implementation(projects.compassGeocoderWebMapbox)
             }
         }
     }

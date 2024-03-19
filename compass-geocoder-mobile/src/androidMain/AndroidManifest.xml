@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     >
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application>
         <provider
             android:name="androidx.startup.InitializationProvider"

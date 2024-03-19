@@ -20,11 +20,11 @@ public class ReverseHttpApiPlatformGeocoder(
 
     override fun isAvailable(): Boolean = true
 
-    override suspend fun locationFromAddress(address: String): List<Location> {
+    override suspend fun forward(address: String): List<Location> {
         throw NotSupportedException()
     }
 
-    override suspend fun placeFromLocation(latitude: Double, longitude: Double): List<Place> {
+    override suspend fun reverse(latitude: Double, longitude: Double): List<Place> {
         val url = endpoint.url(Location(latitude, longitude))
         return client.makeRequest(url, endpoint::mapResponse)
     }

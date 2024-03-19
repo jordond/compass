@@ -13,9 +13,15 @@ internal suspend fun <Result> HttpClient.makeRequest(
 ): Result {
     try {
         val response = get { url(url) }
-        return resultMapper(response)
+        if (response.status.value in 200..299) {
+            return resultMapper(response)
+        } else {
+            throw GeocodeException("HTTP request failed with status code ${response.status.value}")
+        }
     } catch (cancellation: CancellationException) {
         throw cancellation
+    } catch (cause: GeocodeException) {
+        throw cause
     } catch (cause: Throwable) {
         throw GeocodeException(cause.message ?: "Unable to make http request")
     }

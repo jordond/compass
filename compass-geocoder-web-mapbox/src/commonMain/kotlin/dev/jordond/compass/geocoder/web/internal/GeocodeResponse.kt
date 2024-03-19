@@ -12,8 +12,8 @@ internal data class GeocodeResponse(
 )
 
 internal fun GeocodeResponse.toLocations(): List<Location> {
-    return features.map { response ->
-        val coordinates = response.properties.coordinates
+    return features.mapNotNull { response ->
+        val coordinates = response.properties?.coordinates ?: return@mapNotNull null
         Location(
             latitude = coordinates.latitude,
             longitude = coordinates.longitude,
@@ -22,5 +22,20 @@ internal fun GeocodeResponse.toLocations(): List<Location> {
 }
 
 internal fun GeocodeResponse.toPlaces(): List<Place> {
-    TODO("Implement")
+    return features.mapNotNull { response ->
+        val data = response.properties?.context ?: return@mapNotNull null
+        Place(
+            name = response.properties.name,
+            street = data.street?.name,
+            isoCountryCode = data.country?.countryCode,
+            country = data.country?.name,
+            postalCode = data.postcode?.name,
+            administrativeArea = data.region?.name,
+            subAdministrativeArea = data.district?.name,
+            locality = data.locality?.name ?: data.place?.name,
+            subLocality = data.neighborhood?.name,
+            thoroughfare = data.street?.name,
+            subThoroughfare = null,
+        )
+    }
 }

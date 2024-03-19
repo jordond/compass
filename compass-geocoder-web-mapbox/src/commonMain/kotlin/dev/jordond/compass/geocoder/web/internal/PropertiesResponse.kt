@@ -5,9 +5,12 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 internal data class PropertiesResponse(
+    @SerialName("name")
+    val name: String? = null,
+
     @SerialName("coordinates")
-    val coordinates: CoordinatesResponse,
+    val coordinates: CoordinatesResponse? = null,
 
     @SerialName("context")
-    val context: ContextResponse,
+    val context: ContextResponse? = null,
 )

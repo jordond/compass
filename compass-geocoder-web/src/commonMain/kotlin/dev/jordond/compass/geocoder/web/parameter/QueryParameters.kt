@@ -40,6 +40,7 @@ internal fun internalParametersOf(
     .mapNotNull { (key, value) ->
         value?.let { nonNullValue ->
             when (nonNullValue) {
+                is QueryParamListValue<*> -> key to nonNullValue.value
                 is QueryParamValue -> key to nonNullValue.value
                 is List<*> -> {
                     key to nonNullValue

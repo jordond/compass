@@ -24,18 +24,25 @@ internal class DefaultGeocoder(
      * @see Geocoder.places
      */
     override suspend fun places(latitude: Double, longitude: Double): GeocoderResult<Place> {
-        return handleResult { platformGeocoder.placeFromLocation(latitude, longitude) }
+        return handleResult {
+            platformGeocoder.reverse(latitude, longitude)
+        }
     }
 
     /**
      * @see Geocoder.locations
      */
     override suspend fun locations(address: String): GeocoderResult<Location> {
-        return handleResult { platformGeocoder.locationFromAddress(address) }
+        return handleResult {
+            platformGeocoder.forward(address)
+        }
     }
 
     private suspend fun <T> handleResult(block: suspend () -> List<T>): GeocoderResult<T> {
         try {
+            if (!isAvailable()) {
+                return GeocoderResult.NotSupported
+            }
             val place = withContext(dispatcher) { block() }
             if (place.isEmpty()) {
                 return GeocoderResult.NotFound

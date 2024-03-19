@@ -7,6 +7,9 @@ import io.ktor.client.HttpClient
 import io.ktor.client.HttpClientConfig
 import io.ktor.client.plugins.HttpRequestRetry
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.client.plugins.logging.LogLevel
+import io.ktor.client.plugins.logging.Logger
+import io.ktor.client.plugins.logging.Logging
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonBuilder
@@ -35,6 +38,7 @@ public interface HttpApiPlatformGeocoder : PlatformGeocoder {
          * Customization of the [HttpClient] can be done with the [block] parameter.
          *
          * @param json The [Json] configuration to use for the [HttpClient].
+         * @param enableLogging Whether or not to enable logging.
          * @param enableRetry Whether or not to enable retrying 500 errors.
          * @param maxRetries The maximum number of retries to attempt.
          * @param block Customization of the [HttpClient].
@@ -42,14 +46,28 @@ public interface HttpApiPlatformGeocoder : PlatformGeocoder {
          */
         public fun httpClient(
             json: Json = json(),
+            enableLogging: Boolean = false,
             enableRetry: Boolean = true,
-            maxRetries: Int = 5,
+            maxRetries: Int = 3,
             block: HttpClientConfig<*>.() -> Unit = {},
         ): HttpClient = HttpClient {
+            expectSuccess = true
+
             if (enableRetry) {
                 install(HttpRequestRetry) {
                     retryOnServerErrors(maxRetries = maxRetries)
                     exponentialDelay()
+                }
+            }
+
+            if (enableLogging) {
+                install(Logging) {
+                    level = LogLevel.ALL
+                    logger = object : Logger {
+                        override fun log(message: String) {
+                            co.touchlab.kermit.Logger.i { message }
+                        }
+                    }
                 }
             }
 
@@ -83,13 +101,13 @@ public fun HttpApiPlatformGeocoder(
 
     override fun isAvailable(): Boolean = true
 
-    override suspend fun locationFromAddress(address: String): List<Location> {
+    override suspend fun forward(address: String): List<Location> {
         return ForwardHttpApiPlatformGeocoder(forwardEndpoint, client)
-            .locationFromAddress(address)
+            .forward(address)
     }
 
-    override suspend fun placeFromLocation(latitude: Double, longitude: Double): List<Place> {
+    override suspend fun reverse(latitude: Double, longitude: Double): List<Place> {
         return ReverseHttpApiPlatformGeocoder(reverseEndpoint, client)
-            .placeFromLocation(latitude, longitude)
+            .reverse(latitude, longitude)
     }
 }

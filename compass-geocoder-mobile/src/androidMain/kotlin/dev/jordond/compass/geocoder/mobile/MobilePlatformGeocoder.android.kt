@@ -18,7 +18,7 @@ internal class AndroidPlatformGeocoder(
 
     override fun isAvailable(): Boolean = Geocoder.isPresent()
 
-    override suspend fun placeFromLocation(latitude: Double, longitude: Double): List<Place> {
+    override suspend fun reverse(latitude: Double, longitude: Double): List<Place> {
         val geocoder = createGeocoder()
 
         return if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
@@ -43,7 +43,7 @@ internal class AndroidPlatformGeocoder(
         }
     }
 
-    override suspend fun locationFromAddress(address: String): List<Location> {
+    override suspend fun forward(address: String): List<Location> {
         val geocoder = createGeocoder()
         return if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
             @Suppress("DEPRECATION")

@@ -35,24 +35,25 @@ import dev.jordond.compass.geocoder.web.parameter.parametersOf
  * @property worldView Returns features that are defined differently by audiences that belong to
  * various regional, cultural, or political groups. If worldview is not set, the us worldview
  * boundaries are returned by default.
+ * @constructor Create a new default instance of [MapBoxParameters] with API specific defaults.
  */
 @Poko
 public class MapBoxParameters(
-    public val limit: Int = Geocoder.DefaultMaxResults,
     public val permanent: Boolean = false,
     public val autocomplete: Boolean = true,
+    public val limit: Int? = null,
     public val bbox: BoundingBox? = null,
     public val country: String? = null,
     public val language: String? = null,
     public val proximity: String? = null,
-    public val types: List<MapBoxTypes>? = null,
+    public val types: MapBoxTypesList? = null,
     public val worldView: WorldView? = null,
 ) : QueryParameters {
 
     override val parameters: Map<String, String> = parametersOf(
-        "limit" to limit,
         "permanent" to permanent,
         "autocomplete" to autocomplete,
+        "limit" to limit,
         "bbox" to bbox,
         "country" to country,
         "language" to language,
@@ -106,7 +107,7 @@ public class MapBoxParametersBuilder : QueryParametersBuilder<MapBoxParameters> 
     /**
      * @see MapBoxParameters.types
      */
-    public var types: List<MapBoxTypes>? = null
+    public var types: MapBoxTypesList? = null
 
     /**
      * @see MapBoxParameters.worldView

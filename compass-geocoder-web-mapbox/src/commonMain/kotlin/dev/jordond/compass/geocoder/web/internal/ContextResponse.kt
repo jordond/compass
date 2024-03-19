@@ -6,47 +6,65 @@ import kotlinx.serialization.Serializable
 @Serializable
 internal data class ContextResponse(
     @SerialName("address")
-    val address: DataPoint,
+    val address: AddressDataPoint? = null,
 
     @SerialName("street")
-    val street: DataPoint,
+    val street: DataPoint? = null,
 
     @SerialName("neighbourhood")
-    val neighborhood: DataPoint,
+    val neighborhood: DataPoint? = null,
 
     @SerialName("postcode")
-    val postcode: DataPoint,
+    val postcode: DataPoint? = null,
 
     @SerialName("locality")
-    val locality: DataPoint,
+    val locality: DataPoint? = null,
 
     @SerialName("place")
-    val place: DataPoint,
+    val place: DataPoint? = null,
 
     @SerialName("district")
-    val district: DataPoint,
+    val district: DataPoint? = null,
 
     @SerialName("region")
-    val region: RegionDataPoint,
+    val region: RegionDataPoint? = null,
 
     @SerialName("country")
-    val country: CountryDataPoint,
+    val country: CountryDataPoint? = null,
 )
 
 @Serializable
-internal open class DataPoint(
+internal data class DataPoint(
     @SerialName("name")
-    val name: String,
+    val name: String? = null,
+)
+
+@Serializable
+internal data class AddressDataPoint(
+    @SerialName("name")
+    val name: String? = null,
+
+    @SerialName("street_name")
+    val streetName: String? = null,
+
+    @SerialName("address_number")
+    val addressNumber: String? = null,
 )
 
 @Serializable
 internal data class RegionDataPoint(
+    @SerialName("name")
+    val name: String? = null,
+
     @SerialName("region_code")
-    val regionCode: String,
+    val regionCode: String? = null,
 )
 
 @Serializable
 internal data class CountryDataPoint(
+    @SerialName("name")
+    val name: String? = null,
+
     @SerialName("country_code")
-    val countryCode: String,
+    val countryCode: String? = null,
 )
