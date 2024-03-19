@@ -11,6 +11,7 @@ public final class dev/jordond/compass/geocoder/ExtensionsKt {
 
 public abstract interface class dev/jordond/compass/geocoder/Geocoder {
 	public static final field Companion Ldev/jordond/compass/geocoder/Geocoder$Companion;
+	public static final field DefaultMaxResults I
 	public abstract fun available ()Z
 	public abstract fun locations (Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public abstract fun places (DDLkotlin/coroutines/Continuation;)Ljava/lang/Object;
@@ -19,6 +20,7 @@ public abstract interface class dev/jordond/compass/geocoder/Geocoder {
 }
 
 public final class dev/jordond/compass/geocoder/Geocoder$Companion {
+	public static final field DefaultMaxResults I
 }
 
 public final class dev/jordond/compass/geocoder/Geocoder$DefaultImpls {

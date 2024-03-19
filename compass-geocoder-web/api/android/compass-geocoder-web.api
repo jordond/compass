@@ -1,0 +1,40 @@
+public final class dev/jordond/compass/geocoder/web/GeocoderKt {
+	public static final fun Geocoder (Ldev/jordond/compass/geocoder/web/HttpPlatformGeocoder;Lkotlinx/coroutines/CoroutineDispatcher;)Ldev/jordond/compass/geocoder/Geocoder;
+	public static synthetic fun Geocoder$default (Ldev/jordond/compass/geocoder/web/HttpPlatformGeocoder;Lkotlinx/coroutines/CoroutineDispatcher;ILjava/lang/Object;)Ldev/jordond/compass/geocoder/Geocoder;
+}
+
+public abstract interface class dev/jordond/compass/geocoder/web/HttpPlatformGeocoder : dev/jordond/compass/geocoder/PlatformGeocoder {
+	public abstract fun isAvailable ()Z
+}
+
+public final class dev/jordond/compass/geocoder/web/HttpPlatformGeocoder$DefaultImpls {
+	public static fun isAvailable (Ldev/jordond/compass/geocoder/web/HttpPlatformGeocoder;)Z
+}
+
+public abstract interface class dev/jordond/compass/geocoder/web/internal/HttpApiPlatformGeocoder : dev/jordond/compass/geocoder/PlatformGeocoder {
+	public static final field Companion Ldev/jordond/compass/geocoder/web/internal/HttpApiPlatformGeocoder$Companion;
+}
+
+public final class dev/jordond/compass/geocoder/web/internal/HttpApiPlatformGeocoder$Companion {
+	public final fun httpClient (Lkotlinx/serialization/json/Json;Lkotlin/jvm/functions/Function1;)Lio/ktor/client/HttpClient;
+	public static synthetic fun httpClient$default (Ldev/jordond/compass/geocoder/web/internal/HttpApiPlatformGeocoder$Companion;Lkotlinx/serialization/json/Json;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/ktor/client/HttpClient;
+	public final fun json (Lkotlin/jvm/functions/Function1;)Lkotlinx/serialization/json/Json;
+	public static synthetic fun json$default (Ldev/jordond/compass/geocoder/web/internal/HttpApiPlatformGeocoder$Companion;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlinx/serialization/json/Json;
+}
+
+public abstract interface class dev/jordond/compass/geocoder/web/parameter/QueryParamValue {
+	public abstract fun getValue ()Ljava/lang/String;
+}
+
+public abstract interface class dev/jordond/compass/geocoder/web/parameter/QueryParameters {
+	public abstract fun getParameters ()Ljava/util/Map;
+}
+
+public abstract interface class dev/jordond/compass/geocoder/web/parameter/QueryParametersBuilder {
+	public abstract fun build ()Ldev/jordond/compass/geocoder/web/parameter/QueryParameters;
+}
+
+public final class dev/jordond/compass/geocoder/web/parameter/QueryParametersKt {
+	public static final fun parametersOf (Ldev/jordond/compass/geocoder/web/parameter/QueryParameters;[Lkotlin/Pair;)Ljava/util/Map;
+}
+

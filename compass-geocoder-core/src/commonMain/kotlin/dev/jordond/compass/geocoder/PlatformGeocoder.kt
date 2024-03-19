@@ -20,18 +20,11 @@ public interface PlatformGeocoder {
     /**
      *  Get a list of [Place]s from latitude and longitude coordinates.
      *
-     * @param location The coordinates to reverse geocode.
+     * @param latitude The latitude of the coordinates.
+     * @param longitude The longitude of the coordinates.
      * @return The address of the coordinates or empty list if the address could not be found.
      */
-    public suspend fun placeFromLocation(location: Location): List<Place>
-
-    /**
-     * Get a list of [Place]s from an address.
-     *
-     * @param address The address to geocode.
-     * @return A list of [Place]s that match the address, or an empty list if no matches were found.
-     */
-    public suspend fun placeFromAddress(address: String): List<Place>
+    public suspend fun placeFromLocation(latitude: Double, longitude: Double): List<Place>
 
     /**
      * Get a list of [Location]s from an address.

@@ -2,13 +2,12 @@ package dev.jordond.compass.geocoder.mobile
 
 import dev.jordond.compass.Location
 import dev.jordond.compass.Place
-import dev.jordond.compass.geocoder.PlatformGeocoder
 import dev.jordond.compass.geocoder.mobile.internal.geocodeOperation
 import dev.jordond.compass.geocoder.mobile.internal.toLocations
 import dev.jordond.compass.geocoder.mobile.internal.toPlaces
 import platform.CoreLocation.CLLocation
 
-internal class IosPlatformGeocoder : PlatformGeocoder {
+internal class IosPlatformGeocoder : MobilePlatformGeocoder {
 
     override fun isAvailable(): Boolean = true
 
@@ -30,6 +29,6 @@ internal class IosPlatformGeocoder : PlatformGeocoder {
     }
 }
 
-internal actual fun createPlatformGeocoder(): PlatformGeocoder {
+internal actual fun createPlatformGeocoder(): MobilePlatformGeocoder {
     return IosPlatformGeocoder()
 }

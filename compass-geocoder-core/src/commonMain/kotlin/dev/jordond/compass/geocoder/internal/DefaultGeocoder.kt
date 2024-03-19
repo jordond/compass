@@ -11,34 +11,27 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 
 internal class DefaultGeocoder(
-    private val geocoder: PlatformGeocoder,
+    override val platformGeocoder: PlatformGeocoder,
     private val dispatcher: CoroutineDispatcher,
 ) : Geocoder {
 
     /**
-     * @see Geocoder.available
+     * @see Geocoder.isAvailable
      */
-    override fun available(): Boolean = geocoder.isAvailable()
+    override fun isAvailable(): Boolean = platformGeocoder.isAvailable()
 
     /**
      * @see Geocoder.places
      */
-    override suspend fun places(location: Location): GeocoderResult<Place> {
-        return handleResult { geocoder.placeFromLocation(location) }
-    }
-
-    /**
-     * @see Geocoder.places
-     */
-    override suspend fun places(address: String): GeocoderResult<Place> {
-        return handleResult { geocoder.placeFromAddress(address) }
+    override suspend fun places(latitude: Double, longitude: Double): GeocoderResult<Place> {
+        return handleResult { platformGeocoder.placeFromLocation(latitude, longitude) }
     }
 
     /**
      * @see Geocoder.locations
      */
     override suspend fun locations(address: String): GeocoderResult<Location> {
-        return handleResult { geocoder.locationFromAddress(address) }
+        return handleResult { platformGeocoder.locationFromAddress(address) }
     }
 
     private suspend fun <T> handleResult(block: suspend () -> List<T>): GeocoderResult<T> {

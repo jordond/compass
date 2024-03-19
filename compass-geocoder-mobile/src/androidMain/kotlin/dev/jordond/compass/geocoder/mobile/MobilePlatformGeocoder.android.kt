@@ -5,7 +5,6 @@ import android.location.Geocoder
 import android.os.Build
 import dev.jordond.compass.Location
 import dev.jordond.compass.Place
-import dev.jordond.compass.geocoder.PlatformGeocoder
 import dev.jordond.compass.geocoder.exception.NotSupportedException
 import dev.jordond.compass.geocoder.mobile.internal.asyncOperation
 import dev.jordond.compass.geocoder.mobile.internal.context.ContextProvider
@@ -15,7 +14,7 @@ import dev.jordond.compass.geocoder.mobile.internal.toPlaces
 
 internal class AndroidPlatformGeocoder(
     private val context: Context,
-) : PlatformGeocoder {
+) : MobilePlatformGeocoder {
 
     override fun isAvailable(): Boolean = Geocoder.isPresent()
 
@@ -70,6 +69,6 @@ internal class AndroidPlatformGeocoder(
     }
 }
 
-internal actual fun createPlatformGeocoder(): PlatformGeocoder {
+internal actual fun createPlatformGeocoder(): MobilePlatformGeocoder {
     return AndroidPlatformGeocoder(ContextProvider.getInstance().context)
 }

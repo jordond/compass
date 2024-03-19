@@ -1,7 +1,6 @@
 package dev.jordond.compass.geocoder.mobile
 
 import dev.jordond.compass.geocoder.Geocoder
-import dev.jordond.compass.geocoder.PlatformGeocoder
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 
@@ -13,13 +12,4 @@ import kotlinx.coroutines.Dispatchers
  */
 public fun Geocoder(
     dispatcher: CoroutineDispatcher = Dispatchers.Default,
-): Geocoder = Geocoder(PlatformGeocoder.create(), dispatcher)
-
-/**
- * Create an Android/iOS [PlatformGeocoder] instance for geocoding operations.
- *
- * @return A new Android/iOS [PlatformGeocoder] instance.
- */
-public fun PlatformGeocoder.Companion.create(): PlatformGeocoder = createPlatformGeocoder()
-
-internal expect fun createPlatformGeocoder(): PlatformGeocoder
+): Geocoder = Geocoder(MobilePlatformGeocoder(), dispatcher)

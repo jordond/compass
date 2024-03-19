@@ -50,6 +50,7 @@ kotlin {
         commonMain.dependencies {
             implementation(projects.compassCore)
             implementation(projects.compassGeocoderCore)
+
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.kotlinx.serialization.json)
             api(libs.ktor.client.core)
