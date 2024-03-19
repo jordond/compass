@@ -43,6 +43,8 @@ kotlin {
     }
 
     sourceSets {
+        val desktopMain by getting
+
         commonMain.dependencies {
             implementation(projects.compassCore)
             implementation(projects.compassGeocoderCore)
@@ -69,6 +71,10 @@ kotlin {
 
         jsMain.dependencies {
             api(libs.ktor.client.js)
+        }
+
+        desktopMain.dependencies {
+            api(libs.ktor.client.okhttp)
         }
     }
 
