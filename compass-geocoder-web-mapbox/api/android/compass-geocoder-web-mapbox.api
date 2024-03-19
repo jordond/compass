@@ -1,0 +1,133 @@
+public final class dev/jordond/compass/geocoder/web/MapBoxForwardEndpoint : dev/jordond/compass/geocoder/web/HttpApiEndpoint {
+	public fun <init> (Ljava/lang/String;Ldev/jordond/compass/geocoder/web/parameters/MapBoxParameters;)V
+	public synthetic fun <init> (Ljava/lang/String;Ldev/jordond/compass/geocoder/web/parameters/MapBoxParameters;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Ljava/lang/String;Lkotlin/jvm/functions/Function1;)V
+	public fun mapResponse (Lio/ktor/client/statement/HttpResponse;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public synthetic fun url (Ljava/lang/Object;)Ljava/lang/String;
+	public fun url (Ljava/lang/String;)Ljava/lang/String;
+}
+
+public final class dev/jordond/compass/geocoder/web/MapBoxGeocoderKt {
+	public static final fun MapBoxGeocoder (Ljava/lang/String;Ldev/jordond/compass/geocoder/web/parameters/MapBoxParameters;Lkotlinx/serialization/json/Json;Lio/ktor/client/HttpClient;Lkotlinx/coroutines/CoroutineDispatcher;)Ldev/jordond/compass/geocoder/Geocoder;
+	public static final fun MapBoxGeocoder (Ljava/lang/String;Lkotlinx/serialization/json/Json;Lio/ktor/client/HttpClient;Lkotlinx/coroutines/CoroutineDispatcher;Lkotlin/jvm/functions/Function1;)Ldev/jordond/compass/geocoder/Geocoder;
+	public static synthetic fun MapBoxGeocoder$default (Ljava/lang/String;Ldev/jordond/compass/geocoder/web/parameters/MapBoxParameters;Lkotlinx/serialization/json/Json;Lio/ktor/client/HttpClient;Lkotlinx/coroutines/CoroutineDispatcher;ILjava/lang/Object;)Ldev/jordond/compass/geocoder/Geocoder;
+	public static synthetic fun MapBoxGeocoder$default (Ljava/lang/String;Lkotlinx/serialization/json/Json;Lio/ktor/client/HttpClient;Lkotlinx/coroutines/CoroutineDispatcher;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/jordond/compass/geocoder/Geocoder;
+}
+
+public abstract interface class dev/jordond/compass/geocoder/web/MapBoxPlatformGeocoder : dev/jordond/compass/geocoder/web/HttpApiPlatformGeocoder {
+	public static final field Companion Ldev/jordond/compass/geocoder/web/MapBoxPlatformGeocoder$Companion;
+}
+
+public final class dev/jordond/compass/geocoder/web/MapBoxPlatformGeocoder$Companion {
+}
+
+public final class dev/jordond/compass/geocoder/web/MapBoxPlatformGeocoderKt {
+	public static final fun MapBoxPlatformGeocoder (Ljava/lang/String;Ldev/jordond/compass/geocoder/web/parameters/MapBoxParameters;Lkotlinx/serialization/json/Json;Lio/ktor/client/HttpClient;)Ldev/jordond/compass/geocoder/web/MapBoxPlatformGeocoder;
+	public static final fun MapBoxPlatformGeocoder (Ljava/lang/String;Lkotlinx/serialization/json/Json;Lio/ktor/client/HttpClient;Lkotlin/jvm/functions/Function1;)Ldev/jordond/compass/geocoder/web/MapBoxPlatformGeocoder;
+	public static synthetic fun MapBoxPlatformGeocoder$default (Ljava/lang/String;Ldev/jordond/compass/geocoder/web/parameters/MapBoxParameters;Lkotlinx/serialization/json/Json;Lio/ktor/client/HttpClient;ILjava/lang/Object;)Ldev/jordond/compass/geocoder/web/MapBoxPlatformGeocoder;
+	public static synthetic fun MapBoxPlatformGeocoder$default (Ljava/lang/String;Lkotlinx/serialization/json/Json;Lio/ktor/client/HttpClient;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/jordond/compass/geocoder/web/MapBoxPlatformGeocoder;
+}
+
+public final class dev/jordond/compass/geocoder/web/MapBoxReverseEndpoint : dev/jordond/compass/geocoder/web/HttpApiEndpoint {
+	public fun <init> (Ljava/lang/String;Ldev/jordond/compass/geocoder/web/parameters/MapBoxParameters;)V
+	public synthetic fun <init> (Ljava/lang/String;Ldev/jordond/compass/geocoder/web/parameters/MapBoxParameters;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Ljava/lang/String;Lkotlin/jvm/functions/Function1;)V
+	public fun mapResponse (Lio/ktor/client/statement/HttpResponse;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun url (Ldev/jordond/compass/Location;)Ljava/lang/String;
+	public synthetic fun url (Ljava/lang/Object;)Ljava/lang/String;
+}
+
+public final class dev/jordond/compass/geocoder/web/parameters/BoundingBox : dev/jordond/compass/geocoder/web/parameter/QueryParamValue {
+	public fun <init> (DDDD)V
+	public final fun copy (DDDD)Ldev/jordond/compass/geocoder/web/parameters/BoundingBox;
+	public static synthetic fun copy$default (Ldev/jordond/compass/geocoder/web/parameters/BoundingBox;DDDDILjava/lang/Object;)Ldev/jordond/compass/geocoder/web/parameters/BoundingBox;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getMaxLatitude ()D
+	public final fun getMaxLongitude ()D
+	public final fun getMinLatitude ()D
+	public final fun getMinLongitude ()D
+	public fun getValue ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class dev/jordond/compass/geocoder/web/parameters/MapBoxParameters : dev/jordond/compass/geocoder/web/parameter/QueryParameters {
+	public fun <init> ()V
+	public fun <init> (IZZLdev/jordond/compass/geocoder/web/parameters/BoundingBox;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ldev/jordond/compass/geocoder/web/parameters/WorldView;)V
+	public synthetic fun <init> (IZZLdev/jordond/compass/geocoder/web/parameters/BoundingBox;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ldev/jordond/compass/geocoder/web/parameters/WorldView;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun encode ()Ljava/lang/String;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAutocomplete ()Z
+	public final fun getBbox ()Ldev/jordond/compass/geocoder/web/parameters/BoundingBox;
+	public final fun getCountry ()Ljava/lang/String;
+	public final fun getLanguage ()Ljava/lang/String;
+	public final fun getLimit ()I
+	public fun getParameters ()Ljava/util/Map;
+	public final fun getPermanent ()Z
+	public final fun getProximity ()Ljava/lang/String;
+	public final fun getTypes ()Ljava/util/List;
+	public final fun getWorldView ()Ldev/jordond/compass/geocoder/web/parameters/WorldView;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class dev/jordond/compass/geocoder/web/parameters/MapBoxParametersBuilder : dev/jordond/compass/geocoder/web/parameter/QueryParametersBuilder {
+	public fun <init> ()V
+	public final fun boundingBox (DDDD)Ldev/jordond/compass/geocoder/web/parameters/MapBoxParametersBuilder;
+	public synthetic fun build ()Ldev/jordond/compass/geocoder/web/parameter/QueryParameters;
+	public fun build ()Ldev/jordond/compass/geocoder/web/parameters/MapBoxParameters;
+	public final fun getAutocomplete ()Z
+	public final fun getBbox ()Ldev/jordond/compass/geocoder/web/parameters/BoundingBox;
+	public final fun getCountry ()Ljava/lang/String;
+	public final fun getLanguage ()Ljava/lang/String;
+	public final fun getLimit ()I
+	public final fun getPermanent ()Z
+	public final fun getProximity ()Ljava/lang/String;
+	public final fun getTypes ()Ljava/util/List;
+	public final fun getWorldView ()Ldev/jordond/compass/geocoder/web/parameters/WorldView;
+	public final fun setAutocomplete (Z)V
+	public final fun setBbox (Ldev/jordond/compass/geocoder/web/parameters/BoundingBox;)V
+	public final fun setCountry (Ljava/lang/String;)V
+	public final fun setLanguage (Ljava/lang/String;)V
+	public final fun setLimit (I)V
+	public final fun setPermanent (Z)V
+	public final fun setProximity (Ljava/lang/String;)V
+	public final fun setTypes (Ljava/util/List;)V
+	public final fun setWorldView (Ldev/jordond/compass/geocoder/web/parameters/WorldView;)V
+}
+
+public final class dev/jordond/compass/geocoder/web/parameters/MapBoxParametersKt {
+	public static final fun mapBoxParameters (Lkotlin/jvm/functions/Function1;)Ldev/jordond/compass/geocoder/web/parameters/MapBoxParameters;
+}
+
+public final class dev/jordond/compass/geocoder/web/parameters/MapBoxTypes : java/lang/Enum, dev/jordond/compass/geocoder/web/parameter/QueryParamValue {
+	public static final field Address Ldev/jordond/compass/geocoder/web/parameters/MapBoxTypes;
+	public static final field Country Ldev/jordond/compass/geocoder/web/parameters/MapBoxTypes;
+	public static final field District Ldev/jordond/compass/geocoder/web/parameters/MapBoxTypes;
+	public static final field Locality Ldev/jordond/compass/geocoder/web/parameters/MapBoxTypes;
+	public static final field Neighborhood Ldev/jordond/compass/geocoder/web/parameters/MapBoxTypes;
+	public static final field Place Ldev/jordond/compass/geocoder/web/parameters/MapBoxTypes;
+	public static final field Postcode Ldev/jordond/compass/geocoder/web/parameters/MapBoxTypes;
+	public static final field Region Ldev/jordond/compass/geocoder/web/parameters/MapBoxTypes;
+	public static final field Street Ldev/jordond/compass/geocoder/web/parameters/MapBoxTypes;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public fun getValue ()Ljava/lang/String;
+	public static fun valueOf (Ljava/lang/String;)Ldev/jordond/compass/geocoder/web/parameters/MapBoxTypes;
+	public static fun values ()[Ldev/jordond/compass/geocoder/web/parameters/MapBoxTypes;
+}
+
+public final class dev/jordond/compass/geocoder/web/parameters/WorldView : java/lang/Enum, dev/jordond/compass/geocoder/web/parameter/QueryParamValue {
+	public static final field AR Ldev/jordond/compass/geocoder/web/parameters/WorldView;
+	public static final field CN Ldev/jordond/compass/geocoder/web/parameters/WorldView;
+	public static final field IN Ldev/jordond/compass/geocoder/web/parameters/WorldView;
+	public static final field JP Ldev/jordond/compass/geocoder/web/parameters/WorldView;
+	public static final field MA Ldev/jordond/compass/geocoder/web/parameters/WorldView;
+	public static final field RU Ldev/jordond/compass/geocoder/web/parameters/WorldView;
+	public static final field TR Ldev/jordond/compass/geocoder/web/parameters/WorldView;
+	public static final field US Ldev/jordond/compass/geocoder/web/parameters/WorldView;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public fun getValue ()Ljava/lang/String;
+	public static fun valueOf (Ljava/lang/String;)Ldev/jordond/compass/geocoder/web/parameters/WorldView;
+	public static fun values ()[Ldev/jordond/compass/geocoder/web/parameters/WorldView;
+}
+

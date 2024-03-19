@@ -1,6 +1,18 @@
+public final class dev/jordond/compass/geocoder/mobile/ExtensionsKt {
+	public static final fun placesOrNull (Ldev/jordond/compass/geocoder/Geocoder;Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
 public final class dev/jordond/compass/geocoder/mobile/GeocoderKt {
 	public static final fun Geocoder (Lkotlinx/coroutines/CoroutineDispatcher;)Ldev/jordond/compass/geocoder/Geocoder;
 	public static synthetic fun Geocoder$default (Lkotlinx/coroutines/CoroutineDispatcher;ILjava/lang/Object;)Ldev/jordond/compass/geocoder/Geocoder;
-	public static final fun create (Ldev/jordond/compass/geocoder/PlatformGeocoder$Companion;)Ldev/jordond/compass/geocoder/PlatformGeocoder;
+}
+
+public abstract interface class dev/jordond/compass/geocoder/mobile/MobilePlatformGeocoder : dev/jordond/compass/geocoder/PlatformGeocoder {
+	public abstract fun placeFromAddress (Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class dev/jordond/compass/geocoder/mobile/MobilePlatformGeocoderKt {
+	public static final fun MobilePlatformGeocoder ()Ldev/jordond/compass/geocoder/mobile/MobilePlatformGeocoder;
+	public static final fun create (Ldev/jordond/compass/geocoder/PlatformGeocoder$Companion;)Ldev/jordond/compass/geocoder/mobile/MobilePlatformGeocoder;
 }
 

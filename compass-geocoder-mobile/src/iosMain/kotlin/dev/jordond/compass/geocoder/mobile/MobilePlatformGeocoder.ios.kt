@@ -11,8 +11,8 @@ internal class IosPlatformGeocoder : MobilePlatformGeocoder {
 
     override fun isAvailable(): Boolean = true
 
-    override suspend fun placeFromLocation(location: Location): List<Place> {
-        val platformLocation = CLLocation(location.latitude, location.longitude)
+    override suspend fun placeFromLocation(latitude: Double, longitude: Double): List<Place> {
+        val platformLocation = CLLocation(latitude, longitude)
         return geocodeOperation { listener ->
             reverseGeocodeLocation(platformLocation, listener)
         }.toPlaces()
