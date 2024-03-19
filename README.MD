@@ -50,7 +50,7 @@ This library includes the following artifacts:
 |---------------------------|---------|
 | `compass-geocoder-core`   | 🚧      |
 | `compass-geocoder-mobile` | 🚧      |
-| `compass-geocoder-api`    | 🚧      |
+| `compass-geocoder-web`    | 🚧      |
 | `compass-geolocation`     | planned |
 
 ### `compass-geocoder-mobile`
@@ -68,11 +68,13 @@ short period of time.
 
 The artifacts are designed to work on the following platforms:
 
-| Artifact                  | Android | iOS | Desktop (jvm) | macOS | Browser (wasm) |
-|---------------------------|:-------:|:---:|:-------------:|:-----:|:--------------:|
-| `compass-core`            |    ✅    |  ✅  |       ✅       |   ✅   |       ✅        |
-| `compass-geocoder-core`   |    ✅    |  ✅  |       ✅       |   ✅   |       ✅        |
-| `compass-geocoder-mobile` |    ✅    |  ✅  |       ❌       |   ❌   |       ❌        |
+| Artifact                      | Android | iOS | Desktop (jvm) | macOS | Native | Browser (wasm) |
+|-------------------------------|:-------:|:---:|:-------------:|:-----:|:------:|:--------------:|
+| `compass-core`                |    ✅    |  ✅  |       ✅       |   ✅   |   ✅    |    planned     |
+| `compass-geocoder-core`       |    ✅    |  ✅  |       ✅       |   ✅   |   ✅    |    planned     |
+| `compass-geocoder-mobile`     |    ✅    |  ✅  |       ❌       |   ❌   |   ❌    |    planned     |
+| `compass-geocoder-web`        |    ✅    |  ✅  |       ✅       |   ✅   |   ✅    |    planned     |
+| `compass-geocoder-web-mapbox` |    ✅    |  ✅  |       ✅       |   ✅   |   ✅    |    planned     |
 
 ## Setup
 
