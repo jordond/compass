@@ -9,7 +9,7 @@ import kotlinx.coroutines.CancellationException
 
 internal suspend fun <Result> HttpClient.makeRequest(
     url: String,
-    resultMapper: (HttpResponse) -> Result,
+    resultMapper: suspend (HttpResponse) -> Result,
 ): Result {
     try {
         val response = get { url(url) }

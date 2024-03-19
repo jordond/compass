@@ -1,15 +1,20 @@
-package dev.jordond.compass.geocoder.web.internal
+package dev.jordond.compass.geocoder.web
 
 import dev.jordond.compass.Location
 import dev.jordond.compass.Place
 import dev.jordond.compass.geocoder.exception.NotSupportedException
-import dev.jordond.compass.geocoder.web.HttpApiEndpoint
-import dev.jordond.compass.geocoder.web.HttpApiPlatformGeocoder
+import dev.jordond.compass.geocoder.web.internal.makeRequest
 import io.ktor.client.HttpClient
-import kotlinx.serialization.json.Json
 
-internal class ForwardHttpApiPlatformGeocoder(
-    private val endpoint: HttpApiEndpoint<String, List<Location>>,
+/**
+ * A [HttpApiPlatformGeocoder] for forward geocoding that uses the provided [ForwardEndpoint].
+ *
+ * @see HttpApiPlatformGeocoder
+ * @property endpoint The endpoint to use for forward geocoding.
+ * @property client The [HttpClient] to use for making requests.
+ */
+public class ForwardHttpApiPlatformGeocoder(
+    private val endpoint: ForwardEndpoint,
     private val client: HttpClient,
 ) : HttpApiPlatformGeocoder {
 

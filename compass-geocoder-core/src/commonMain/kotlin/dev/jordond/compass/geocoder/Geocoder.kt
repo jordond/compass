@@ -21,7 +21,11 @@ public interface Geocoder : ForwardGeocoder, ReverseGeocoder {
      */
     public fun isAvailable(): Boolean
 
-    public companion object
+    public companion object {
+
+        @Suppress("ConstPropertyName")
+        public const val DefaultMaxResults: Int = 5
+    }
 }
 
 /**

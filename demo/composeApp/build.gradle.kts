@@ -53,6 +53,7 @@ kotlin {
         commonMain.dependencies {
             implementation(projects.compassCore)
             implementation(projects.compassGeocoderCore)
+            implementation(projects.compassGeocoderWebMapbox)
 
             implementation(compose.runtime)
             implementation(compose.foundation)

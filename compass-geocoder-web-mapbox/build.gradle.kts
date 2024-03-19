@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.poko)
     alias(libs.plugins.dokka)
     alias(libs.plugins.publish)
+    alias(libs.plugins.kotlinx.serialization)
 }
 
 kotlin {
@@ -37,38 +38,24 @@ kotlin {
         iosSimulatorArm64()
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
-            baseName = "compass-geocoding-api"
+            baseName = "compass-geocoding-core"
             isStatic = true
         }
     }
 
     sourceSets {
         commonMain.dependencies {
-            implementation(projects.compassCore)
-            implementation(projects.compassGeocoderCore)
+            api(projects.compassCore)
+            api(projects.compassGeocoderCore)
+            api(projects.compassGeocoderWeb)
 
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.kotlinx.serialization.json)
-            api(libs.ktor.client.core)
-            api(libs.ktor.client.contentNegotiation)
-            api(libs.ktor.serialization.json)
         }
 
         commonTest.dependencies {
             implementation(kotlin("test"))
             implementation(libs.kotest.assertions)
-        }
-
-        androidMain.dependencies {
-            api(libs.ktor.client.android)
-        }
-
-        appleMain.dependencies {
-            api(libs.ktor.client.darwin)
-        }
-
-        jsMain.dependencies {
-            api(libs.ktor.client.js)
         }
     }
 
@@ -80,7 +67,7 @@ kotlin {
 }
 
 android {
-    namespace = "dev.jordond.compass.geocoder.api"
+    namespace = "dev.jordond.compass.geocoder.core"
 
     compileSdk = libs.versions.sdk.compile.get().toInt()
     defaultConfig {

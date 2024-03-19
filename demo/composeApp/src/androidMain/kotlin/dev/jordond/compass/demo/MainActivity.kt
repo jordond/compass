@@ -1,4 +1,4 @@
-package dev.jordond.demo
+package dev.jordond.compass.demo
 
 import App
 import android.os.Bundle
