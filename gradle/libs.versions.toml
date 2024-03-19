@@ -2,7 +2,7 @@
 sdk-target = "34"
 sdk-compile = "34"
 sdk-min = "21"
-agp = "8.2.2"
+agp = "8.3.0"
 kotlin = "1.9.23"
 kotlinx-coroutines = "1.8.0"
 kotlinx-serialization = "1.6.3"
@@ -16,7 +16,7 @@ dokka = "1.9.20"
 publish = "0.28.0"
 poko = "0.15.2"
 versions = "0.51.0"
-kotest = "5.8.0"
+kotest = "5.8.1"
 ktor = "2.3.9"
 
 [libraries]

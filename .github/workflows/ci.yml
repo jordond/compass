@@ -40,12 +40,12 @@ jobs:
         uses: gradle/wrapper-validation-action@v2
 
       - name: Binary Compatibility Validation
-        uses: gradle/gradle-build-action@v2
+        uses: gradle/gradle-build-action@v3
         with:
           arguments: apiCheck --scan
 
       - name: Lint
-        uses: gradle/gradle-build-action@v2
+        uses: gradle/gradle-build-action@v3
         with:
           arguments: lint --scan
 
@@ -84,6 +84,6 @@ jobs:
 
       - name: Run ${{ matrix.config.target }} tests
         continue-on-error: ${{ matrix.config.continueOnError }}
-        uses: gradle/gradle-build-action@v2
+        uses: gradle/gradle-build-action@v3
         with:
           arguments: ${{ matrix.config.tasks }} --scan
