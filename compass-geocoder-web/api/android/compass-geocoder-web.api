@@ -1,8 +1,8 @@
 public final class dev/jordond/compass/geocoder/web/ForwardHttpApiPlatformGeocoder : dev/jordond/compass/geocoder/web/HttpApiPlatformGeocoder {
 	public fun <init> (Ldev/jordond/compass/geocoder/web/HttpApiEndpoint;Lio/ktor/client/HttpClient;)V
+	public fun forward (Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun isAvailable ()Z
-	public fun locationFromAddress (Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public fun placeFromLocation (DDLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun reverse (DDLkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
 
 public final class dev/jordond/compass/geocoder/web/GeocoderKt {
@@ -30,8 +30,8 @@ public abstract interface class dev/jordond/compass/geocoder/web/HttpApiPlatform
 }
 
 public final class dev/jordond/compass/geocoder/web/HttpApiPlatformGeocoder$Companion {
-	public final fun httpClient (Lkotlinx/serialization/json/Json;ZILkotlin/jvm/functions/Function1;)Lio/ktor/client/HttpClient;
-	public static synthetic fun httpClient$default (Ldev/jordond/compass/geocoder/web/HttpApiPlatformGeocoder$Companion;Lkotlinx/serialization/json/Json;ZILkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/ktor/client/HttpClient;
+	public final fun httpClient (Lkotlinx/serialization/json/Json;ZZILkotlin/jvm/functions/Function1;)Lio/ktor/client/HttpClient;
+	public static synthetic fun httpClient$default (Ldev/jordond/compass/geocoder/web/HttpApiPlatformGeocoder$Companion;Lkotlinx/serialization/json/Json;ZZILkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/ktor/client/HttpClient;
 	public final fun json (Lkotlin/jvm/functions/Function1;)Lkotlinx/serialization/json/Json;
 	public static synthetic fun json$default (Ldev/jordond/compass/geocoder/web/HttpApiPlatformGeocoder$Companion;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlinx/serialization/json/Json;
 }
@@ -43,9 +43,20 @@ public final class dev/jordond/compass/geocoder/web/HttpApiPlatformGeocoderKt {
 
 public final class dev/jordond/compass/geocoder/web/ReverseHttpApiPlatformGeocoder : dev/jordond/compass/geocoder/web/HttpApiPlatformGeocoder {
 	public fun <init> (Ldev/jordond/compass/geocoder/web/HttpApiEndpoint;Lio/ktor/client/HttpClient;)V
+	public fun forward (Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun isAvailable ()Z
-	public fun locationFromAddress (Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public fun placeFromLocation (DDLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun reverse (DDLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public abstract interface class dev/jordond/compass/geocoder/web/parameter/QueryParamListValue : dev/jordond/compass/geocoder/web/parameter/QueryParamValue {
+	public abstract fun getSeparator ()Ljava/lang/String;
+	public abstract fun getValue ()Ljava/lang/String;
+	public abstract fun getValues ()Ljava/util/List;
+}
+
+public final class dev/jordond/compass/geocoder/web/parameter/QueryParamListValue$DefaultImpls {
+	public static fun getSeparator (Ldev/jordond/compass/geocoder/web/parameter/QueryParamListValue;)Ljava/lang/String;
+	public static fun getValue (Ldev/jordond/compass/geocoder/web/parameter/QueryParamListValue;)Ljava/lang/String;
 }
 
 public abstract interface class dev/jordond/compass/geocoder/web/parameter/QueryParamValue {
