@@ -46,13 +46,11 @@ compass-geocoder-web-mapbox = { module = "dev.jordond.compass:compass-geocoder-m
 2. Add the dependencies to your `build.gradle.kts`:
 
 {% code fullWidth="false" %}
-```kotlin
+```kts
 kotlin {
     sourceSets {
         commonMain {
             dependencies {
-                val compassVersion = "1.0.0
-
                 // Geocoding
                 implementation(libs.compass.geocoder)
 
@@ -76,12 +74,12 @@ kotlin {
 {% endtab %}
 
 {% tab title="Dependencies" %}
-```kotlin
+```kts
 kotlin {
     sourceSets {
         commonMain {
             dependencies {
-                val compassVersion = "1.0.0
+                val compassVersion = "1.0.0"
 
                 // Geocoding
                 implementation("dev.jordond.compass:compass-geocoder:$compassVersion")
