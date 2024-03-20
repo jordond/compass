@@ -55,7 +55,7 @@ kotlin {
             implementation(projects.compassCore)
             implementation(projects.compassGeocoderCore)
             implementation(projects.compassGeocoderWebMapbox)
-            implementation(projects.compassGeocoderWebGoogleMaps)
+            implementation(projects.compassGeocoderWebGooglemaps)
 
             implementation(compose.runtime)
             implementation(compose.foundation)
