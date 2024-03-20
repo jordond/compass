@@ -42,5 +42,5 @@ internal enum class AddressComponentType(val value: String) {
 internal fun List<AddressComponentResponse>.find(
     component: AddressComponentType,
 ): AddressComponentResponse? {
-    return find { it.types.contains(component.value) } ?: return null
+    return find { it.types.contains(component.value) }
 }
