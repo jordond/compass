@@ -2,6 +2,7 @@ package dev.jordond.compass.geocoder.web.google.internal
 
 import dev.jordond.compass.Location
 import dev.jordond.compass.Place
+import dev.jordond.compass.geocoder.exception.GeocodeException
 import dev.jordond.compass.geocoder.web.google.internal.AddressComponentType.AdministrativeAreaLevel1
 import dev.jordond.compass.geocoder.web.google.internal.AddressComponentType.AdministrativeAreaLevel2
 import dev.jordond.compass.geocoder.web.google.internal.AddressComponentType.AdministrativeAreaLevel3
@@ -14,24 +15,34 @@ import dev.jordond.compass.geocoder.web.google.internal.AddressComponentType.Tho
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-internal typealias ForwardGeocodeResponse = List<ResultResponse>
-
 @Serializable
-internal data class ReverseGeocodeResponse(
+internal data class GeocodeResponse(
     @SerialName("results")
     val results: List<ResultResponse> = emptyList(),
+
+    @SerialName("status")
+    val status: StatusResponse,
+
+    @SerialName("error_message")
+    val errorMessage: String,
 )
 
+internal fun GeocodeResponse.resultsOrThrow(): List<ResultResponse> = when (status) {
+    StatusResponse.Ok,
+    StatusResponse.ZeroResults,
+    -> results
+    else -> throw GeocodeException("[$status] $errorMessage")
+}
 
-internal fun ForwardGeocodeResponse.toLocations(): List<Location> {
+internal fun List<ResultResponse>.toLocations(): List<Location> {
     return mapNotNull { response ->
         val location = response.geometry?.location ?: return@mapNotNull null
         Location(location.lat, location.lng)
     }
 }
 
-internal fun ReverseGeocodeResponse.toPlaces(): List<Place> {
-    return results.mapNotNull { response ->
+internal fun List<ResultResponse>.toPlaces(): List<Place> {
+    return mapNotNull { response ->
         val components = response.addressComponents
         val country = components.find(Country)
 

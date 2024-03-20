@@ -1,7 +1,8 @@
 package dev.jordond.compass.geocoder.web
 
 import dev.jordond.compass.Location
-import dev.jordond.compass.geocoder.web.google.internal.ForwardGeocodeResponse
+import dev.jordond.compass.geocoder.web.google.internal.GeocodeResponse
+import dev.jordond.compass.geocoder.web.google.internal.resultsOrThrow
 import dev.jordond.compass.geocoder.web.google.internal.toLocations
 import dev.jordond.compass.geocoder.web.parameter.GoogleMapsParameters
 import dev.jordond.compass.geocoder.web.parameter.GoogleMapsParametersBuilder
@@ -38,7 +39,7 @@ public class GoogleMapsForwardEndpoint(
     }
 
     override suspend fun mapResponse(response: HttpResponse): List<Location> {
-        val forwardResponse = response.body<ForwardGeocodeResponse>()
-        return forwardResponse.toLocations()
+        val result = response.body<GeocodeResponse>().resultsOrThrow()
+        return result.toLocations()
     }
 }
