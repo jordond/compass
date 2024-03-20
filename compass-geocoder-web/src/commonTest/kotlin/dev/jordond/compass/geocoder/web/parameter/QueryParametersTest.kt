@@ -50,7 +50,7 @@ class QueryParametersTest {
                 "key3" to "value with spaces"
             )
         }.encode()
-        val expected = "key1=value1&key2=value2&key3=value%20with%20spaces"
+        val expected = "key1%3Dvalue1%26key2%3Dvalue2%26key3%3Dvalue%20with%20spaces"
         actual shouldBeEqual expected
     }
 
