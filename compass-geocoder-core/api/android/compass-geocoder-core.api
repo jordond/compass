@@ -128,11 +128,18 @@ public final class dev/jordond/compass/geocoder/GeocoderResult$Success : dev/jor
 	public fun toString ()Ljava/lang/String;
 }
 
+public final class dev/jordond/compass/geocoder/NotSupportedPlatformGeocoder : dev/jordond/compass/geocoder/PlatformGeocoder {
+	public static final field INSTANCE Ldev/jordond/compass/geocoder/NotSupportedPlatformGeocoder;
+	public fun forward (Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun isAvailable ()Z
+	public fun reverse (DDLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
 public abstract interface class dev/jordond/compass/geocoder/PlatformGeocoder {
 	public static final field Companion Ldev/jordond/compass/geocoder/PlatformGeocoder$Companion;
+	public abstract fun forward (Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public abstract fun isAvailable ()Z
-	public abstract fun locationFromAddress (Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public abstract fun placeFromLocation (DDLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun reverse (DDLkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
 
 public final class dev/jordond/compass/geocoder/PlatformGeocoder$Companion {

@@ -1,5 +1,6 @@
 package dev.jordond.compass.geocoder.web.internal
 
+import co.touchlab.kermit.Logger
 import dev.jordond.compass.geocoder.exception.GeocodeException
 import io.ktor.client.HttpClient
 import io.ktor.client.request.get
@@ -23,6 +24,7 @@ internal suspend fun <Result> HttpClient.makeRequest(
     } catch (cause: GeocodeException) {
         throw cause
     } catch (cause: Throwable) {
+        Logger.e(cause) { "Unable to make geocode request" }
         throw GeocodeException(cause.message ?: "Unable to make http request")
     }
 }

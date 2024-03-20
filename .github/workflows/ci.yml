@@ -53,7 +53,9 @@ jobs:
     strategy:
       matrix:
         config: [
-          { target: "android", os: "ubuntu-latest", tasks: ":demo:composeApp:assembleRelease", continueOnError: false },
+          { target: "default", os: "ubuntu-latest", tasks: "allTest", continueOnError: false },
+          { target: "osx", os: "macos-latest", tasks: "allTest", continueOnError: false },
+          { target: "package", os: "ubuntu-latest", tasks: ":demo:composeApp:packageDistributionForCurrentOS", continueOnError: false }
         ]
     runs-on: ${{ matrix.config.os }}
     name: Test ${{ matrix.config.target }}

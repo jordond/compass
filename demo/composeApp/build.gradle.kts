@@ -54,6 +54,8 @@ kotlin {
         commonMain.dependencies {
             implementation(projects.compassCore)
             implementation(projects.compassGeocoderCore)
+            implementation(projects.compassGeocoderWebMapbox)
+            implementation(projects.compassGeocoderWebGoogleMaps)
 
             implementation(compose.runtime)
             implementation(compose.foundation)
@@ -61,7 +63,6 @@ kotlin {
             implementation(compose.ui)
             implementation(compose.components.uiToolingPreview)
 
-            implementation(projects.compassGeocoderWebMapbox)
         }
 
         val desktopMain by getting {

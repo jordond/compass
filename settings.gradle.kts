@@ -39,6 +39,7 @@ include(
     ":compass-geocoder-core",
     ":compass-geocoder-mobile",
     ":compass-geocoder-web",
+    ":compass-geocoder-web-google-maps",
     ":compass-geocoder-web-mapbox",
 )
 
