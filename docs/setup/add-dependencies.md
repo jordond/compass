@@ -46,7 +46,7 @@ compass-geocoder-web-mapbox = { module = "dev.jordond.compass:compass-geocoder-m
 2. Add the dependencies to your `build.gradle.kts`:
 
 {% code fullWidth="false" %}
-```kts
+```kotlin
 kotlin {
     sourceSets {
         commonMain {
@@ -54,19 +54,19 @@ kotlin {
                 val compassVersion = "1.0.0
 
                 // Geocoding
-                implementation("dev.jordond.compass:compass-geocoder:$compassVersion")
+                implementation(libs.compass.geocoder)
 
                 // To use geocoding you need to use one or more of the following
 
                 // Optional - Support for only iOS and Android
-                implementation("dev.jordond.compass:compass-geocoder-mobile:$compassVersion")
+                implementation(libs.compass.geocoder.mobile)
 
                 // Optional - Support for all platforms, but requires an API key from the service
-                implementation("dev.jordond.compass:compass-geocoder-web-googlemaps:$compassVersion")
-                implementation("dev.jordond.compass:compass-geocoder-web-mapbox:$compassVersion")
+                implementation(libs.compass.geocoder.web.googlemaps)
+                implementation(libs.compass.geocoder.web.mapbox)
 
                 // Optional - If you want to create your own geocoder implementation
-                implementation("dev.jordond.compass:compass-geocoder-web:$compassVersion")
+                implementation(libs.compass.geocoder.web)
             }
         }
     }
@@ -76,7 +76,7 @@ kotlin {
 {% endtab %}
 
 {% tab title="Dependencies" %}
-```kts
+```kotlin
 kotlin {
     sourceSets {
         commonMain {
