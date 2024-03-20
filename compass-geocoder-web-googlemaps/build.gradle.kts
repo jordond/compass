@@ -38,7 +38,7 @@ kotlin {
         iosSimulatorArm64()
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
-            baseName = "compass-geocoding-web-google-maps"
+            baseName = "compass-geocoder-web-googlemaps"
             isStatic = true
         }
     }
@@ -46,7 +46,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             api(projects.compassCore)
-            api(projects.compassGeocoderCore)
+            api(projects.compassGeocoder)
             api(projects.compassGeocoderWeb)
 
             implementation(libs.kotlinx.coroutines.core)

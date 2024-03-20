@@ -36,7 +36,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             api(projects.compassCore)
-            api(projects.compassGeocoderCore)
+            api(projects.compassGeocoder)
             implementation(libs.kotlinx.coroutines.core)
         }
 

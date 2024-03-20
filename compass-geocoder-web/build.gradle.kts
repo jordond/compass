@@ -37,7 +37,7 @@ kotlin {
         iosSimulatorArm64()
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
-            baseName = "compass-geocoding-web"
+            baseName = "compass-geocoder-web"
             isStatic = true
         }
     }
@@ -47,7 +47,7 @@ kotlin {
 
         commonMain.dependencies {
             implementation(projects.compassCore)
-            implementation(projects.compassGeocoderCore)
+            implementation(projects.compassGeocoder)
 
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.kotlinx.serialization.json)
