@@ -37,7 +37,7 @@ public fun GoogleMapsGeocoder(
 /**
  * Creates a new [Geocoder] using the Google Maps HTTP API geocoding service.
  *
- * See [Google Maps](https://www.mapbox.com/) for more information.
+ * See [Google Maps](https://developers.google.com/maps/documentation/geocoding) for more information.
  *
  * @param apiKey The Google Maps API key.
  * @param json The JSON implementation to use for serialization.

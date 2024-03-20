@@ -65,7 +65,7 @@ public fun GoogleMapsPlatformGeocoder(
 /**
  * Creates a [GoogleMapsPlatformGeocoder] to be used with the [Geocoder].
  *
- * See [Google Maps](https://www.mapbox.com/) for more information.
+ * See [Google Maps](https://developers.google.com/maps/documentation/geocoding) for more information.
  *
  * @param apiKey The Google Maps API key.
  * @param json The [Json] instance to use for serialization and deserialization.
