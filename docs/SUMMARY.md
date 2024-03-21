@@ -4,7 +4,7 @@
 
 ## Setup
 
-* [🖥️ Supported Platforms](setup/supported-platforms.md)
+* [🖥️ Artifacts](setup/supported-platforms.md)
 * [📇 Add Dependencies](setup/add-dependencies.md)
 
 ## Usage
