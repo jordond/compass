@@ -5,6 +5,8 @@ public final class dev/jordond/compass/geocoder/mobile/ExtensionsKt {
 public final class dev/jordond/compass/geocoder/mobile/GeocoderKt {
 	public static final fun Geocoder (Lkotlinx/coroutines/CoroutineDispatcher;)Ldev/jordond/compass/geocoder/Geocoder;
 	public static synthetic fun Geocoder$default (Lkotlinx/coroutines/CoroutineDispatcher;ILjava/lang/Object;)Ldev/jordond/compass/geocoder/Geocoder;
+	public static final fun MobileGeocoder (Lkotlinx/coroutines/CoroutineDispatcher;)Ldev/jordond/compass/geocoder/Geocoder;
+	public static synthetic fun MobileGeocoder$default (Lkotlinx/coroutines/CoroutineDispatcher;ILjava/lang/Object;)Ldev/jordond/compass/geocoder/Geocoder;
 }
 
 public abstract interface class dev/jordond/compass/geocoder/mobile/MobilePlatformGeocoder : dev/jordond/compass/geocoder/PlatformGeocoder {
