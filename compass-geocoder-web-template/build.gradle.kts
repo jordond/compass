@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.convention.multiplatform)
+    // Uncomment this line to enable publishing
 //    alias(libs.plugins.convention.publish)
     alias(libs.plugins.kotlinx.serialization)
 }
