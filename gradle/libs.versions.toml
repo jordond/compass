@@ -1,12 +1,14 @@
 [versions]
+group = "dev.jordond"
 sdk-target = "34"
 sdk-compile = "34"
 sdk-min = "21"
+jvmTarget = "17"
 agp = "8.3.1"
 kotlin = "1.9.23"
 kotlinx-coroutines = "1.8.0"
 kotlinx-serialization = "1.6.3"
-compose = "1.6.3"
+compose = "1.6.4"
 compose-multiplatform = "1.6.1"
 androidx-startup = "1.1.1"
 androidx-activityCompose = "1.8.2"
@@ -37,6 +39,13 @@ compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = 
 compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
 kotest-assertions = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
 kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
+gradlePlugin-android = { module = "com.android.tools.build:gradle", version.ref = "agp" }
+gradlePlugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+gradlePlugin-compose = { module = "org.jetbrains.compose:compose-gradle-plugin", version.ref = "compose-multiplatform" }
+gradlePlugin-publish = { module = "com.vanniktech:gradle-maven-publish-plugin", version.ref = "publish" }
+
+[bundles]
+logic-plugins = ["gradlePlugin-android", "gradlePlugin-kotlin", "gradlePlugin-compose", "gradlePlugin-publish"]
 
 [plugins]
 multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
@@ -50,3 +59,7 @@ binaryCompatibility = { id = "org.jetbrains.kotlinx.binary-compatibility-validat
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 publish = { id = "com.vanniktech.maven.publish", version.ref = "publish" }
 poko = { id = "dev.drewhamilton.poko", version.ref = "poko" }
+convention-multiplatform = { id = "convention.multiplatform", version = "0" }
+convention-library = { id = "convention.library", version = "0" }
+convention-publish = { id = "convention.publish", version = "0" }
+convention-application = { id = "convention.application", version = "0" }
