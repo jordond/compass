@@ -13,5 +13,9 @@ kotlin {
             api(projects.compassCore)
             api(projects.compassGeolocation )
         }
+
+        androidMain.dependencies {
+            api(libs.play.services.location)
+        }
     }
 }

@@ -2,7 +2,7 @@ package dev.jordond.compass.geocoder.web
 
 import dev.jordond.compass.Coordinates
 import dev.jordond.compass.Place
-import dev.jordond.compass.geocoder.exception.NotSupportedException
+import dev.jordond.compass.exception.NotSupportedException
 import dev.jordond.compass.geocoder.web.internal.makeRequest
 import io.ktor.client.HttpClient
 

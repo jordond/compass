@@ -5,7 +5,7 @@ import android.location.Geocoder
 import android.os.Build
 import dev.jordond.compass.Coordinates
 import dev.jordond.compass.Place
-import dev.jordond.compass.geocoder.exception.NotSupportedException
+import dev.jordond.compass.exception.NotSupportedException
 import dev.jordond.compass.geocoder.mobile.internal.asyncOperation
 import dev.jordond.compass.geocoder.mobile.internal.context.ContextProvider
 import dev.jordond.compass.geocoder.mobile.internal.syncOperation

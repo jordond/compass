@@ -5,7 +5,7 @@ import dev.jordond.compass.Place
 import dev.jordond.compass.geocoder.Geocoder
 import dev.jordond.compass.geocoder.GeocoderResult
 import dev.jordond.compass.geocoder.PlatformGeocoder
-import dev.jordond.compass.geocoder.exception.NotSupportedException
+import dev.jordond.compass.exception.NotSupportedException
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
