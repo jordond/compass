@@ -1,6 +1,5 @@
 package dev.jordond.compass.geolocation
 
-import dev.jordond.compass.ExtendedLocation
 import dev.jordond.compass.Location
 
 public suspend fun Geolocator.lastLocationOrNull(): Location? = last().getOrNull()

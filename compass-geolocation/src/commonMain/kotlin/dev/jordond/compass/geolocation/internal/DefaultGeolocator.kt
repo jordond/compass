@@ -1,6 +1,5 @@
 package dev.jordond.compass.geolocation.internal
 
-import dev.jordond.compass.ExtendedLocation
 import dev.jordond.compass.Location
 import dev.jordond.compass.exception.NotSupportedException
 import dev.jordond.compass.geolocation.Geolocator
