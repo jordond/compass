@@ -15,6 +15,7 @@ kotlin {
         }
 
         androidMain.dependencies {
+            implementation(projects.compassToolsAndroid)
             api(libs.play.services.location)
         }
     }

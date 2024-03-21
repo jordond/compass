@@ -1,4 +1,4 @@
-package dev.jordond.compass.geocoder.mobile.internal.context
+package dev.jordond.compass.tools
 
 import android.content.Context
 import androidx.startup.Initializer

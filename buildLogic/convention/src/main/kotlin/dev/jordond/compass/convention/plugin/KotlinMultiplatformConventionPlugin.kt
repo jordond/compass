@@ -25,6 +25,12 @@ open class MultiPlatformConventionExtension {
     var platforms: List<Platform> = Platforms.All
     internal var configureFramework: Framework.() -> Unit = {}
 
+    var platform: Platform
+        get() = platforms.first()
+        set(value) {
+            platforms = listOf(value)
+        }
+
     fun add(platform: Platform) {
         platforms = platforms + platform
     }
