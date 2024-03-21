@@ -15,7 +15,7 @@ import dev.jordond.compass.Place
  * error or not being able to find the location.
  */
 public suspend fun Geocoder.placesOrNull(location: Location): List<Place>? =
-    places(location).getOrNull()
+    reverse(location).getOrNull()
 
 /**
  * Geocode a pair of coordinates to a list of [Place]s or `null` if unsuccessful.
@@ -30,7 +30,7 @@ public suspend fun Geocoder.placesOrNull(location: Location): List<Place>? =
  * error or not being able to find the location.
  */
 public suspend fun Geocoder.placesOrNull(latitude: Double, longitude: Double): List<Place>? =
-    places(latitude, longitude).getOrNull()
+    reverse(latitude, longitude).getOrNull()
 
 /**
  * Geocode a [Location] to a [Place] or `null` if unsuccessful.
@@ -41,7 +41,7 @@ public suspend fun Geocoder.placesOrNull(latitude: Double, longitude: Double): L
  * not being able to find the location.
  */
 public suspend fun Geocoder.placeOrNull(location: Location): Place? =
-    places(location).getFirstOrNull()
+    reverse(location).getFirstOrNull()
 
 /**
  * Geocode a pair of coordinates to a [Place] or `null` if unsuccessful.
@@ -53,7 +53,7 @@ public suspend fun Geocoder.placeOrNull(location: Location): Place? =
  * not being able to find the location.
  */
 public suspend fun Geocoder.placeOrNull(latitude: Double, longitude: Double): Place? =
-    places(latitude, longitude).getFirstOrNull()
+    reverse(latitude, longitude).getFirstOrNull()
 
 /**
  * Get a list of [Location]s for a given address or `null` if unsuccessful.
@@ -66,7 +66,7 @@ public suspend fun Geocoder.placeOrNull(latitude: Double, longitude: Double): Pl
  * geocoder error or not being able to find the location.
  */
 public suspend fun Geocoder.locationsOrNull(address: String): List<Location>? =
-    locations(address).getOrNull()?.toList()
+    forward(address).getOrNull()?.toList()
 
 /**
  * Get a [Location] for a given address or `null` if unsuccessful.
@@ -76,4 +76,4 @@ public suspend fun Geocoder.locationsOrNull(address: String): List<Location>? =
  * or not being able to find the location.
  */
 public suspend fun Geocoder.locationOrNull(address: String): Location? =
-    locations(address).getFirstOrNull()
+    forward(address).getFirstOrNull()

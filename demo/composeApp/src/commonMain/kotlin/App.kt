@@ -35,7 +35,7 @@ fun App() {
     LaunchedEffect(start) {
         if (start != null && latitude != Double.MAX_VALUE && longitude != Double.MAX_VALUE) {
             loading = true
-            result = geocoder.places(latitude, longitude)
+            result = geocoder.reverse(latitude, longitude)
             loading = false
         }
     }
