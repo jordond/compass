@@ -4,18 +4,42 @@
 
 Compass is a Kotlin Multiplatform library location toolkit. It provides a set of tools for working with location data, including geocoding, reverse geocoding, and more. The library is built with a focus on simplicity and ease of use, providing a straightforward API for geocoding operations.
 
-## Features
+### Features
 
 * Forward and Reverse Geocoding
-  * Get place details from a pair of latitude and longitude coordinates
-  * Get a pair of latitude and longitude coordinates from an address query
+  * Native support for Android and iOS
+  * Support for other platforms by using web based APIs
+    * Included support for [Google Maps ](https://developers.google.com/maps/documentation/geocoding)and [Mapbox](https://docs.mapbox.com/#search)
 * Geolocation _(planned)_
-  * Get the current location of the device
-  * Monitor the location of the device
+* Testable
+  * Compass' API is built around interfaces and is easily injected or customized
+* Extensible
+  * If a wrapper for a web based API service isn't available, it's easy to write your own
 
-## Get Started
+### Easy to use
 
-We've put together some helpful guides for you to get setup with our product quickly and easily.
+Compass has a simple API:
+
+```kotlin
+suspend fun lookupCoordinates(latitude: Double, longitude: Double): Place? {
+    val geocoder = Geocoder()
+    return runCatching {
+        geocoder.reverse(latitude, longitude)
+    }.getOrNull()
+}
+```
+
+The above `Geocoder()` function is one of many extension functions included to make your life easier.  Behind the scenes a `PlatformGeocoder` is used to do all the heavy lifting, and can be created and provided on a per-platform basis.
+
+You can learn more about geocoding here: [overview.md](geocoder/overview.md "mention")
+
+{% hint style="info" %}
+The above `Geocoder()`extension function is from the Android/iOS only artifact. If you plan on supporting other platforms, check out [mixed-platforms.md](usage/mixed-platforms.md "mention").
+{% endhint %}
+
+### Get Started
+
+Here is a few good starting points to start using Compass!
 
 {% content-ref url="broken-reference" %}
 [Broken link](broken-reference)
