@@ -30,6 +30,6 @@ public fun MobilePlatformGeocoder(): MobilePlatformGeocoder = createPlatformGeoc
  *
  * @return A new Android/iOS [PlatformGeocoder] instance.
  */
-public fun PlatformGeocoder.Companion.create(): MobilePlatformGeocoder = MobilePlatformGeocoder()
+public fun PlatformGeocoder.Companion.mobile(): MobilePlatformGeocoder = MobilePlatformGeocoder()
 
 internal expect fun createPlatformGeocoder(): MobilePlatformGeocoder

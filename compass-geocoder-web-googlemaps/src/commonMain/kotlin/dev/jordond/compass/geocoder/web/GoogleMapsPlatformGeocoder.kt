@@ -1,5 +1,6 @@
 package dev.jordond.compass.geocoder.web
 
+import dev.jordond.compass.geocoder.PlatformGeocoder
 import dev.jordond.compass.geocoder.web.parameter.GoogleMapsParameters
 import dev.jordond.compass.geocoder.web.parameter.GoogleMapsParametersBuilder
 import dev.jordond.compass.geocoder.web.parameter.googleMapsParameters
@@ -74,6 +75,44 @@ public fun GoogleMapsPlatformGeocoder(
  * @return A [GoogleMapsPlatformGeocoder] instance.
  */
 public fun GoogleMapsPlatformGeocoder(
+    apiKey: String,
+    json: Json = HttpApiPlatformGeocoder.json(),
+    client: HttpClient = HttpApiPlatformGeocoder.httpClient(json),
+    block: GoogleMapsParametersBuilder.() -> Unit,
+): GoogleMapsPlatformGeocoder =
+    GoogleMapsPlatformGeocoder(apiKey, googleMapsParameters(block), json, client)
+
+/**
+ * Creates a [GoogleMapsPlatformGeocoder] to be used with the [Geocoder].
+ *
+ * See [Google Maps](https://developers.google.com/maps/documentation/geocoding) for more information.
+ *
+ * @param apiKey The Google Maps API key.
+ * @param parameters The parameters to use for the geocoding requests.
+ * @param json The [Json] instance to use for serialization and deserialization.
+ * @param client The [HttpClient] to use for making requests.
+ * @return A [GoogleMapsPlatformGeocoder] instance.
+ */
+public fun PlatformGeocoder.Companion.googleMaps(
+    apiKey: String,
+    parameters: GoogleMapsParameters = GoogleMapsParameters(),
+    json: Json = HttpApiPlatformGeocoder.json(),
+    client: HttpClient = HttpApiPlatformGeocoder.httpClient(json),
+): GoogleMapsPlatformGeocoder =
+    GoogleMapsPlatformGeocoder(apiKey, parameters, json, client)
+
+/**
+ * Creates a [GoogleMapsPlatformGeocoder] to be used with the [Geocoder].
+ *
+ * See [Google Maps](https://developers.google.com/maps/documentation/geocoding) for more information.
+ *
+ * @param apiKey The Google Maps API key.
+ * @param json The [Json] instance to use for serialization and deserialization.
+ * @param client The [HttpClient] to use for making requests.
+ * @param block A lambda that configures the [GoogleMapsParameters] to use for the geocoding requests.
+ * @return A [GoogleMapsPlatformGeocoder] instance.
+ */
+public fun PlatformGeocoder.Companion.googleMaps(
     apiKey: String,
     json: Json = HttpApiPlatformGeocoder.json(),
     client: HttpClient = HttpApiPlatformGeocoder.httpClient(json),

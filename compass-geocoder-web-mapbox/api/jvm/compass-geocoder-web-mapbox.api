@@ -26,6 +26,10 @@ public final class dev/jordond/compass/geocoder/web/MapBoxPlatformGeocoderKt {
 	public static final fun MapBoxPlatformGeocoder (Ljava/lang/String;Lkotlinx/serialization/json/Json;Lio/ktor/client/HttpClient;Lkotlin/jvm/functions/Function1;)Ldev/jordond/compass/geocoder/web/MapBoxPlatformGeocoder;
 	public static synthetic fun MapBoxPlatformGeocoder$default (Ljava/lang/String;Ldev/jordond/compass/geocoder/web/parameter/MapBoxParameters;Lkotlinx/serialization/json/Json;Lio/ktor/client/HttpClient;ILjava/lang/Object;)Ldev/jordond/compass/geocoder/web/MapBoxPlatformGeocoder;
 	public static synthetic fun MapBoxPlatformGeocoder$default (Ljava/lang/String;Lkotlinx/serialization/json/Json;Lio/ktor/client/HttpClient;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/jordond/compass/geocoder/web/MapBoxPlatformGeocoder;
+	public static final fun mapBox (Ldev/jordond/compass/geocoder/PlatformGeocoder$Companion;Ljava/lang/String;Ldev/jordond/compass/geocoder/web/parameter/MapBoxParameters;Lkotlinx/serialization/json/Json;Lio/ktor/client/HttpClient;)Ldev/jordond/compass/geocoder/web/MapBoxPlatformGeocoder;
+	public static final fun mapBox (Ldev/jordond/compass/geocoder/PlatformGeocoder$Companion;Ljava/lang/String;Lkotlinx/serialization/json/Json;Lio/ktor/client/HttpClient;Lkotlin/jvm/functions/Function1;)Ldev/jordond/compass/geocoder/web/MapBoxPlatformGeocoder;
+	public static synthetic fun mapBox$default (Ldev/jordond/compass/geocoder/PlatformGeocoder$Companion;Ljava/lang/String;Ldev/jordond/compass/geocoder/web/parameter/MapBoxParameters;Lkotlinx/serialization/json/Json;Lio/ktor/client/HttpClient;ILjava/lang/Object;)Ldev/jordond/compass/geocoder/web/MapBoxPlatformGeocoder;
+	public static synthetic fun mapBox$default (Ldev/jordond/compass/geocoder/PlatformGeocoder$Companion;Ljava/lang/String;Lkotlinx/serialization/json/Json;Lio/ktor/client/HttpClient;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/jordond/compass/geocoder/web/MapBoxPlatformGeocoder;
 }
 
 public final class dev/jordond/compass/geocoder/web/MapBoxReverseEndpoint : dev/jordond/compass/geocoder/web/HttpApiEndpoint {
