@@ -17,11 +17,6 @@ gradlePlugin {
             implementationClass = "dev.jordond.compass.convention.plugin.KotlinMultiplatformConventionPlugin"
         }
 
-        register("application") {
-            id = "convention.application"
-            implementationClass = "dev.jordond.compass.convention.plugin.ApplicationConventionPlugin"
-        }
-
         register("publish") {
             id = "convention.publish"
             implementationClass = "dev.jordond.compass.convention.plugin.PublishConventionPlugin"
