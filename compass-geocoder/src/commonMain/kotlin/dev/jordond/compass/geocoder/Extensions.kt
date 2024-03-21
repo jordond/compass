@@ -1,21 +1,21 @@
 package dev.jordond.compass.geocoder
 
-import dev.jordond.compass.Location
+import dev.jordond.compass.Coordinates
 import dev.jordond.compass.Place
 
 /**
- * Geocode a [Location] to a list of [Place]s or `null` if unsuccessful.
+ * Geocode a [Coordinates] to a list of [Place]s or `null` if unsuccessful.
  *
  * In most cases, the list will contain a single [Place]. However, in some cases, it may return
  * multiple [Place]s.
  *
  * @receiver The [Geocoder] to use for geocoding.
- * @param location The [Location] to geocode.
+ * @param coordinates The [Coordinates] to geocode.
  * @return A list of [Place]s or `null` if the geocoding was unsuccessful, either due to a geocoder
  * error or not being able to find the location.
  */
-public suspend fun Geocoder.placesOrNull(location: Location): List<Place>? =
-    reverse(location).getOrNull()
+public suspend fun Geocoder.placesOrNull(coordinates: Coordinates): List<Place>? =
+    reverse(coordinates).getOrNull()
 
 /**
  * Geocode a pair of coordinates to a list of [Place]s or `null` if unsuccessful.
@@ -33,15 +33,15 @@ public suspend fun Geocoder.placesOrNull(latitude: Double, longitude: Double): L
     reverse(latitude, longitude).getOrNull()
 
 /**
- * Geocode a [Location] to a [Place] or `null` if unsuccessful.
+ * Geocode a [Coordinates] to a [Place] or `null` if unsuccessful.
  *
  * @receiver The [Geocoder] to use for geocoding.
- * @param location The address to geocode.
+ * @param coordinates The address to geocode.
  * @return A [Place] or `null` if the geocoding was unsuccessful, either due to a geocoder error or
  * not being able to find the location.
  */
-public suspend fun Geocoder.placeOrNull(location: Location): Place? =
-    reverse(location).getFirstOrNull()
+public suspend fun Geocoder.placeOrNull(coordinates: Coordinates): Place? =
+    reverse(coordinates).getFirstOrNull()
 
 /**
  * Geocode a pair of coordinates to a [Place] or `null` if unsuccessful.
@@ -56,24 +56,24 @@ public suspend fun Geocoder.placeOrNull(latitude: Double, longitude: Double): Pl
     reverse(latitude, longitude).getFirstOrNull()
 
 /**
- * Get a list of [Location]s for a given address or `null` if unsuccessful.
+ * Get a list of [Coordinates]s for a given address or `null` if unsuccessful.
  *
- * In most cases, the list will contain a single [Location]. However, in some cases, it may
- * return multiple [Location]s.
+ * In most cases, the list will contain a single [Coordinates]. However, in some cases, it may
+ * return multiple [Coordinates]s.
  *
  * @param address The address to geocode.
- * @return A list of [Location]s or `null` if the geocoding was unsuccessful, either due to a
+ * @return A list of [Coordinates]s or `null` if the geocoding was unsuccessful, either due to a
  * geocoder error or not being able to find the location.
  */
-public suspend fun Geocoder.locationsOrNull(address: String): List<Location>? =
+public suspend fun Geocoder.coordinatesListOrNull(address: String): List<Coordinates>? =
     forward(address).getOrNull()?.toList()
 
 /**
- * Get a [Location] for a given address or `null` if unsuccessful.
+ * Get a [Coordinates] for a given address or `null` if unsuccessful.
  *
  * @param address The address to geocode.
- * @return A [Location] or `null` if the geocoding was unsuccessful, either due to a geocoder error
+ * @return A [Coordinates] or `null` if the geocoding was unsuccessful, either due to a geocoder error
  * or not being able to find the location.
  */
-public suspend fun Geocoder.locationOrNull(address: String): Location? =
+public suspend fun Geocoder.coordinatesOrNull(address: String): Coordinates? =
     forward(address).getFirstOrNull()

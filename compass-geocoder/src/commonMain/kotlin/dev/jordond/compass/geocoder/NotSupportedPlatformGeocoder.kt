@@ -1,6 +1,6 @@
 package dev.jordond.compass.geocoder
 
-import dev.jordond.compass.Location
+import dev.jordond.compass.Coordinates
 import dev.jordond.compass.Place
 
 /**
@@ -11,6 +11,6 @@ import dev.jordond.compass.Place
 public object NotSupportedPlatformGeocoder : PlatformGeocoder {
 
     override fun isAvailable(): Boolean = false
-    override suspend fun forward(address: String): List<Location> = emptyList()
+    override suspend fun forward(address: String): List<Coordinates> = emptyList()
     override suspend fun reverse(latitude: Double, longitude: Double): List<Place> = emptyList()
 }

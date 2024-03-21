@@ -1,6 +1,6 @@
 package dev.jordond.compass.geocoder
 
-import dev.jordond.compass.Location
+import dev.jordond.compass.Coordinates
 import dev.jordond.compass.geocoder.internal.DefaultGeocoder
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -8,26 +8,26 @@ import kotlinx.coroutines.Dispatchers
 public interface ForwardGeocoder {
 
     /**
-     * Get a list of [Location]s for a given address.
+     * Get a list of [Coordinates]s for a given address.
      *
-     * In most cases, the list will contain a single [Location]. However, in some cases, it may
-     * return multiple [Location]s.
+     * In most cases, the list will contain a single [Coordinates]. However, in some cases, it may
+     * return multiple [Coordinates]s.
      *
      * @param address The address to geocode.
-     * @return A [GeocoderResult] containing the list of [Location]s or an error.
+     * @return A [GeocoderResult] containing the list of [Coordinates]s or an error.
      */
-    public suspend fun forward(address: String): GeocoderResult<Location>
+    public suspend fun forward(address: String): GeocoderResult<Coordinates>
 
     /**
-     * Get a list of [Location]s for a given address.
+     * Get a list of [Coordinates]s for a given address.
      *
-     * In most cases, the list will contain a single [Location]. However, in some cases, it may
-     * return multiple [Location]s.
+     * In most cases, the list will contain a single [Coordinates]. However, in some cases, it may
+     * return multiple [Coordinates]s.
      *
      * @param address The address to geocode.
-     * @return A [GeocoderResult] containing the list of [Location]s or an error.
+     * @return A [GeocoderResult] containing the list of [Coordinates]s or an error.
      */
-    public suspend fun locations(address: String): GeocoderResult<Location> = forward(address)
+    public suspend fun locations(address: String): GeocoderResult<Coordinates> = forward(address)
 }
 
 /**

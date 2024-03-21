@@ -1,6 +1,6 @@
 package dev.jordond.compass.geocoder
 
-import dev.jordond.compass.Location
+import dev.jordond.compass.Coordinates
 import dev.jordond.compass.Place
 import dev.jordond.compass.geocoder.internal.DefaultGeocoder
 import kotlinx.coroutines.CoroutineDispatcher
@@ -18,13 +18,13 @@ public interface ReverseGeocoder {
     public suspend fun reverse(latitude: Double, longitude: Double): GeocoderResult<Place>
 
     /**
-     * Get the address for a given [Location].
+     * Get the address for a given [Coordinates].
      *
-     * @param location The [Location] to reverse geocode.
+     * @param coordinates The [Coordinates] to reverse geocode.
      * @return A [GeocoderResult] containing a list of addresses or an error.
      */
-    public suspend fun reverse(location: Location): GeocoderResult<Place> =
-        reverse(location.latitude, location.longitude)
+    public suspend fun reverse(coordinates: Coordinates): GeocoderResult<Place> =
+        reverse(coordinates.latitude, coordinates.longitude)
 
     /**
      * Get the address for a given latitude and longitude.
@@ -37,12 +37,12 @@ public interface ReverseGeocoder {
         reverse(latitude, longitude)
 
     /**
-     * Get the address for a given [Location].
+     * Get the address for a given [Coordinates].
      *
-     * @param location The [Location] to reverse geocode.
+     * @param coordinates The [Coordinates] to reverse geocode.
      * @return A [GeocoderResult] containing a list of addresses or an error.
      */
-    public suspend fun places(location: Location): GeocoderResult<Place> = reverse(location)
+    public suspend fun places(coordinates: Coordinates): GeocoderResult<Place> = reverse(coordinates)
 }
 
 /**

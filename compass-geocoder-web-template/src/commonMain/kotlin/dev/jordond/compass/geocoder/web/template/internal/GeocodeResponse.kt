@@ -1,6 +1,6 @@
 package dev.jordond.compass.geocoder.web.template.internal
 
-import dev.jordond.compass.Location
+import dev.jordond.compass.Coordinates
 import dev.jordond.compass.Place
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -17,7 +17,7 @@ internal data class ResultResponse(
     val foo: String? = null,
 )
 
-internal fun GeocodeResponse.toLocations(): List<Location> {
+internal fun GeocodeResponse.toCoordinates(): List<Coordinates> {
     return results.mapNotNull { response ->
         // TODO: Implement this
         null

@@ -1,6 +1,6 @@
 package dev.jordond.compass.geocoder.internal
 
-import dev.jordond.compass.Location
+import dev.jordond.compass.Coordinates
 import dev.jordond.compass.Place
 import dev.jordond.compass.geocoder.Geocoder
 import dev.jordond.compass.geocoder.GeocoderResult
@@ -32,7 +32,7 @@ internal class DefaultGeocoder(
     /**
      * @see Geocoder.forward
      */
-    override suspend fun forward(address: String): GeocoderResult<Location> {
+    override suspend fun forward(address: String): GeocoderResult<Coordinates> {
         return handleResult {
             platformGeocoder.forward(address)
         }

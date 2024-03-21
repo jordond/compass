@@ -1,6 +1,6 @@
 package dev.jordond.compass.geocoder.web.google.internal
 
-import dev.jordond.compass.Location
+import dev.jordond.compass.Coordinates
 import dev.jordond.compass.Place
 import dev.jordond.compass.geocoder.exception.GeocodeException
 import dev.jordond.compass.geocoder.web.google.internal.AddressComponentType.AdministrativeAreaLevel1
@@ -34,10 +34,10 @@ internal fun GeocodeResponse.resultsOrThrow(): List<ResultResponse> = when (stat
     else -> throw GeocodeException("[$status] $errorMessage")
 }
 
-internal fun List<ResultResponse>.toLocations(): List<Location> {
+internal fun List<ResultResponse>.toCoordinates(): List<Coordinates> {
     return mapNotNull { response ->
         val location = response.geometry?.location ?: return@mapNotNull null
-        Location(location.lat, location.lng)
+        Coordinates(location.lat, location.lng)
     }
 }
 

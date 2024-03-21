@@ -1,7 +1,7 @@
 package dev.jordond.compass.geocoder.mobile.internal
 
 import android.location.Address
-import dev.jordond.compass.Location
+import dev.jordond.compass.Coordinates
 import dev.jordond.compass.Place
 
 internal fun Address.toPlace(): Place = Place(
@@ -20,6 +20,7 @@ internal fun Address.toPlace(): Place = Place(
 
 internal fun List<Address>.toPlaces(): List<Place> = map { it.toPlace() }
 
-internal fun Address.toLocation(): Location = Location(latitude = latitude, longitude = longitude)
+internal fun Address.toCoordinates(): Coordinates =
+    Coordinates(latitude = latitude, longitude = longitude)
 
-internal fun List<Address>.toLocations(): List<Location> = map { it.toLocation() }
+internal fun List<Address>.toCoordinates(): List<Coordinates> = map { it.toCoordinates() }

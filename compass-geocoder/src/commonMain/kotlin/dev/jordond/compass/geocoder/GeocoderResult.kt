@@ -34,7 +34,6 @@ public sealed interface GeocoderResult<out T> {
      * @param message A message describing the error that occurred.
      */
     @Poko
-    @Suppress("MemberVisibilityCanBePrivate")
     public class GeocodeFailed(public val message: String) : Error
 
     /**
