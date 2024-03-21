@@ -9,6 +9,7 @@ plugins {
     alias(libs.plugins.kotlin.android) apply false
     alias(libs.plugins.kotlinx.serialization) apply false
     alias(libs.plugins.poko) apply false
+    alias(libs.plugins.publish) apply false
     alias(libs.plugins.dokka)
     alias(libs.plugins.dependencies)
     alias(libs.plugins.binaryCompatibility)
