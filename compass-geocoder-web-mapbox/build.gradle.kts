@@ -1,7 +1,6 @@
 plugins {
     alias(libs.plugins.convention.multiplatform)
     alias(libs.plugins.convention.publish)
-    alias(libs.plugins.poko)
     alias(libs.plugins.kotlinx.serialization)
 }
 
@@ -14,10 +13,6 @@ kotlin {
 
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.kotlinx.serialization.json)
-        }
-
-        commonTest.dependencies {
-            implementation(libs.kotest.assertions)
         }
     }
 }
