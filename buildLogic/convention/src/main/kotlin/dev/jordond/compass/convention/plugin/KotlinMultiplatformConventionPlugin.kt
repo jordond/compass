@@ -39,7 +39,7 @@ open class MultiPlatformConventionExtension {
         platforms = Platforms.Mobile
     }
 
-    fun composeOnly() {
+    fun allComposePlatforms() {
         platforms = Platforms.Compose
     }
 

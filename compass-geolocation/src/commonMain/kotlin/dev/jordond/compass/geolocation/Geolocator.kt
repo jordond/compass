@@ -8,10 +8,7 @@ import kotlinx.coroutines.flow.Flow
 
 public interface Geolocator {
 
-    public fun isAvailable(granularity: Granularity): Boolean
-
-    public fun isAvailable(granularity: List<Granularity>): Boolean =
-        granularity.all { isAvailable(it) }
+    public fun isAvailable(): Boolean
 
     public suspend fun last(): GeolocatorResult<Location?>
 

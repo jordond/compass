@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.pm.PackageManager
 import androidx.core.content.ContextCompat
 import dev.jordond.compass.Location
-import dev.jordond.compass.geolocation.Granularity
 import dev.jordond.compass.geolocation.LocationRequest
 import dev.jordond.compass.geolocation.Priority
 import dev.jordond.compass.geolocation.mobile.internal.toAndroidLocationRequest
@@ -24,19 +23,8 @@ internal class AndroidLocator(
     private val locationManager: LocationManager = LocationManager(context),
 ) : MobileLocator {
 
-    override fun isAvailable(granularities: List<Granularity>): Boolean {
-        val permissions = granularities.map { granularity ->
-            when (granularity) {
-                Granularity.Coarse -> Manifest.permission.ACCESS_COARSE_LOCATION
-                Granularity.Fine -> Manifest.permission.ACCESS_FINE_LOCATION
-                Granularity.PermissionsLevel -> null
-            }
-        }
-
-        return permissions.all { permission ->
-            if (permission != null) context.hasPermission(permission)
-            else context.hasAnyPermission()
-        }
+    override fun isAvailable(): Boolean {
+        return context.hasAnyPermission()
     }
 
     override suspend fun last(): Location? {

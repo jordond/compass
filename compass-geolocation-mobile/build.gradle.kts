@@ -11,12 +11,19 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             api(projects.compassCore)
-            api(projects.compassGeolocation )
+            api(projects.compassGeolocation)
+
+            implementation(libs.kotlinx.coroutines.core)
+            implementation(libs.kermit)
         }
 
         androidMain.dependencies {
             implementation(projects.compassToolsAndroid)
             api(libs.play.services.location)
+        }
+
+        iosMain.dependencies {
+            implementation(libs.kotlinx.atomicfu)
         }
     }
 }

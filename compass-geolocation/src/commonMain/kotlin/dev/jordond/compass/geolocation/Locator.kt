@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.Flow
 
 public interface Locator {
 
-    public fun isAvailable(granularities: List<Granularity> = Granularity.entries): Boolean
+    public fun isAvailable(): Boolean
 
     public suspend fun last(): Location?
 

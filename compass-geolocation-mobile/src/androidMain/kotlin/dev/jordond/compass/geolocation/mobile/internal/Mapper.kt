@@ -9,10 +9,6 @@ import dev.jordond.compass.Azimuth
 import dev.jordond.compass.Coordinates
 import dev.jordond.compass.Meters
 import dev.jordond.compass.Speed
-import dev.jordond.compass.geolocation.Granularity
-import dev.jordond.compass.geolocation.Granularity.Coarse
-import dev.jordond.compass.geolocation.Granularity.Fine
-import dev.jordond.compass.geolocation.Granularity.PermissionsLevel
 import dev.jordond.compass.geolocation.Priority
 import dev.jordond.compass.geolocation.LocationRequest as CompassLocationRequest
 
@@ -31,7 +27,7 @@ internal fun Location.toModel(): dev.jordond.compass.Location = dev.jordond.comp
         meters = Meters(value = altitude),
         accuracy = if (VERSION.SDK_INT < VERSION_CODES.O) null else verticalAccuracyMeters,
     ),
-    timestampMillis = 7132,
+    timestampMillis = time,
 )
 
 internal val Priority.toAndroidPriority: Int
@@ -42,16 +38,9 @@ internal val Priority.toAndroidPriority: Int
         Priority.Passive -> com.google.android.gms.location.Priority.PRIORITY_PASSIVE
     }
 
-internal val Granularity.toAndroidGranularity: Int
-    get() = when (this) {
-        Coarse -> com.google.android.gms.location.Granularity.GRANULARITY_COARSE
-        Fine -> com.google.android.gms.location.Granularity.GRANULARITY_FINE
-        PermissionsLevel -> com.google.android.gms.location.Granularity.GRANULARITY_PERMISSION_LEVEL
-    }
-
 internal fun CompassLocationRequest.toAndroidLocationRequest(): LocationRequest {
     return LocationRequest
         .Builder(priority.toAndroidPriority, interval)
-        .setGranularity(granularity.toAndroidGranularity)
+        .setGranularity(com.google.android.gms.location.Granularity.GRANULARITY_PERMISSION_LEVEL)
         .build()
 }
