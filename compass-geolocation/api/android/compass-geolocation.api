@@ -1,0 +1,6 @@
+public abstract interface class Geolocator {
+}
+
+public abstract interface class dev/jordond/compass/geolocation/PlatformLocator {
+}
+

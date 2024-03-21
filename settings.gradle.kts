@@ -43,6 +43,8 @@ include(
     ":compass-geocoder-web",
     ":compass-geocoder-web-googlemaps",
     ":compass-geocoder-web-mapbox",
+    ":compass-geolocation",
+    ":compass-geolocation-mobile",
 )
 
 include(":demo:composeApp")
