@@ -13,6 +13,7 @@ import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.create
 import org.gradle.kotlin.dsl.get
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.mpp.Framework
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
@@ -30,6 +31,10 @@ open class MultiPlatformConventionExtension {
 
     fun mobileOnly() {
         platforms = Platforms.Mobile
+    }
+
+    fun composeOnly() {
+        platforms = Platforms.Compose
     }
 
     fun configureFramework(block: Framework.() -> Unit) {
@@ -60,6 +65,11 @@ class KotlinMultiplatformConventionPlugin : Plugin<Project> {
             extensions.configure<KotlinMultiplatformExtension> {
                 applyDefaultHierarchyTemplate()
 
+                @OptIn(ExperimentalKotlinGradlePluginApi::class)
+                compilerOptions {
+                    freeCompilerArgs.add("-Xexpect-actual-classes")
+                }
+
                 if (extension.platforms.contains(Platform.Android)) {
                     androidTarget {
                         publishLibraryVariants("debug", "release")
@@ -80,10 +90,24 @@ class KotlinMultiplatformConventionPlugin : Plugin<Project> {
                     linuxArm64()
                 }
 
+                if (extension.platforms.contains(Platform.Js)) {
+                    js {
+                        browser()
+
+                        if (extension.platforms.contains(Platform.NodeJs)) {
+                            nodejs()
+                        }
+                    }
+                }
+
                 // TODO: Waiting on kotest 5.9
-//                if (extension.platforms.contains(Platform.Web)) {
+//                if (extension.platforms.contains(Platform.Wasm)) {
 //                    wasmJs {
 //                        browser()
+//
+//                        if (extension.platforms.contains(Platform.NodeJs)) {
+//                            nodejs()
+//                        }
 //                    }
 //                }
 

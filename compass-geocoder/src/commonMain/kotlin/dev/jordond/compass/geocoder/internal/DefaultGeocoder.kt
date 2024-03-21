@@ -21,18 +21,18 @@ internal class DefaultGeocoder(
     override fun isAvailable(): Boolean = platformGeocoder.isAvailable()
 
     /**
-     * @see Geocoder.places
+     * @see Geocoder.reverse
      */
-    override suspend fun places(latitude: Double, longitude: Double): GeocoderResult<Place> {
+    override suspend fun reverse(latitude: Double, longitude: Double): GeocoderResult<Place> {
         return handleResult {
             platformGeocoder.reverse(latitude, longitude)
         }
     }
 
     /**
-     * @see Geocoder.locations
+     * @see Geocoder.forward
      */
-    override suspend fun locations(address: String): GeocoderResult<Location> {
+    override suspend fun forward(address: String): GeocoderResult<Location> {
         return handleResult {
             platformGeocoder.forward(address)
         }
