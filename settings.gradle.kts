@@ -43,6 +43,7 @@ include(
     ":compass-geocoder-web",
     ":compass-geocoder-web-googlemaps",
     ":compass-geocoder-web-mapbox",
+    ":compass-geocoder-web-template",
 )
 
 include(":demo:composeApp")
