@@ -45,6 +45,10 @@ internal class IosLocator(
     private var locationManager: CLLocationManager? = null
 
     override fun isAvailable(): Boolean {
+        return CLLocationManager.locationServicesEnabled()
+    }
+
+    override fun hasPermission(): Boolean {
         val locationManager = CLLocationManager()
         return when (locationManager.authorizationStatus()) {
             kCLAuthorizationStatusAuthorizedWhenInUse,

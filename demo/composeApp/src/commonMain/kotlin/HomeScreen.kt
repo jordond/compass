@@ -11,11 +11,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
+import geocoder.GoogleMapsGeocoderScreen
+import geocoder.MapboxGeocoderScreen
+import geocoder.PlatformGeocoderFallbackScreen
+import geocoder.PlatformGeocoderScreen
+import geolocation.PlatformGeolocationScreen
 
 class HomeScreen : Screen {
 
     @Composable
     override fun Content() {
+        val navigator = LocalNavigator.currentOrThrow
         MaterialTheme {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -23,17 +31,25 @@ class HomeScreen : Screen {
                 modifier = Modifier.fillMaxSize(),
             ) {
                 Text("Geocoder")
-                NavButton("Platform", onClick = { })
-                NavButton("Platform (Http fallback)", onClick = { })
-                NavButton("Google Maps", onClick = { })
-                NavButton("Mapbox", onClick = { })
+                NavButton("Platform") {
+                    navigator.push(PlatformGeocoderScreen())
+                }
+                NavButton("Platform (Http fallback)") {
+                    navigator.push(PlatformGeocoderFallbackScreen())
+                }
+                NavButton("Google Maps") {
+                    navigator.push(GoogleMapsGeocoderScreen())
+                }
+                NavButton("Mapbox") {
+                    navigator.push(MapboxGeocoderScreen())
+                }
 
-                HorizontalDivider()
+                HorizontalDivider(Modifier.padding(vertical = 32.dp))
 
                 Text("Geolocation")
-                NavButton("Platform", onClick = { })
-                NavButton("Platform (Http fallback)", onClick = { })
-                NavButton("Google Maps", onClick = { })
+                NavButton("Platform") {
+                    navigator.push(PlatformGeolocationScreen())
+                }
             }
         }
     }
@@ -42,7 +58,7 @@ class HomeScreen : Screen {
 @Composable
 private fun NavButton(
     text: String,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     Button(
         onClick = onClick,
