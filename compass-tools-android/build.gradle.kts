@@ -13,6 +13,7 @@ kotlin {
     sourceSets {
         androidMain.dependencies {
             implementation(libs.androidx.startup)
+            implementation(libs.androidx.activity)
         }
     }
 }

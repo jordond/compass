@@ -1,30 +1,32 @@
 package dev.jordond.compass.geolocation.mobile
 
-import android.Manifest
 import android.content.Context
-import android.content.pm.PackageManager
-import androidx.core.content.ContextCompat
 import dev.jordond.compass.Location
 import dev.jordond.compass.geolocation.LocationRequest
 import dev.jordond.compass.geolocation.Priority
-import dev.jordond.compass.geolocation.mobile.internal.toAndroidLocationRequest
+import dev.jordond.compass.geolocation.mobile.internal.LocationManager
+import dev.jordond.compass.geolocation.mobile.internal.PermissionController
 import dev.jordond.compass.geolocation.mobile.internal.toAndroidPriority
 import dev.jordond.compass.geolocation.mobile.internal.toModel
 import dev.jordond.compass.tools.ContextProvider
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.mapNotNull
 
-internal actual fun createLocator(): MobileLocator {
-    return AndroidLocator(ContextProvider.getInstance().context)
+internal actual fun createLocator(handlePermissions: Boolean): MobileLocator {
+    return AndroidLocator(ContextProvider.getInstance().context, handlePermissions)
 }
 
 internal class AndroidLocator(
     private val context: Context,
+    handlePermissions: Boolean,
     private val locationManager: LocationManager = LocationManager(context),
+    private val permissionController: PermissionController =
+        PermissionController(context, handlePermissions),
 ) : MobileLocator {
 
     override fun isAvailable(): Boolean {
-        return context.hasAnyPermission()
+        return locationManager.locationEnabled() && permissionController.hasAny()
     }
 
     override suspend fun last(): Location? {
@@ -35,25 +37,18 @@ internal class AndroidLocator(
         return locationManager.currentLocation(priority.toAndroidPriority).toModel()
     }
 
-    override fun track(request: LocationRequest): Flow<Location> {
-        locationManager.startTracking(request.toAndroidLocationRequest())
-        return locationManager.locationUpdates.mapNotNull { result ->
-            result.lastLocation?.toModel()
+    override fun track(request: LocationRequest): Flow<Location> = flow {
+        val permissionResult = permissionController.requirePermissionFor(request.priority)
+        if (permissionResult !is PermissionResult.Granted) {
+            permissionResult.throwOnError()
+        } else {
+            locationManager.locationUpdates
+                .mapNotNull { result -> result.lastLocation?.toModel() }
+                .collect { location -> emit(location) }
         }
     }
 
     override fun stopTracking() {
         locationManager.stopTracking()
     }
-}
-
-private fun Context.hasAnyPermission(): Boolean {
-    return listOf(
-        Manifest.permission.ACCESS_COARSE_LOCATION,
-        Manifest.permission.ACCESS_FINE_LOCATION,
-    ).any { hasPermission(it) }
-}
-
-private fun Context.hasPermission(permission: String): Boolean {
-    return ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED
 }

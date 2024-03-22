@@ -1,8 +1,8 @@
 package dev.jordond.compass.tools
 
-import android.app.Activity
 import android.app.Application
 import android.content.Context
+import androidx.activity.ComponentActivity
 import dev.jordond.compass.tools.internal.createActivityLifecycleObserver
 import java.lang.ref.WeakReference
 
@@ -10,9 +10,9 @@ public class ActivityProvider(
     private val context: Context,
 ) {
 
-    private var activity: WeakReference<Activity>? = null
+    private var activity: WeakReference<ComponentActivity>? = null
 
-    public val activeActivity: Activity?
+    public val activeActivity: ComponentActivity?
         get() {
             val activity = this.activity?.get() ?: return null
             if (activity.isFinishing || activity.isDestroyed) return null
@@ -26,7 +26,7 @@ public class ActivityProvider(
     init {
         val application = context.applicationContext as? Application
         application?.registerActivityLifecycleCallbacks(lifecycleObserver) ?: run {
-            val activity = context.applicationContext as? Activity
+            val activity = context.applicationContext as? ComponentActivity
             this.activity = WeakReference(activity)
         }
     }

@@ -10,6 +10,7 @@ import dev.jordond.compass.Coordinates
 import dev.jordond.compass.Meters
 import dev.jordond.compass.Speed
 import dev.jordond.compass.geolocation.Priority
+import dev.jordond.compass.geolocation.mobile.Permission
 import dev.jordond.compass.geolocation.LocationRequest as CompassLocationRequest
 
 internal fun Location.toModel(): dev.jordond.compass.Location = dev.jordond.compass.Location(
@@ -43,4 +44,10 @@ internal fun CompassLocationRequest.toAndroidLocationRequest(): LocationRequest 
         .Builder(priority.toAndroidPriority, interval)
         .setGranularity(com.google.android.gms.location.Granularity.GRANULARITY_PERMISSION_LEVEL)
         .build()
+}
+
+internal fun String.toPermission(): Permission = when (this) {
+    android.Manifest.permission.ACCESS_COARSE_LOCATION -> Permission.Coarse
+    android.Manifest.permission.ACCESS_FINE_LOCATION -> Permission.Fine
+    else -> throw IllegalArgumentException("Unknown permission: $this")
 }

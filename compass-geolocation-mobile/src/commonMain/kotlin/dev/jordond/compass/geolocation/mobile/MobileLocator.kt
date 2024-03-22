@@ -9,13 +9,17 @@ public interface MobileLocator : Locator
  *
  * @return A new Android/iOS [MobileLocator] instance.
  */
-public fun MobileLocator(): MobileLocator = createLocator()
+public fun MobileLocator(
+    handlePermissions: Boolean = true,
+): MobileLocator = createLocator(handlePermissions)
 
 /**
  * Create an Android/iOS [MobileLocator] instance for geolocation operations.
  *
  * @return A new Android/iOS [MobileLocator] instance.
  */
-public fun Locator.Companion.mobile(): MobileLocator = MobileLocator()
+public fun Locator.Companion.mobile(
+    handlePermissions: Boolean = true,
+): MobileLocator = MobileLocator(handlePermissions)
 
-internal expect fun createLocator(): MobileLocator
+internal expect fun createLocator(handlePermissions: Boolean): MobileLocator

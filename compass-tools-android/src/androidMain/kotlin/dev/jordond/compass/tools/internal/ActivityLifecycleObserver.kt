@@ -3,13 +3,19 @@ package dev.jordond.compass.tools.internal
 import android.app.Activity
 import android.app.Application
 import android.os.Bundle
+import android.util.Log
+import androidx.activity.ComponentActivity
 
 internal fun createActivityLifecycleObserver(
-    block: (Activity) -> Unit,
+    block: (ComponentActivity) -> Unit,
 ): Application.ActivityLifecycleCallbacks = object : Application.ActivityLifecycleCallbacks {
 
     override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
-        block(activity)
+        if (activity is ComponentActivity) {
+            block(activity)
+        } else {
+            Log.e("CompassTools", "Activity is not a ComponentActivity. Cannot attach lifecycle observer.")
+        }
     }
 
     override fun onActivityStarted(activity: Activity) {}

@@ -20,6 +20,8 @@ kotlin {
         androidMain.dependencies {
             implementation(projects.compassToolsAndroid)
             api(libs.play.services.location)
+            implementation("androidx.activity:activity-ktx:1.8.2")
+
         }
 
         iosMain.dependencies {

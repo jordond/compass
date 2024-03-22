@@ -1,7 +1,8 @@
-package dev.jordond.compass.geolocation.mobile
+package dev.jordond.compass.geolocation.mobile.internal
 
 import android.content.Context
 import android.location.Location
+import android.location.LocationManager
 import android.os.Looper
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
@@ -31,6 +32,13 @@ internal class LocationManager(
 
     private val fusedLocationClient by lazy {
         LocationServices.getFusedLocationProviderClient(context)
+    }
+
+    fun locationEnabled(): Boolean {
+        val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+            || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
     }
 
     suspend fun lastLocation(): Location? = suspendCoroutine { continuation ->

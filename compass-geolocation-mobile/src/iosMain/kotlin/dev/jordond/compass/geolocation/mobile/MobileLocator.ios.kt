@@ -21,11 +21,13 @@ import platform.CoreLocation.kCLLocationAccuracyKilometer
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
-internal actual fun createLocator(): MobileLocator {
-    return IosLocator()
+internal actual fun createLocator(handlePermissions: Boolean): MobileLocator {
+    return IosLocator(handlePermissions)
 }
 
-internal class IosLocator : MobileLocator {
+internal class IosLocator(
+    private val handlePermissions: Boolean,
+) : MobileLocator {
 
     private val _locationUpdates = MutableSharedFlow<Location>(
         replay = 1,

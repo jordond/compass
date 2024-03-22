@@ -18,6 +18,7 @@ kotlin {
         androidMain.dependencies {
             implementation(projects.compassToolsAndroid)
             implementation(libs.kotlinx.coroutines.android)
+            implementation(libs.androidx.activity)
         }
     }
 }
