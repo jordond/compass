@@ -59,10 +59,12 @@ kotlin {
 
             implementation(compose.runtime)
             implementation(compose.foundation)
-            implementation(compose.material)
+            implementation(compose.material3)
             implementation(compose.ui)
             implementation(compose.components.uiToolingPreview)
 
+            implementation(libs.bundles.voyager)
+            implementation(libs.bundles.stateHolder)
         }
 
         val desktopMain by getting {

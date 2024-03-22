@@ -23,6 +23,8 @@ poko = "0.15.2"
 versions = "0.51.0"
 kotest = "5.8.1"
 ktor = "2.3.9"
+voyager = "1.0.0"
+stateHolder = "1.0.3"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
@@ -45,6 +47,11 @@ compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview"
 kotest-assertions = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
 kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
 play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "playServicesLocation" }
+stateHolder = { module = "dev.stateholder:core", version.ref = "stateHolder" }
+stateHolder-compose = { module = "dev.stateholder:extensions-compose", version.ref = "stateHolder" }
+stateHolder-voyager = { module = "dev.stateholder:extensions-voyager", version.ref = "stateHolder" }
+voyager-navigator = { module = "cafe.adriel.voyager:voyager-navigator", version.ref = "voyager" }
+voyager-screenModel = { module = "cafe.adriel.voyager:voyager-screenmodel", version.ref = "voyager" }
 gradlePlugin-android = { module = "com.android.tools.build:gradle", version.ref = "agp" }
 gradlePlugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 gradlePlugin-compose = { module = "org.jetbrains.compose:compose-gradle-plugin", version.ref = "compose-multiplatform" }
@@ -52,6 +59,8 @@ gradlePlugin-publish = { module = "com.vanniktech:gradle-maven-publish-plugin", 
 
 [bundles]
 logic-plugins = ["gradlePlugin-android", "gradlePlugin-kotlin", "gradlePlugin-compose", "gradlePlugin-publish"]
+stateHolder = ["stateHolder", "stateHolder-compose", "stateHolder-voyager"]
+voyager = ["voyager-navigator", "voyager-screenModel"]
 
 [plugins]
 multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }

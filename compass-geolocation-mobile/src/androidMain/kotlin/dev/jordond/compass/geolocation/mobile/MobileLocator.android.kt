@@ -26,7 +26,11 @@ internal class AndroidLocator(
 ) : MobileLocator {
 
     override fun isAvailable(): Boolean {
-        return locationManager.locationEnabled() && permissionController.hasAny()
+        return locationManager.locationEnabled()
+    }
+
+    override fun hasPermission(): Boolean {
+        return permissionController.hasAny()
     }
 
     override suspend fun last(): Location? {
