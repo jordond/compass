@@ -18,14 +18,14 @@ internal data class ResultResponse(
 )
 
 internal fun GeocodeResponse.toCoordinates(): List<Coordinates> {
-    return results.mapNotNull { response ->
+    return results.mapNotNull {
         // TODO: Implement this
         null
     }
 }
 
 internal fun GeocodeResponse.toPlaces(): List<Place> {
-    return results.mapNotNull { response ->
+    return results.mapNotNull {
         // TODO: Implement this
         null
     }

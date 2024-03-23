@@ -21,7 +21,9 @@ kotlin {
             implementation(projects.compassToolsAndroid)
             api(libs.play.services.location)
             implementation(libs.androidx.activity)
+            implementation(libs.androidx.fragment)
             implementation(libs.androidx.startup)
+
         }
 
         iosMain.dependencies {
