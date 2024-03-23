@@ -11,8 +11,6 @@ import dev.jordond.compass.geolocation.Priority
 import dev.stateholder.extensions.voyager.StateScreenModel
 import geolocation.PlatformGeolocationModel.State
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.cancel
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -32,19 +30,11 @@ class PlatformGeolocationModel : StateScreenModel<State>(State()) {
         }
     }
 
-    fun lastLocation() {
-        screenModelScope.launch {
-            updateState { it.copy(loading = true) }
-            val result = state.value.geolocator.last()
-            updateState { it.copy(lastOperation = "last", lastResult = result, loading = false) }
-        }
-    }
-
     fun currentLocation() {
         screenModelScope.launch {
             updateState { it.copy(loading = true) }
             val result = state.value.geolocator.current()
-            updateState { it.copy(lastOperation = "current", lastResult = result, loading = false) }
+            updateState { it.copy(lastResult = result, loading = false) }
         }
     }
 
@@ -83,7 +73,6 @@ class PlatformGeolocationModel : StateScreenModel<State>(State()) {
         val geolocator: Geolocator = createGeolocator(handlePermissions),
         val loading: Boolean = false,
         val location: Location? = null,
-        val lastOperation: String? = null,
         val lastResult: GeolocatorResult? = null,
         val locationServiceAvailable: Boolean = geolocator.isAvailable(),
         val tracking: Boolean = false,

@@ -43,18 +43,12 @@ class PlatformGeolocationScreen : Screen {
 
             Text("Location services available: ${state.locationServiceAvailable}")
 
-            Text("Last Operation: ${state.lastOperation}")
             Text("Last Location: ${state.location}")
             Text("Is Loading: ${state.loading}")
             Text("Last operation result: ${state.lastResult ?: "N/A"}")
             CircularProgressIndicator(Modifier.alpha(if (state.loading) 1f else 0f))
-            Row {
-                Button(enabled = !state.busy, onClick = { model.lastLocation() }) {
-                    Text("Get Last Location")
-                }
-                Button(enabled = !state.busy, onClick = { model.currentLocation() }) {
-                    Text("Get Current location")
-                }
+            Button(enabled = !state.busy, onClick = { model.currentLocation() }) {
+                Text("Get Current location")
             }
 
             Spacer(modifier = Modifier.height(64.dp))
