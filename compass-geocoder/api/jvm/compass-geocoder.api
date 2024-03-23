@@ -1,10 +1,10 @@
 public final class dev/jordond/compass/geocoder/ExtensionsKt {
-	public static final fun locationOrNull (Ldev/jordond/compass/geocoder/Geocoder;Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public static final fun locationsOrNull (Ldev/jordond/compass/geocoder/Geocoder;Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun coordinatesListOrNull (Ldev/jordond/compass/geocoder/Geocoder;Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun coordinatesOrNull (Ldev/jordond/compass/geocoder/Geocoder;Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public static final fun placeOrNull (Ldev/jordond/compass/geocoder/Geocoder;DDLkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public static final fun placeOrNull (Ldev/jordond/compass/geocoder/Geocoder;Ldev/jordond/compass/Location;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun placeOrNull (Ldev/jordond/compass/geocoder/Geocoder;Ldev/jordond/compass/Coordinates;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public static final fun placesOrNull (Ldev/jordond/compass/geocoder/Geocoder;DDLkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public static final fun placesOrNull (Ldev/jordond/compass/geocoder/Geocoder;Ldev/jordond/compass/Location;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun placesOrNull (Ldev/jordond/compass/geocoder/Geocoder;Ldev/jordond/compass/Coordinates;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
 
 public abstract interface class dev/jordond/compass/geocoder/ForwardGeocoder {
@@ -35,8 +35,8 @@ public final class dev/jordond/compass/geocoder/Geocoder$Companion {
 public final class dev/jordond/compass/geocoder/Geocoder$DefaultImpls {
 	public static fun locations (Ldev/jordond/compass/geocoder/Geocoder;Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public static fun places (Ldev/jordond/compass/geocoder/Geocoder;DDLkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public static fun places (Ldev/jordond/compass/geocoder/Geocoder;Ldev/jordond/compass/Location;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public static fun reverse (Ldev/jordond/compass/geocoder/Geocoder;Ldev/jordond/compass/Location;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static fun places (Ldev/jordond/compass/geocoder/Geocoder;Ldev/jordond/compass/Coordinates;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static fun reverse (Ldev/jordond/compass/geocoder/Geocoder;Ldev/jordond/compass/Coordinates;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
 
 public final class dev/jordond/compass/geocoder/GeocoderKt {
@@ -155,15 +155,15 @@ public final class dev/jordond/compass/geocoder/PlatformGeocoder$Companion {
 
 public abstract interface class dev/jordond/compass/geocoder/ReverseGeocoder {
 	public abstract fun places (DDLkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public abstract fun places (Ldev/jordond/compass/Location;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun places (Ldev/jordond/compass/Coordinates;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public abstract fun reverse (DDLkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public abstract fun reverse (Ldev/jordond/compass/Location;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun reverse (Ldev/jordond/compass/Coordinates;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
 
 public final class dev/jordond/compass/geocoder/ReverseGeocoder$DefaultImpls {
 	public static fun places (Ldev/jordond/compass/geocoder/ReverseGeocoder;DDLkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public static fun places (Ldev/jordond/compass/geocoder/ReverseGeocoder;Ldev/jordond/compass/Location;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public static fun reverse (Ldev/jordond/compass/geocoder/ReverseGeocoder;Ldev/jordond/compass/Location;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static fun places (Ldev/jordond/compass/geocoder/ReverseGeocoder;Ldev/jordond/compass/Coordinates;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static fun reverse (Ldev/jordond/compass/geocoder/ReverseGeocoder;Ldev/jordond/compass/Coordinates;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
 
 public final class dev/jordond/compass/geocoder/ReverseGeocoderKt {
@@ -173,9 +173,5 @@ public final class dev/jordond/compass/geocoder/ReverseGeocoderKt {
 
 public final class dev/jordond/compass/geocoder/exception/GeocodeException : java/lang/Throwable {
 	public fun <init> (Ljava/lang/String;)V
-}
-
-public final class dev/jordond/compass/geocoder/exception/NotSupportedException : java/lang/Throwable {
-	public fun <init> ()V
 }
 

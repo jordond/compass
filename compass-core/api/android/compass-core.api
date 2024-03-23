@@ -1,8 +1,39 @@
-public final class dev/jordond/compass/Location {
+public final class dev/jordond/compass/Altitude {
+	public fun <init> (DLjava/lang/Float;)V
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAccuracy ()Ljava/lang/Float;
+	public final fun getMeters ()D
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class dev/jordond/compass/Azimuth {
+	public fun <init> (FLjava/lang/Float;)V
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAccuracy ()Ljava/lang/Float;
+	public final fun getDegrees ()F
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class dev/jordond/compass/Coordinates {
 	public fun <init> (DD)V
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getLatitude ()D
 	public final fun getLongitude ()D
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class dev/jordond/compass/Location {
+	public fun <init> (Ldev/jordond/compass/Coordinates;DLdev/jordond/compass/Azimuth;Ldev/jordond/compass/Speed;Ldev/jordond/compass/Altitude;J)V
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAccuracy ()D
+	public final fun getAltitude ()Ldev/jordond/compass/Altitude;
+	public final fun getAzimuth ()Ldev/jordond/compass/Azimuth;
+	public final fun getCoordinates ()Ldev/jordond/compass/Coordinates;
+	public final fun getSpeed ()Ldev/jordond/compass/Speed;
+	public final fun getTimestampMillis ()J
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
@@ -24,5 +55,18 @@ public final class dev/jordond/compass/Place {
 	public fun hashCode ()I
 	public final fun isEmpty ()Z
 	public fun toString ()Ljava/lang/String;
+}
+
+public final class dev/jordond/compass/Speed {
+	public fun <init> (FLjava/lang/Float;)V
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAccuracy ()Ljava/lang/Float;
+	public final fun getMps ()F
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class dev/jordond/compass/exception/NotSupportedException : java/lang/Throwable {
+	public fun <init> ()V
 }
 

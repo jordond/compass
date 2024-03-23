@@ -1,0 +1,11 @@
+public final class dev/jordond/compass/tools/ContextProvider {
+	public static final field Companion Ldev/jordond/compass/tools/ContextProvider$Companion;
+	public fun <init> (Landroid/content/Context;)V
+	public final fun getContext ()Landroid/content/Context;
+}
+
+public final class dev/jordond/compass/tools/ContextProvider$Companion {
+	public final fun create (Landroid/content/Context;)Ldev/jordond/compass/tools/ContextProvider;
+	public final fun getInstance ()Ldev/jordond/compass/tools/ContextProvider;
+}
+

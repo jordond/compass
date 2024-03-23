@@ -1,3 +1,17 @@
-public abstract interface class MobilePlatformLocator {
+public final class dev/jordond/compass/geolocation/mobile/GeolocatorKt {
+	public static final fun Geolocator (ZLkotlinx/coroutines/CoroutineDispatcher;)Ldev/jordond/compass/geolocation/Geolocator;
+	public static synthetic fun Geolocator$default (ZLkotlinx/coroutines/CoroutineDispatcher;ILjava/lang/Object;)Ldev/jordond/compass/geolocation/Geolocator;
+	public static final fun MobileGeolocator (ZLkotlinx/coroutines/CoroutineDispatcher;)Ldev/jordond/compass/geolocation/Geolocator;
+	public static synthetic fun MobileGeolocator$default (ZLkotlinx/coroutines/CoroutineDispatcher;ILjava/lang/Object;)Ldev/jordond/compass/geolocation/Geolocator;
+}
+
+public abstract interface class dev/jordond/compass/geolocation/mobile/MobileLocator : dev/jordond/compass/geolocation/PermissionLocator {
+}
+
+public final class dev/jordond/compass/geolocation/mobile/MobileLocatorKt {
+	public static final fun MobileLocator (Z)Ldev/jordond/compass/geolocation/mobile/MobileLocator;
+	public static synthetic fun MobileLocator$default (ZILjava/lang/Object;)Ldev/jordond/compass/geolocation/mobile/MobileLocator;
+	public static final fun mobile (Ldev/jordond/compass/geolocation/Locator$Companion;Z)Ldev/jordond/compass/geolocation/mobile/MobileLocator;
+	public static synthetic fun mobile$default (Ldev/jordond/compass/geolocation/Locator$Companion;ZILjava/lang/Object;)Ldev/jordond/compass/geolocation/mobile/MobileLocator;
 }
 
