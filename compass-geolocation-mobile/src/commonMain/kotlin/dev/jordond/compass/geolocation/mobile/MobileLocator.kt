@@ -1,13 +1,10 @@
 package dev.jordond.compass.geolocation.mobile
 
 import dev.jordond.compass.geolocation.Locator
+import dev.jordond.compass.geolocation.PermissionLocator
 import dev.jordond.compass.geolocation.exception.PermissionMissingException
 
-public interface MobileLocator : Locator {
-
-    public fun hasPermission(): Boolean
-}
-
+public interface MobileLocator : PermissionLocator
 /**
  * Create an Android/iOS [MobileLocator] instance for geolocation operations.
  *

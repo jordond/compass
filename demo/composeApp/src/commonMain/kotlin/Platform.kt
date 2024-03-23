@@ -1,5 +1,7 @@
 import dev.jordond.compass.geocoder.Geocoder
 import dev.jordond.compass.geocoder.PlatformGeocoder
+import dev.jordond.compass.geolocation.Geolocator
+import dev.jordond.compass.geolocation.Locator
 
 /**
  * If an API key is provided, create a platform geocoder which falls back to an HTTP Geocoder
@@ -17,3 +19,9 @@ fun createGeocoder(apiKey: String? = null): Geocoder {
 expect fun getPlatformGeocoder(): PlatformGeocoder
 
 expect fun getPlatformGeocoderOrFallback(apiKey: String): PlatformGeocoder
+
+fun createGeolocator(handlePermissions: Boolean = true): Geolocator {
+    return Geolocator(getPlatformLocator(handlePermissions))
+}
+
+expect fun getPlatformLocator(handlePermissions: Boolean): Locator

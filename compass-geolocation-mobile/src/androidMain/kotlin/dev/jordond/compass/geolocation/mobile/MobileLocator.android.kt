@@ -6,6 +6,7 @@ import dev.jordond.compass.geolocation.LocationRequest
 import dev.jordond.compass.geolocation.Priority
 import dev.jordond.compass.geolocation.mobile.internal.LocationManager
 import dev.jordond.compass.geolocation.mobile.internal.PermissionController
+import dev.jordond.compass.geolocation.mobile.internal.toAndroidLocationRequest
 import dev.jordond.compass.geolocation.mobile.internal.toAndroidPriority
 import dev.jordond.compass.geolocation.mobile.internal.toModel
 import dev.jordond.compass.tools.ContextProvider
@@ -34,10 +35,12 @@ internal class AndroidLocator(
     }
 
     override suspend fun last(): Location? {
+        requirePermission(Priority.Passive)
         return locationManager.lastLocation()?.toModel()
     }
 
     override suspend fun current(priority: Priority): Location {
+        requirePermission(priority)
         return locationManager.currentLocation(priority.toAndroidPriority).toModel()
     }
 
@@ -46,13 +49,23 @@ internal class AndroidLocator(
         if (permissionResult !is PermissionResult.Granted) {
             permissionResult.throwOnError()
         } else {
+            locationManager.startTracking(request.toAndroidLocationRequest())
             locationManager.locationUpdates
-                .mapNotNull { result -> result.lastLocation?.toModel() }
+                .mapNotNull { result ->
+                    result.lastLocation?.toModel()
+                }
                 .collect { location -> emit(location) }
         }
     }
 
     override fun stopTracking() {
         locationManager.stopTracking()
+    }
+
+    private suspend fun requirePermission(priority: Priority) {
+        val permissionResult = permissionController.requirePermissionFor(priority)
+        if (permissionResult !is PermissionResult.Granted) {
+            permissionResult.throwOnError()
+        }
     }
 }

@@ -1,4 +1,4 @@
-package dev.jordond.compass.tools.internal
+package dev.jordond.compass.geolocation.mobile.internal.activity
 
 import android.app.Activity
 import android.app.Application

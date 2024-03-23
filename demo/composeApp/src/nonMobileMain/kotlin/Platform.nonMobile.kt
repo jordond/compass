@@ -3,6 +3,8 @@ import dev.jordond.compass.geocoder.PlatformGeocoder
 import dev.jordond.compass.geocoder.web.GoogleMapsPlatformGeocoder
 import dev.jordond.compass.geocoder.web.HttpApiPlatformGeocoder
 import dev.jordond.compass.geocoder.web.parameter.GoogleMapsLocationType
+import dev.jordond.compass.geolocation.Locator
+import dev.jordond.compass.geolocation.NotSupportedLocator
 
 /**
  * Normally you would use a custom [PlatformGeocoder] here or a [HttpApiPlatformGeocoder]. But in
@@ -19,4 +21,8 @@ actual fun getPlatformGeocoderOrFallback(apiKey: String): PlatformGeocoder {
     ) {
         locationType(GoogleMapsLocationType.Approximate)
     }
+}
+
+actual fun getPlatformLocator(handlePermissions: Boolean): Locator {
+    return NotSupportedLocator
 }

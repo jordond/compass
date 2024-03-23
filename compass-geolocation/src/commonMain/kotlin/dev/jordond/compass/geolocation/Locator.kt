@@ -20,6 +20,11 @@ public interface Locator {
     public companion object
 }
 
+public interface PermissionLocator : Locator {
+
+    public fun hasPermission(): Boolean
+}
+
 /**
  * A no-op [Locator] that is used when the platform does not support geolocation.
  *

@@ -54,6 +54,7 @@ kotlin {
             implementation(projects.compassGeocoder)
             implementation(projects.compassGeocoderWebMapbox)
             implementation(projects.compassGeocoderWebGooglemaps)
+            implementation(projects.compassGeolocation)
 
             implementation(compose.runtime)
             implementation(compose.foundation)
@@ -61,7 +62,7 @@ kotlin {
             implementation(compose.materialIconsExtended)
             implementation(compose.ui)
             implementation(compose.components.uiToolingPreview)
-
+            implementation(libs.kermit)
             implementation(libs.bundles.voyager)
             implementation(libs.bundles.stateHolder)
         }
@@ -78,6 +79,7 @@ kotlin {
             iosMain.get().dependsOn(this)
             dependencies {
                 implementation(projects.compassGeocoderMobile)
+                implementation(projects.compassGeolocationMobile)
             }
         }
 
@@ -86,7 +88,7 @@ kotlin {
             desktopMain.dependsOn(this)
 //            wasmJsMain.get().dependsOn(this)
             dependencies {
-                implementation(projects.compassGeocoderWebMapbox)
+                implementation(projects.compassGeocoderWebGooglemaps)
             }
         }
     }

@@ -8,11 +8,13 @@ import kotlinx.coroutines.flow.Flow
 
 public interface Geolocator {
 
+    public val locator: Locator
+
     public fun isAvailable(): Boolean
 
-    public suspend fun last(): GeolocatorResult<Location?>
+    public suspend fun last(): GeolocatorResult
 
-    public suspend fun current(priority: Priority = Priority.Balanced): GeolocatorResult<Location>
+    public suspend fun current(priority: Priority = Priority.Balanced): GeolocatorResult
 
     public fun track(request: LocationRequest = LocationRequest()): Flow<Location>
 
