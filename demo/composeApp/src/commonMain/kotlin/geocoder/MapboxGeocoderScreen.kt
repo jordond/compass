@@ -1,7 +1,5 @@
 package geocoder
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -9,8 +7,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.core.screen.Screen
 import dev.jordond.compass.geocoder.web.HttpApiPlatformGeocoder
 import dev.jordond.compass.geocoder.web.MapBoxGeocoder
@@ -31,17 +27,12 @@ class MapboxGeocoderScreen : Screen {
                 )
             }
         }
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
-            modifier = Modifier,
-        ) {
-            GeocoderView(
-                title = "Mapbox",
-                geocoder = geocoder,
-                apiKey = apiKey,
-                updateApiKey = { apiKey = it },
-            )
-        }
+
+        GeocoderView(
+            title = "Mapbox",
+            geocoder = geocoder,
+            apiKey = apiKey,
+            updateApiKey = { apiKey = it },
+        )
     }
 }

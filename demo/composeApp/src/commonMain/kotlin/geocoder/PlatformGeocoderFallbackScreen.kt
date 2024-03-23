@@ -1,15 +1,11 @@
 package geocoder
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.core.screen.Screen
 import createGeocoder
 
@@ -25,17 +21,12 @@ class PlatformGeocoderFallbackScreen : Screen {
         val geocoder by remember(apiKey) {
             derivedStateOf { createGeocoder(apiKey) }
         }
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
-            modifier = Modifier,
-        ) {
-            GeocoderView(
-                title = "Google Maps",
-                geocoder = geocoder,
-                apiKey = apiKey,
-                updateApiKey = { apiKey = it },
-            )
-        }
+
+        GeocoderView(
+            title = "Google Maps",
+            geocoder = geocoder,
+            apiKey = apiKey,
+            updateApiKey = { apiKey = it },
+        )
     }
 }

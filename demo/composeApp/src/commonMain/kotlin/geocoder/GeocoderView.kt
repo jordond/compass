@@ -3,9 +3,10 @@ package geocoder
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -45,50 +46,50 @@ fun GeocoderView(
         }
     }
 
-    MaterialTheme {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
-            modifier = Modifier.fillMaxSize(),
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState()),
+    ) {
+        Text("Reverse Geocoding - $title")
+        if (apiKey != null && updateApiKey != null) {
+            Text("Enter your API key or leave blank to use the default")
+            TextField(
+                value = apiKey,
+                onValueChange = updateApiKey,
+                label = { Text("API Key") },
+            )
+        }
+        Text("Available: ${geocoder.isAvailable()}")
+        Text("Enter latitude and longitude to reverse geocode")
+        TextField(
+            value = if (latitude == Double.MAX_VALUE) "" else latitude.toString(),
+            onValueChange = { latitude = it.toDoubleOrNull() ?: Double.MAX_VALUE },
+            label = { Text("Latitude") },
+        )
+        TextField(
+            value = if (longitude == Double.MAX_VALUE) "" else longitude.toString(),
+            onValueChange = { longitude = it.toDoubleOrNull() ?: Double.MAX_VALUE },
+            label = { Text("Longitude") },
+        )
+        Button(
+            enabled = latitude != Double.MAX_VALUE && longitude != Double.MAX_VALUE && !loading,
+            onClick = { start = if (start == null) true else !start!! },
         ) {
-            Text("Reverse Geocoding - $title")
-            if (apiKey != null && updateApiKey != null) {
-                Text("Enter your API key or leave blank to use the default")
-                TextField(
-                    value = apiKey,
-                    onValueChange = updateApiKey,
-                    label = { Text("API Key") },
-                )
-            }
-            Text("Available: ${geocoder.isAvailable()}")
-            Text("Enter latitude and longitude to reverse geocode")
-            TextField(
-                value = if (latitude == Double.MAX_VALUE) "" else latitude.toString(),
-                onValueChange = { latitude = it.toDoubleOrNull() ?: Double.MAX_VALUE },
-                label = { Text("Latitude") },
-            )
-            TextField(
-                value = if (longitude == Double.MAX_VALUE) "" else longitude.toString(),
-                onValueChange = { longitude = it.toDoubleOrNull() ?: Double.MAX_VALUE },
-                label = { Text("Longitude") },
-            )
-            Button(
-                enabled = latitude != Double.MAX_VALUE && longitude != Double.MAX_VALUE && !loading,
-                onClick = { start = if (start == null) true else !start!! },
-            ) {
-                Text("Reverse Geocode")
-            }
+            Text("Reverse Geocode")
+        }
 
-            if (loading) {
-                Text("Loading...")
-                CircularProgressIndicator()
-            }
+        if (loading) {
+            Text("Loading...")
+            CircularProgressIndicator()
+        }
 
-            when (result) {
-                is GeocoderResult.Error -> Text("Error: $result")
-                is GeocoderResult.Success -> Text("Success: ${result?.getFirstOrNull()}")
-                null -> {}
-            }
+        when (result) {
+            is GeocoderResult.Error -> Text("Error: $result")
+            is GeocoderResult.Success -> Text("Success: ${result?.getFirstOrNull()}")
+            null -> {}
         }
     }
 }
