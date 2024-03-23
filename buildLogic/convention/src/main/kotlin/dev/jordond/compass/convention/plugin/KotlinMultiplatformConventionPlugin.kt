@@ -1,13 +1,10 @@
 package dev.jordond.compass.convention.plugin
 
-import com.android.build.gradle.LibraryExtension
 import dev.jordond.compass.convention.Platform
 import dev.jordond.compass.convention.Platforms
 import dev.jordond.compass.convention.alias
 import dev.jordond.compass.convention.configureKotlin
-import dev.jordond.compass.convention.configureKotlinAndroid
 import dev.jordond.compass.convention.libs
-import dev.jordond.compass.convention.setNamespace
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
@@ -55,17 +52,8 @@ class KotlinMultiplatformConventionPlugin : Plugin<Project> {
         val extension = project.extensions
             .create<MultiPlatformConventionExtension>(PLUGIN_NAME)
 
-        alias("android-library")
         alias("multiplatform")
         alias("poko")
-
-        if (extension.platforms.contains(Platform.Android)) {
-            extensions.configure<LibraryExtension> {
-                configureKotlinAndroid(this)
-                setNamespace(project.name.replace("-", "."))
-                println("Setting namespace: $namespace")
-            }
-        }
 
         project.afterEvaluate {
             extensions.configure<KotlinMultiplatformExtension> {

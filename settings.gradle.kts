@@ -46,6 +46,7 @@ include(
     ":compass-geocoder-web-template",
     ":compass-geolocation",
     ":compass-geolocation-mobile",
+    ":compass-geolocation-browser",
     ":compass-tools-android",
 )
 

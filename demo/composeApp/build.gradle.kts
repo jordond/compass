@@ -12,6 +12,11 @@ kotlin {
         publishAllLibraryVariants()
     }
 
+    js {
+        browser()
+        binaries.executable()
+    }
+
     // TODO: Waiting on kotest 5.9
 //    @OptIn(ExperimentalWasmDsl::class)
 //    wasmJs {
@@ -86,9 +91,19 @@ kotlin {
         val nonMobileMain by creating {
             dependsOn(commonMain.get())
             desktopMain.dependsOn(this)
+            jsMain.get().dependsOn(this)
 //            wasmJsMain.get().dependsOn(this)
             dependencies {
                 implementation(projects.compassGeocoderWebGooglemaps)
+            }
+        }
+
+        val wasmJsAndJsMain by creating {
+            dependsOn(commonMain.get())
+            jsMain.get().dependsOn(this)
+//            wasmJsMain.get().dependsOn(this)
+            dependencies {
+                implementation(projects.compassGeolocationBrowser)
             }
         }
     }
@@ -148,6 +163,6 @@ compose.desktop {
     }
 }
 
-//compose.experimental {
-//    web.application {}
-//}
+compose.experimental {
+    web.application {}
+}

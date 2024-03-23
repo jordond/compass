@@ -12,6 +12,11 @@ dependencies {
 
 gradlePlugin {
     plugins {
+        register("androidLibrary") {
+            id = "convention.android"
+            implementationClass = "dev.jordond.compass.convention.plugin.AndroidLibraryConventionPlugin"
+        }
+
         register("kotlinMultiplatform") {
             id = "convention.multiplatform"
             implementationClass = "dev.jordond.compass.convention.plugin.KotlinMultiplatformConventionPlugin"
