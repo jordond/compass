@@ -8,6 +8,10 @@ import kotlinx.coroutines.Dispatchers
 /**
  * Create a new [Geolocator] instance for geolocation operations.
  *
+ * Make sure you read the [Android documentation](https://developer.android.com/develop/sensors-and-location/location)
+ * as well as the [iOS documentation](https://developer.apple.com/documentation/corelocation)
+ * to understand the permissions and accuracy.
+ *
  * @param handlePermissions Whether to handle permissions requesting automatically. If this is
  * `false` and the required permissions are not granted, a [PermissionMissingException] will be
  * thrown when attempting to perform geolocation operations.
@@ -21,6 +25,10 @@ public fun Geolocator(
 
 /**
  * Create a new [Geolocator] instance for geolocation operations.
+ *
+ * Make sure you read the [Android documentation](https://developer.android.com/develop/sensors-and-location/location)
+ * as well as the [iOS documentation](https://developer.apple.com/documentation/corelocation)
+ * to understand the permissions and accuracy.
  *
  * @param handlePermissions Whether to handle permissions requesting automatically. If this is
  * `false` and the required permissions are not granted, a [PermissionMissingException] will be

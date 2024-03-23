@@ -6,9 +6,10 @@ import android.content.pm.PackageManager
 import androidx.core.content.ContextCompat
 import dev.jordond.compass.geolocation.Priority
 import dev.jordond.compass.geolocation.exception.PermissionMissingException
-import dev.jordond.compass.geolocation.exception.PermissionRequestException
-import dev.jordond.compass.geolocation.mobile.PermissionResult
+import dev.jordond.compass.geolocation.PermissionState
 import dev.jordond.compass.geolocation.mobile.internal.activity.ActivityProvider
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlin.coroutines.resume
@@ -20,26 +21,22 @@ internal class PermissionController(
     private val activityProvider: ActivityProvider = ActivityProvider.getInstance(),
 ) {
 
+    private val _permissionState = MutableStateFlow(PermissionState.NotDetermined)
+
     private val mutex: Mutex = Mutex()
 
     fun hasAny(): Boolean {
         return context.hasAnyPermission()
     }
 
-    suspend fun requirePermissionFor(priority: Priority): PermissionResult {
+    suspend fun requirePermissionFor(priority: Priority): PermissionState {
         val permissions = permissionsFor(priority).filter { !context.hasPermission(it) }
-        if (permissions.isEmpty() || permissions.hasPermissions()) return PermissionResult.Granted
+        if (permissions.isEmpty() || permissions.hasPermissions()) return PermissionState.Granted
         if (!handlePermissions) {
             throw PermissionMissingException(permissions.joinToString(", "))
         }
 
         return mutex.withLock {
-            val activity = activityProvider.activeActivity
-                ?: throw PermissionRequestException(
-                    permission = permissions.joinToString(", "),
-                    message = "Unable to get active activity.",
-                )
-
             suspendCoroutine { continuation ->
                 activityProvider.permissionRequester.request(permissions) { result ->
                     continuation.resume(result)

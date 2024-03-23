@@ -54,12 +54,6 @@ class PlatformGeolocationModel : StateScreenModel<State>(State()) {
         trackingJob = screenModelScope.launch {
             updateState { it.copy(tracking = true) }
             state.value.geolocator.track(LocationRequest(priority = Priority.HighAccuracy))
-                .catch { cause ->
-                    updateState { state ->
-                        state.copy(trackingError = cause.message, tracking = false)
-                    }
-                    cancel()
-                }
                 .onCompletion { cause ->
                     if (cause != null) {
                         Logger.e(cause) { "Tracking stopped" }

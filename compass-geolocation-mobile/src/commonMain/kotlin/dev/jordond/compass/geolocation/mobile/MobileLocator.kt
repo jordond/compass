@@ -4,9 +4,17 @@ import dev.jordond.compass.geolocation.Locator
 import dev.jordond.compass.geolocation.PermissionLocator
 import dev.jordond.compass.geolocation.exception.PermissionMissingException
 
+/**
+ * A locator that provides geolocation services on Android and iOS.
+ */
 public interface MobileLocator : PermissionLocator
+
 /**
  * Create an Android/iOS [MobileLocator] instance for geolocation operations.
+ *
+ * Make sure you read the [Android documentation](https://developer.android.com/develop/sensors-and-location/location)
+ * as well as the [iOS documentation](https://developer.apple.com/documentation/corelocation)
+ * to understand the permissions and accuracy.
  *
  * @param handlePermissions Whether to handle permissions requesting automatically. If this is
  * `false` and the required permissions are not granted, a [PermissionMissingException] will be
@@ -19,6 +27,10 @@ public fun MobileLocator(
 
 /**
  * Create an Android/iOS [MobileLocator] instance for geolocation operations.
+ *
+ * Make sure you read the [Android documentation](https://developer.android.com/develop/sensors-and-location/location)
+ * as well as the [iOS documentation](https://developer.apple.com/documentation/corelocation)
+ * to understand the permissions and accuracy.
  *
  * @param handlePermissions Whether to handle permissions requesting automatically. If this is
  * `false` and the required permissions are not granted, a [PermissionMissingException] will be

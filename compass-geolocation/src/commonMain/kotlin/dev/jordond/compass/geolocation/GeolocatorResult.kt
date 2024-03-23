@@ -35,6 +35,11 @@ public sealed interface GeolocatorResult {
     @Poko
     public class GeolocationFailed(public val message: String) : Error
 
+    /**
+     * Geocoding operation failed because of a permission error.
+     *
+     * Either the user denied the permission, or the permission was denied forever.
+     */
     @Poko
     public class PermissionError(public val cause: PermissionException) : Error
 

@@ -12,24 +12,15 @@ internal class ActivityProvider(
     private val context: Context,
 ) {
 
-    private var activity: WeakReference<ComponentActivity>? = null
     private var requester: WeakReference<PermissionRequester>? = null
-
-    val activeActivity: ComponentActivity?
-        get() {
-            val activity = this.activity?.get() ?: return null
-            if (activity.isFinishing || activity.isDestroyed) return null
-            return activity
-        }
 
     val permissionRequester: PermissionRequester
         get() = requester?.get() ?: throw PermissionRequestException(
-            permission = "Any",
-            message = "PermissionRequester is not available"
+            message = "PermissionRequester is not available",
+            permission = "Any"
         )
 
     private val lifecycleObserver = createActivityLifecycleObserver { activity ->
-        this.activity = WeakReference(activity)
         this.requester = WeakReference(PermissionRequester(activity))
     }
 
@@ -37,7 +28,9 @@ internal class ActivityProvider(
         val application = context.applicationContext as? Application
         application?.registerActivityLifecycleCallbacks(lifecycleObserver) ?: run {
             val activity = context.applicationContext as? ComponentActivity
-            this.activity = WeakReference(activity)
+            if (activity != null) {
+                this.requester = WeakReference(PermissionRequester(activity))
+            }
         }
     }
 
@@ -46,7 +39,7 @@ internal class ActivityProvider(
         @SuppressLint("StaticFieldLeak")
         private var instance: ActivityProvider? = null
 
-        public fun create(context: Context): ActivityProvider {
+        fun create(context: Context): ActivityProvider {
             if (instance == null) {
                 instance = ActivityProvider(context)
             }
@@ -54,7 +47,7 @@ internal class ActivityProvider(
             return instance!!
         }
 
-        public fun getInstance(): ActivityProvider = instance
+        fun getInstance(): ActivityProvider = instance
             ?: throw IllegalStateException("ActivityProvider has not been initialized")
     }
 }

@@ -6,54 +6,49 @@ import androidx.core.app.ActivityCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import dev.jordond.compass.geolocation.mobile.Permission
-import dev.jordond.compass.geolocation.mobile.PermissionResult
+import dev.jordond.compass.geolocation.PermissionState
 import kotlinx.coroutines.launch
 
-private data class PermissionCallback(
-    val permission: Permission,
-    val callback: (PermissionResult) -> Unit,
-)
-
+/**
+ * Request the location permissions using the Activity Result API.
+ */
 internal class PermissionRequester(private val activity: ComponentActivity) {
 
-    private var permissionCallback: PermissionCallback? = null
+    private var permissionCallback: ((PermissionState) -> Unit)? = null
 
-    private val request = activity.registerForActivityResult(RequestMultiplePermissions()) { results ->
-        val callback = permissionCallback?.callback ?: return@registerForActivityResult
-        this.permissionCallback = null
+    private val request = activity
+        .registerForActivityResult(RequestMultiplePermissions()) { results ->
+            val callback = permissionCallback ?: return@registerForActivityResult
+            this.permissionCallback = null
 
-        val success = results.values.all { it }
-        if (success) {
-            callback(PermissionResult.Granted)
-        } else {
-            val permission = results.entries.first { !it.value }.key
-            val showRationale =
-                ActivityCompat.shouldShowRequestPermissionRationale(activity, permission)
-
-            if (showRationale) {
-                callback(PermissionResult.Denied(permission.toPermission()))
+            val success = results.values.all { it }
+            if (success) {
+                callback(PermissionState.Granted)
             } else {
-                callback(PermissionResult.DeniedForever(permission.toPermission()))
+                val permission = results.entries.first { !it.value }.key
+                val showRationale =
+                    ActivityCompat.shouldShowRequestPermissionRationale(activity, permission)
+
+                if (showRationale) {
+                    callback(PermissionState.Denied)
+                } else {
+                    callback(PermissionState.DeniedForever)
+                }
             }
-        }
     }
 
     fun request(
         permissions: List<String>,
-        resultCallback: (PermissionResult) -> Unit,
+        resultCallback: (PermissionState) -> Unit,
     ) = with(activity) {
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.CREATED) {
-                permissionCallback?.let { (permission, callback) ->
-                    callback(PermissionResult.Cancelled(permission))
+                permissionCallback?.let { callback ->
+                    callback(PermissionState.Denied)
                     permissionCallback = null
                 }
 
-                permissionCallback = PermissionCallback(
-                    permission = permissions.first().toPermission(),
-                    callback = resultCallback,
-                )
+                permissionCallback = resultCallback
 
                 request.launch(permissions.toTypedArray())
             }

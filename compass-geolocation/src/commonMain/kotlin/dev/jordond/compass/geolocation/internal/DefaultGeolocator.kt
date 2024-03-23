@@ -18,15 +18,21 @@ internal class DefaultGeolocator(
     private val dispatcher: CoroutineDispatcher,
 ) : Geolocator {
 
-    override fun isAvailable(): Boolean = locator.isAvailable()
+    override val locationUpdates: Flow<Location> = locator.locationUpdates
 
-    override suspend fun last(): GeolocatorResult = handleResult { locator.last() }
+    override fun isAvailable(): Boolean = locator.isAvailable()
 
     override suspend fun current(priority: Priority): GeolocatorResult {
         return handleResult { locator.current(priority) }
     }
 
-    override fun track(request: LocationRequest): Flow<Location> = locator.track(request)
+    override suspend fun track(request: LocationRequest): Flow<Location> {
+        if (!isAvailable()) {
+            throw NotSupportedException()
+        }
+
+        return locator.track(request)
+    }
 
     override fun stopTracking() = locator.stopTracking()
 
