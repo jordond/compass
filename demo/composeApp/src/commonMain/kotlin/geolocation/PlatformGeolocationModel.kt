@@ -10,6 +10,7 @@ import dev.jordond.compass.geolocation.LocationRequest
 import dev.jordond.compass.geolocation.Priority
 import dev.stateholder.extensions.voyager.StateScreenModel
 import geolocation.PlatformGeolocationModel.State
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
@@ -18,6 +19,13 @@ import kotlinx.coroutines.launch
 class PlatformGeolocationModel : StateScreenModel<State>(State()) {
 
     private var trackingJob: Job? = null
+
+    init {
+        screenModelScope.launch {
+            val isAvailable = state.value.geolocator.isAvailable()
+            updateState { it.copy(locationServiceAvailable = isAvailable) }
+        }
+    }
 
     fun toggleHandlePermissions() {
         if (trackingJob != null || state.value.busy) return
@@ -45,7 +53,7 @@ class PlatformGeolocationModel : StateScreenModel<State>(State()) {
             updateState { it.copy(tracking = true) }
             state.value.geolocator.track(LocationRequest(priority = Priority.HighAccuracy))
                 .onCompletion { cause ->
-                    if (cause != null) {
+                    if (cause != null && cause !is CancellationException) {
                         Logger.e(cause) { "Tracking stopped" }
                     } else {
                         Logger.i("Tracking completed")
@@ -74,7 +82,7 @@ class PlatformGeolocationModel : StateScreenModel<State>(State()) {
         val loading: Boolean = false,
         val location: Location? = null,
         val lastResult: GeolocatorResult? = null,
-        val locationServiceAvailable: Boolean = geolocator.isAvailable(),
+        val locationServiceAvailable: Boolean = false,
         val tracking: Boolean = false,
         val trackingError: String? = null,
         val trackingLocation: Location? = null,

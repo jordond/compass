@@ -20,7 +20,9 @@ internal class DefaultGeolocator(
 
     override val locationUpdates: Flow<Location> = locator.locationUpdates
 
-    override fun isAvailable(): Boolean = locator.isAvailable()
+    override suspend fun isAvailable(): Boolean = withContext(dispatcher) {
+        locator.isAvailable()
+    }
 
     override suspend fun current(priority: Priority): GeolocatorResult {
         return handleResult { locator.current(priority) }

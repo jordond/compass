@@ -5,8 +5,8 @@ import dev.jordond.compass.Azimuth
 import dev.jordond.compass.Coordinates
 import dev.jordond.compass.Location
 import dev.jordond.compass.Speed
-import dev.jordond.compass.geolocation.Priority
 import dev.jordond.compass.geolocation.PermissionState
+import dev.jordond.compass.geolocation.Priority
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.useContents
 import platform.CoreLocation.CLAuthorizationStatus
@@ -59,13 +59,13 @@ internal fun CLLocation.toModel(): Location {
     )
 
     val altitude = Altitude(
-        meters = Meters(altitude),
+        meters = altitude,
         accuracy = verticalAccuracy.toFloat(),
     )
 
     return Location(
         coordinates = coordinates,
-        accuracy = Meters(horizontalAccuracy),
+        accuracy = horizontalAccuracy,
         altitude = altitude,
         speed = speed,
         azimuth = azimuth,
