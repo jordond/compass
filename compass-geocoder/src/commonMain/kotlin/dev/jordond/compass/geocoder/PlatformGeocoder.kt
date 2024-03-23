@@ -1,6 +1,6 @@
 package dev.jordond.compass.geocoder
 
-import dev.jordond.compass.Location
+import dev.jordond.compass.Coordinates
 import dev.jordond.compass.Place
 
 /**
@@ -16,9 +16,9 @@ public interface PlatformGeocoder {
     public fun isAvailable(): Boolean
 
     /**
-     * Get a list of [Location]s from an address.
+     * Get a list of [Coordinates]s from an address.
      */
-    public suspend fun forward(address: String): List<Location>
+    public suspend fun forward(address: String): List<Coordinates>
 
     /**
      *  Get a list of [Place]s from latitude and longitude coordinates.
@@ -30,4 +30,16 @@ public interface PlatformGeocoder {
     public suspend fun reverse(latitude: Double, longitude: Double): List<Place>
 
     public companion object
+}
+
+/**
+ * A no-op [PlatformGeocoder] that is used when the platform does not support geocoding.
+ *
+ * This can be used as a fallback when the platform does not support geocoding.
+ */
+public object NotSupportedPlatformGeocoder : PlatformGeocoder {
+
+    override fun isAvailable(): Boolean = false
+    override suspend fun forward(address: String): List<Coordinates> = emptyList()
+    override suspend fun reverse(latitude: Double, longitude: Double): List<Place> = emptyList()
 }

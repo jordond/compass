@@ -13,6 +13,7 @@ import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.create
 import org.gradle.kotlin.dsl.get
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.mpp.Framework
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
@@ -24,12 +25,22 @@ open class MultiPlatformConventionExtension {
     var platforms: List<Platform> = Platforms.All
     internal var configureFramework: Framework.() -> Unit = {}
 
+    var platform: Platform
+        get() = platforms.first()
+        set(value) {
+            platforms = listOf(value)
+        }
+
     fun add(platform: Platform) {
         platforms = platforms + platform
     }
 
     fun mobileOnly() {
         platforms = Platforms.Mobile
+    }
+
+    fun allComposePlatforms() {
+        platforms = Platforms.Compose
     }
 
     fun configureFramework(block: Framework.() -> Unit) {
@@ -60,6 +71,11 @@ class KotlinMultiplatformConventionPlugin : Plugin<Project> {
             extensions.configure<KotlinMultiplatformExtension> {
                 applyDefaultHierarchyTemplate()
 
+                @OptIn(ExperimentalKotlinGradlePluginApi::class)
+                compilerOptions {
+                    freeCompilerArgs.add("-Xexpect-actual-classes")
+                }
+
                 if (extension.platforms.contains(Platform.Android)) {
                     androidTarget {
                         publishLibraryVariants("debug", "release")
@@ -80,10 +96,24 @@ class KotlinMultiplatformConventionPlugin : Plugin<Project> {
                     linuxArm64()
                 }
 
+                if (extension.platforms.contains(Platform.Js)) {
+                    js {
+                        browser()
+
+                        if (extension.platforms.contains(Platform.NodeJs)) {
+                            nodejs()
+                        }
+                    }
+                }
+
                 // TODO: Waiting on kotest 5.9
-//                if (extension.platforms.contains(Platform.Web)) {
+//                if (extension.platforms.contains(Platform.Wasm)) {
 //                    wasmJs {
 //                        browser()
+//
+//                        if (extension.platforms.contains(Platform.NodeJs)) {
+//                            nodejs()
+//                        }
 //                    }
 //                }
 

@@ -44,6 +44,9 @@ include(
     ":compass-geocoder-web-googlemaps",
     ":compass-geocoder-web-mapbox",
     ":compass-geocoder-web-template",
+    ":compass-geolocation",
+    ":compass-geolocation-mobile",
+    ":compass-tools-android",
 )
 
 include(":demo:composeApp")

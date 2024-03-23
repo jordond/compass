@@ -1,9 +1,9 @@
 package dev.jordond.compass.geocoder.web
 
-import dev.jordond.compass.Location
+import dev.jordond.compass.Coordinates
 import dev.jordond.compass.geocoder.web.google.internal.GeocodeResponse
 import dev.jordond.compass.geocoder.web.google.internal.resultsOrThrow
-import dev.jordond.compass.geocoder.web.google.internal.toLocations
+import dev.jordond.compass.geocoder.web.google.internal.toCoordinates
 import dev.jordond.compass.geocoder.web.parameter.GoogleMapsParameters
 import dev.jordond.compass.geocoder.web.parameter.GoogleMapsParametersBuilder
 import dev.jordond.compass.geocoder.web.parameter.googleMapsParameters
@@ -38,8 +38,8 @@ public class GoogleMapsForwardEndpoint(
         return GoogleMapsPlatformGeocoder.forwardUrl(encodedQuery, apiKey, parameters)
     }
 
-    override suspend fun mapResponse(response: HttpResponse): List<Location> {
+    override suspend fun mapResponse(response: HttpResponse): List<Coordinates> {
         val result = response.body<GeocodeResponse>().resultsOrThrow()
-        return result.toLocations()
+        return result.toCoordinates()
     }
 }

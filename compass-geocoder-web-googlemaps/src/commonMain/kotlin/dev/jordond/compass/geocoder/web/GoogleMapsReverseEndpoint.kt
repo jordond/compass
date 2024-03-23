@@ -1,6 +1,6 @@
 package dev.jordond.compass.geocoder.web
 
-import dev.jordond.compass.Location
+import dev.jordond.compass.Coordinates
 import dev.jordond.compass.Place
 import dev.jordond.compass.geocoder.web.google.internal.GeocodeResponse
 import dev.jordond.compass.geocoder.web.google.internal.resultsOrThrow
@@ -33,7 +33,7 @@ public class GoogleMapsReverseEndpoint(
         block: GoogleMapsParametersBuilder.() -> Unit,
     ) : this(apiKey, googleMapsParameters(block))
 
-    override fun url(param: Location): String {
+    override fun url(param: Coordinates): String {
         val (latitude, longitude) = param.run { latitude to longitude }
         return GoogleMapsPlatformGeocoder.reverseUrl(latitude, longitude, apiKey, parameters)
     }

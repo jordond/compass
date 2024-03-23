@@ -1,8 +1,8 @@
 package dev.jordond.compass.geocoder.web
 
-import dev.jordond.compass.Location
+import dev.jordond.compass.Coordinates
 import dev.jordond.compass.geocoder.web.mapbox.internal.GeocodeResponse
-import dev.jordond.compass.geocoder.web.mapbox.internal.toLocations
+import dev.jordond.compass.geocoder.web.mapbox.internal.toCoordinates
 import dev.jordond.compass.geocoder.web.parameter.MapBoxParameters
 import dev.jordond.compass.geocoder.web.parameter.MapBoxParametersBuilder
 import dev.jordond.compass.geocoder.web.parameter.mapBoxParameters
@@ -37,8 +37,8 @@ public class MapBoxForwardEndpoint(
         return MapBoxPlatformGeocoder.forwardUrl(encodedQuery, apiKey, parameters)
     }
 
-    override suspend fun mapResponse(response: HttpResponse): List<Location> {
+    override suspend fun mapResponse(response: HttpResponse): List<Coordinates> {
         val forwardResponse = response.body<GeocodeResponse>()
-        return forwardResponse.toLocations()
+        return forwardResponse.toCoordinates()
     }
 }

@@ -37,7 +37,7 @@ public final class dev/jordond/compass/geocoder/web/MapBoxReverseEndpoint : dev/
 	public synthetic fun <init> (Ljava/lang/String;Ldev/jordond/compass/geocoder/web/parameter/MapBoxParameters;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun <init> (Ljava/lang/String;Lkotlin/jvm/functions/Function1;)V
 	public fun mapResponse (Lio/ktor/client/statement/HttpResponse;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public fun url (Ldev/jordond/compass/Location;)Ljava/lang/String;
+	public fun url (Ldev/jordond/compass/Coordinates;)Ljava/lang/String;
 	public synthetic fun url (Ljava/lang/Object;)Ljava/lang/String;
 }
 

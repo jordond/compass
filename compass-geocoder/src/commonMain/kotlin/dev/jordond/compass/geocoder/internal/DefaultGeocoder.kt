@@ -1,11 +1,11 @@
 package dev.jordond.compass.geocoder.internal
 
-import dev.jordond.compass.Location
+import dev.jordond.compass.Coordinates
 import dev.jordond.compass.Place
 import dev.jordond.compass.geocoder.Geocoder
 import dev.jordond.compass.geocoder.GeocoderResult
 import dev.jordond.compass.geocoder.PlatformGeocoder
-import dev.jordond.compass.geocoder.exception.NotSupportedException
+import dev.jordond.compass.exception.NotSupportedException
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
@@ -21,18 +21,18 @@ internal class DefaultGeocoder(
     override fun isAvailable(): Boolean = platformGeocoder.isAvailable()
 
     /**
-     * @see Geocoder.places
+     * @see Geocoder.reverse
      */
-    override suspend fun places(latitude: Double, longitude: Double): GeocoderResult<Place> {
+    override suspend fun reverse(latitude: Double, longitude: Double): GeocoderResult<Place> {
         return handleResult {
             platformGeocoder.reverse(latitude, longitude)
         }
     }
 
     /**
-     * @see Geocoder.locations
+     * @see Geocoder.forward
      */
-    override suspend fun locations(address: String): GeocoderResult<Location> {
+    override suspend fun forward(address: String): GeocoderResult<Coordinates> {
         return handleResult {
             platformGeocoder.forward(address)
         }

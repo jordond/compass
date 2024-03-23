@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
-
 plugins {
     alias(libs.plugins.convention.multiplatform)
     alias(libs.plugins.convention.publish)
@@ -10,11 +8,6 @@ multiplatformConvention {
 }
 
 kotlin {
-    @OptIn(ExperimentalKotlinGradlePluginApi::class)
-    compilerOptions {
-        freeCompilerArgs.add("-Xexpect-actual-classes")
-    }
-
     sourceSets {
         commonMain.dependencies {
             api(projects.compassCore)
@@ -23,8 +16,9 @@ kotlin {
         }
 
         androidMain.dependencies {
+            implementation(projects.compassToolsAndroid)
             implementation(libs.kotlinx.coroutines.android)
-            implementation(libs.androidx.startup)
+            implementation(libs.androidx.activity)
         }
     }
 }

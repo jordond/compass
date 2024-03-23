@@ -1,8 +1,8 @@
 package dev.jordond.compass.geocoder.web
 
-import dev.jordond.compass.Location
+import dev.jordond.compass.Coordinates
 import dev.jordond.compass.Place
-import dev.jordond.compass.geocoder.exception.NotSupportedException
+import dev.jordond.compass.exception.NotSupportedException
 import dev.jordond.compass.geocoder.web.internal.makeRequest
 import io.ktor.client.HttpClient
 import io.ktor.http.encodeURLParameter
@@ -21,7 +21,7 @@ public class ForwardHttpApiPlatformGeocoder(
 
     override fun isAvailable(): Boolean = true
 
-    override suspend fun forward(address: String): List<Location> {
+    override suspend fun forward(address: String): List<Coordinates> {
         val url = endpoint.url(address.encodeURLParameter())
         return client.makeRequest(url, endpoint::mapResponse)
     }

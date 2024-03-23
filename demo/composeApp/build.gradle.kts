@@ -1,6 +1,4 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
-import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
-import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 
 plugins {
     alias(libs.plugins.multiplatform)
@@ -56,13 +54,17 @@ kotlin {
             implementation(projects.compassGeocoder)
             implementation(projects.compassGeocoderWebMapbox)
             implementation(projects.compassGeocoderWebGooglemaps)
+            implementation(projects.compassGeolocation)
 
             implementation(compose.runtime)
             implementation(compose.foundation)
-            implementation(compose.material)
+            implementation(compose.material3)
+            implementation(compose.materialIconsExtended)
             implementation(compose.ui)
             implementation(compose.components.uiToolingPreview)
-
+            implementation(libs.kermit)
+            implementation(libs.bundles.voyager)
+            implementation(libs.bundles.stateHolder)
         }
 
         val desktopMain by getting {
@@ -77,6 +79,7 @@ kotlin {
             iosMain.get().dependsOn(this)
             dependencies {
                 implementation(projects.compassGeocoderMobile)
+                implementation(projects.compassGeolocationMobile)
             }
         }
 
@@ -85,7 +88,7 @@ kotlin {
             desktopMain.dependsOn(this)
 //            wasmJsMain.get().dependsOn(this)
             dependencies {
-                implementation(projects.compassGeocoderWebMapbox)
+                implementation(projects.compassGeocoderWebGooglemaps)
             }
         }
     }
