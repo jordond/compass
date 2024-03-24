@@ -28,7 +28,7 @@ class MapboxGeocoderScreen : Screen {
             }
         }
 
-        GeocoderView(
+        GeocoderContent(
             title = "Mapbox",
             geocoder = geocoder,
             apiKey = apiKey,

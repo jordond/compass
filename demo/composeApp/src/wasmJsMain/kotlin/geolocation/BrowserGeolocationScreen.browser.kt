@@ -7,7 +7,7 @@ import cafe.adriel.voyager.core.screen.Screen
 import createGeolocator
 import dev.stateholder.extensions.collectAsState
 
-class PlatformGeolocationScreen : Screen {
+actual class BrowserGeolocationScreen actual constructor(): Screen {
 
     @Composable
     override fun Content() {

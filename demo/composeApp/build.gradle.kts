@@ -1,4 +1,6 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 
 plugins {
     alias(libs.plugins.multiplatform)
@@ -12,28 +14,16 @@ kotlin {
         publishAllLibraryVariants()
     }
 
-    js {
-        browser()
+    @OptIn(ExperimentalWasmDsl::class)
+    wasmJs {
+        moduleName = "composeApp"
+        browser {
+            commonWebpackConfig {
+                outputFileName = "composeApp.js"
+            }
+        }
         binaries.executable()
     }
-
-    // TODO: Waiting on kotest 5.9
-//    @OptIn(ExperimentalWasmDsl::class)
-//    wasmJs {
-//        moduleName = "composeApp"
-//        browser {
-//            commonWebpackConfig {
-//                outputFileName = "composeApp.js"
-//                devServer = (devServer ?: KotlinWebpackConfig.DevServer()).apply {
-//                    static = (static ?: mutableListOf()).apply {
-//                        // Serve sources to debug inside browser
-//                        add(project.projectDir.path)
-//                    }
-//                }
-//            }
-//        }
-//        binaries.executable()
-//    }
 
     jvm("desktop")
 
@@ -88,24 +78,33 @@ kotlin {
             }
         }
 
+
+        val wasmJsMain by getting {
+            dependencies {
+                implementation(projects.compassGeolocationBrowser)
+            }
+        }
+
         val nonMobileMain by creating {
             dependsOn(commonMain.get())
             desktopMain.dependsOn(this)
-            jsMain.get().dependsOn(this)
-//            wasmJsMain.get().dependsOn(this)
+            wasmJsMain.dependsOn(this)
             dependencies {
                 implementation(projects.compassGeocoderWebGooglemaps)
             }
         }
 
-        val wasmJsAndJsMain by creating {
+        val nonBrowser by creating {
             dependsOn(commonMain.get())
-            jsMain.get().dependsOn(this)
-//            wasmJsMain.get().dependsOn(this)
-            dependencies {
-                implementation(projects.compassGeolocationBrowser)
-            }
+            desktopMain.dependsOn(this)
+            androidMain.get().dependsOn(this)
+            iosMain.get().dependsOn(this)
         }
+    }
+
+    @OptIn(ExperimentalKotlinGradlePluginApi::class)
+    compilerOptions {
+        freeCompilerArgs.add("-Xexpect-actual-classes")
     }
 }
 

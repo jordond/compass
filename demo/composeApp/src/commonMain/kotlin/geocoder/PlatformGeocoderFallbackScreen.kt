@@ -22,7 +22,7 @@ class PlatformGeocoderFallbackScreen : Screen {
             derivedStateOf { createGeocoder(apiKey) }
         }
 
-        GeocoderView(
+        GeocoderContent(
             title = "Google Maps",
             geocoder = geocoder,
             apiKey = apiKey,

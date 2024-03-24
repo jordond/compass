@@ -9,14 +9,16 @@ import dev.jordond.compass.geolocation.GeolocatorResult
 import dev.jordond.compass.geolocation.LocationRequest
 import dev.jordond.compass.geolocation.Priority
 import dev.stateholder.extensions.voyager.StateScreenModel
-import geolocation.PlatformGeolocationModel.State
+import geolocation.GeolocationModel.State
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
-class PlatformGeolocationModel : StateScreenModel<State>(State()) {
+class GeolocationModel(geolocator: Geolocator) : StateScreenModel<State>(
+    State(geolocator = geolocator),
+) {
 
     private var trackingJob: Job? = null
 
@@ -77,8 +79,8 @@ class PlatformGeolocationModel : StateScreenModel<State>(State()) {
     }
 
     data class State(
+        val geolocator: Geolocator,
         val handlePermissions: Boolean = true,
-        val geolocator: Geolocator = createGeolocator(handlePermissions),
         val loading: Boolean = false,
         val location: Location? = null,
         val lastResult: GeolocatorResult? = null,

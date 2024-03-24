@@ -4,7 +4,6 @@ import dev.jordond.compass.convention.Platform
 import dev.jordond.compass.convention.Platforms
 import dev.jordond.compass.convention.alias
 import dev.jordond.compass.convention.configureKotlin
-import dev.jordond.compass.convention.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
@@ -16,6 +15,7 @@ import org.jetbrains.kotlin.gradle.plugin.mpp.Framework
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 
+@Suppress("unused")
 open class MultiPlatformConventionExtension {
     var isStatic: Boolean = true
     var isLibrary: Boolean = true
@@ -79,10 +79,11 @@ class KotlinMultiplatformConventionPlugin : Plugin<Project> {
                     macosArm64()
                 }
 
-                if (extension.platforms.contains(Platform.Linux)) {
-                    linuxX64()
-                    linuxArm64()
-                }
+                // TODO: Waiting on ktor to have stable wasm support
+//                if (extension.platforms.contains(Platform.Linux)) {
+//                    linuxX64()
+//                    linuxArm64()
+//                }
 
                 if (extension.platforms.contains(Platform.Js)) {
                     js {
@@ -94,16 +95,15 @@ class KotlinMultiplatformConventionPlugin : Plugin<Project> {
                     }
                 }
 
-                // TODO: Waiting on kotest 5.9
-//                if (extension.platforms.contains(Platform.Wasm)) {
-//                    wasmJs {
-//                        browser()
-//
-//                        if (extension.platforms.contains(Platform.NodeJs)) {
-//                            nodejs()
-//                        }
-//                    }
-//                }
+                if (extension.platforms.contains(Platform.Wasm)) {
+                    wasmJs {
+                        browser()
+
+                        if (extension.platforms.contains(Platform.NodeJs)) {
+                            nodejs()
+                        }
+                    }
+                }
 
                 if (extension.platforms.contains(Platform.Ios)) {
                     listOf(
@@ -129,7 +129,8 @@ class KotlinMultiplatformConventionPlugin : Plugin<Project> {
 
                 sourceSets.commonTest.dependencies {
                     implementation(kotlin("test"))
-                    implementation(libs.findLibrary("kotest-assertions").get())
+                    // TODO: Waiting on kotest 5.9 for wasm
+//                    implementation(libs.findLibrary("kotest-assertions").get())
                 }
             }
         }

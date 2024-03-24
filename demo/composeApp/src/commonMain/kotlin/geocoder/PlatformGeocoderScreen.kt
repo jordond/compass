@@ -15,7 +15,7 @@ class PlatformGeocoderScreen : Screen {
     override fun Content() {
         val geocoder = remember { createGeocoder() }
 
-        GeocoderView(
+        GeocoderContent(
             title = "Google Maps",
             geocoder = geocoder,
             apiKey = null,

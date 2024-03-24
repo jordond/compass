@@ -17,9 +17,10 @@ import geocoder.GoogleMapsGeocoderScreen
 import geocoder.MapboxGeocoderScreen
 import geocoder.PlatformGeocoderFallbackScreen
 import geocoder.PlatformGeocoderScreen
+import geolocation.BrowserGeolocationScreen
 import geolocation.PlatformGeolocationScreen
 
-class HomeScreen : Screen {
+class HomeScreen(private val isBrowser: Boolean = false) : Screen {
 
     @Composable
     override fun Content() {
@@ -49,6 +50,11 @@ class HomeScreen : Screen {
                 Text("Geolocation")
                 NavButton("Platform") {
                     navigator.push(PlatformGeolocationScreen())
+                }
+                if (isBrowser) {
+                    NavButton("Browser Only") {
+                        navigator.push(BrowserGeolocationScreen())
+                    }
                 }
             }
         }
