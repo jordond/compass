@@ -2,10 +2,11 @@ package dev.jordond.compass.geocoder.internal
 
 import dev.jordond.compass.Coordinates
 import dev.jordond.compass.Place
+import dev.jordond.compass.exception.NotFoundException
+import dev.jordond.compass.exception.NotSupportedException
 import dev.jordond.compass.geocoder.Geocoder
 import dev.jordond.compass.geocoder.GeocoderResult
 import dev.jordond.compass.geocoder.PlatformGeocoder
-import dev.jordond.compass.exception.NotSupportedException
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
@@ -55,6 +56,7 @@ internal class DefaultGeocoder(
             return when (cause) {
                 is NotSupportedException -> GeocoderResult.NotSupported
                 is IllegalArgumentException -> GeocoderResult.InvalidCoordinates
+                is NotFoundException -> GeocoderResult.NotFound
                 else -> GeocoderResult.GeocodeFailed(cause.message ?: "Unknown error")
             }
         }

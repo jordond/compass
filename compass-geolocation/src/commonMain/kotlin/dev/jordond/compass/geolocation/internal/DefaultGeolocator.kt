@@ -1,6 +1,7 @@
 package dev.jordond.compass.geolocation.internal
 
 import dev.jordond.compass.Location
+import dev.jordond.compass.exception.NotFoundException
 import dev.jordond.compass.exception.NotSupportedException
 import dev.jordond.compass.geolocation.Geolocator
 import dev.jordond.compass.geolocation.GeolocatorResult
@@ -55,6 +56,7 @@ internal class DefaultGeolocator(
             return when (cause) {
                 is PermissionException -> GeolocatorResult.PermissionError(cause)
                 is NotSupportedException -> GeolocatorResult.NotSupported
+                is NotFoundException -> GeolocatorResult.NotFound
                 else -> GeolocatorResult.GeolocationFailed(cause.message ?: "Unknown error")
             }
         }

@@ -5,7 +5,9 @@ import dev.jordond.compass.geolocation.browser.internal.DefaultBrowserLocator
 
 public interface BrowserLocator : Locator
 
-public fun createBrowserLocator(): BrowserLocator = DefaultBrowserLocator()
+public fun createBrowserLocator(): dev.jordond.compass.geolocation.browser.BrowserLocator =
+    DefaultBrowserLocator()
 
-public fun Locator.Companion.browser(): BrowserLocator = createBrowserLocator()
+public fun Locator.Companion.browser(): dev.jordond.compass.geolocation.browser.BrowserLocator =
+    createBrowserLocator()
 
