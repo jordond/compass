@@ -15,6 +15,8 @@ kotlin {
             api(projects.compassCore)
             implementation(projects.compassGeolocation)
             implementation(libs.kotlinx.coroutines.core)
+
+            implementation(libs.kermit)
         }
     }
 }

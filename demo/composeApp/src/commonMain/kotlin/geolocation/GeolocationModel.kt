@@ -12,8 +12,10 @@ import dev.stateholder.extensions.voyager.StateScreenModel
 import geolocation.GeolocationModel.State
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 
 class GeolocationModel(geolocator: Geolocator) : StateScreenModel<State>(
@@ -52,7 +54,6 @@ class GeolocationModel(geolocator: Geolocator) : StateScreenModel<State>(
         if (trackingJob != null || state.value.busy) return
 
         trackingJob = screenModelScope.launch {
-            updateState { it.copy(tracking = true) }
             state.value.geolocator.track(LocationRequest(priority = Priority.HighAccuracy))
                 .onCompletion { cause ->
                     if (cause != null && cause !is CancellationException) {
@@ -63,6 +64,11 @@ class GeolocationModel(geolocator: Geolocator) : StateScreenModel<State>(
 
                     trackingJob = null
                 }
+                .catch { err ->
+                    Logger.e(err) { "Tracking error in flow.catch" }
+                    updateState { it.copy(trackingError = "flow.catch: ${err.message}") }
+                }
+                .onStart { updateState { it.copy(tracking = true, trackingError = null) } }
                 .onEach { Logger.d { "Tracking: $it" } }
                 .collect { location ->
                     updateState { state ->

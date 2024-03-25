@@ -1,5 +1,6 @@
 package dev.jordond.compass.geolocation.browser.internal
 
+import co.touchlab.kermit.Logger
 import dev.jordond.compass.Location
 import dev.jordond.compass.exception.NotFoundException
 import dev.jordond.compass.exception.NotSupportedException
@@ -18,6 +19,7 @@ import dev.jordond.compass.geolocation.exception.PermissionDeniedException
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.flow
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
@@ -56,18 +58,37 @@ internal class DefaultBrowserLocator : BrowserLocator {
         } ?: throw NotFoundException()
     }
 
+    // TODO: This breaks the throwing on calling track() since we can't get the permission
+    // to suspend. Because we would have to track the location twice, once for the permission
+    // and once for the actual location.
+    // Instead maybe Geolocator should have a Flow<LocationStatus> Instead of a Flow<Location> or
+    // a separate flow of tracking status
     override suspend fun track(request: LocationRequest): Flow<Location> {
         if (trackingId != null) return locationUpdates
 
-        trackingId = navigator?.geolocation?.watchPosition(
-            success = { position ->
-                position?.toModel()?.let(_locationUpdates::tryEmit)
-            },
-            error = { throw it.error() },
-            options = request.toOptions(),
-        )
+//        suspendCoroutine { continuation ->
+//            navigator?.geolocation
+//                ?.getCurrentPosition(
+//                    success = { position -> continuation.resume(Unit) },
+//                    error = { error -> continuation.resumeWithException(error.error()) },
+//                    options = request.toOptions(),
+//                )
+//        }
 
-        return locationUpdates
+        return flow {
+            trackingId = navigator?.geolocation?.watchPosition(
+                success = { position ->
+                    position?.toModel()?.let(_locationUpdates::tryEmit)
+                },
+                error = { cause ->
+                    Logger.e(cause.error()) { "Unable to track location updates" }
+                    trackingId = null
+                },
+                options = request.toOptions(),
+            )
+
+            locationUpdates.collect { emit(it) }
+        }
     }
 
     override fun stopTracking() {
