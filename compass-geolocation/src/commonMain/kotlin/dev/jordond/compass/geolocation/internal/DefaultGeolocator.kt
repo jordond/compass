@@ -23,7 +23,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 internal class DefaultGeolocator(
-    override val locator: Locator,
+    internal val locator: Locator,
     private val dispatcher: CoroutineDispatcher,
     private val coroutineScope: CoroutineScope = CoroutineScope(SupervisorJob() + dispatcher),
 ) : Geolocator {
