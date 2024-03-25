@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
-import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -21,7 +20,6 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun GeolocationContent(
     state: GeolocationModel.State,
-    toggleHandlePermissions: (Boolean) -> Unit,
     currentLocation: () -> Unit,
     startTracking: () -> Unit,
     stopTracking: () -> Unit,
@@ -34,16 +32,7 @@ fun GeolocationContent(
             .verticalScroll(rememberScrollState()),
     ) {
         Text("Platform Geolocation Screen")
-        Row {
-            Checkbox(
-                checked = state.handlePermissions,
-                onCheckedChange = toggleHandlePermissions,
-            )
-            Text("Automatically handle required permissions")
-        }
-
         Text("Location services available: ${state.locationServiceAvailable}")
-
         Text("Last Location: ${state.location}")
         Text("Is Loading: ${state.loading}")
         Text("Last operation result: ${state.lastResult ?: "N/A"}")
@@ -56,7 +45,7 @@ fun GeolocationContent(
 
         Text("Location Tracker")
         Text("Active: ${state.tracking}")
-        Text("Last update: ${state.trackingLocation ?: "N/A"}")
+        Text("Last update: ${state.trackingLocation}")
         Text("Tracking error: ${state.trackingError ?: "N/A"}")
 
         Row {

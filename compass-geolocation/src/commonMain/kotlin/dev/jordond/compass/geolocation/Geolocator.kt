@@ -8,6 +8,9 @@ import dev.jordond.compass.geolocation.internal.DefaultGeolocator
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.filterIsInstance
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 
 /**
  * Provides geolocation operations:
@@ -27,7 +30,10 @@ public interface Geolocator {
      *
      * You can stop receiving updates by calling [stopTracking]. But this flow won't be cancelled.
      */
+    public val trackingStatus: Flow<TrackingStatus>
+
     public val locationUpdates: Flow<Location>
+        get() = trackingStatus.filterIsInstance<TrackingStatus.Update>().map { it.location }
 
     /**
      * Check if location services are available.
@@ -60,7 +66,10 @@ public interface Geolocator {
      * @throws GeolocationException If there is an error getting the location.
      * @throws PermissionException If the location permission isn't granted.
      */
-    public suspend fun track(request: LocationRequest = LocationRequest()): Flow<Location>
+    public fun track(request: LocationRequest = LocationRequest()): Flow<TrackingStatus>
+
+    public suspend fun startTracking(request: LocationRequest = LocationRequest()): TrackingStatus =
+        track(request).first()
 
     /**
      * Stop tracking the location.

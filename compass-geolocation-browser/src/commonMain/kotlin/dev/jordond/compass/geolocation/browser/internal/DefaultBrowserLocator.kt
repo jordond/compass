@@ -15,6 +15,7 @@ import dev.jordond.compass.geolocation.browser.api.model.value
 import dev.jordond.compass.geolocation.browser.api.navigator
 import dev.jordond.compass.geolocation.exception.GeolocationException
 import dev.jordond.compass.geolocation.exception.PermissionDeniedException
+import dev.jordond.compass.geolocation.exception.PermissionDeniedForeverException
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -64,14 +65,17 @@ internal class DefaultBrowserLocator : BrowserLocator {
             startTracking(request) { error ->
                 when {
                     continuation.isCompleted -> {}
-                    error == null -> continuation.resume(Unit)
+                    error == null -> continuation.resume(true)
                     else -> continuation.resumeWithException(PermissionDeniedException())
                 }
             }
         }
 
-        if (trackingId == null) throw GeolocationException("Unable to start tracking")
-        else return locationUpdates
+        if (trackingId == null) {
+            throw GeolocationException("Unable to start tracking")
+        }
+
+        return locationUpdates
     }
 
     private fun startTracking(request: LocationRequest, onResult: (Throwable?) -> Unit) {
@@ -108,7 +112,7 @@ internal class DefaultBrowserLocator : BrowserLocator {
 
     private fun GeolocationPositionError.error(): Throwable {
         return when (value()) {
-            PermissionDenied -> PermissionDeniedException()
+            PermissionDenied -> PermissionDeniedForeverException()
             PositionUnavailable, Timeout -> GeolocationException(message)
         }
     }

@@ -24,7 +24,6 @@ package dev.jordond.compass.geolocation.browser.api.model
  * This value can be null.
  */
 public external class GeolocationCoordinates {
-
     public val latitude: Double
     public val longitude: Double
     public val accuracy: Double

@@ -18,7 +18,6 @@ class PlatformGeolocationScreen : Screen {
 
         GeolocationContent(
             state = state,
-            toggleHandlePermissions = { model.toggleHandlePermissions() },
             currentLocation = model::currentLocation,
             startTracking = model::startTracking,
             stopTracking = model::stopTracking,

@@ -5,14 +5,14 @@ package dev.jordond.compass.geolocation.browser.api
  *
  * See [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/API/Navigator)
  */
-public external val navigator: Navigator?
+public expect val navigator: Navigator?
 
 /**
  * Browser provided Navigator object for accessing Geolocation API.
  *
  * See [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/API/Navigator)
  */
-public external class Navigator {
+public expect class Navigator {
 
     /**
      * GeoLocation API for accessing the browser's location data.
