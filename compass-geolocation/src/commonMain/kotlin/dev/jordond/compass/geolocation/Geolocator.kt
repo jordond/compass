@@ -1,9 +1,6 @@
 package dev.jordond.compass.geolocation
 
 import dev.jordond.compass.Location
-import dev.jordond.compass.exception.NotSupportedException
-import dev.jordond.compass.geolocation.exception.GeolocationException
-import dev.jordond.compass.geolocation.exception.PermissionException
 import dev.jordond.compass.geolocation.internal.DefaultGeolocator
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -20,7 +17,17 @@ import kotlinx.coroutines.flow.map
  */
 public interface Geolocator {
 
-    public val locator: Locator
+    /**
+     * A flow of the current status of location tracking.
+     *
+     * @see TrackingStatus
+     *
+     * If [track] is called, this flow will emit the new locations as they are received. Otherwise,
+     * this flow won't emit any values.
+     *
+     * You can stop receiving updates by calling [stopTracking]. But this flow won't be cancelled.
+     */
+    public val trackingStatus: Flow<TrackingStatus>
 
     /**
      * A flow of location updates.
@@ -30,8 +37,6 @@ public interface Geolocator {
      *
      * You can stop receiving updates by calling [stopTracking]. But this flow won't be cancelled.
      */
-    public val trackingStatus: Flow<TrackingStatus>
-
     public val locationUpdates: Flow<Location>
         get() = trackingStatus.filterIsInstance<TrackingStatus.Update>().map { it.location }
 
@@ -57,17 +62,19 @@ public interface Geolocator {
      * you call [stopTracking], the flow will no longer emit values until [track] is called again.
      * But the flow won't be cancelled, so you should cancel it if you no longer need it.
      *
-     * **Note:** The returned flow will not throw an exception, but this function will throw an
-     * exception if location services aren't available or the location permission isn't granted.
-     *
      * @param request The location request details.
-     * @return A flow of location updates.
-     * @throws NotSupportedException If location services aren't available.
-     * @throws GeolocationException If there is an error getting the location.
-     * @throws PermissionException If the location permission isn't granted.
+     * @return A flow of location tracking updates.
      */
     public fun track(request: LocationRequest = LocationRequest()): Flow<TrackingStatus>
 
+    /**
+     * Start tracking the location and wait for the first location update.
+     *
+     * Useful for checking if the tracking has started or if the permission has been denied.
+     *
+     * @param request The location request details.
+     * @return The first location update.
+     */
     public suspend fun startTracking(request: LocationRequest = LocationRequest()): TrackingStatus =
         track(request).first()
 
