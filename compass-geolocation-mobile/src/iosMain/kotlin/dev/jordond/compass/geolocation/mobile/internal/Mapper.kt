@@ -21,7 +21,8 @@ import platform.UIKit.UIDevice
 internal val CLAuthorizationStatus.toPermissionState: PermissionState
     get() = when (this) {
         kCLAuthorizationStatusAuthorizedAlways,
-        kCLAuthorizationStatusAuthorizedWhenInUse -> PermissionState.Granted
+        kCLAuthorizationStatusAuthorizedWhenInUse,
+        -> PermissionState.Granted
         kCLAuthorizationStatusNotDetermined -> PermissionState.NotDetermined
         kCLAuthorizationStatusDenied -> PermissionState.DeniedForever
         else -> error("Unknown location authorization status $this")
@@ -52,7 +53,7 @@ internal fun CLLocation.toModel(): Location {
     val courseAccuracy =
         if (UIDevice.currentDevice.systemVersion < "13.4") null
         else courseAccuracy
-    
+
     val azimuth = Azimuth(
         degrees = course.toFloat(),
         accuracy = courseAccuracy?.toFloat(),

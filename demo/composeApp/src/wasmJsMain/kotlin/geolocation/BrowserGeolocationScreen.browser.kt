@@ -9,7 +9,7 @@ import dev.jordond.compass.geolocation.Locator
 import dev.jordond.compass.geolocation.browser.browser
 import dev.stateholder.extensions.collectAsState
 
-actual class BrowserGeolocationScreen actual constructor(): Screen {
+actual class BrowserGeolocationScreen actual constructor() : Screen {
 
     @Composable
     override fun Content() {

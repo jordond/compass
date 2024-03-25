@@ -42,7 +42,8 @@ public interface ReverseGeocoder {
      * @param coordinates The [Coordinates] to reverse geocode.
      * @return A [GeocoderResult] containing a list of addresses or an error.
      */
-    public suspend fun places(coordinates: Coordinates): GeocoderResult<Place> = reverse(coordinates)
+    public suspend fun places(coordinates: Coordinates): GeocoderResult<Place> =
+        reverse(coordinates)
 }
 
 /**

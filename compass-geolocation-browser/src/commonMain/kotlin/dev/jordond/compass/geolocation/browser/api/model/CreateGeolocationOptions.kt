@@ -24,5 +24,5 @@ import dev.jordond.compass.geolocation.browser.internal.Object
 public expect fun createGeolocationOptions(
     enableHighAccuracy: Boolean,
     timeout: Double,
-    maximumAge: Double
+    maximumAge: Double,
 ): Object
