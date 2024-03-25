@@ -32,7 +32,7 @@ class GeolocationModel(geolocator: Geolocator) : StateScreenModel<State>(
     }
 
     fun toggleHandlePermissions() {
-        if (trackingJob != null || state.value.busy) return
+        if (trackingJob?.isActive == true || state.value.busy) return
 
         updateState { state ->
             state.copy(
@@ -51,7 +51,8 @@ class GeolocationModel(geolocator: Geolocator) : StateScreenModel<State>(
     }
 
     fun startTracking() {
-        if (trackingJob != null || state.value.busy) return
+        Logger.e { "trackingJob?: ${trackingJob ?: "null"} busy: ${state.value.busy}" }
+        if (trackingJob?.isActive == true || state.value.busy) return
 
         trackingJob = screenModelScope.launch {
             state.value.geolocator.track(LocationRequest(priority = Priority.HighAccuracy))
