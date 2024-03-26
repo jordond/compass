@@ -3,6 +3,8 @@ public final class dev/jordond/compass/geolocation/mobile/GeolocatorKt {
 	public static synthetic fun Geolocator$default (ZLkotlinx/coroutines/CoroutineDispatcher;ILjava/lang/Object;)Ldev/jordond/compass/geolocation/Geolocator;
 	public static final fun MobileGeolocator (ZLkotlinx/coroutines/CoroutineDispatcher;)Ldev/jordond/compass/geolocation/Geolocator;
 	public static synthetic fun MobileGeolocator$default (ZLkotlinx/coroutines/CoroutineDispatcher;ILjava/lang/Object;)Ldev/jordond/compass/geolocation/Geolocator;
+	public static final fun mobile (Ldev/jordond/compass/geolocation/Geolocator$Companion;ZLkotlinx/coroutines/CoroutineDispatcher;)Ldev/jordond/compass/geolocation/Geolocator;
+	public static synthetic fun mobile$default (Ldev/jordond/compass/geolocation/Geolocator$Companion;ZLkotlinx/coroutines/CoroutineDispatcher;ILjava/lang/Object;)Ldev/jordond/compass/geolocation/Geolocator;
 }
 
 public abstract interface class dev/jordond/compass/geolocation/mobile/MobileLocator : dev/jordond/compass/geolocation/PermissionLocator {

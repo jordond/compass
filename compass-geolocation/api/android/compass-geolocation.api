@@ -4,6 +4,7 @@ public final class dev/jordond/compass/geolocation/ExtensionsKt {
 }
 
 public abstract interface class dev/jordond/compass/geolocation/Geolocator {
+	public static final field Companion Ldev/jordond/compass/geolocation/Geolocator$Companion;
 	public abstract fun current (Ldev/jordond/compass/geolocation/Priority;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public abstract fun getLocationUpdates ()Lkotlinx/coroutines/flow/Flow;
 	public abstract fun getTrackingStatus ()Lkotlinx/coroutines/flow/Flow;
@@ -11,6 +12,9 @@ public abstract interface class dev/jordond/compass/geolocation/Geolocator {
 	public abstract fun startTracking (Ldev/jordond/compass/geolocation/LocationRequest;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public abstract fun stopTracking ()V
 	public abstract fun track (Ldev/jordond/compass/geolocation/LocationRequest;)Lkotlinx/coroutines/flow/Flow;
+}
+
+public final class dev/jordond/compass/geolocation/Geolocator$Companion {
 }
 
 public final class dev/jordond/compass/geolocation/Geolocator$DefaultImpls {

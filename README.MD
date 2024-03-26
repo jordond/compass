@@ -11,13 +11,16 @@
 [![Compose Multiplatform](https://img.shields.io/badge/Compose%20Multiplatform-v1.6.1-blue)](https://github.com/JetBrains/compose-multiplatform)
 ![badge-android](http://img.shields.io/badge/platform-android-6EDB8D.svg?style=flat)
 ![badge-ios](http://img.shields.io/badge/platform-ios-CDCDCD.svg?style=flat)
+![badge-desktop](http://img.shields.io/badge/platform-desktop-DB413D.svg?style=flat)
+![badge-js](http://img.shields.io/badge/platform-js%2Fwasm-FDD835.svg?style=flat)
 
 Compass is a Kotlin Multiplatform library location toolkit. It provides a set of tools for working
 with location data, including geocoding, reverse geocoding, and more. The
 library is built with a focus on simplicity and ease of use, providing a straightforward API for
 geocoding operations.
 
-Check out the [Documentation](https://compass.jordond.dev) for detailed instructions.
+Check out the [Documentation](https://compass.jordond.dev) for detailed instructions. You can also
+view the generated KDoc at [docs.compass.jordond.dev](https://docs.compass.jordond.dev)
 
 ## Table of Contents
 
