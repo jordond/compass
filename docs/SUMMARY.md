@@ -2,6 +2,7 @@
 
 * [🧭 Compass](README.md)
 * [🖥️ Artifacts](supported-platforms.md)
+* [🚗 Roadmap](roadmap.md)
 
 ## Setup
 

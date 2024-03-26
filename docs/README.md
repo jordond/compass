@@ -23,9 +23,8 @@ Compass has a simple API:
 ```kotlin
 suspend fun lookupCoordinates(latitude: Double, longitude: Double): Place? {
     val geocoder = Geocoder()
-    return runCatching {
-        geocoder.reverse(latitude, longitude)
-    }.getOrNull()
+    val result: GeocoderResult<Place> = geocoder.reverse(latitude, longitude)
+    return result.getOrNull()
 }
 ```
 

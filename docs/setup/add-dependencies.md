@@ -26,7 +26,6 @@ dependencyResolutionManagement {
 
 {% tabs %}
 {% tab title="Version Catalog" %}
-
 1. Declare the dependencies in your `libs.versions.toml`:
 
 {% code fullWidth="false" %}
@@ -40,6 +39,8 @@ compass-geocoder-mobile = { module = "dev.jordond.compass:compass-geocoder-mobil
 compass-geocoder-web = { module = "dev.jordond.compass:compass-geocoder-web", version.ref = "compass" }
 compass-geocoder-web-googlemaps = { module = "dev.jordond.compass:compass-geocoder-googlemaps", version.ref = "compass" }
 compass-geocoder-web-mapbox = { module = "dev.jordond.compass:compass-geocoder-mapbox", version.ref = "compass" }
+compass-geolocation = { module = "dev.jordond.compass:compass-geolocation", version.ref = "compass" }
+compass-geolocation-mobile = { module = "dev.jordond.compass:compass-geolocation-mobile", version.ref = "compass" }
 ```
 {% endcode %}
 
@@ -65,6 +66,12 @@ kotlin {
 
                 // Optional - If you want to create your own geocoder implementation
                 implementation(libs.compass.geocoder.web)
+                
+                // Geolocation
+                implementation(libs.compass.geolocation)
+                
+                // Optional - Support for only iOS and Android
+                implementation(libs.compass.geolocation.mobile)
             }
         }
     }
@@ -95,6 +102,12 @@ kotlin {
 
                 // Optional - If you want to create your own geocoder implementation
                 implementation("dev.jordond.compass:compass-geocoder-web:$compassVersion")
+                
+                // Geolocation
+                implementation("dev.jordond.compass:compass-geolocation:$compassVersion")
+                
+                // Optional - Support for only iOS and Android
+                implementation("dev.jordond.compass:compass-geolocation-mobile:$compassVersion")
             }
         }
     }
@@ -104,5 +117,5 @@ kotlin {
 {% endtabs %}
 
 {% hint style="info" %}
-If you plan on using Compass Geocoder in a project that targets both mobile and non-mobile platforms (desktop, browser, etc). Then you will need to make sure use `expect/actual` to provide a `PlatformGeocoder` object. See [mixed-platforms.md](../usage/mixed-platforms.md "mention")
+If you plan on using Compass in a project that targets both mobile and non-mobile platforms (desktop, browser, etc). Then you will need to make sure use `expect/actual` to provide the implementation for each platform. See [mixed-platforms.md](../usage/mixed-platforms.md "mention").
 {% endhint %}

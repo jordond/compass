@@ -15,3 +15,13 @@ Compass offers the following features:
 Built-in services are used for Android and iOS. That means that there is restrictions to its usage.  You can be throttled or blocked from using the geocoding services if you make too many requests in a short period of time.
 {% endhint %}
 
+### Quick start
+
+```kotlin
+fun getPlaceFromCoordinates(lat: Long, lng: Long): Place? {
+    val geocoder = Geocoder()
+    return geocoder.placeOrNull()
+}
+```
+
+In this quick example the `Geocoder()` function is a convenience function for creating a `Geocoder` object. Each of the `compass-geocoder-*` artifacts provide one.
