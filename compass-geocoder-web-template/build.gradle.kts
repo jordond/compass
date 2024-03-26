@@ -1,10 +1,14 @@
+import dev.jordond.compass.convention.configureMultiplatform
+
 plugins {
-    alias(libs.plugins.convention.android)
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.multiplatform)
+//    alias(libs.plugins.dokka)
+//    alias(libs.plugins.publish)
     alias(libs.plugins.convention.multiplatform)
-    // Uncomment this line to enable publishing
-//    alias(libs.plugins.convention.publish)
-    alias(libs.plugins.kotlinx.serialization)
 }
+
+configureMultiplatform()
 
 kotlin {
     sourceSets {

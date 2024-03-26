@@ -9,12 +9,25 @@ import org.gradle.kotlin.dsl.get
 import org.jetbrains.kotlin.gradle.dsl.ExplicitApiMode
 import org.jetbrains.kotlin.gradle.dsl.KotlinTopLevelExtension
 
+internal fun Project.configureAndroid() {
+    setNamespace()
+    extensions.configure<LibraryExtension> {
+        configureKotlinAndroid(this)
+    }
+}
+
 internal fun Project.configureKotlinAndroid(commonExtension: CommonExtension<*, *, *, *, *, *>) {
     commonExtension.apply {
         compileSdk = libs.findVersion("sdk-compile").get().toString().toInt()
 
         defaultConfig {
             minSdk = libs.findVersion("sdk-min").get().toString().toInt()
+        }
+
+        buildTypes {
+            getByName("release") {
+                isMinifyEnabled = false
+            }
         }
 
         compileOptions {
@@ -40,7 +53,7 @@ fun Project.configureAndroidCompose(commonExtension: CommonExtension<*, *, *, *,
     }
 }
 
-internal fun Project.setNamespace(name: String) {
+internal fun Project.setNamespace(name: String = this.name.replace("-", ".")) {
     extensions.configure<LibraryExtension> {
         val packageName = libs.findVersion("group").get().toString()
         namespace = "$packageName.$name"

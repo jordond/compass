@@ -1,14 +1,15 @@
 import dev.jordond.compass.convention.Platform
+import dev.jordond.compass.convention.configureMultiplatform
 
 plugins {
-    alias(libs.plugins.convention.android)
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.multiplatform)
+    alias(libs.plugins.dokka)
+    alias(libs.plugins.publish)
     alias(libs.plugins.convention.multiplatform)
-    alias(libs.plugins.convention.publish)
 }
 
-multiplatformConvention {
-    platform = Platform.Android
-}
+configureMultiplatform(Platform.Android)
 
 kotlin {
     sourceSets {
