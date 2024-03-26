@@ -26,8 +26,8 @@
 * [📱 Android / iOS](geolocation/android-ios.md)
 * [🖥️ Browser](geolocation/browser.md)
 
-***
+## Misc
 
-* [📲 Demo](demo.md)
-* [💾 Contributing](contributing.md)
+* [📲 Demo](misc/demo.md)
+* [💾 Contributing](misc/contributing.md)
 * [🔧 Compass Reference](https://docs.compass.jordond.dev)
