@@ -1,0 +1,273 @@
+<!doctype html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>MapBoxParameters</title>
+<link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">    <script>var pathToRoot = "../../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async></script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/clipboard.js" async></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async></script>
+<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer></script></head>
+<body>
+    <div class="root">
+<nav class="navigation" id="navigation-wrapper">
+    <div class="navigation--inner">
+        <div class="navigation-title">
+            <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
+            <div class="library-name">
+<a class="library-name--link" href="../../../index.html">
+                            compass
+                    </a>            </div>
+            <div class="library-version">
+            </div>
+        </div>
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector common-like" data-active="" data-filter=":compass-geocoder-web-mapbox:dokkaHtmlPartial/commonMain">common</button>
+        </div>
+    </div>
+    <div class="navigation-controls">
+        <button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">switch theme</button>
+        <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in API</div>
+    </div>
+</nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="sidebar--inner" id="sideMenu"></div>
+            </div>
+            <div id="main">
+<div class="main-content" data-page-type="classlike" id="content" pageids="compass-geocoder-web-mapbox::dev.jordond.compass.geocoder.web.parameter/MapBoxParameters///PointingToDeclaration//-2043908257">
+  <div class="breadcrumbs"><a href="../../index.html">compass-geocoder-web-mapbox</a><span class="delimiter">/</span><a href="../index.html">dev.jordond.compass.geocoder.web.parameter</a><span class="delimiter">/</span><span class="current">MapBoxParameters</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Map</span><wbr><span>Box</span><wbr><span><span>Parameters</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":compass-geocoder-web-mapbox:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">class </span><a href="index.html">MapBoxParameters</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>permanent<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">false</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>autocomplete<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">true</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>limit<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>bbox<span class="token operator">: </span><a href="../-map-box-bounding-box/index.html">MapBoxBoundingBox</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>country<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>language<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>proximity<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>types<span class="token operator">: </span><a href="../-map-box-types-list/index.html">MapBoxTypesList</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>worldView<span class="token operator">: </span><a href="../-world-view/index.html">WorldView</a><span class="token operator">?</span><span class="token operator"> = </span>null</span></span><span class="token punctuation">)</span> : <a href="../../../compass-geocoder-web/dev.jordond.compass.geocoder.web.parameter/-query-parameters/index.html">QueryParameters</a></div><p class="paragraph">Options for the MapBox geocoder.</p><p class="paragraph">See the <a href="https://docs.mapbox.com/api/search/geocoding-v6/#forward-geocoding-with-structured-input">MapBox documentation</a> for more information.</p></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="CONSTRUCTOR">
+        <h2 class="">Constructors</h2>
+        <div class="table"><a data-name="-1595587725%2FConstructors%2F-2043908257" anchor-label="MapBoxParameters" id="-1595587725%2FConstructors%2F-2043908257" data-filterable-set=":compass-geocoder-web-mapbox:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-togglable="CONSTRUCTOR" data-filterable-current=":compass-geocoder-web-mapbox:dokkaHtmlPartial/commonMain" data-filterable-set=":compass-geocoder-web-mapbox:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-map-box-parameters.html"><span>Map</span><wbr><span>Box</span><wbr><span><span>Parameters</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1595587725%2FConstructors%2F-2043908257"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":compass-geocoder-web-mapbox:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">permanent<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">false</span><span class="token punctuation">, </span></span><span class="parameter ">autocomplete<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">true</span><span class="token punctuation">, </span></span><span class="parameter ">limit<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter ">bbox<span class="token operator">: </span><a href="../-map-box-bounding-box/index.html">MapBoxBoundingBox</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter ">country<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter ">language<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter ">proximity<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter ">types<span class="token operator">: </span><a href="../-map-box-types-list/index.html">MapBoxTypesList</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter ">worldView<span class="token operator">: </span><a href="../-world-view/index.html">WorldView</a><span class="token operator">?</span><span class="token operator"> = </span>null</span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Create a new default instance of <a href="index.html">MapBoxParameters</a> with API specific defaults.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="PROPERTY">
+        <h2 class="">Properties</h2>
+        <div class="table"><a data-name="-970760412%2FProperties%2F-2043908257" anchor-label="autocomplete" id="-970760412%2FProperties%2F-2043908257" data-filterable-set=":compass-geocoder-web-mapbox:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":compass-geocoder-web-mapbox:dokkaHtmlPartial/commonMain" data-filterable-set=":compass-geocoder-web-mapbox:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="autocomplete.html"><span><span>autocomplete</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-970760412%2FProperties%2F-2043908257"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":compass-geocoder-web-mapbox:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="autocomplete.html">autocomplete</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">true</span></div><div class="brief "><p class="paragraph">Specify whether to return autocomplete results (true, default) or not (false). When autocomplete is enabled, results will be included that start with the requested string, rather than responses that match it exactly. For example, a query for India might return both India and Indiana with autocomplete enabled, but only India if it’s disabled.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="143220483%2FProperties%2F-2043908257" anchor-label="bbox" id="143220483%2FProperties%2F-2043908257" data-filterable-set=":compass-geocoder-web-mapbox:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":compass-geocoder-web-mapbox:dokkaHtmlPartial/commonMain" data-filterable-set=":compass-geocoder-web-mapbox:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="bbox.html"><span><span>bbox</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="143220483%2FProperties%2F-2043908257"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":compass-geocoder-web-mapbox:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="bbox.html">bbox</a><span class="token operator">: </span><a href="../-map-box-bounding-box/index.html">MapBoxBoundingBox</a><span class="token operator">?</span><span class="token operator"> = </span>null</div><div class="brief "><p class="paragraph">Limit results to only those contained within the supplied bounding box. Bounding boxes should be supplied as four numbers separated by commas. The bounding box cannot cross the 180th meridian.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1243641144%2FProperties%2F-2043908257" anchor-label="country" id="1243641144%2FProperties%2F-2043908257" data-filterable-set=":compass-geocoder-web-mapbox:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":compass-geocoder-web-mapbox:dokkaHtmlPartial/commonMain" data-filterable-set=":compass-geocoder-web-mapbox:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="country.html"><span><span>country</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1243641144%2FProperties%2F-2043908257"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":compass-geocoder-web-mapbox:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="country.html">country</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator"> = </span>null</div><div class="brief "><p class="paragraph">Limit results to one or more countries. Permitted values are <a href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2">ISO 3166 alpha 2</a> country codes separated by commas.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1006765772%2FProperties%2F-2043908257" anchor-label="language" id="-1006765772%2FProperties%2F-2043908257" data-filterable-set=":compass-geocoder-web-mapbox:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":compass-geocoder-web-mapbox:dokkaHtmlPartial/commonMain" data-filterable-set=":compass-geocoder-web-mapbox:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="language.html"><span><span>language</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1006765772%2FProperties%2F-2043908257"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":compass-geocoder-web-mapbox:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="language.html">language</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator"> = </span>null</div><div class="brief "><p class="paragraph">Set the language of the text supplied in responses. Also affects result scoring, with results matching the user’s query in the requested language being preferred over results that match in another language. Options are <a href="https://en.wikipedia.org/wiki/IETF_language_tag">IETF language tags</a> comprised of a mandatory <a href="https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes">ISO 639-1 language</a> code.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1382212851%2FProperties%2F-2043908257" anchor-label="limit" id="1382212851%2FProperties%2F-2043908257" data-filterable-set=":compass-geocoder-web-mapbox:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":compass-geocoder-web-mapbox:dokkaHtmlPartial/commonMain" data-filterable-set=":compass-geocoder-web-mapbox:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="limit.html"><span><span>limit</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1382212851%2FProperties%2F-2043908257"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":compass-geocoder-web-mapbox:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="limit.html">limit</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator">?</span><span class="token operator"> = </span>null</div><div class="brief "><p class="paragraph">The maximum number of results to return. The default is 5.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="76790562%2FProperties%2F-2043908257" anchor-label="parameters" id="76790562%2FProperties%2F-2043908257" data-filterable-set=":compass-geocoder-web-mapbox:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":compass-geocoder-web-mapbox:dokkaHtmlPartial/commonMain" data-filterable-set=":compass-geocoder-web-mapbox:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="parameters.html"><span><span>parameters</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="76790562%2FProperties%2F-2043908257"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":compass-geocoder-web-mapbox:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">val </span><a href="parameters.html">parameters</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html">Map</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-757984544%2FProperties%2F-2043908257" anchor-label="permanent" id="-757984544%2FProperties%2F-2043908257" data-filterable-set=":compass-geocoder-web-mapbox:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":compass-geocoder-web-mapbox:dokkaHtmlPartial/commonMain" data-filterable-set=":compass-geocoder-web-mapbox:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="permanent.html"><span><span>permanent</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-757984544%2FProperties%2F-2043908257"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":compass-geocoder-web-mapbox:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="permanent.html">permanent</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">false</span></div><div class="brief "><p class="paragraph">Specify whether you intend to store the results of the query (true) or not (false, default).</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-2068507601%2FProperties%2F-2043908257" anchor-label="proximity" id="-2068507601%2FProperties%2F-2043908257" data-filterable-set=":compass-geocoder-web-mapbox:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":compass-geocoder-web-mapbox:dokkaHtmlPartial/commonMain" data-filterable-set=":compass-geocoder-web-mapbox:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="proximity.html"><span><span>proximity</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2068507601%2FProperties%2F-2043908257"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":compass-geocoder-web-mapbox:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="proximity.html">proximity</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator"> = </span>null</div><div class="brief "><p class="paragraph">Bias the response to favor results that are closer to this location.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-669251083%2FProperties%2F-2043908257" anchor-label="types" id="-669251083%2FProperties%2F-2043908257" data-filterable-set=":compass-geocoder-web-mapbox:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":compass-geocoder-web-mapbox:dokkaHtmlPartial/commonMain" data-filterable-set=":compass-geocoder-web-mapbox:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="types.html"><span><span>types</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-669251083%2FProperties%2F-2043908257"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":compass-geocoder-web-mapbox:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="types.html">types</a><span class="token operator">: </span><a href="../-map-box-types-list/index.html">MapBoxTypesList</a><span class="token operator">?</span><span class="token operator"> = </span>null</div><div class="brief "><p class="paragraph">Filter results to include only a subset (one or more) of the available feature types.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1001657943%2FProperties%2F-2043908257" anchor-label="worldView" id="1001657943%2FProperties%2F-2043908257" data-filterable-set=":compass-geocoder-web-mapbox:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":compass-geocoder-web-mapbox:dokkaHtmlPartial/commonMain" data-filterable-set=":compass-geocoder-web-mapbox:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="world-view.html"><span>world</span><wbr><span><span>View</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1001657943%2FProperties%2F-2043908257"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":compass-geocoder-web-mapbox:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="world-view.html">worldView</a><span class="token operator">: </span><a href="../-world-view/index.html">WorldView</a><span class="token operator">?</span><span class="token operator"> = </span>null</div><div class="brief "><p class="paragraph">Returns features that are defined differently by audiences that belong to various regional, cultural, or political groups. If worldview is not set, the us worldview boundaries are returned by default.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="FUNCTION">
+        <h2 class="">Functions</h2>
+        <div class="table"><a data-name="1636173573%2FFunctions%2F-2043908257" anchor-label="encode" id="1636173573%2FFunctions%2F-2043908257" data-filterable-set=":compass-geocoder-web-mapbox:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":compass-geocoder-web-mapbox:dokkaHtmlPartial/commonMain" data-filterable-set=":compass-geocoder-web-mapbox:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#1636173573%2FFunctions%2F-2043908257"><span><span>encode</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1636173573%2FFunctions%2F-2043908257"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":compass-geocoder-web-mapbox:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#1636173573%2FFunctions%2F-2043908257"><span class="token function">encode</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2024 Copyright</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
