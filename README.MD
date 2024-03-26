@@ -52,14 +52,14 @@ Read the [Setup documentation](https://compass.jordond.dev/docs/setup/) for more
 A demo app is available in the `demo` directory. It is a Compose Multiplatform app that runs on
 Android, and iOS.
 
-See the [README](demo/README.md) for more information.
+See [Documentation](https://compass.jordond.dev/docs/misc/demo) for more.
 
 ## Contributing
 
 Contributions are always welcome!. If you'd like to contribute, please feel free to create a PR or
 open an issue.
 
-See [Documentation](https://compass.jordond.dev/docs/contributing) for more.
+See [Documentation](https://compass.jordond.dev/docs/misc/contributing) for more.
 
 ## License
 
