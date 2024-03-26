@@ -41,6 +41,7 @@ compass-geocoder-web-googlemaps = { module = "dev.jordond.compass:compass-geocod
 compass-geocoder-web-mapbox = { module = "dev.jordond.compass:compass-geocoder-mapbox", version.ref = "compass" }
 compass-geolocation = { module = "dev.jordond.compass:compass-geolocation", version.ref = "compass" }
 compass-geolocation-mobile = { module = "dev.jordond.compass:compass-geolocation-mobile", version.ref = "compass" }
+compass-geolocation-browser = { module = "dev.jordond.compass:compass-geolocation-browser", version.ref = "compass" }
 ```
 {% endcode %}
 
@@ -57,10 +58,10 @@ kotlin {
 
                 // To use geocoding you need to use one or more of the following
 
-                // Optional - Support for only iOS and Android
+                // Optional - Geocoder support for only iOS and Android
                 implementation(libs.compass.geocoder.mobile)
 
-                // Optional - Support for all platforms, but requires an API key from the service
+                // Optional - Geocoder support for all platforms, but requires an API key from the service
                 implementation(libs.compass.geocoder.web.googlemaps)
                 implementation(libs.compass.geocoder.web.mapbox)
 
@@ -70,10 +71,13 @@ kotlin {
                 // Geolocation
                 implementation(libs.compass.geolocation)
                 
-                // Optional - Support for only iOS and Android
+                // Optional - Geolocation support for only iOS and Android
                 implementation(libs.compass.geolocation.mobile)
+                
+                // Optional - Geolocation support for JS/WASM Browser Geolocation API
+                implementation(libs.compass.geolocation.browser)
             }
-        }
+        }  
     }
 }
 ```
@@ -93,10 +97,10 @@ kotlin {
 
                 // To use geocoding you need to use one or more of the following
 
-                // Optional - Support for only iOS and Android
+                // Optional - Geocoder support for only iOS and Android
                 implementation("dev.jordond.compass:compass-geocoder-mobile:$compassVersion")
 
-                // Optional - Support for all platforms, but requires an API key from the service
+                // Optional - Geocoder support for all platforms, but requires an API key from the service
                 implementation("dev.jordond.compass:compass-geocoder-web-googlemaps:$compassVersion")
                 implementation("dev.jordond.compass:compass-geocoder-web-mapbox:$compassVersion")
 
@@ -106,8 +110,11 @@ kotlin {
                 // Geolocation
                 implementation("dev.jordond.compass:compass-geolocation:$compassVersion")
                 
-                // Optional - Support for only iOS and Android
+                // Optional - Geolocation support for only iOS and Android
                 implementation("dev.jordond.compass:compass-geolocation-mobile:$compassVersion")
+                
+                // Optional - Geolocation support for JS/WASM Browser Geolocation API
+                implementation("dev.jordond.compass:compass-geolocation-browser:$compassVersion")
             }
         }
     }
