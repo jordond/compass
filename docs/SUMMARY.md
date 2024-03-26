@@ -12,7 +12,7 @@
 
 ## Geocoding
 
-* [🌎 Overview](geocoder/overview.md)
+* [🌎 Geocoding Overview](geocoder/overview.md)
 * [📈 Web API Service](geocoding/web-api-service/README.md)
   * [Google Maps](geocoding/web-api-service/google-maps.md)
   * [Mapbox](geocoding/web-api-service/mapbox.md)
@@ -20,7 +20,7 @@
 
 ## Geolocation
 
-* [📍 Overview](geolocation/overview.md)
+* [📍 Geolocation Overview](geolocation/overview.md)
 * [🔍 Geolocator](geolocation/geolocator.md)
 * [🌐 Location](geolocation/location.md)
 * [📱 Android / iOS](geolocation/android-ios.md)
