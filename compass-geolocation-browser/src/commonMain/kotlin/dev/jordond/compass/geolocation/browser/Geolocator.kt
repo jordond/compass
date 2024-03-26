@@ -28,3 +28,15 @@ public fun Geolocator(
 public fun BrowserGeolocator(
     dispatcher: CoroutineDispatcher = Dispatchers.Default,
 ): Geolocator = Geolocator(createBrowserLocator(), dispatcher)
+
+/**
+ * Create a new [Geolocator] that uses the [BrowserLocator] for geolocation operations.
+ *
+ * [MDN documentation](https://developer.mozilla.org/en-US/docs/Web/API/Geolocation)
+ *
+ * @param dispatcher The [CoroutineDispatcher] to use for geolocation operations.
+ * @return A new [Geolocator] instance.
+ */
+public fun Geolocator.Companion.browser(
+    dispatcher: CoroutineDispatcher = Dispatchers.Default,
+): Geolocator = BrowserGeolocator(dispatcher)

@@ -85,6 +85,8 @@ public interface Geolocator {
      * flow won't be cancelled.
      */
     public fun stopTracking()
+
+    public companion object
 }
 
 /**

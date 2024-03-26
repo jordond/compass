@@ -7,7 +7,7 @@ plugins {
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            implementation(projects.compassCore)
+            api(projects.compassCore)
             implementation(libs.kotlinx.coroutines.core)
         }
     }
