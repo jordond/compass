@@ -1,6 +1,6 @@
 package dev.jordond.compass.geocoder.mobile.internal
 
-import dev.jordond.compass.Location
+import dev.jordond.compass.Coordinates
 import dev.jordond.compass.Place
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.useContents
@@ -33,14 +33,15 @@ internal fun CLPlacemark.toPlace(): Place {
 internal fun List<CLPlacemark>.toPlaces(): List<Place> = map { it.toPlace() }
 
 @OptIn(ExperimentalForeignApi::class)
-internal fun CLPlacemark.toLocation(): Location? {
+internal fun CLPlacemark.toCoordinates(): Coordinates? {
     val (latitude, longitude) = location?.coordinate?.useContents { latitude to longitude }
         ?: return null
 
-    return Location(
+    return Coordinates(
         latitude = latitude,
         longitude = longitude,
     )
 }
 
-internal fun List<CLPlacemark>.toLocations(): List<Location> = mapNotNull { it.toLocation() }
+internal fun List<CLPlacemark>.toCoordinates(): List<Coordinates> =
+    mapNotNull { it.toCoordinates() }

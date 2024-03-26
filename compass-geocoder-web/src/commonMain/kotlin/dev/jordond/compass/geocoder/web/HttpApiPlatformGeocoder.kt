@@ -1,6 +1,6 @@
 package dev.jordond.compass.geocoder.web
 
-import dev.jordond.compass.Location
+import dev.jordond.compass.Coordinates
 import dev.jordond.compass.Place
 import dev.jordond.compass.geocoder.PlatformGeocoder
 import io.ktor.client.HttpClient
@@ -101,7 +101,7 @@ public fun HttpApiPlatformGeocoder(
 
     override fun isAvailable(): Boolean = true
 
-    override suspend fun forward(address: String): List<Location> {
+    override suspend fun forward(address: String): List<Coordinates> {
         return ForwardHttpApiPlatformGeocoder(forwardEndpoint, client)
             .forward(address)
     }

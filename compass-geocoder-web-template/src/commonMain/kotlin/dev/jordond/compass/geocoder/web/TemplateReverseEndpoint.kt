@@ -1,6 +1,6 @@
 package dev.jordond.compass.geocoder.web
 
-import dev.jordond.compass.Location
+import dev.jordond.compass.Coordinates
 import dev.jordond.compass.Place
 import dev.jordond.compass.geocoder.web.parameter.TemplateParameters
 import dev.jordond.compass.geocoder.web.parameter.TemplateParametersBuilder
@@ -32,7 +32,7 @@ public class TemplateReverseEndpoint(
         block: TemplateParametersBuilder.() -> Unit,
     ) : this(apiKey, templateParameters(block))
 
-    override fun url(param: Location): String {
+    override fun url(param: Coordinates): String {
         val (latitude, longitude) = param.run { latitude to longitude }
         return TemplatePlatformGeocoder.reverseUrl(latitude, longitude, apiKey, parameters)
     }

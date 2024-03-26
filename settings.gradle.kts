@@ -4,9 +4,12 @@ pluginManagement {
     repositories {
         gradlePluginPortal()
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
+        maven("https://maven.pkg.jetbrains.space/kotlin/p/wasm/experimental")
         google()
         mavenCentral()
     }
+
+    includeBuild("buildLogic")
 }
 
 dependencyResolutionManagement {
@@ -15,6 +18,7 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
+        maven("https://maven.pkg.jetbrains.space/kotlin/p/wasm/experimental")
     }
 }
 
@@ -36,11 +40,16 @@ rootProject.name = "compass"
 
 include(
     ":compass-core",
-    ":compass-geocoder-core",
+    ":compass-geocoder",
     ":compass-geocoder-mobile",
     ":compass-geocoder-web",
-    ":compass-geocoder-web-google-maps",
+    ":compass-geocoder-web-googlemaps",
     ":compass-geocoder-web-mapbox",
+    ":compass-geocoder-web-template",
+    ":compass-geolocation",
+    ":compass-geolocation-mobile",
+    ":compass-geolocation-browser",
+    ":compass-tools-android",
 )
 
 include(":demo:composeApp")

@@ -1,7 +1,7 @@
 package dev.jordond.compass.geocoder.web.parameter
 
-import io.kotest.matchers.equals.shouldBeEqual
 import kotlin.test.Test
+import kotlin.test.assertTrue
 
 class QueryParametersTest {
 
@@ -90,6 +90,12 @@ class QueryParametersTest {
         )
         val expected = mapOf("key1" to "bar|baz")
         actual shouldBeEqual expected
+    }
+
+    // TODO: Replace this with kotest once it hits 5.9 for wasm support
+    private infix fun <A : Any> A.shouldBeEqual(expected: A): A {
+        assertTrue { this == expected }
+        return this
     }
 }
 

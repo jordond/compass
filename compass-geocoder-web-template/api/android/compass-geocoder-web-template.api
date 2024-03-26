@@ -1,0 +1,69 @@
+public final class dev/jordond/compass/geocoder/web/TemplateForwardEndpoint : dev/jordond/compass/geocoder/web/HttpApiEndpoint {
+	public fun <init> (Ljava/lang/String;Ldev/jordond/compass/geocoder/web/parameter/TemplateParameters;)V
+	public synthetic fun <init> (Ljava/lang/String;Ldev/jordond/compass/geocoder/web/parameter/TemplateParameters;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Ljava/lang/String;Lkotlin/jvm/functions/Function1;)V
+	public fun mapResponse (Lio/ktor/client/statement/HttpResponse;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public synthetic fun url (Ljava/lang/Object;)Ljava/lang/String;
+	public fun url (Ljava/lang/String;)Ljava/lang/String;
+}
+
+public final class dev/jordond/compass/geocoder/web/TemplateGeocoderKt {
+	public static final fun TemplateGeocoder (Ljava/lang/String;Ldev/jordond/compass/geocoder/web/parameter/TemplateParameters;Lkotlinx/serialization/json/Json;Lio/ktor/client/HttpClient;Lkotlinx/coroutines/CoroutineDispatcher;)Ldev/jordond/compass/geocoder/Geocoder;
+	public static final fun TemplateGeocoder (Ljava/lang/String;Lkotlinx/serialization/json/Json;Lio/ktor/client/HttpClient;Lkotlinx/coroutines/CoroutineDispatcher;Lkotlin/jvm/functions/Function1;)Ldev/jordond/compass/geocoder/Geocoder;
+	public static synthetic fun TemplateGeocoder$default (Ljava/lang/String;Ldev/jordond/compass/geocoder/web/parameter/TemplateParameters;Lkotlinx/serialization/json/Json;Lio/ktor/client/HttpClient;Lkotlinx/coroutines/CoroutineDispatcher;ILjava/lang/Object;)Ldev/jordond/compass/geocoder/Geocoder;
+	public static synthetic fun TemplateGeocoder$default (Ljava/lang/String;Lkotlinx/serialization/json/Json;Lio/ktor/client/HttpClient;Lkotlinx/coroutines/CoroutineDispatcher;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/jordond/compass/geocoder/Geocoder;
+	public static final fun template (Ldev/jordond/compass/geocoder/Geocoder$Companion;Ljava/lang/String;Ldev/jordond/compass/geocoder/web/parameter/TemplateParameters;Lkotlinx/serialization/json/Json;Lio/ktor/client/HttpClient;Lkotlinx/coroutines/CoroutineDispatcher;)Ldev/jordond/compass/geocoder/Geocoder;
+	public static final fun template (Ldev/jordond/compass/geocoder/Geocoder$Companion;Ljava/lang/String;Lkotlinx/serialization/json/Json;Lio/ktor/client/HttpClient;Lkotlinx/coroutines/CoroutineDispatcher;Lkotlin/jvm/functions/Function1;)Ldev/jordond/compass/geocoder/Geocoder;
+	public static synthetic fun template$default (Ldev/jordond/compass/geocoder/Geocoder$Companion;Ljava/lang/String;Ldev/jordond/compass/geocoder/web/parameter/TemplateParameters;Lkotlinx/serialization/json/Json;Lio/ktor/client/HttpClient;Lkotlinx/coroutines/CoroutineDispatcher;ILjava/lang/Object;)Ldev/jordond/compass/geocoder/Geocoder;
+	public static synthetic fun template$default (Ldev/jordond/compass/geocoder/Geocoder$Companion;Ljava/lang/String;Lkotlinx/serialization/json/Json;Lio/ktor/client/HttpClient;Lkotlinx/coroutines/CoroutineDispatcher;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/jordond/compass/geocoder/Geocoder;
+}
+
+public abstract interface class dev/jordond/compass/geocoder/web/TemplatePlatformGeocoder : dev/jordond/compass/geocoder/web/HttpApiPlatformGeocoder {
+	public static final field Companion Ldev/jordond/compass/geocoder/web/TemplatePlatformGeocoder$Companion;
+}
+
+public final class dev/jordond/compass/geocoder/web/TemplatePlatformGeocoder$Companion {
+}
+
+public final class dev/jordond/compass/geocoder/web/TemplatePlatformGeocoderKt {
+	public static final fun TemplatePlatformGeocoder (Ljava/lang/String;Ldev/jordond/compass/geocoder/web/parameter/TemplateParameters;Lkotlinx/serialization/json/Json;Lio/ktor/client/HttpClient;)Ldev/jordond/compass/geocoder/web/TemplatePlatformGeocoder;
+	public static final fun TemplatePlatformGeocoder (Ljava/lang/String;Lkotlinx/serialization/json/Json;Lio/ktor/client/HttpClient;Lkotlin/jvm/functions/Function1;)Ldev/jordond/compass/geocoder/web/TemplatePlatformGeocoder;
+	public static synthetic fun TemplatePlatformGeocoder$default (Ljava/lang/String;Ldev/jordond/compass/geocoder/web/parameter/TemplateParameters;Lkotlinx/serialization/json/Json;Lio/ktor/client/HttpClient;ILjava/lang/Object;)Ldev/jordond/compass/geocoder/web/TemplatePlatformGeocoder;
+	public static synthetic fun TemplatePlatformGeocoder$default (Ljava/lang/String;Lkotlinx/serialization/json/Json;Lio/ktor/client/HttpClient;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/jordond/compass/geocoder/web/TemplatePlatformGeocoder;
+	public static final fun template (Ldev/jordond/compass/geocoder/PlatformGeocoder$Companion;Ljava/lang/String;Ldev/jordond/compass/geocoder/web/parameter/TemplateParameters;Lkotlinx/serialization/json/Json;Lio/ktor/client/HttpClient;)Ldev/jordond/compass/geocoder/web/TemplatePlatformGeocoder;
+	public static final fun template (Ldev/jordond/compass/geocoder/PlatformGeocoder$Companion;Ljava/lang/String;Lkotlinx/serialization/json/Json;Lio/ktor/client/HttpClient;Lkotlin/jvm/functions/Function1;)Ldev/jordond/compass/geocoder/web/TemplatePlatformGeocoder;
+	public static synthetic fun template$default (Ldev/jordond/compass/geocoder/PlatformGeocoder$Companion;Ljava/lang/String;Ldev/jordond/compass/geocoder/web/parameter/TemplateParameters;Lkotlinx/serialization/json/Json;Lio/ktor/client/HttpClient;ILjava/lang/Object;)Ldev/jordond/compass/geocoder/web/TemplatePlatformGeocoder;
+	public static synthetic fun template$default (Ldev/jordond/compass/geocoder/PlatformGeocoder$Companion;Ljava/lang/String;Lkotlinx/serialization/json/Json;Lio/ktor/client/HttpClient;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/jordond/compass/geocoder/web/TemplatePlatformGeocoder;
+}
+
+public final class dev/jordond/compass/geocoder/web/TemplateReverseEndpoint : dev/jordond/compass/geocoder/web/HttpApiEndpoint {
+	public fun <init> (Ljava/lang/String;Ldev/jordond/compass/geocoder/web/parameter/TemplateParameters;)V
+	public synthetic fun <init> (Ljava/lang/String;Ldev/jordond/compass/geocoder/web/parameter/TemplateParameters;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Ljava/lang/String;Lkotlin/jvm/functions/Function1;)V
+	public fun mapResponse (Lio/ktor/client/statement/HttpResponse;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun url (Ldev/jordond/compass/Coordinates;)Ljava/lang/String;
+	public synthetic fun url (Ljava/lang/Object;)Ljava/lang/String;
+}
+
+public final class dev/jordond/compass/geocoder/web/parameter/TemplateParameters : dev/jordond/compass/geocoder/web/parameter/QueryParameters {
+	public fun <init> ()V
+	public fun <init> (Ljava/lang/String;)V
+	public synthetic fun <init> (Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun encode ()Ljava/lang/String;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getFoo ()Ljava/lang/String;
+	public fun getParameters ()Ljava/util/Map;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class dev/jordond/compass/geocoder/web/parameter/TemplateParametersBuilder : dev/jordond/compass/geocoder/web/parameter/QueryParametersBuilder {
+	public fun <init> ()V
+	public synthetic fun build ()Ldev/jordond/compass/geocoder/web/parameter/QueryParameters;
+	public fun build ()Ldev/jordond/compass/geocoder/web/parameter/TemplateParameters;
+}
+
+public final class dev/jordond/compass/geocoder/web/parameter/TemplateParametersKt {
+	public static final fun templateParameters (Lkotlin/jvm/functions/Function1;)Ldev/jordond/compass/geocoder/web/parameter/TemplateParameters;
+}
+

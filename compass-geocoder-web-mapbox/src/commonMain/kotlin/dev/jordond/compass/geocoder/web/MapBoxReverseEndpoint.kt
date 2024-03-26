@@ -1,6 +1,6 @@
 package dev.jordond.compass.geocoder.web
 
-import dev.jordond.compass.Location
+import dev.jordond.compass.Coordinates
 import dev.jordond.compass.Place
 import dev.jordond.compass.geocoder.web.mapbox.internal.GeocodeResponse
 import dev.jordond.compass.geocoder.web.mapbox.internal.toPlaces
@@ -32,7 +32,7 @@ public class MapBoxReverseEndpoint(
         block: MapBoxParametersBuilder.() -> Unit,
     ) : this(apiKey, mapBoxParameters(block))
 
-    override fun url(param: Location): String {
+    override fun url(param: Coordinates): String {
         val (latitude, longitude) = param.run { latitude to longitude }
         return MapBoxPlatformGeocoder.reverseUrl(latitude, longitude, apiKey, parameters)
     }

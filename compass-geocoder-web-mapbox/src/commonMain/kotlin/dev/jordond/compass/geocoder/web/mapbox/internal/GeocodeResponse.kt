@@ -1,6 +1,6 @@
 package dev.jordond.compass.geocoder.web.mapbox.internal
 
-import dev.jordond.compass.Location
+import dev.jordond.compass.Coordinates
 import dev.jordond.compass.Place
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -11,10 +11,10 @@ internal data class GeocodeResponse(
     val features: List<FeatureResponse>,
 )
 
-internal fun GeocodeResponse.toLocations(): List<Location> {
+internal fun GeocodeResponse.toCoordinates(): List<Coordinates> {
     return features.mapNotNull { response ->
         val coordinates = response.properties?.coordinates ?: return@mapNotNull null
-        Location(
+        Coordinates(
             latitude = coordinates.latitude,
             longitude = coordinates.longitude,
         )

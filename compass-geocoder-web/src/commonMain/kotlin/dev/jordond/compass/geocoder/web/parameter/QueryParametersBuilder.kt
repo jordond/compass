@@ -5,7 +5,7 @@ package dev.jordond.compass.geocoder.web.parameter
  *
  * @param T the type of [QueryParameters] to build.
  */
-public interface QueryParametersBuilder <T: QueryParameters> {
+public interface QueryParametersBuilder<T : QueryParameters> {
 
     /**
      * @return a [QueryParameters] instance of type [T].

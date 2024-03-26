@@ -3,14 +3,14 @@ package dev.jordond.compass.geocoder.mobile
 import android.content.Context
 import android.location.Geocoder
 import android.os.Build
-import dev.jordond.compass.Location
+import dev.jordond.compass.Coordinates
 import dev.jordond.compass.Place
-import dev.jordond.compass.geocoder.exception.NotSupportedException
+import dev.jordond.compass.exception.NotSupportedException
 import dev.jordond.compass.geocoder.mobile.internal.asyncOperation
-import dev.jordond.compass.geocoder.mobile.internal.context.ContextProvider
 import dev.jordond.compass.geocoder.mobile.internal.syncOperation
-import dev.jordond.compass.geocoder.mobile.internal.toLocations
+import dev.jordond.compass.geocoder.mobile.internal.toCoordinates
 import dev.jordond.compass.geocoder.mobile.internal.toPlaces
+import dev.jordond.compass.tools.ContextProvider
 
 internal class AndroidPlatformGeocoder(
     private val context: Context,
@@ -43,17 +43,17 @@ internal class AndroidPlatformGeocoder(
         }
     }
 
-    override suspend fun forward(address: String): List<Location> {
+    override suspend fun forward(address: String): List<Coordinates> {
         val geocoder = createGeocoder()
         return if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
             @Suppress("DEPRECATION")
             syncOperation {
                 geocoder.getFromLocationName(address, MAX_RESULTS)
-            }.toLocations()
+            }.toCoordinates()
         } else {
             asyncOperation { listener ->
                 geocoder.getFromLocationName(address, MAX_RESULTS, listener)
-            }.toLocations()
+            }.toCoordinates()
         }
     }
 

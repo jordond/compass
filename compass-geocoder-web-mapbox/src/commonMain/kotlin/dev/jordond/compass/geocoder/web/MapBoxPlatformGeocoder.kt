@@ -1,5 +1,6 @@
 package dev.jordond.compass.geocoder.web
 
+import dev.jordond.compass.geocoder.PlatformGeocoder
 import dev.jordond.compass.geocoder.web.parameter.MapBoxParameters
 import dev.jordond.compass.geocoder.web.parameter.MapBoxParametersBuilder
 import dev.jordond.compass.geocoder.web.parameter.mapBoxParameters
@@ -74,6 +75,43 @@ public fun MapBoxPlatformGeocoder(
  * @return A [MapBoxPlatformGeocoder] instance.
  */
 public fun MapBoxPlatformGeocoder(
+    apiKey: String,
+    json: Json = HttpApiPlatformGeocoder.json(),
+    client: HttpClient = HttpApiPlatformGeocoder.httpClient(json),
+    block: MapBoxParametersBuilder.() -> Unit,
+): MapBoxPlatformGeocoder = MapBoxPlatformGeocoder(apiKey, mapBoxParameters(block), json, client)
+
+/**
+ * Creates a [MapBoxPlatformGeocoder] to be used with the [Geocoder].
+ *
+ * See [MapBox](https://www.mapbox.com/) for more information.
+ *
+ * @param apiKey The MapBox API key.
+ * @param parameters The parameters to use for the geocoding requests.
+ * @param json The [Json] instance to use for serialization and deserialization.
+ * @param client The [HttpClient] to use for making requests.
+ * @return A [MapBoxPlatformGeocoder] instance.
+ */
+public fun PlatformGeocoder.Companion.mapBox(
+    apiKey: String,
+    parameters: MapBoxParameters = MapBoxParameters(),
+    json: Json = HttpApiPlatformGeocoder.json(),
+    client: HttpClient = HttpApiPlatformGeocoder.httpClient(json),
+): MapBoxPlatformGeocoder =
+    MapBoxPlatformGeocoder(apiKey, parameters, json, client)
+
+/**
+ * Creates a [MapBoxPlatformGeocoder] to be used with the [Geocoder].
+ *
+ * See [MapBox](https://www.mapbox.com/) for more information.
+ *
+ * @param apiKey The MapBox API key.
+ * @param json The [Json] instance to use for serialization and deserialization.
+ * @param client The [HttpClient] to use for making requests.
+ * @param block A lambda that configures the [MapBoxParameters] to use for the geocoding requests.
+ * @return A [MapBoxPlatformGeocoder] instance.
+ */
+public fun PlatformGeocoder.Companion.mapBox(
     apiKey: String,
     json: Json = HttpApiPlatformGeocoder.json(),
     client: HttpClient = HttpApiPlatformGeocoder.httpClient(json),

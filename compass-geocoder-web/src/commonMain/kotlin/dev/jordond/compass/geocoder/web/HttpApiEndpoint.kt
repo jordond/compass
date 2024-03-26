@@ -1,18 +1,18 @@
 package dev.jordond.compass.geocoder.web
 
-import dev.jordond.compass.Location
+import dev.jordond.compass.Coordinates
 import dev.jordond.compass.Place
 import io.ktor.client.statement.HttpResponse
 
 /**
  * Alias that denotes a forward geocoding [HttpApiEndpoint].
  */
-public typealias ForwardEndpoint = HttpApiEndpoint<String, List<Location>>
+public typealias ForwardEndpoint = HttpApiEndpoint<String, List<Coordinates>>
 
 /**
  * Alias that denotes a reverse geocoding [HttpApiEndpoint].
  */
-public typealias ReverseEndpoint = HttpApiEndpoint<Location, List<Place>>
+public typealias ReverseEndpoint = HttpApiEndpoint<Coordinates, List<Place>>
 
 /**
  * Defines an HTTP API endpoint.
