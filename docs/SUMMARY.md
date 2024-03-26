@@ -6,16 +6,24 @@
 
 ## Setup
 
-* [📇 Add Dependencies](setup/add-dependencies.md)
+* [📇 All Dependencies](setup/add-dependencies.md)
+* [🤖 Android / iOS](setup/android-ios.md)
+* [📱 Mixed platforms](setup/mixed-platforms.md)
 
-## Usage
+## Geocoding
 
-* [📱 Mixed platforms](usage/mixed-platforms.md)
-
-## Geocoder
-
-* [🌎 Overview](geocoder/overview.md)
+* [🌎 Overview](geocoding/overview.md)
+* [📈 Web API Service](geocoding/web-api-service/README.md)
+  * [Google Maps](geocoding/web-api-service/google-maps.md)
+  * [Mapbox](geocoding/web-api-service/mapbox.md)
+* [❓ Request a Geocoder API](geocoding/request-a-geocoder-api.md)
 
 ## Geolocation
 
 * [📍 Overview](geolocation/overview.md)
+
+***
+
+* [📲 Demo](demo.md)
+* [💾 Contributing](contributing.md)
+* [🔧 Compass Reference](https://docs.compass.jordond.dev)

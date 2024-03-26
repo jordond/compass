@@ -6,15 +6,15 @@ Compass is a Kotlin Multiplatform library location toolkit. It provides a set of
 
 ### Features
 
-* Forward and Reverse Geocoding
+* [Broken link](broken-reference "mention")
   * Native support for Android and iOS
   * Support for other platforms by using web based APIs
     * Included support for [Google Maps ](https://developers.google.com/maps/documentation/geocoding)and [Mapbox](https://docs.mapbox.com/#search)
-* Geolocation _(planned)_
-* Testable
-  * Compass' API is built around interfaces and is easily injected or customized
-* Extensible
-  * If a wrapper for a web based API service isn't available, it's easy to write your own
+    * See [web-api-service](geocoding/web-api-service/ "mention")
+* [Broken link](broken-reference "mention")
+  * Mobile support (Android/iOS)
+  * Browser [Geolocation API](https://developer.mozilla.org/en-US/docs/Web/API/Geolocation\_API)
+  * Built-in permission handling
 
 ### Easy to use
 
@@ -30,10 +30,10 @@ suspend fun lookupCoordinates(latitude: Double, longitude: Double): Place? {
 
 The above `Geocoder()` function is one of many extension functions included to make your life easier.  Behind the scenes a `PlatformGeocoder` is used to do all the heavy lifting, and can be created and provided on a per-platform basis.
 
-You can learn more about geocoding here: [overview.md](geocoder/overview.md "mention")
+You can learn more about geocoding here: [overview.md](geocoding/overview.md "mention")
 
 {% hint style="info" %}
-The above `Geocoder()`extension function is from the Android/iOS only artifact. If you plan on supporting other platforms, check out [mixed-platforms.md](usage/mixed-platforms.md "mention").
+The above `Geocoder()`extension function is from the Android/iOS only artifact. If you plan on supporting other platforms, check out [mixed-platforms.md](setup/mixed-platforms.md "mention").
 {% endhint %}
 
 ### Get Started
@@ -44,10 +44,10 @@ Here is a few good starting points to start using Compass!
 [Broken link](broken-reference)
 {% endcontent-ref %}
 
-{% content-ref url="broken-reference" %}
-[Broken link](broken-reference)
+{% content-ref url="supported-platforms.md" %}
+[supported-platforms.md](supported-platforms.md)
 {% endcontent-ref %}
 
-{% content-ref url="broken-reference" %}
-[Broken link](broken-reference)
+{% content-ref url="setup/add-dependencies.md" %}
+[add-dependencies.md](setup/add-dependencies.md)
 {% endcontent-ref %}
