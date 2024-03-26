@@ -30,10 +30,10 @@ suspend fun lookupCoordinates(latitude: Double, longitude: Double): Place? {
 
 The above `Geocoder()` function is one of many extension functions included to make your life easier.  Behind the scenes a `PlatformGeocoder` is used to do all the heavy lifting, and can be created and provided on a per-platform basis.
 
-You can learn more about geocoding here: [overview.md](geocoding/overview.md "mention")
+You can learn more about geocoding here: [overview.md](geocoder/overview.md "mention")
 
 {% hint style="info" %}
-The above `Geocoder()`extension function is from the Android/iOS only artifact. If you plan on supporting other platforms, check out [mixed-platforms.md](setup/mixed-platforms.md "mention").
+The above `Geocoder()`extension function is from the Android/iOS only artifact. If you plan on supporting other platforms, check out [mixed-platforms.md](usage/mixed-platforms.md "mention").
 {% endhint %}
 
 ### Get Started

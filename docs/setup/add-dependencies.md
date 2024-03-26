@@ -124,5 +124,5 @@ kotlin {
 {% endtabs %}
 
 {% hint style="info" %}
-If you plan on using Compass in a project that targets both mobile and non-mobile platforms (desktop, browser, etc). Then you will need to make sure use `expect/actual` to provide the implementation for each platform. See [mixed-platforms.md](mixed-platforms.md "mention").
+If you plan on using Compass in a project that targets both mobile and non-mobile platforms (desktop, browser, etc). Then you will need to make sure use `expect/actual` to provide the implementation for each platform. See [mixed-platforms.md](../usage/mixed-platforms.md "mention").
 {% endhint %}

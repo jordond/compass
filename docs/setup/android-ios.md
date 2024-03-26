@@ -38,8 +38,6 @@ kotlin {
 
 No location permissions are needed for geocoding operations. Compass will use the built-in Android or iOS services. These services can be rate-limited, so make sure you aren't calling them too frequently. Check out the [Android documentation](https://developer.android.com/reference/android/location/Geocoder) as well as the [iOS documentation](https://developer.apple.com/documentation/corelocation/clgeocoder) for more information.
 
-
-
 ### Geolocation setup
 
 Location permissions are required for using geolocation on Android and iOS. Compass can handle the permission requesting automatically for you.
@@ -60,7 +58,7 @@ On iOS you are required to edit your `info.plist` and add the following entries:
 ```
 
 {% hint style="info" %}
-Make sure you change the description for both permissions. You are required to explain to your users why you need their location. Check out the \[Documentation]\([https://developer.apple.com/documentation/corelocation/requesting\_authorization\_to\_use\_location\_services#3385302](https://developer.apple.com/documentation/corelocation/requesting\_authorization\_to\_use\_location\_services#3385302))
+Make sure you change the description for both permissions. You are required to explain to your users why you need their location. Check out the [Documentation](https://developer.apple.com/documentation/corelocation/requesting\_authorization\_to\_use\_location\_services#3385302\)).
 {% endhint %}
 
-If you don't add these keys to your `info.plist, you will encounter a runtime exception when requesting permissions.`
+If you don't add these keys to your `info.plist`, you will encounter a runtime exception when requesting permissions.
