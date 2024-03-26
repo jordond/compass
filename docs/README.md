@@ -1,5 +1,7 @@
 # 🧭 Compass
 
+[![Maven Central Version](https://img.shields.io/maven-central/v/dev.jordond.compass/compass-core)](https://central.sonatype.com/namespace/dev.jordond.compass)
+
 ## Overview
 
 Compass is a Kotlin Multiplatform library location toolkit. It provides a set of tools for working with location data, including geocoding, reverse geocoding, and more. The library is built with a focus on simplicity and ease of use, providing a straightforward API for geocoding operations.
@@ -28,7 +30,7 @@ suspend fun lookupCoordinates(latitude: Double, longitude: Double): Place? {
 }
 ```
 
-The above `Geocoder()` function is one of many extension functions included to make your life easier.  Behind the scenes a `PlatformGeocoder` is used to do all the heavy lifting, and can be created and provided on a per-platform basis.
+The above `Geocoder()` function is one of many extension functions included to make your life easier. Behind the scenes a `PlatformGeocoder` is used to do all the heavy lifting, and can be created and provided on a per-platform basis.
 
 You can learn more about geocoding here: [overview.md](geocoder/overview.md "mention")
 

@@ -24,6 +24,8 @@ dependencyResolutionManagement {
 
 ### Add Compass dependencies
 
+[![Maven Central Version](https://img.shields.io/maven-central/v/dev.jordond.compass/compass-core)](https://central.sonatype.com/namespace/dev.jordond.compass)
+
 {% tabs %}
 {% tab title="Version Catalog" %}
 1. Declare the dependencies in your `libs.versions.toml`:
