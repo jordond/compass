@@ -3,7 +3,7 @@
 <img width="500px" src="art/logo-full.png" alt="logo"/>
 <br />
 
-![Maven Central](https://img.shields.io/maven-central/v/dev.jordond/compass)
+[![Maven Central Version](https://img.shields.io/maven-central/v/dev.jordond.compass/compass-core)](https://central.sonatype.com/namespace/dev.jordond.compass)
 [![Kotlin](https://img.shields.io/badge/kotlin-v1.9.23-blue.svg?logo=kotlin)](http://kotlinlang.org)
 [![Build](https://github.com/jordond/compass/actions/workflows/ci.yml/badge.svg)](https://github.com/jordond/compass/actions/workflows/ci.yml)
 [![License](https://img.shields.io/github/license/jordond/compass)](https://opensource.org/license/mit/)
