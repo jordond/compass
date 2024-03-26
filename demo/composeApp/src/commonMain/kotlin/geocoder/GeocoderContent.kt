@@ -26,7 +26,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 @Preview
-fun GeocoderView(
+fun GeocoderContent(
     title: String,
     geocoder: Geocoder,
     apiKey: String? = "",

@@ -4,11 +4,10 @@ import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
 import androidx.core.content.ContextCompat
+import dev.jordond.compass.geolocation.PermissionState
 import dev.jordond.compass.geolocation.Priority
 import dev.jordond.compass.geolocation.exception.PermissionMissingException
-import dev.jordond.compass.geolocation.PermissionState
 import dev.jordond.compass.geolocation.mobile.internal.activity.ActivityProvider
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock

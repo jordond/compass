@@ -22,8 +22,8 @@ geocoding operations.
 - [Features](#features)
     - [Planned Features](#planned-features)
 - [Artifacts](#artifacts)
-  - [`compass-geocoder-mobile`](#compass-geocoder-mobile)
-  - [Platforms](#platforms)
+    - [`compass-geocoder-mobile`](#compass-geocoder-mobile)
+    - [Platforms](#platforms)
 - [Setup](#setup)
     - [Version Catalog](#version-catalog)
 - [Usage](#usage)
@@ -38,8 +38,8 @@ geocoding operations.
 - **Geocoding**:
     - Convert an address to a latitude and longitude (forward geocoding)
     - Convert a latitude and longitude to an address (reverse geocoding)
-  - Support via native Android/iOS services
-  - Support via third party APIs for all platforms (planned)
+    - Support via native Android/iOS services
+    - Support via third party APIs for all platforms (planned)
 - **Geolocation**: (planned)
     - Get the current location of the device
     - Monitor the location of the device

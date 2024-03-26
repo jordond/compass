@@ -20,9 +20,9 @@ import dev.drewhamilton.poko.Poko
 public class Location(
     public val coordinates: Coordinates,
     public val accuracy: Double,
-    public val azimuth: Azimuth,
-    public val speed: Speed,
-    public val altitude: Altitude,
+    public val azimuth: Azimuth?,
+    public val speed: Speed?,
+    public val altitude: Altitude?,
     public val timestampMillis: Long,
 )
 

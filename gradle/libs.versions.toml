@@ -23,8 +23,8 @@ publish = "0.28.0"
 poko = "0.15.2"
 versions = "0.51.0"
 kotest = "5.8.1"
-ktor = "2.3.9"
-voyager = "1.0.0"
+ktor = "3.0.0-wasm2"
+voyager = "1.1.0-alpha03"
 stateHolder = "1.1.0"
 
 [libraries]
@@ -76,7 +76,6 @@ binaryCompatibility = { id = "org.jetbrains.kotlinx.binary-compatibility-validat
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 publish = { id = "com.vanniktech.maven.publish", version.ref = "publish" }
 poko = { id = "dev.drewhamilton.poko", version.ref = "poko" }
+convention-android = { id = "convention.android", version = "0" }
 convention-multiplatform = { id = "convention.multiplatform", version = "0" }
-convention-library = { id = "convention.library", version = "0" }
 convention-publish = { id = "convention.publish", version = "0" }
-convention-application = { id = "convention.application", version = "0" }

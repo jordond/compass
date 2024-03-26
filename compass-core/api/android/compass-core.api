@@ -66,6 +66,10 @@ public final class dev/jordond/compass/Speed {
 	public fun toString ()Ljava/lang/String;
 }
 
+public final class dev/jordond/compass/exception/NotFoundException : java/lang/Throwable {
+	public fun <init> ()V
+}
+
 public final class dev/jordond/compass/exception/NotSupportedException : java/lang/Throwable {
 	public fun <init> ()V
 }

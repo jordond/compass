@@ -1,4 +1,6 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 
 plugins {
     alias(libs.plugins.multiplatform)
@@ -12,23 +14,16 @@ kotlin {
         publishAllLibraryVariants()
     }
 
-    // TODO: Waiting on kotest 5.9
-//    @OptIn(ExperimentalWasmDsl::class)
-//    wasmJs {
-//        moduleName = "composeApp"
-//        browser {
-//            commonWebpackConfig {
-//                outputFileName = "composeApp.js"
-//                devServer = (devServer ?: KotlinWebpackConfig.DevServer()).apply {
-//                    static = (static ?: mutableListOf()).apply {
-//                        // Serve sources to debug inside browser
-//                        add(project.projectDir.path)
-//                    }
-//                }
-//            }
-//        }
-//        binaries.executable()
-//    }
+    @OptIn(ExperimentalWasmDsl::class)
+    wasmJs {
+        moduleName = "composeApp"
+        browser {
+            commonWebpackConfig {
+                outputFileName = "composeApp.js"
+            }
+        }
+        binaries.executable()
+    }
 
     jvm("desktop")
 
@@ -42,7 +37,7 @@ kotlin {
             isStatic = true
         }
     }
-    
+
     sourceSets {
         androidMain.dependencies {
             implementation(libs.compose.ui.tooling.preview)
@@ -83,14 +78,33 @@ kotlin {
             }
         }
 
+
+        val wasmJsMain by getting {
+            dependencies {
+                implementation(projects.compassGeolocationBrowser)
+            }
+        }
+
         val nonMobileMain by creating {
             dependsOn(commonMain.get())
             desktopMain.dependsOn(this)
-//            wasmJsMain.get().dependsOn(this)
+            wasmJsMain.dependsOn(this)
             dependencies {
                 implementation(projects.compassGeocoderWebGooglemaps)
             }
         }
+
+        val nonBrowser by creating {
+            dependsOn(commonMain.get())
+            desktopMain.dependsOn(this)
+            androidMain.get().dependsOn(this)
+            iosMain.get().dependsOn(this)
+        }
+    }
+
+    @OptIn(ExperimentalKotlinGradlePluginApi::class)
+    compilerOptions {
+        freeCompilerArgs.add("-Xexpect-actual-classes")
     }
 }
 
@@ -148,6 +162,6 @@ compose.desktop {
     }
 }
 
-//compose.experimental {
-//    web.application {}
-//}
+compose.experimental {
+    web.application {}
+}

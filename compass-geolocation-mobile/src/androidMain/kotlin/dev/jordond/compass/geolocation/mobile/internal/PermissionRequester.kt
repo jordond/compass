@@ -35,7 +35,7 @@ internal class PermissionRequester(private val activity: ComponentActivity) {
                     callback(PermissionState.DeniedForever)
                 }
             }
-    }
+        }
 
     fun request(
         permissions: List<String>,

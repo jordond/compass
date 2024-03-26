@@ -1,8 +1,8 @@
 package dev.jordond.compass
 
-import io.kotest.matchers.booleans.shouldBeFalse
-import io.kotest.matchers.booleans.shouldBeTrue
 import kotlin.test.Test
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 class PlaceTest {
 
@@ -21,7 +21,7 @@ class PlaceTest {
             thoroughfare = null,
             subThoroughfare = null
         )
-        place.isEmpty.shouldBeTrue()
+        assertTrue { place.isEmpty }
     }
 
     @Test
@@ -39,7 +39,7 @@ class PlaceTest {
             thoroughfare = null,
             subThoroughfare = null
         )
-        place.isEmpty.shouldBeFalse()
+        assertFalse { place.isEmpty }
 
         place.nullCopy(street = "street").isEmpty.shouldBeFalse()
         place.nullCopy(isoCountryCode = "isoCountryCode").isEmpty.shouldBeFalse()
@@ -51,5 +51,9 @@ class PlaceTest {
         place.nullCopy(subLocality = "subLocality").isEmpty.shouldBeFalse()
         place.nullCopy(thoroughfare = "thoroughfare").isEmpty.shouldBeFalse()
         place.nullCopy(subThoroughfare = "subThoroughfare").isEmpty.shouldBeFalse()
+    }
+
+    private fun Boolean.shouldBeFalse() {
+        assertFalse { this }
     }
 }

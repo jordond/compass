@@ -17,9 +17,9 @@ import cafe.adriel.voyager.navigator.CurrentScreen
 import cafe.adriel.voyager.navigator.Navigator
 
 @Composable
-fun App() {
+fun App(isBrowser: Boolean = false) {
     MaterialTheme {
-        Navigator(HomeScreen()) { navigator ->
+        Navigator(HomeScreen(isBrowser)) { navigator ->
             Scaffold(
                 topBar = {
                     TopAppBar(

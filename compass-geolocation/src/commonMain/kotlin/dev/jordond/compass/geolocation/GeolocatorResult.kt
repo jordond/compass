@@ -12,7 +12,9 @@ public sealed interface GeolocatorResult {
     /**
      * Represents a unsuccessful geolocation operation.
      */
-    public interface Error : GeolocatorResult
+    public interface Error : GeolocatorResult {
+        public val message: String
+    }
 
     /**
      * Represents a successful geolocation operation.
@@ -25,7 +27,9 @@ public sealed interface GeolocatorResult {
     /**
      * Geocoding failed because the geocoder was unable to get a result for the input.
      */
-    public object NotFound : Error
+    public object NotFound : Error {
+        override val message: String = "No location found for the input."
+    }
 
     /**
      * Geocoding operation failed at some point while geolocation.
@@ -33,7 +37,7 @@ public sealed interface GeolocatorResult {
      * @param message A message describing the error that occurred.
      */
     @Poko
-    public class GeolocationFailed(public val message: String) : Error
+    public class GeolocationFailed(override val message: String) : Error
 
     /**
      * Geocoding operation failed because of a permission error.
@@ -41,13 +45,18 @@ public sealed interface GeolocatorResult {
      * Either the user denied the permission, or the permission was denied forever.
      */
     @Poko
-    public class PermissionError(public val cause: PermissionException) : Error
+    @Suppress("CanBeParameter", "MemberVisibilityCanBePrivate")
+    public class PermissionError(public val cause: PermissionException) : Error {
+        override val message: String = cause.message ?: "Permission Error"
+    }
 
     /**
      * Geocoding operation failed because the device does not support geolocation, or the device
      * does not support the specific geolocation operation.
      */
-    public object NotSupported : Error
+    public object NotSupported : Error {
+        override val message: String = "Device does not support geolocation."
+    }
 
     /**
      * Check if the result was unsuccessful.

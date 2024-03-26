@@ -31,7 +31,7 @@ class GoogleMapsGeocoderScreen : Screen {
             }
         }
 
-        GeocoderView(
+        GeocoderContent(
             title = "Google Maps",
             geocoder = geocoder,
             apiKey = apiKey,

@@ -1,4 +1,5 @@
 plugins {
+    alias(libs.plugins.convention.android)
     alias(libs.plugins.convention.multiplatform)
     alias(libs.plugins.convention.publish)
 }
@@ -11,8 +12,8 @@ kotlin {
 
             implementation(libs.kermit)
             implementation(libs.kotlinx.coroutines.core)
-            implementation(libs.kotlinx.serialization.json)
-            implementation(libs.ktor.client.core)
+            api(libs.kotlinx.serialization.json)
+            api(libs.ktor.client.core)
             api(libs.ktor.client.contentNegotiation)
             api(libs.ktor.client.logging)
             api(libs.ktor.serialization.json)
@@ -26,9 +27,9 @@ kotlin {
             api(libs.ktor.client.darwin)
         }
 
-//        jsMain.dependencies {
-//            api(libs.ktor.client.js)
-//        }
+        jsMain.dependencies {
+            api(libs.ktor.client.js)
+        }
 
         jvmMain.dependencies {
             api(libs.ktor.client.okhttp)
