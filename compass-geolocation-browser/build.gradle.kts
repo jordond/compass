@@ -4,6 +4,7 @@ import dev.jordond.compass.convention.configureMultiplatform
 plugins {
     alias(libs.plugins.multiplatform)
     alias(libs.plugins.dokka)
+    alias(libs.plugins.poko)
     alias(libs.plugins.publish)
     alias(libs.plugins.convention.multiplatform)
 }
