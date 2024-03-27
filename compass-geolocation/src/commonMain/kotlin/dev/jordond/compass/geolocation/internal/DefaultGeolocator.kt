@@ -9,6 +9,8 @@ import dev.jordond.compass.geolocation.LocationRequest
 import dev.jordond.compass.geolocation.Locator
 import dev.jordond.compass.geolocation.Priority
 import dev.jordond.compass.geolocation.TrackingStatus
+import dev.jordond.compass.geolocation.exception.PermissionDeniedException
+import dev.jordond.compass.geolocation.exception.PermissionDeniedForeverException
 import dev.jordond.compass.geolocation.exception.PermissionException
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineDispatcher
@@ -77,7 +79,13 @@ internal class DefaultGeolocator(
 
     private fun Throwable.toResult(): GeolocatorResult.Error = when (this) {
         is CancellationException -> throw this
-        is PermissionException -> GeolocatorResult.PermissionError(this)
+        is PermissionException -> {
+            when (this.cause) {
+                is PermissionDeniedException -> GeolocatorResult.PermissionDenied(false)
+                is PermissionDeniedForeverException -> GeolocatorResult.PermissionDenied(true)
+                else -> GeolocatorResult.PermissionError(this)
+            }
+        }
         is NotSupportedException -> GeolocatorResult.NotSupported
         is NotFoundException -> GeolocatorResult.NotFound
         else -> GeolocatorResult.GeolocationFailed(this.message ?: "Unknown error")
