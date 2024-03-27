@@ -1,3 +1,4 @@
+import dev.jordond.compass.convention.Platforms
 import dev.jordond.compass.convention.configureMultiplatform
 
 plugins {
@@ -9,15 +10,27 @@ plugins {
     alias(libs.plugins.convention.multiplatform)
 }
 
-configureMultiplatform()
+configureMultiplatform(Platforms.Mobile)
 
 kotlin {
     sourceSets {
         commonMain.dependencies {
             api(projects.compassCore)
             api(projects.compassPermissions)
-
             implementation(libs.kotlinx.coroutines.core)
+        }
+
+        androidMain.dependencies {
+            implementation(projects.compassToolsAndroid)
+            api(libs.play.services.location)
+            implementation(libs.androidx.activity)
+            implementation(libs.androidx.fragment)
+            implementation(libs.androidx.startup)
+
+        }
+
+        iosMain.dependencies {
+            implementation(libs.kotlinx.atomicfu)
         }
     }
 }

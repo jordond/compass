@@ -1,7 +1,7 @@
 package dev.jordond.compass.geolocation.mobile
 
 import dev.jordond.compass.geolocation.Geolocator
-import dev.jordond.compass.geolocation.exception.PermissionMissingException
+import dev.jordond.compass.permissions.exception.PermissionMissingException
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 

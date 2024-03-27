@@ -9,9 +9,9 @@ import dev.jordond.compass.geolocation.LocationRequest
 import dev.jordond.compass.geolocation.Locator
 import dev.jordond.compass.geolocation.Priority
 import dev.jordond.compass.geolocation.TrackingStatus
-import dev.jordond.compass.geolocation.exception.PermissionDeniedException
-import dev.jordond.compass.geolocation.exception.PermissionDeniedForeverException
-import dev.jordond.compass.geolocation.exception.PermissionException
+import dev.jordond.compass.permissions.exception.PermissionDeniedException
+import dev.jordond.compass.permissions.exception.PermissionDeniedForeverException
+import dev.jordond.compass.permissions.exception.PermissionException
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope

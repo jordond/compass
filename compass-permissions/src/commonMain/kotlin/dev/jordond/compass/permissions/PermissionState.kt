@@ -1,4 +1,4 @@
-package dev.jordond.compass.geolocation
+package dev.jordond.compass.permissions
 
 /**
  * Describes the state of the location permission.

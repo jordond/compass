@@ -14,8 +14,8 @@ import dev.jordond.compass.geolocation.browser.api.model.createGeolocationOption
 import dev.jordond.compass.geolocation.browser.api.model.value
 import dev.jordond.compass.geolocation.browser.api.navigator
 import dev.jordond.compass.geolocation.exception.GeolocationException
-import dev.jordond.compass.geolocation.exception.PermissionDeniedException
-import dev.jordond.compass.geolocation.exception.PermissionDeniedForeverException
+import dev.jordond.compass.permissions.exception.PermissionDeniedException
+import dev.jordond.compass.permissions.exception.PermissionDeniedForeverException
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow

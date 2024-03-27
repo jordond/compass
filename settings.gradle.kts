@@ -49,6 +49,8 @@ include(
     ":compass-geolocation",
     ":compass-geolocation-mobile",
     ":compass-geolocation-browser",
+    ":compass-permissions",
+    ":compass-permissions-mobile",
     ":compass-tools-android",
 )
 

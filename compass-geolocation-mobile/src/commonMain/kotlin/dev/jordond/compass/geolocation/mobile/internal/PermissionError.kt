@@ -1,8 +1,8 @@
 package dev.jordond.compass.geolocation.mobile.internal
 
 import dev.jordond.compass.geolocation.PermissionState
-import dev.jordond.compass.geolocation.exception.PermissionDeniedException
-import dev.jordond.compass.geolocation.exception.PermissionDeniedForeverException
+import dev.jordond.compass.permissions.exception.PermissionDeniedException
+import dev.jordond.compass.permissions.exception.PermissionDeniedForeverException
 
 /**
  * Throws an exception if the permission state is not [PermissionState.Granted] or

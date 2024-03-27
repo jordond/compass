@@ -1,7 +1,7 @@
 package dev.jordond.compass.geolocation.mobile.internal
 
 import dev.jordond.compass.geolocation.PermissionState
-import dev.jordond.compass.geolocation.exception.PermissionMissingException
+import dev.jordond.compass.permissions.exception.PermissionMissingException
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
