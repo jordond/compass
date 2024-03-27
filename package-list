@@ -28,5 +28,10 @@ dev.jordond.compass.geolocation.browser.api.model
 dev.jordond.compass.geolocation.browser.internal
 module:compass-geolocation-mobile
 dev.jordond.compass.geolocation.mobile
+module:compass-permissions
+dev.jordond.compass.permissions
+dev.jordond.compass.permissions.exception
+module:compass-permissions-mobile
+dev.jordond.compass.permissions.mobile
 module:compass-tools-android
 dev.jordond.compass.tools
