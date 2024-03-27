@@ -25,3 +25,7 @@ fun createGeolocator(): Geolocator {
 }
 
 expect fun getPlatformLocator(): Locator
+
+expect val canShowAppSettings: Boolean
+
+expect fun showAppSettings()

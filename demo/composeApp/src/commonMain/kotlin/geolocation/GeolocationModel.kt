@@ -60,5 +60,7 @@ class GeolocationModel(private val geolocator: Geolocator) : StateScreenModel<St
         val tracking = trackingLocation.isActive
         val trackingError = (trackingLocation as? TrackingStatus.Error)?.cause
         val busy: Boolean = loading || tracking
+        val permissionsDeniedForever: Boolean =
+            lastResult is GeolocatorResult.PermissionDenied && lastResult.forever
     }
 }

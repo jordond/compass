@@ -79,12 +79,10 @@ internal class DefaultGeolocator(
 
     private fun Throwable.toResult(): GeolocatorResult.Error = when (this) {
         is CancellationException -> throw this
-        is PermissionException -> {
-            when (this.cause) {
-                is PermissionDeniedException -> GeolocatorResult.PermissionDenied(false)
-                is PermissionDeniedForeverException -> GeolocatorResult.PermissionDenied(true)
-                else -> GeolocatorResult.PermissionError(this)
-            }
+        is PermissionException -> when (this) {
+            is PermissionDeniedException -> GeolocatorResult.PermissionDenied(false)
+            is PermissionDeniedForeverException -> GeolocatorResult.PermissionDenied(true)
+            else -> GeolocatorResult.PermissionError(this)
         }
         is NotSupportedException -> GeolocatorResult.NotSupported
         is NotFoundException -> GeolocatorResult.NotFound

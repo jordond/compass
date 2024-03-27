@@ -23,6 +23,12 @@ actual fun getPlatformGeocoderOrFallback(apiKey: String): PlatformGeocoder {
     }
 }
 
-actual fun getPlatformLocator(handlePermissions: Boolean): Locator {
+actual fun getPlatformLocator(): Locator {
     return NotSupportedLocator
+}
+
+actual val canShowAppSettings: Boolean = false
+
+actual fun showAppSettings() {
+    // No-op
 }
