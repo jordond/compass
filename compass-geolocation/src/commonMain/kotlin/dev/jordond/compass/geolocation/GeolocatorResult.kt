@@ -2,7 +2,7 @@ package dev.jordond.compass.geolocation
 
 import dev.drewhamilton.poko.Poko
 import dev.jordond.compass.Location
-import dev.jordond.compass.geolocation.exception.PermissionException
+import dev.jordond.compass.permissions.exception.PermissionException
 
 /**
  * Represents the result of a geolocation operation.

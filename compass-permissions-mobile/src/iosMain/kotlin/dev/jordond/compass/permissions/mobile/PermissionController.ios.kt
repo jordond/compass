@@ -1,8 +1,10 @@
-package dev.jordond.compass.geolocation.mobile.internal
+package dev.jordond.compass.permissions.mobile
 
-import dev.jordond.compass.geolocation.PermissionState
-import dev.jordond.compass.geolocation.exception.PermissionMissingException
-import kotlinx.coroutines.flow.Flow
+import dev.jordond.compass.Priority
+import dev.jordond.compass.permissions.LocationPermissionController
+import dev.jordond.compass.permissions.PermissionState
+import dev.jordond.compass.permissions.mobile.internal.LocationPermissionManagerDelegate
+import dev.jordond.compass.permissions.mobile.internal.toPermissionState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.sync.Mutex
@@ -10,17 +12,19 @@ import kotlinx.coroutines.sync.withLock
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
-internal class PermissionController(
-    private val handlePermissions: Boolean,
-    private val locationDelegate: LocationManagerDelegate,
-) {
+internal actual fun createPermissionController(): LocationPermissionController {
+    return IosLocationPermissionController(LocationPermissionManagerDelegate())
+}
+
+internal class IosLocationPermissionController(
+    private val locationDelegate: LocationPermissionManagerDelegate,
+) : LocationPermissionController {
 
     private val mutex: Mutex = Mutex()
 
     private val _permissionsStatus = MutableStateFlow(
         value = locationDelegate.currentPermissionStatus().toPermissionState,
     )
-    val permissionsState: Flow<PermissionState> = _permissionsStatus
 
     init {
         locationDelegate.monitorPermission { permissionStatus ->
@@ -28,16 +32,15 @@ internal class PermissionController(
         }
     }
 
-    fun hasPermission(): Boolean {
+    override fun hasPermission(): Boolean {
         return _permissionsStatus.value == PermissionState.Granted
     }
 
-    suspend fun requirePermission(): PermissionState {
+    override suspend fun requirePermissionFor(priority: Priority): PermissionState {
         val currentState = locationDelegate.currentPermissionStatus().toPermissionState
         return when {
             currentState == PermissionState.Granted ||
                 currentState == PermissionState.DeniedForever -> currentState
-            !handlePermissions -> throw PermissionMissingException("When in use location")
             else -> mutex.withLock {
                 val result = suspendCoroutine { continuation ->
                     locationDelegate.requestPermission { continuation.resume(it) }

@@ -1,4 +1,4 @@
-package dev.jordond.compass.geolocation.mobile.internal.activity
+package dev.jordond.compass.permissions.mobile.internal.activity
 
 import android.content.Context
 import androidx.startup.Initializer

@@ -15,6 +15,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             api(projects.compassCore)
+            api(projects.compassPermissions)
 
             implementation(libs.kotlinx.coroutines.core)
         }

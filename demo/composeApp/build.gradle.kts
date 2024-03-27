@@ -75,6 +75,7 @@ kotlin {
             dependencies {
                 implementation(projects.compassGeocoderMobile)
                 implementation(projects.compassGeolocationMobile)
+                implementation(projects.compassPermissionsMobile)
             }
         }
 

@@ -1,10 +1,10 @@
 package dev.jordond.compass.geolocation.browser.internal
 
 import dev.jordond.compass.Location
+import dev.jordond.compass.Priority
 import dev.jordond.compass.exception.NotFoundException
 import dev.jordond.compass.exception.NotSupportedException
 import dev.jordond.compass.geolocation.LocationRequest
-import dev.jordond.compass.geolocation.Priority
 import dev.jordond.compass.geolocation.browser.BrowserLocator
 import dev.jordond.compass.geolocation.browser.api.model.GeolocationPositionError
 import dev.jordond.compass.geolocation.browser.api.model.GeolocationPositionErrorCode.PermissionDenied
@@ -14,8 +14,8 @@ import dev.jordond.compass.geolocation.browser.api.model.createGeolocationOption
 import dev.jordond.compass.geolocation.browser.api.model.value
 import dev.jordond.compass.geolocation.browser.api.navigator
 import dev.jordond.compass.geolocation.exception.GeolocationException
-import dev.jordond.compass.geolocation.exception.PermissionDeniedException
-import dev.jordond.compass.geolocation.exception.PermissionDeniedForeverException
+import dev.jordond.compass.permissions.exception.PermissionDeniedException
+import dev.jordond.compass.permissions.exception.PermissionDeniedForeverException
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow

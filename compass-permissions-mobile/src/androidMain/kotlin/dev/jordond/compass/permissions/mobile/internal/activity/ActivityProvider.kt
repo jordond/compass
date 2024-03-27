@@ -1,11 +1,11 @@
-package dev.jordond.compass.geolocation.mobile.internal.activity
+package dev.jordond.compass.permissions.mobile.internal.activity
 
 import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
 import androidx.activity.ComponentActivity
-import dev.jordond.compass.geolocation.exception.PermissionRequestException
-import dev.jordond.compass.geolocation.mobile.internal.PermissionRequester
+import dev.jordond.compass.permissions.exception.PermissionRequestException
+import dev.jordond.compass.permissions.mobile.internal.PermissionRequester
 import java.lang.ref.WeakReference
 
 internal class ActivityProvider(

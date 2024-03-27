@@ -15,7 +15,6 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
-import kotlin.coroutines.suspendCoroutine
 
 internal class LocationManager(
     private val context: Context,
@@ -39,12 +38,6 @@ internal class LocationManager(
 
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
             || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
-    }
-
-    suspend fun lastLocation(): Location? = suspendCoroutine { continuation ->
-        fusedLocationClient.lastLocation
-            .addOnSuccessListener { location -> continuation.resume(location) }
-            .addOnFailureListener { exception -> continuation.resumeWithException(exception) }
     }
 
     suspend fun currentLocation(priority: Int): Location {

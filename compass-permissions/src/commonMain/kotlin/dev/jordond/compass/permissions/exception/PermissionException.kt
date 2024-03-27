@@ -1,4 +1,4 @@
-package dev.jordond.compass.geolocation.exception
+package dev.jordond.compass.permissions.exception
 
 /**
  * Defines an exception that is related to Geolocation permissions.

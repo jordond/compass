@@ -1,12 +1,12 @@
-package dev.jordond.compass.geolocation.mobile.internal
+package dev.jordond.compass.permissions.mobile.internal
 
 import androidx.activity.ComponentActivity
-import androidx.activity.result.contract.ActivityResultContracts.RequestMultiplePermissions
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import dev.jordond.compass.geolocation.PermissionState
+import dev.jordond.compass.permissions.PermissionState
 import kotlinx.coroutines.launch
 
 /**
@@ -17,7 +17,7 @@ internal class PermissionRequester(private val activity: ComponentActivity) {
     private var permissionCallback: ((PermissionState) -> Unit)? = null
 
     private val request = activity
-        .registerForActivityResult(RequestMultiplePermissions()) { results ->
+        .registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { results ->
             val callback = permissionCallback ?: return@registerForActivityResult
             this.permissionCallback = null
 

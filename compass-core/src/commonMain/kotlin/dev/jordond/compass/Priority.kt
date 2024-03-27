@@ -1,4 +1,4 @@
-package dev.jordond.compass.geolocation
+package dev.jordond.compass
 
 /**
  * Represents the priority of a location request.

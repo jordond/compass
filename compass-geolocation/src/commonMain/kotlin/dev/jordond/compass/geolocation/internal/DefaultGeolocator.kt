@@ -1,17 +1,17 @@
 package dev.jordond.compass.geolocation.internal
 
 import dev.jordond.compass.Location
+import dev.jordond.compass.Priority
 import dev.jordond.compass.exception.NotFoundException
 import dev.jordond.compass.exception.NotSupportedException
 import dev.jordond.compass.geolocation.Geolocator
 import dev.jordond.compass.geolocation.GeolocatorResult
 import dev.jordond.compass.geolocation.LocationRequest
 import dev.jordond.compass.geolocation.Locator
-import dev.jordond.compass.geolocation.Priority
 import dev.jordond.compass.geolocation.TrackingStatus
-import dev.jordond.compass.geolocation.exception.PermissionDeniedException
-import dev.jordond.compass.geolocation.exception.PermissionDeniedForeverException
-import dev.jordond.compass.geolocation.exception.PermissionException
+import dev.jordond.compass.permissions.exception.PermissionDeniedException
+import dev.jordond.compass.permissions.exception.PermissionDeniedForeverException
+import dev.jordond.compass.permissions.exception.PermissionException
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
@@ -79,12 +79,10 @@ internal class DefaultGeolocator(
 
     private fun Throwable.toResult(): GeolocatorResult.Error = when (this) {
         is CancellationException -> throw this
-        is PermissionException -> {
-            when (this.cause) {
-                is PermissionDeniedException -> GeolocatorResult.PermissionDenied(false)
-                is PermissionDeniedForeverException -> GeolocatorResult.PermissionDenied(true)
-                else -> GeolocatorResult.PermissionError(this)
-            }
+        is PermissionException -> when (this) {
+            is PermissionDeniedException -> GeolocatorResult.PermissionDenied(false)
+            is PermissionDeniedForeverException -> GeolocatorResult.PermissionDenied(true)
+            else -> GeolocatorResult.PermissionError(this)
         }
         is NotSupportedException -> GeolocatorResult.NotSupported
         is NotFoundException -> GeolocatorResult.NotFound

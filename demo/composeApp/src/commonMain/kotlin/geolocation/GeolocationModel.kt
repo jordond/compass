@@ -3,10 +3,10 @@ package geolocation
 import cafe.adriel.voyager.core.model.screenModelScope
 import co.touchlab.kermit.Logger
 import dev.jordond.compass.Location
+import dev.jordond.compass.Priority
 import dev.jordond.compass.geolocation.Geolocator
 import dev.jordond.compass.geolocation.GeolocatorResult
 import dev.jordond.compass.geolocation.LocationRequest
-import dev.jordond.compass.geolocation.Priority
 import dev.jordond.compass.geolocation.TrackingStatus
 import dev.stateholder.extensions.voyager.StateScreenModel
 import geolocation.GeolocationModel.State
@@ -60,5 +60,7 @@ class GeolocationModel(private val geolocator: Geolocator) : StateScreenModel<St
         val tracking = trackingLocation.isActive
         val trackingError = (trackingLocation as? TrackingStatus.Error)?.cause
         val busy: Boolean = loading || tracking
+        val permissionsDeniedForever: Boolean =
+            lastResult is GeolocatorResult.PermissionDenied && lastResult.forever
     }
 }
