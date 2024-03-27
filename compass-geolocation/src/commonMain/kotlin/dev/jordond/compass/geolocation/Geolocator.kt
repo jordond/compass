@@ -1,6 +1,7 @@
 package dev.jordond.compass.geolocation
 
 import dev.jordond.compass.Location
+import dev.jordond.compass.Priority
 import dev.jordond.compass.geolocation.internal.DefaultGeolocator
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers

@@ -1,6 +1,7 @@
 package dev.jordond.compass.geolocation
 
 import dev.jordond.compass.Location
+import dev.jordond.compass.Priority
 import dev.jordond.compass.exception.NotSupportedException
 import dev.jordond.compass.geolocation.exception.GeolocationException
 import dev.jordond.compass.permissions.exception.PermissionException

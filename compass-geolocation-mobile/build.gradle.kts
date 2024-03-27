@@ -16,6 +16,8 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             api(projects.compassCore)
+            implementation(projects.compassPermissions)
+            implementation(projects.compassPermissionsMobile)
             implementation(projects.compassGeolocation)
 
             implementation(libs.kotlinx.coroutines.core)

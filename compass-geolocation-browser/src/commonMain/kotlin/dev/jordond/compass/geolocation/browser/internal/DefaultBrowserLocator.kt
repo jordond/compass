@@ -1,10 +1,10 @@
 package dev.jordond.compass.geolocation.browser.internal
 
 import dev.jordond.compass.Location
+import dev.jordond.compass.Priority
 import dev.jordond.compass.exception.NotFoundException
 import dev.jordond.compass.exception.NotSupportedException
 import dev.jordond.compass.geolocation.LocationRequest
-import dev.jordond.compass.geolocation.Priority
 import dev.jordond.compass.geolocation.browser.BrowserLocator
 import dev.jordond.compass.geolocation.browser.api.model.GeolocationPositionError
 import dev.jordond.compass.geolocation.browser.api.model.GeolocationPositionErrorCode.PermissionDenied

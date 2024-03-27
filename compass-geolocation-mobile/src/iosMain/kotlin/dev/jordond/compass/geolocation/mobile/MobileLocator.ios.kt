@@ -1,9 +1,9 @@
 package dev.jordond.compass.geolocation.mobile
 
 import dev.jordond.compass.Location
+import dev.jordond.compass.Priority
 import dev.jordond.compass.geolocation.LocationRequest
 import dev.jordond.compass.geolocation.PermissionState
-import dev.jordond.compass.geolocation.Priority
 import dev.jordond.compass.geolocation.exception.GeolocationException
 import dev.jordond.compass.geolocation.mobile.internal.LocationManagerDelegate
 import dev.jordond.compass.geolocation.mobile.internal.PermissionController

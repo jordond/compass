@@ -7,8 +7,8 @@ import com.google.android.gms.location.LocationRequest
 import dev.jordond.compass.Altitude
 import dev.jordond.compass.Azimuth
 import dev.jordond.compass.Coordinates
+import dev.jordond.compass.Priority
 import dev.jordond.compass.Speed
-import dev.jordond.compass.geolocation.Priority
 import dev.jordond.compass.geolocation.LocationRequest as CompassLocationRequest
 
 /**

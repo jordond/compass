@@ -2,15 +2,15 @@ package dev.jordond.compass.geolocation.mobile
 
 import android.content.Context
 import dev.jordond.compass.Location
+import dev.jordond.compass.Priority
 import dev.jordond.compass.geolocation.LocationRequest
 import dev.jordond.compass.geolocation.PermissionState
-import dev.jordond.compass.geolocation.Priority
 import dev.jordond.compass.geolocation.mobile.internal.LocationManager
-import dev.jordond.compass.geolocation.mobile.internal.PermissionController
 import dev.jordond.compass.geolocation.mobile.internal.throwOnError
 import dev.jordond.compass.geolocation.mobile.internal.toAndroidLocationRequest
 import dev.jordond.compass.geolocation.mobile.internal.toAndroidPriority
 import dev.jordond.compass.geolocation.mobile.internal.toModel
+import dev.jordond.compass.permissions.mobile.internal.PermissionController
 import dev.jordond.compass.tools.ContextProvider
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.mapNotNull

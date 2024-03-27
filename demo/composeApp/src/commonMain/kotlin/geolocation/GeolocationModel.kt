@@ -3,10 +3,10 @@ package geolocation
 import cafe.adriel.voyager.core.model.screenModelScope
 import co.touchlab.kermit.Logger
 import dev.jordond.compass.Location
+import dev.jordond.compass.Priority
 import dev.jordond.compass.geolocation.Geolocator
 import dev.jordond.compass.geolocation.GeolocatorResult
 import dev.jordond.compass.geolocation.LocationRequest
-import dev.jordond.compass.geolocation.Priority
 import dev.jordond.compass.geolocation.TrackingStatus
 import dev.stateholder.extensions.voyager.StateScreenModel
 import geolocation.GeolocationModel.State

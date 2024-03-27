@@ -1,13 +1,13 @@
 package dev.jordond.compass.geolocation.internal
 
 import dev.jordond.compass.Location
+import dev.jordond.compass.Priority
 import dev.jordond.compass.exception.NotFoundException
 import dev.jordond.compass.exception.NotSupportedException
 import dev.jordond.compass.geolocation.Geolocator
 import dev.jordond.compass.geolocation.GeolocatorResult
 import dev.jordond.compass.geolocation.LocationRequest
 import dev.jordond.compass.geolocation.Locator
-import dev.jordond.compass.geolocation.Priority
 import dev.jordond.compass.geolocation.TrackingStatus
 import dev.jordond.compass.permissions.exception.PermissionDeniedException
 import dev.jordond.compass.permissions.exception.PermissionDeniedForeverException

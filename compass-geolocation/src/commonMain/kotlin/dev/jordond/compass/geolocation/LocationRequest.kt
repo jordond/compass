@@ -1,6 +1,7 @@
 package dev.jordond.compass.geolocation
 
 import dev.drewhamilton.poko.Poko
+import dev.jordond.compass.Priority
 
 /**
  * Represents a request for location updates.
