@@ -20,8 +20,8 @@ expect fun getPlatformGeocoder(): PlatformGeocoder
 
 expect fun getPlatformGeocoderOrFallback(apiKey: String): PlatformGeocoder
 
-fun createGeolocator(handlePermissions: Boolean = true): Geolocator {
-    return Geolocator(getPlatformLocator(handlePermissions))
+fun createGeolocator(): Geolocator {
+    return Geolocator(getPlatformLocator())
 }
 
-expect fun getPlatformLocator(handlePermissions: Boolean): Locator
+expect fun getPlatformLocator(): Locator

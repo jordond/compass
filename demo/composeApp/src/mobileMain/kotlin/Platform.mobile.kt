@@ -9,6 +9,6 @@ actual fun getPlatformGeocoderOrFallback(apiKey: String): PlatformGeocoder {
     return MobilePlatformGeocoder()
 }
 
-actual fun getPlatformLocator(handlePermissions: Boolean): Locator {
-    return Locator.mobile(handlePermissions)
+actual fun getPlatformLocator(): Locator {
+    return Locator.mobile()
 }

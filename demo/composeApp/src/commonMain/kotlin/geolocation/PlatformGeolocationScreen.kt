@@ -12,7 +12,7 @@ class PlatformGeolocationScreen : Screen {
     @Composable
     override fun Content() {
         val model = rememberScreenModel<GeolocationModel> {
-            GeolocationModel(createGeolocator(handlePermissions = true))
+            GeolocationModel(createGeolocator())
         }
         val state by model.collectAsState()
 
