@@ -57,6 +57,16 @@ public final class dev/jordond/compass/Place {
 	public fun toString ()Ljava/lang/String;
 }
 
+public final class dev/jordond/compass/Priority : java/lang/Enum {
+	public static final field Balanced Ldev/jordond/compass/Priority;
+	public static final field HighAccuracy Ldev/jordond/compass/Priority;
+	public static final field LowPower Ldev/jordond/compass/Priority;
+	public static final field Passive Ldev/jordond/compass/Priority;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Ldev/jordond/compass/Priority;
+	public static fun values ()[Ldev/jordond/compass/Priority;
+}
+
 public final class dev/jordond/compass/Speed {
 	public fun <init> (FLjava/lang/Float;)V
 	public fun equals (Ljava/lang/Object;)Z

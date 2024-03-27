@@ -1,0 +1,53 @@
+public abstract interface class dev/jordond/compass/permissions/LocationPermissionController {
+	public static final field Companion Ldev/jordond/compass/permissions/LocationPermissionController$Companion;
+	public abstract fun hasPermission ()Z
+	public abstract fun requirePermissionFor (Ldev/jordond/compass/Priority;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun requirePermissionForOrThrow (Ldev/jordond/compass/Priority;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class dev/jordond/compass/permissions/LocationPermissionController$Companion {
+}
+
+public final class dev/jordond/compass/permissions/LocationPermissionController$DefaultImpls {
+	public static fun requirePermissionForOrThrow (Ldev/jordond/compass/permissions/LocationPermissionController;Ldev/jordond/compass/Priority;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class dev/jordond/compass/permissions/PermissionState : java/lang/Enum {
+	public static final field Denied Ldev/jordond/compass/permissions/PermissionState;
+	public static final field DeniedForever Ldev/jordond/compass/permissions/PermissionState;
+	public static final field Granted Ldev/jordond/compass/permissions/PermissionState;
+	public static final field NotDetermined Ldev/jordond/compass/permissions/PermissionState;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Ldev/jordond/compass/permissions/PermissionState;
+	public static fun values ()[Ldev/jordond/compass/permissions/PermissionState;
+}
+
+public final class dev/jordond/compass/permissions/PermissionStateKt {
+	public static final fun throwOnError (Ldev/jordond/compass/permissions/PermissionState;)V
+}
+
+public final class dev/jordond/compass/permissions/exception/PermissionDeniedException : dev/jordond/compass/permissions/exception/PermissionException {
+	public fun <init> ()V
+	public fun <init> (Ljava/lang/String;)V
+	public synthetic fun <init> (Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+}
+
+public final class dev/jordond/compass/permissions/exception/PermissionDeniedForeverException : dev/jordond/compass/permissions/exception/PermissionException {
+	public fun <init> ()V
+	public fun <init> (Ljava/lang/String;)V
+	public synthetic fun <init> (Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+}
+
+public abstract class dev/jordond/compass/permissions/exception/PermissionException : java/lang/Throwable {
+	public synthetic fun <init> (Ljava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+}
+
+public final class dev/jordond/compass/permissions/exception/PermissionMissingException : dev/jordond/compass/permissions/exception/PermissionException {
+	public fun <init> (Ljava/lang/String;)V
+}
+
+public final class dev/jordond/compass/permissions/exception/PermissionRequestException : dev/jordond/compass/permissions/exception/PermissionException {
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+}
+

@@ -1,0 +1,5 @@
+public final class dev/jordond/compass/permissions/mobile/PermissionControllerKt {
+	public static final fun LocationPermissionController ()Ldev/jordond/compass/permissions/LocationPermissionController;
+	public static final fun mobile (Ldev/jordond/compass/permissions/LocationPermissionController$Companion;)Ldev/jordond/compass/permissions/LocationPermissionController;
+}
+
