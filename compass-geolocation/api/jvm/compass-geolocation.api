@@ -1,6 +1,8 @@
 public final class dev/jordond/compass/geolocation/ExtensionsKt {
 	public static final fun currentLocationOrNull (Ldev/jordond/compass/geolocation/Geolocator;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public static final fun hasPermission (Ldev/jordond/compass/geolocation/Geolocator;)Z
+	public static final fun isPermissionDenied (Ldev/jordond/compass/geolocation/GeolocatorResult$Error;)Z
+	public static final fun isPermissionDeniedForever (Ldev/jordond/compass/geolocation/GeolocatorResult$Error;)Z
 }
 
 public abstract interface class dev/jordond/compass/geolocation/Geolocator {
@@ -89,6 +91,20 @@ public final class dev/jordond/compass/geolocation/GeolocatorResult$NotSupported
 	public fun isError ()Z
 	public fun onFailed (Lkotlin/jvm/functions/Function1;)Ldev/jordond/compass/geolocation/GeolocatorResult;
 	public fun onSuccess (Lkotlin/jvm/functions/Function1;)Ldev/jordond/compass/geolocation/GeolocatorResult;
+}
+
+public final class dev/jordond/compass/geolocation/GeolocatorResult$PermissionDenied : dev/jordond/compass/geolocation/GeolocatorResult$Error {
+	public fun <init> (Z)V
+	public fun equals (Ljava/lang/Object;)Z
+	public fun errorOrNull ()Ldev/jordond/compass/geolocation/GeolocatorResult$Error;
+	public final fun getForever ()Z
+	public fun getMessage ()Ljava/lang/String;
+	public fun getOrNull ()Ldev/jordond/compass/Location;
+	public fun hashCode ()I
+	public fun isError ()Z
+	public fun onFailed (Lkotlin/jvm/functions/Function1;)Ldev/jordond/compass/geolocation/GeolocatorResult;
+	public fun onSuccess (Lkotlin/jvm/functions/Function1;)Ldev/jordond/compass/geolocation/GeolocatorResult;
+	public fun toString ()Ljava/lang/String;
 }
 
 public final class dev/jordond/compass/geolocation/GeolocatorResult$PermissionError : dev/jordond/compass/geolocation/GeolocatorResult$Error {

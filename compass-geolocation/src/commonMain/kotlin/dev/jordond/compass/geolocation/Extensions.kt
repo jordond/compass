@@ -23,3 +23,23 @@ public fun Geolocator.hasPermission(): Boolean {
     val locator = (this as? DefaultGeolocator)?.locator
     return (locator as? PermissionLocator)?.hasPermission() ?: true
 }
+
+/**
+ * Check if the current [GeolocatorResult] is a [GeolocatorResult.PermissionDenied].
+ *
+ * @receiver The [GeolocatorResult] to check.
+ * @return True if the [GeolocatorResult] is a [GeolocatorResult.PermissionDenied], false otherwise.
+ */
+public fun GeolocatorResult.Error.isPermissionDenied(): Boolean {
+    return this is GeolocatorResult.PermissionDenied
+}
+
+/**
+ * Check if the current [GeolocatorResult] is a [GeolocatorResult.PermissionDenied].
+ *
+ * @receiver The [GeolocatorResult] to check.
+ * @return True if the [GeolocatorResult] is a [GeolocatorResult.PermissionDenied], false otherwise.
+ */
+public fun GeolocatorResult.Error.isPermissionDeniedForever(): Boolean {
+    return (this as? GeolocatorResult.PermissionDenied)?.forever ?: false
+}
