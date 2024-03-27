@@ -6,27 +6,11 @@ import dev.jordond.compass.Coordinates
 import dev.jordond.compass.Location
 import dev.jordond.compass.Priority
 import dev.jordond.compass.Speed
-import dev.jordond.compass.geolocation.PermissionState
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.useContents
-import platform.CoreLocation.CLAuthorizationStatus
 import platform.CoreLocation.CLLocation
-import platform.CoreLocation.kCLAuthorizationStatusAuthorizedAlways
-import platform.CoreLocation.kCLAuthorizationStatusAuthorizedWhenInUse
-import platform.CoreLocation.kCLAuthorizationStatusDenied
-import platform.CoreLocation.kCLAuthorizationStatusNotDetermined
 import platform.Foundation.timeIntervalSince1970
 import platform.UIKit.UIDevice
-
-internal val CLAuthorizationStatus.toPermissionState: PermissionState
-    get() = when (this) {
-        kCLAuthorizationStatusAuthorizedAlways,
-        kCLAuthorizationStatusAuthorizedWhenInUse,
-        -> PermissionState.Granted
-        kCLAuthorizationStatusNotDetermined -> PermissionState.NotDetermined
-        kCLAuthorizationStatusDenied -> PermissionState.DeniedForever
-        else -> error("Unknown location authorization status $this")
-    }
 
 internal val Priority.toIosPriority: Double
     get() = when (this) {

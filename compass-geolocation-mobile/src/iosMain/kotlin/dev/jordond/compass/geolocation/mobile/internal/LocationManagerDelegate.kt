@@ -1,6 +1,5 @@
 package dev.jordond.compass.geolocation.mobile.internal
 
-import platform.CoreLocation.CLAuthorizationStatus
 import platform.CoreLocation.CLLocation
 import platform.CoreLocation.CLLocationAccuracy
 import platform.CoreLocation.CLLocationManager
@@ -10,35 +9,16 @@ import platform.darwin.NSObject
 
 internal class LocationManagerDelegate : NSObject(), CLLocationManagerDelegateProtocol {
 
-    internal val manager = CLLocationManager()
+    private val manager = CLLocationManager()
     internal var isTracking: Boolean = false
         private set
 
-    private var permissionCallback: ((CLAuthorizationStatus) -> Unit)? = null
     private var locationCallback: ((CLLocation) -> Unit)? = null
     private var oneTimeLocationCallback: ((NSError?, CLLocation?) -> Unit)? = null
     private var oneTimeTrackingCallback: ((NSError?) -> Unit)? = null
 
     init {
         manager.delegate = this
-    }
-
-    fun currentPermissionStatus(): CLAuthorizationStatus {
-        return manager.authorizationStatus
-    }
-
-    fun monitorPermission(callback: (CLAuthorizationStatus) -> Unit) {
-        permissionCallback = callback
-        callback(manager.authorizationStatus)
-    }
-
-    override fun locationManagerDidChangeAuthorization(manager: CLLocationManager) {
-        permissionCallback?.invoke(manager.authorizationStatus)
-    }
-
-    fun requestPermission(callback: (CLAuthorizationStatus) -> Unit) {
-        permissionCallback = callback
-        manager.requestAlwaysAuthorization()
     }
 
     fun monitorLocation(callback: (CLLocation) -> Unit) {

@@ -1,39 +1,40 @@
-package dev.jordond.compass.permissions.mobile.internal
+package dev.jordond.compass.permissions.mobile
 
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
 import androidx.core.content.ContextCompat
 import dev.jordond.compass.Priority
+import dev.jordond.compass.permissions.LocationPermissionController
 import dev.jordond.compass.permissions.PermissionState
-import dev.jordond.compass.permissions.exception.PermissionMissingException
 import dev.jordond.compass.permissions.mobile.internal.activity.ActivityProvider
-import kotlinx.coroutines.flow.MutableStateFlow
+import dev.jordond.compass.tools.ContextProvider
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
-internal class PermissionController(
-    private val context: Context,
-    private val handlePermissions: Boolean,
-    private val activityProvider: ActivityProvider = ActivityProvider.getInstance(),
-) {
+internal actual fun createPermissionController(): LocationPermissionController {
+    return AndroidLocationPermissionController(
+        context = ContextProvider.getInstance().context,
+        activityProvider = ActivityProvider.getInstance(),
+    )
+}
 
-    private val _permissionState = MutableStateFlow(PermissionState.NotDetermined)
+internal class AndroidLocationPermissionController(
+    private val context: Context,
+    private val activityProvider: ActivityProvider,
+) : LocationPermissionController {
 
     private val mutex: Mutex = Mutex()
 
-    fun hasAny(): Boolean {
+    override fun hasPermission(): Boolean {
         return context.hasAnyPermission()
     }
 
-    suspend fun requirePermissionFor(priority: Priority): PermissionState {
+    override suspend fun requirePermissionFor(priority: Priority): PermissionState {
         val permissions = permissionsFor(priority).filter { !context.hasPermission(it) }
         if (permissions.isEmpty() || permissions.hasPermissions()) return PermissionState.Granted
-        if (!handlePermissions) {
-            throw PermissionMissingException(permissions.joinToString(", "))
-        }
 
         return mutex.withLock {
             suspendCoroutine { continuation ->

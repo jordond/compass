@@ -1,7 +1,8 @@
 package dev.jordond.compass.geolocation.mobile
 
 import dev.jordond.compass.geolocation.Geolocator
-import dev.jordond.compass.permissions.exception.PermissionMissingException
+import dev.jordond.compass.permissions.LocationPermissionController
+import dev.jordond.compass.permissions.mobile.mobile
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 
@@ -12,16 +13,14 @@ import kotlinx.coroutines.Dispatchers
  * as well as the [iOS documentation](https://developer.apple.com/documentation/corelocation)
  * to understand the permissions and accuracy.
  *
- * @param handlePermissions Whether to handle permissions requesting automatically. If this is
- * `false` and the required permissions are not granted, a [PermissionMissingException] will be
- * thrown when attempting to perform geolocation operations.
+ * @param permissionController The [LocationPermissionController] to use for handling permissions.
  * @param dispatcher The [CoroutineDispatcher] to use for geolocation operations.
  * @return A new [Geolocator] instance.
  */
 public fun Geolocator(
-    handlePermissions: Boolean = true,
+    permissionController: LocationPermissionController = LocationPermissionController.mobile(),
     dispatcher: CoroutineDispatcher = Dispatchers.Default,
-): Geolocator = MobileGeolocator(handlePermissions, dispatcher)
+): Geolocator = MobileGeolocator(permissionController, dispatcher)
 
 /**
  * Create a new [Geolocator] instance for geolocation operations.
@@ -30,17 +29,15 @@ public fun Geolocator(
  * as well as the [iOS documentation](https://developer.apple.com/documentation/corelocation)
  * to understand the permissions and accuracy.
  *
- * @param handlePermissions Whether to handle permissions requesting automatically. If this is
- * `false` and the required permissions are not granted, a [PermissionMissingException] will be
- * thrown when attempting to perform geolocation operations.
+ * @param permissionController The [LocationPermissionController] to use for handling permissions.
  * @param dispatcher The [CoroutineDispatcher] to use for geolocation operations.
  * @return A new [Geolocator] instance.
  */
 @Suppress("FunctionName")
 public fun MobileGeolocator(
-    handlePermissions: Boolean = true,
+    permissionController: LocationPermissionController = LocationPermissionController.mobile(),
     dispatcher: CoroutineDispatcher = Dispatchers.Default,
-): Geolocator = Geolocator(MobileLocator(handlePermissions), dispatcher)
+): Geolocator = Geolocator(MobileLocator(permissionController), dispatcher)
 
 /**
  * Create a new [Geolocator] instance for geolocation operations.
@@ -49,13 +46,11 @@ public fun MobileGeolocator(
  * as well as the [iOS documentation](https://developer.apple.com/documentation/corelocation)
  * to understand the permissions and accuracy.
  *
- * @param handlePermissions Whether to handle permissions requesting automatically. If this is
- * `false` and the required permissions are not granted, a [PermissionMissingException] will be
- * thrown when attempting to perform geolocation operations.
+ * @param permissionController The [LocationPermissionController] to use for handling permissions.
  * @param dispatcher The [CoroutineDispatcher] to use for geolocation operations.
  * @return A new [Geolocator] instance.
  */
 public fun Geolocator.Companion.mobile(
-    handlePermissions: Boolean = true,
+    permissionController: LocationPermissionController = LocationPermissionController.mobile(),
     dispatcher: CoroutineDispatcher = Dispatchers.Default,
-): Geolocator = MobileGeolocator(handlePermissions, dispatcher)
+): Geolocator = MobileGeolocator(permissionController, dispatcher)

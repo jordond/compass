@@ -3,13 +3,13 @@ package dev.jordond.compass.geolocation.mobile
 import dev.jordond.compass.Location
 import dev.jordond.compass.Priority
 import dev.jordond.compass.geolocation.LocationRequest
-import dev.jordond.compass.geolocation.PermissionState
 import dev.jordond.compass.geolocation.exception.GeolocationException
 import dev.jordond.compass.geolocation.mobile.internal.LocationManagerDelegate
-import dev.jordond.compass.geolocation.mobile.internal.PermissionController
-import dev.jordond.compass.geolocation.mobile.internal.throwOnError
 import dev.jordond.compass.geolocation.mobile.internal.toIosPriority
 import dev.jordond.compass.geolocation.mobile.internal.toModel
+import dev.jordond.compass.permissions.LocationPermissionController
+import dev.jordond.compass.permissions.PermissionState
+import dev.jordond.compass.permissions.throwOnError
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -18,15 +18,15 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
-internal actual fun createLocator(handlePermissions: Boolean): MobileLocator {
-    return IosLocator(handlePermissions)
+internal actual fun createLocator(
+    permissionController: LocationPermissionController,
+): MobileLocator {
+    return IosLocator(permissionController)
 }
 
 internal class IosLocator(
-    private val handlePermissions: Boolean,
+    private val permissionController: LocationPermissionController,
     private val locationDelegate: LocationManagerDelegate = LocationManagerDelegate(),
-    private val permissionController: PermissionController =
-        PermissionController(handlePermissions, locationDelegate),
 ) : MobileLocator {
 
     private val _locationUpdates = MutableSharedFlow<Location>(
@@ -87,7 +87,7 @@ internal class IosLocator(
     }
 
     private suspend fun requirePermission() {
-        val state = permissionController.requirePermission()
+        val state = permissionController.requirePermissionFor(Priority.Balanced)
         if (state != PermissionState.Granted) {
             state.throwOnError()
         }
