@@ -10,6 +10,7 @@ import dev.jordond.compass.InternalCompassApi
 @InternalCompassApi
 public class ContextProvider(public val context: Context) {
 
+    @InternalCompassApi
     public companion object {
 
         @SuppressLint("StaticFieldLeak")
