@@ -6,6 +6,7 @@ import dev.jordond.compass.geocoder.Geocoder
 import dev.jordond.compass.geocoder.web.parameter.MapBoxParameters
 import dev.jordond.compass.geocoder.web.parameter.MapBoxParametersBuilder
 import dev.jordond.compass.geocoder.web.parameter.mapBoxParameters
+import dev.jordond.compass.tools.web.HttpApiEndpoint
 import io.ktor.client.HttpClient
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -26,8 +27,8 @@ import kotlinx.serialization.json.Json
 public fun MapBoxGeocoder(
     apiKey: String,
     parameters: MapBoxParameters = MapBoxParameters(),
-    json: Json = HttpApiPlatformGeocoder.json(),
-    client: HttpClient = HttpApiPlatformGeocoder.httpClient(json),
+    json: Json = HttpApiEndpoint.json(),
+    client: HttpClient = HttpApiEndpoint.httpClient(json),
     dispatcher: CoroutineDispatcher = Dispatchers.Default,
 ): Geocoder {
     val platform = MapBoxPlatformGeocoder(apiKey, parameters, json, client)
@@ -48,8 +49,8 @@ public fun MapBoxGeocoder(
  */
 public fun MapBoxGeocoder(
     apiKey: String,
-    json: Json = HttpApiPlatformGeocoder.json(),
-    client: HttpClient = HttpApiPlatformGeocoder.httpClient(json),
+    json: Json = HttpApiEndpoint.json(),
+    client: HttpClient = HttpApiEndpoint.httpClient(json),
     dispatcher: CoroutineDispatcher = Dispatchers.Default,
     block: MapBoxParametersBuilder.() -> Unit,
 ): Geocoder = MapBoxGeocoder(apiKey, mapBoxParameters(block), json, client, dispatcher)
@@ -69,8 +70,8 @@ public fun MapBoxGeocoder(
 public fun Geocoder.Companion.mapBox(
     apiKey: String,
     parameters: MapBoxParameters = MapBoxParameters(),
-    json: Json = HttpApiPlatformGeocoder.json(),
-    client: HttpClient = HttpApiPlatformGeocoder.httpClient(json),
+    json: Json = HttpApiEndpoint.json(),
+    client: HttpClient = HttpApiEndpoint.httpClient(json),
     dispatcher: CoroutineDispatcher = Dispatchers.Default,
 ): Geocoder = MapBoxGeocoder(apiKey, parameters, json, client, dispatcher)
 
@@ -88,8 +89,8 @@ public fun Geocoder.Companion.mapBox(
  */
 public fun Geocoder.Companion.mapBox(
     apiKey: String,
-    json: Json = HttpApiPlatformGeocoder.json(),
-    client: HttpClient = HttpApiPlatformGeocoder.httpClient(json),
+    json: Json = HttpApiEndpoint.json(),
+    client: HttpClient = HttpApiEndpoint.httpClient(json),
     dispatcher: CoroutineDispatcher = Dispatchers.Default,
     block: MapBoxParametersBuilder.() -> Unit,
 ): Geocoder = MapBoxGeocoder(apiKey, mapBoxParameters(block), json, client, dispatcher)

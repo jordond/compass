@@ -4,6 +4,7 @@ import dev.jordond.compass.geocoder.PlatformGeocoder
 import dev.jordond.compass.geocoder.web.parameter.MapBoxParameters
 import dev.jordond.compass.geocoder.web.parameter.MapBoxParametersBuilder
 import dev.jordond.compass.geocoder.web.parameter.mapBoxParameters
+import dev.jordond.compass.tools.web.HttpApiEndpoint
 import io.ktor.client.HttpClient
 import kotlinx.serialization.json.Json
 
@@ -51,8 +52,8 @@ public interface MapBoxPlatformGeocoder : HttpApiPlatformGeocoder {
 public fun MapBoxPlatformGeocoder(
     apiKey: String,
     parameters: MapBoxParameters = MapBoxParameters(),
-    json: Json = HttpApiPlatformGeocoder.json(),
-    client: HttpClient = HttpApiPlatformGeocoder.httpClient(json),
+    json: Json = HttpApiEndpoint.json(),
+    client: HttpClient = HttpApiEndpoint.httpClient(json),
 ): MapBoxPlatformGeocoder {
     val delegate = HttpApiPlatformGeocoder(
         forwardEndpoint = MapBoxForwardEndpoint(apiKey, parameters),
@@ -76,8 +77,8 @@ public fun MapBoxPlatformGeocoder(
  */
 public fun MapBoxPlatformGeocoder(
     apiKey: String,
-    json: Json = HttpApiPlatformGeocoder.json(),
-    client: HttpClient = HttpApiPlatformGeocoder.httpClient(json),
+    json: Json = HttpApiEndpoint.json(),
+    client: HttpClient = HttpApiEndpoint.httpClient(json),
     block: MapBoxParametersBuilder.() -> Unit,
 ): MapBoxPlatformGeocoder = MapBoxPlatformGeocoder(apiKey, mapBoxParameters(block), json, client)
 
@@ -95,8 +96,8 @@ public fun MapBoxPlatformGeocoder(
 public fun PlatformGeocoder.Companion.mapBox(
     apiKey: String,
     parameters: MapBoxParameters = MapBoxParameters(),
-    json: Json = HttpApiPlatformGeocoder.json(),
-    client: HttpClient = HttpApiPlatformGeocoder.httpClient(json),
+    json: Json = HttpApiEndpoint.json(),
+    client: HttpClient = HttpApiEndpoint.httpClient(json),
 ): MapBoxPlatformGeocoder =
     MapBoxPlatformGeocoder(apiKey, parameters, json, client)
 
@@ -113,7 +114,7 @@ public fun PlatformGeocoder.Companion.mapBox(
  */
 public fun PlatformGeocoder.Companion.mapBox(
     apiKey: String,
-    json: Json = HttpApiPlatformGeocoder.json(),
-    client: HttpClient = HttpApiPlatformGeocoder.httpClient(json),
+    json: Json = HttpApiEndpoint.json(),
+    client: HttpClient = HttpApiEndpoint.httpClient(json),
     block: MapBoxParametersBuilder.() -> Unit,
 ): MapBoxPlatformGeocoder = MapBoxPlatformGeocoder(apiKey, mapBoxParameters(block), json, client)
