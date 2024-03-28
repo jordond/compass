@@ -10,6 +10,8 @@ public final class dev/jordond/compass/autocomplete/Autocomplete$Companion {
 public final class dev/jordond/compass/autocomplete/AutocompleteKt {
 	public static final fun Autocomplete (Ldev/jordond/compass/autocomplete/AutocompleteService;Ldev/jordond/compass/autocomplete/AutocompleteOptions;Lkotlinx/coroutines/CoroutineDispatcher;)Ldev/jordond/compass/autocomplete/Autocomplete;
 	public static synthetic fun Autocomplete$default (Ldev/jordond/compass/autocomplete/AutocompleteService;Ldev/jordond/compass/autocomplete/AutocompleteOptions;Lkotlinx/coroutines/CoroutineDispatcher;ILjava/lang/Object;)Ldev/jordond/compass/autocomplete/Autocomplete;
+	public static final fun PlaceAutocomplete (Ldev/jordond/compass/autocomplete/AutocompleteService;Ldev/jordond/compass/autocomplete/AutocompleteOptions;Lkotlinx/coroutines/CoroutineDispatcher;)Ldev/jordond/compass/autocomplete/Autocomplete;
+	public static synthetic fun PlaceAutocomplete$default (Ldev/jordond/compass/autocomplete/AutocompleteService;Ldev/jordond/compass/autocomplete/AutocompleteOptions;Lkotlinx/coroutines/CoroutineDispatcher;ILjava/lang/Object;)Ldev/jordond/compass/autocomplete/Autocomplete;
 }
 
 public class dev/jordond/compass/autocomplete/AutocompleteOptions {

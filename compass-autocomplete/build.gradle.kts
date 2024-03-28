@@ -14,6 +14,7 @@ configureMultiplatform()
 kotlin {
     sourceSets {
         commonMain.dependencies {
+            implementation(projects.compassCore)
             implementation(libs.kotlinx.coroutines.core)
         }
     }

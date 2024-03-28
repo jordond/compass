@@ -1,5 +1,8 @@
+@file:Suppress("FunctionName")
+
 package dev.jordond.compass.autocomplete
 
+import dev.jordond.compass.Place
 import dev.jordond.compass.autocomplete.internal.DefaultAutocomplete
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -41,3 +44,17 @@ public fun <T> Autocomplete(
     options: AutocompleteOptions = AutocompleteOptions(),
     dispatcher: CoroutineDispatcher = Dispatchers.Default,
 ): Autocomplete<T> = DefaultAutocomplete(service, options, dispatcher)
+
+/**
+ * Creates a new [Autocomplete] instance for [Place]s.
+ *
+ * @param service The autocomplete service to use.
+ * @param options The options for the autocomplete.
+ * @param dispatcher The coroutine dispatcher to use.
+ * @return A new [Autocomplete] instance.
+ */
+public fun PlaceAutocomplete(
+    service: AutocompleteService<Place>,
+    options: AutocompleteOptions = AutocompleteOptions(),
+    dispatcher: CoroutineDispatcher = Dispatchers.Default,
+): Autocomplete<Place> = DefaultAutocomplete(service, options, dispatcher)
