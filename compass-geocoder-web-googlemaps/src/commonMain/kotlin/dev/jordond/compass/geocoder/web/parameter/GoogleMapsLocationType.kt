@@ -1,5 +1,8 @@
 package dev.jordond.compass.geocoder.web.parameter
 
+import dev.jordond.compass.tools.web.parameter.QueryParamListValue
+import dev.jordond.compass.tools.web.parameter.QueryParamValue
+
 /**
  * A filter of one or more location types, separated by a pipe (|). If the parameter contains
  * multiple location types, the API returns all addresses that match any of the types.

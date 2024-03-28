@@ -1,4 +1,4 @@
-package dev.jordond.compass.geocoder.web.parameter
+package dev.jordond.compass.tools.web.parameter
 
 /**
  * Denotes a class that can build a [QueryParameters] instance of type [T].

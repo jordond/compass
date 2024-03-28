@@ -54,6 +54,7 @@ include(
     ":compass-permissions",
     ":compass-permissions-mobile",
     ":compass-tools-android",
+    ":compass-tools-web",
 )
 
 include(":demo:composeApp")

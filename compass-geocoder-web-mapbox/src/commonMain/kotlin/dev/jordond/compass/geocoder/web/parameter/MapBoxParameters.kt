@@ -2,6 +2,9 @@ package dev.jordond.compass.geocoder.web.parameter
 
 import dev.drewhamilton.poko.Poko
 import dev.jordond.compass.geocoder.Geocoder
+import dev.jordond.compass.tools.web.parameter.QueryParameters
+import dev.jordond.compass.tools.web.parameter.QueryParametersBuilder
+import dev.jordond.compass.tools.web.parameter.parametersOf
 
 /**
  * Options for the MapBox geocoder.

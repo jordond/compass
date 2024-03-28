@@ -1,4 +1,4 @@
-package dev.jordond.compass.geocoder.web.parameter
+package dev.jordond.compass.tools.web.parameter
 
 /**
  * Denotes a query parameter value that is a list of values.

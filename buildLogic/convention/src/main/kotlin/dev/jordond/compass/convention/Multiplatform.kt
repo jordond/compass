@@ -1,16 +1,12 @@
-@file:OptIn(ExperimentalWasmDsl::class)
+@file:OptIn(ExperimentalWasmDsl::class, ExperimentalKotlinGradlePluginApi::class)
 
 package dev.jordond.compass.convention
 
-import org.gradle.api.NamedDomainObjectContainer
-import org.gradle.api.NamedDomainObjectProvider
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.get
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
-import org.jetbrains.kotlin.gradle.plugin.KotlinDependencyHandler
-import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 
@@ -20,13 +16,10 @@ fun Project.configureMultiplatform(platform: Platform) {
 
 fun Project.configureMultiplatform(
     platforms: List<Platform> = Platforms.All,
-    dependencies: NamedDomainObjectContainer<KotlinSourceSet>.() -> Unit = {},
 ) {
     extensions.configure<KotlinMultiplatformExtension> {
         configureKotlin()
         configurePlatforms(platforms)
-
-        dependencies(sourceSets)
     }
 
     if (platforms.contains(Platform.Android)) {
@@ -34,11 +27,9 @@ fun Project.configureMultiplatform(
     }
 }
 
-fun NamedDomainObjectProvider<KotlinSourceSet>.dependencies(
-    handler: KotlinDependencyHandler.() -> Unit,
-): Unit = get().dependencies(handler)
-
-internal fun KotlinMultiplatformExtension.configurePlatforms(platforms: List<Platform> = Platforms.All) {
+internal fun KotlinMultiplatformExtension.configurePlatforms(
+    platforms: List<Platform> = Platforms.All,
+) {
     applyDefaultHierarchyTemplate()
 
     @OptIn(ExperimentalKotlinGradlePluginApi::class)
@@ -96,7 +87,6 @@ internal fun KotlinMultiplatformExtension.configurePlatforms(platforms: List<Pla
             target.binaries.framework {
                 baseName = project.name
                 isStatic = true
-                println("Configuring [${target.name}]: $baseName")
             }
         }
     }

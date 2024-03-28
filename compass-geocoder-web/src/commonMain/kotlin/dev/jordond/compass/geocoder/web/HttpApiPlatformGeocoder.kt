@@ -3,6 +3,7 @@ package dev.jordond.compass.geocoder.web
 import dev.jordond.compass.Coordinates
 import dev.jordond.compass.Place
 import dev.jordond.compass.geocoder.PlatformGeocoder
+import dev.jordond.compass.tools.web.HttpApiEndpoint
 import io.ktor.client.HttpClient
 import io.ktor.client.HttpClientConfig
 import io.ktor.client.plugins.HttpRequestRetry
@@ -13,6 +14,16 @@ import io.ktor.client.plugins.logging.Logging
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonBuilder
+
+/**
+ * Alias that denotes a forward geocoding [HttpApiEndpoint].
+ */
+public typealias ForwardEndpoint = HttpApiEndpoint<String, List<Coordinates>>
+
+/**
+ * Alias that denotes a reverse geocoding [HttpApiEndpoint].
+ */
+public typealias ReverseEndpoint = HttpApiEndpoint<Coordinates, List<Place>>
 
 /**
  * Defines the interface for a geocoder that uses an HTTP API to perform geocoding operations.

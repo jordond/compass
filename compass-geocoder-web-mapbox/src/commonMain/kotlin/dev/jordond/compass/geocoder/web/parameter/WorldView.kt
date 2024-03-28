@@ -1,5 +1,7 @@
 package dev.jordond.compass.geocoder.web.parameter
 
+import dev.jordond.compass.tools.web.parameter.QueryParamValue
+
 /**
  * The world view parameter is used to filter the results to a specific country or region.
  *

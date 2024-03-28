@@ -1,14 +1,14 @@
-package dev.jordond.compass.geocoder.web.internal
+package dev.jordond.compass.tools.web
 
 import co.touchlab.kermit.Logger
-import dev.jordond.compass.geocoder.exception.GeocodeException
+import dev.jordond.compass.tools.web.exception.WebException
 import io.ktor.client.HttpClient
 import io.ktor.client.request.get
 import io.ktor.client.request.url
 import io.ktor.client.statement.HttpResponse
 import kotlinx.coroutines.CancellationException
 
-internal suspend fun <Result> HttpClient.makeRequest(
+public suspend fun <Result> HttpClient.makeRequest(
     url: String,
     resultMapper: suspend (HttpResponse) -> Result,
 ): Result {
@@ -17,14 +17,17 @@ internal suspend fun <Result> HttpClient.makeRequest(
         if (response.status.value in 200..299) {
             return resultMapper(response)
         } else {
-            throw GeocodeException("HTTP request failed with status code ${response.status.value}")
+            throw WebException(
+                statusCode = response.status,
+                message = "HTTP request failed with status code ${response.status.value}",
+            )
         }
     } catch (cancellation: CancellationException) {
         throw cancellation
-    } catch (cause: GeocodeException) {
-        throw cause
+    } catch (webException: WebException) {
+        throw webException
     } catch (cause: Throwable) {
-        Logger.e(cause) { "Unable to make geocode request" }
-        throw GeocodeException(cause.message ?: "Unable to make http request")
+        Logger.e(cause) { "Unable to make web request" }
+        throw cause
     }
 }

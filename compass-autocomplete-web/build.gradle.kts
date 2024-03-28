@@ -1,4 +1,5 @@
 import dev.jordond.compass.convention.configureMultiplatform
+import dev.jordond.compass.convention.dependencies
 
 plugins {
     alias(libs.plugins.android.library)
@@ -9,12 +10,8 @@ plugins {
     alias(libs.plugins.convention.multiplatform)
 }
 
-configureMultiplatform()
-
-kotlin {
-    sourceSets {
-        commonMain.dependencies {
-            implementation(libs.kotlinx.coroutines.core)
-        }
+configureMultiplatform {
+    commonMain.dependencies {
+        implementation(libs.kotlinx.coroutines.core)
     }
 }

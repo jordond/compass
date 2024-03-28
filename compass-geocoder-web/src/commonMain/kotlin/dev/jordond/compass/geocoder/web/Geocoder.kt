@@ -3,6 +3,7 @@ package dev.jordond.compass.geocoder.web
 import dev.jordond.compass.geocoder.ForwardGeocoder
 import dev.jordond.compass.geocoder.Geocoder
 import dev.jordond.compass.geocoder.ReverseGeocoder
+import dev.jordond.compass.tools.web.HttpApiEndpoint
 import io.ktor.client.HttpClient
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers

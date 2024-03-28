@@ -1,6 +1,7 @@
 package dev.jordond.compass.geocoder.web.parameter
 
 import dev.drewhamilton.poko.Poko
+import dev.jordond.compass.tools.web.parameter.QueryParamValue
 
 /**
  * A bounding box to limit search results to a specific area.

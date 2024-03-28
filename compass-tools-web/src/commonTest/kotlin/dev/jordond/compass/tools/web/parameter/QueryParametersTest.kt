@@ -1,4 +1,4 @@
-package dev.jordond.compass.geocoder.web.parameter
+package dev.jordond.compass.tools.web.parameter
 
 import kotlin.test.Test
 import kotlin.test.assertTrue

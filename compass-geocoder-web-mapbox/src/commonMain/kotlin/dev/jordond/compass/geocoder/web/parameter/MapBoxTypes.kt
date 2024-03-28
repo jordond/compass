@@ -1,5 +1,8 @@
 package dev.jordond.compass.geocoder.web.parameter
 
+import dev.jordond.compass.tools.web.parameter.QueryParamListValue
+import dev.jordond.compass.tools.web.parameter.QueryParamValue
+
 /**
  * The types of features that can be returned by the MapBox Geocoding API.
  *

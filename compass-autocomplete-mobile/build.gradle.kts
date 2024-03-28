@@ -1,6 +1,5 @@
 import dev.jordond.compass.convention.Platforms
 import dev.jordond.compass.convention.configureMultiplatform
-import dev.jordond.compass.convention.dependencies
 
 plugins {
     alias(libs.plugins.android.library)
@@ -11,13 +10,17 @@ plugins {
     alias(libs.plugins.convention.multiplatform)
 }
 
-configureMultiplatform(Platforms.Mobile) {
-    commonMain.dependencies {
-        api(projects.compassCore)
-        implementation(projects.compassAutocomplete)
-        implementation(projects.compassGeocoder)
-        implementation(projects.compassGeocoderMobile)
+configureMultiplatform(Platforms.Mobile)
 
-        implementation(libs.kotlinx.coroutines.core)
+kotlin {
+    sourceSets {
+        commonMain.dependencies {
+            api(projects.compassCore)
+            implementation(projects.compassAutocomplete)
+            implementation(projects.compassGeocoder)
+            implementation(projects.compassGeocoderMobile)
+
+            implementation(libs.kotlinx.coroutines.core)
+        }
     }
 }

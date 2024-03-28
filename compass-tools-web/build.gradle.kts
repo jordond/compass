@@ -10,13 +10,10 @@ plugins {
 }
 
 configureMultiplatform()
-
 kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(projects.compassCore)
-            api(projects.compassToolsWeb)
-            implementation(projects.compassGeocoder)
 
             implementation(libs.kermit)
             implementation(libs.kotlinx.coroutines.core)
