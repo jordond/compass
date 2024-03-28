@@ -2,10 +2,12 @@ package dev.jordond.compass.tools
 
 import android.annotation.SuppressLint
 import android.content.Context
+import dev.jordond.compass.InternalCompassApi
 
 /**
  * Class for providing the application context.
  */
+@InternalCompassApi
 public class ContextProvider(public val context: Context) {
 
     public companion object {

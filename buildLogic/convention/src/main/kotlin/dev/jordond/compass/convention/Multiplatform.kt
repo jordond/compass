@@ -35,6 +35,7 @@ internal fun KotlinMultiplatformExtension.configurePlatforms(
     @OptIn(ExperimentalKotlinGradlePluginApi::class)
     compilerOptions {
         freeCompilerArgs.add("-Xexpect-actual-classes")
+        optIn.add("dev.jordond.compass.InternalCompassApi")
     }
 
     if (platforms.contains(Platform.Android)) {

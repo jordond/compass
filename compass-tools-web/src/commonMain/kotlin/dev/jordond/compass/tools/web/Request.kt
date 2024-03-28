@@ -1,6 +1,7 @@
 package dev.jordond.compass.tools.web
 
 import co.touchlab.kermit.Logger
+import dev.jordond.compass.InternalCompassApi
 import dev.jordond.compass.tools.web.exception.WebException
 import io.ktor.client.HttpClient
 import io.ktor.client.request.get
@@ -8,6 +9,7 @@ import io.ktor.client.request.url
 import io.ktor.client.statement.HttpResponse
 import kotlinx.coroutines.CancellationException
 
+@InternalCompassApi
 public suspend fun <Result> HttpClient.makeRequest(
     url: String,
     resultMapper: suspend (HttpResponse) -> Result,

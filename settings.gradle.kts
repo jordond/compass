@@ -43,6 +43,7 @@ include(
     ":compass-autocomplete",
     ":compass-autocomplete-mobile",
     ":compass-autocomplete-web",
+    ":compass-autocomplete-web-googleplaces",
     ":compass-geocoder",
     ":compass-geocoder-mobile",
     ":compass-geocoder-web",

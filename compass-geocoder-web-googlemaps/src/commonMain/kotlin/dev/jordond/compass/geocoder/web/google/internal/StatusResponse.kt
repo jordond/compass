@@ -1,5 +1,6 @@
 package dev.jordond.compass.geocoder.web.google.internal
 
+import dev.jordond.compass.InternalCompassApi
 import kotlinx.serialization.SerialName
 
 /**
@@ -8,6 +9,7 @@ import kotlinx.serialization.SerialName
  * @see [Status and Error Codes](https://developers.google.com/maps/documentation/geocoding/requests-reverse-geocoding#reverse-response)
  */
 @Suppress("unused")
+@InternalCompassApi
 internal enum class StatusResponse {
     @SerialName("OK")
     Ok,
