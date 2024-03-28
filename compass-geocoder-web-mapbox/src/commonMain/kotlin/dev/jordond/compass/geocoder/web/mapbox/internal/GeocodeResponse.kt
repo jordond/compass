@@ -27,7 +27,12 @@ internal fun GeocodeResponse.toCoordinates(): List<Coordinates> {
 public fun GeocodeResponse.toPlaces(): List<Place> {
     return features.mapNotNull { response ->
         val data = response.properties?.context ?: return@mapNotNull null
+        val coordinates = response.properties.coordinates?.run {
+            Coordinates(latitude = latitude, longitude = longitude)
+        } ?: return@mapNotNull null
+
         Place(
+            coordinates = coordinates,
             name = response.properties.name,
             street = data.street?.name,
             isoCountryCode = data.country?.countryCode,

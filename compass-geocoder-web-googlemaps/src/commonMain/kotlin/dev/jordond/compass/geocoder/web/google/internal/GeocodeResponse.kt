@@ -49,8 +49,11 @@ public fun List<ResultResponse>.toPlaces(): List<Place> {
     return mapNotNull { response ->
         val components = response.addressComponents
         val country = components.find(Country)
+        val coordinates = response.geometry?.location?.run { Coordinates(lat, lng) }
+            ?: return@mapNotNull null
 
         Place(
+            coordinates = coordinates,
             name = components.find(Name)?.long,
             street = response.formattedAddress,
             isoCountryCode = country?.short,
