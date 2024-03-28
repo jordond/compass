@@ -2,11 +2,15 @@
 
 package dev.jordond.compass.convention
 
+import org.gradle.api.NamedDomainObjectContainer
+import org.gradle.api.NamedDomainObjectProvider
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.get
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
+import org.jetbrains.kotlin.gradle.plugin.KotlinDependencyHandler
+import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 
@@ -14,16 +18,25 @@ fun Project.configureMultiplatform(platform: Platform) {
     configureMultiplatform(listOf(platform))
 }
 
-fun Project.configureMultiplatform(platforms: List<Platform> = Platforms.All) {
+fun Project.configureMultiplatform(
+    platforms: List<Platform> = Platforms.All,
+    dependencies: NamedDomainObjectContainer<KotlinSourceSet>.() -> Unit = {},
+) {
     extensions.configure<KotlinMultiplatformExtension> {
         configureKotlin()
         configurePlatforms(platforms)
+
+        dependencies(sourceSets)
     }
 
     if (platforms.contains(Platform.Android)) {
         configureAndroid()
     }
 }
+
+fun NamedDomainObjectProvider<KotlinSourceSet>.dependencies(
+    handler: KotlinDependencyHandler.() -> Unit,
+): Unit = get().dependencies(handler)
 
 internal fun KotlinMultiplatformExtension.configurePlatforms(platforms: List<Platform> = Platforms.All) {
     applyDefaultHierarchyTemplate()
