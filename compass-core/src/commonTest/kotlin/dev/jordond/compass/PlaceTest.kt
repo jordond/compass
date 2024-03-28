@@ -9,6 +9,7 @@ class PlaceTest {
     @Test
     fun isEmptyReturnsTrueWhenAllPropertiesAreNull() {
         val place = Place(
+            coordinates = Coordinates(0.0, 0.0),
             name = null,
             street = null,
             isoCountryCode = null,
@@ -19,7 +20,7 @@ class PlaceTest {
             locality = null,
             subLocality = null,
             thoroughfare = null,
-            subThoroughfare = null
+            subThoroughfare = null,
         )
         assertTrue { place.isEmpty }
     }
@@ -27,6 +28,7 @@ class PlaceTest {
     @Test
     fun isEmptyReturnsFalseWhenAnyPropertyIsNotNull() {
         val place = Place(
+            coordinates = Coordinates(0.0, 0.0),
             name = "name",
             street = null,
             isoCountryCode = null,
