@@ -14,7 +14,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.serialization.json.Json
 
-public fun GoogleMapsAutocomplete(
+public fun GoogleMapsGeocoderAutocomplete(
     apiKey: String,
     options: AutocompleteOptions = AutocompleteOptions(),
     parameters: GoogleMapsParameters = GoogleMapsParameters(),
@@ -22,22 +22,28 @@ public fun GoogleMapsAutocomplete(
     client: HttpClient = HttpApiEndpoint.httpClient(json),
     dispatcher: CoroutineDispatcher = Dispatchers.Default,
 ): Autocomplete<Place> {
-    val service = GoogleMapsAutocompleteService(apiKey, parameters, json, client)
+    val service = GoogleMapsGeocoderAutocompleteService(apiKey, parameters, json, client)
     return Autocomplete(service, options, dispatcher)
 }
 
-public fun GoogleMapsAutocomplete(
+public fun GoogleMapsGeocoderAutocomplete(
     apiKey: String,
     options: AutocompleteOptions = AutocompleteOptions(),
     json: Json = HttpApiEndpoint.json(),
     client: HttpClient = HttpApiEndpoint.httpClient(json),
     dispatcher: CoroutineDispatcher = Dispatchers.Default,
     block: GoogleMapsParametersBuilder.() -> Unit,
-): Autocomplete<Place> =
-    GoogleMapsAutocomplete(apiKey, options, googleMapsParameters(block), json, client, dispatcher)
+): Autocomplete<Place> = GoogleMapsGeocoderAutocomplete(
+    apiKey = apiKey,
+    options = options,
+    parameters = googleMapsParameters(block),
+    json = json,
+    client = client,
+    dispatcher = dispatcher,
+)
 
 
-public fun Autocomplete.Companion.googleMaps(
+public fun Autocomplete.Companion.googleMapsGeocoder(
     apiKey: String,
     options: AutocompleteOptions = AutocompleteOptions(),
     parameters: GoogleMapsParameters = GoogleMapsParameters(),
@@ -45,13 +51,14 @@ public fun Autocomplete.Companion.googleMaps(
     client: HttpClient = HttpApiEndpoint.httpClient(json),
     dispatcher: CoroutineDispatcher = Dispatchers.Default,
 ): Autocomplete<Place> =
-    GoogleMapsAutocomplete(apiKey, options, parameters, json, client, dispatcher)
+    GoogleMapsGeocoderAutocomplete(apiKey, options, parameters, json, client, dispatcher)
 
-public fun Autocomplete.Companion.googleMaps(
+public fun Autocomplete.Companion.googleMapsGeocoder(
     apiKey: String,
     options: AutocompleteOptions = AutocompleteOptions(),
     json: Json = HttpApiEndpoint.json(),
     client: HttpClient = HttpApiEndpoint.httpClient(json),
     dispatcher: CoroutineDispatcher = Dispatchers.Default,
     block: GoogleMapsParametersBuilder.() -> Unit,
-): Autocomplete<Place> = GoogleMapsAutocomplete(apiKey, options, json, client, dispatcher, block)
+): Autocomplete<Place> =
+    GoogleMapsGeocoderAutocomplete(apiKey, options, json, client, dispatcher, block)

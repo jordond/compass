@@ -17,7 +17,7 @@ import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import kotlinx.serialization.json.Json
 
-public fun GoogleMapsAutocompleteService(
+public fun GoogleMapsGeocoderAutocompleteService(
     apiKey: String,
     parameters: GoogleMapsParameters = GoogleMapsParameters(),
     json: Json = HttpApiEndpoint.json(),
@@ -39,26 +39,26 @@ public fun GoogleMapsAutocompleteService(
     }
 }
 
-public fun GoogleMapsAutocompleteService(
+public fun GoogleMapsGeocoderAutocompleteService(
     apiKey: String,
     json: Json = HttpApiEndpoint.json(),
     client: HttpClient = HttpApiEndpoint.httpClient(json),
     block: GoogleMapsParametersBuilder.() -> Unit,
 ): AutocompleteService<Place> =
-    GoogleMapsAutocompleteService(apiKey, googleMapsParameters(block), json, client)
+    GoogleMapsGeocoderAutocompleteService(apiKey, googleMapsParameters(block), json, client)
 
-public fun AutocompleteService.Companion.googleMaps(
+public fun AutocompleteService.Companion.googleMapsGeocoder(
     apiKey: String,
     parameters: GoogleMapsParameters = GoogleMapsParameters(),
     json: Json = HttpApiEndpoint.json(),
     client: HttpClient = HttpApiEndpoint.httpClient(json),
 ): AutocompleteService<Place> =
-    GoogleMapsAutocompleteService(apiKey, parameters, json, client)
+    GoogleMapsGeocoderAutocompleteService(apiKey, parameters, json, client)
 
-public fun AutocompleteService.Companion.googleMaps(
+public fun AutocompleteService.Companion.googleMapsGeocoder(
     apiKey: String,
     json: Json = HttpApiEndpoint.json(),
     client: HttpClient = HttpApiEndpoint.httpClient(json),
     block: GoogleMapsParametersBuilder.() -> Unit,
 ): AutocompleteService<Place> =
-    GoogleMapsAutocompleteService(apiKey, googleMapsParameters(block), json, client)
+    GoogleMapsGeocoderAutocompleteService(apiKey, googleMapsParameters(block), json, client)
