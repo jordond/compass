@@ -10,25 +10,30 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 
-fun Project.configureMultiplatform(platform: Platform) {
-    configureMultiplatform(listOf(platform))
+fun Project.configureMultiplatform(
+    platform: Platform,
+    name: String = this.name,
+) {
+    configureMultiplatform(listOf(platform), name)
 }
 
 fun Project.configureMultiplatform(
     platforms: List<Platform> = Platforms.All,
+    name: String = this.name,
 ) {
     extensions.configure<KotlinMultiplatformExtension> {
         configureKotlin()
-        configurePlatforms(platforms)
+        configurePlatforms(platforms, name)
     }
 
     if (platforms.contains(Platform.Android)) {
-        configureAndroid()
+        configureAndroid(name)
     }
 }
 
 internal fun KotlinMultiplatformExtension.configurePlatforms(
     platforms: List<Platform> = Platforms.All,
+    name: String,
 ) {
     applyDefaultHierarchyTemplate()
 
@@ -86,7 +91,7 @@ internal fun KotlinMultiplatformExtension.configurePlatforms(
             iosSimulatorArm64()
         ).forEach { target ->
             target.binaries.framework {
-                baseName = project.name
+                baseName = name
                 isStatic = true
             }
         }

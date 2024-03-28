@@ -9,8 +9,8 @@ import org.gradle.kotlin.dsl.get
 import org.jetbrains.kotlin.gradle.dsl.ExplicitApiMode
 import org.jetbrains.kotlin.gradle.dsl.KotlinTopLevelExtension
 
-internal fun Project.configureAndroid() {
-    setNamespace()
+internal fun Project.configureAndroid(name: String = this.name) {
+    setNamespace(name)
     extensions.configure<LibraryExtension> {
         configureKotlinAndroid(this)
     }
@@ -53,10 +53,10 @@ fun Project.configureAndroidCompose(commonExtension: CommonExtension<*, *, *, *,
     }
 }
 
-internal fun Project.setNamespace(name: String = this.name.replace("-", ".")) {
+internal fun Project.setNamespace(name: String) {
     extensions.configure<LibraryExtension> {
         val packageName = libs.findVersion("group").get().toString()
-        namespace = "$packageName.$name"
+        namespace = "$packageName.${name.replace("-", ".")}"
     }
 }
 

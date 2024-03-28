@@ -42,10 +42,12 @@ public final class dev/jordond/compass/Location {
 }
 
 public final class dev/jordond/compass/Place {
-	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+	public fun <init> (Ldev/jordond/compass/Coordinates;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getAdministrativeArea ()Ljava/lang/String;
+	public final fun getCoordinates ()Ldev/jordond/compass/Coordinates;
 	public final fun getCountry ()Ljava/lang/String;
+	public final fun getFirstValue ()Ljava/lang/String;
 	public final fun getIsoCountryCode ()Ljava/lang/String;
 	public final fun getLocality ()Ljava/lang/String;
 	public final fun getName ()Ljava/lang/String;

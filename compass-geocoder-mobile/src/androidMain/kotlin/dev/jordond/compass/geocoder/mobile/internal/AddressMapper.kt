@@ -5,6 +5,7 @@ import dev.jordond.compass.Coordinates
 import dev.jordond.compass.Place
 
 internal fun Address.toPlace(): Place = Place(
+    coordinates = Coordinates(latitude, longitude),
     name = featureName,
     street = getAddressLine(0),
     isoCountryCode = countryCode,
@@ -15,7 +16,7 @@ internal fun Address.toPlace(): Place = Place(
     locality = locality,
     subLocality = subLocality,
     thoroughfare = thoroughfare,
-    subThoroughfare = subThoroughfare
+    subThoroughfare = subThoroughfare,
 )
 
 internal fun List<Address>.toPlaces(): List<Place> = map { it.toPlace() }

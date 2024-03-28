@@ -13,9 +13,10 @@ import platform.CoreLocation.postalAddress
  */
 @Suppress("CAST_NEVER_SUCCEEDS")
 @OptIn(ExperimentalForeignApi::class)
-internal fun CLPlacemark.toPlace(): Place {
+internal fun CLPlacemark.toPlace(): Place? {
     val street = runCatching { (postalAddress as? CNPostalAddress)?.street }.getOrNull()
     return Place(
+        coordinates = toCoordinates() ?: return null,
         name = name,
         street = street,
         isoCountryCode = ISOcountryCode,
@@ -30,7 +31,7 @@ internal fun CLPlacemark.toPlace(): Place {
     )
 }
 
-internal fun List<CLPlacemark>.toPlaces(): List<Place> = map { it.toPlace() }
+internal fun List<CLPlacemark>.toPlaces(): List<Place> = mapNotNull { it.toPlace() }
 
 @OptIn(ExperimentalForeignApi::class)
 internal fun CLPlacemark.toCoordinates(): Coordinates? {
