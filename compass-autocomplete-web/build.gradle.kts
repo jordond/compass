@@ -1,5 +1,4 @@
 import dev.jordond.compass.convention.configureMultiplatform
-import dev.jordond.compass.convention.dependencies
 
 plugins {
     alias(libs.plugins.android.library)
@@ -10,8 +9,16 @@ plugins {
     alias(libs.plugins.convention.multiplatform)
 }
 
-configureMultiplatform {
-    commonMain.dependencies {
-        implementation(libs.kotlinx.coroutines.core)
+configureMultiplatform()
+
+kotlin {
+    sourceSets {
+        commonMain.dependencies {
+            api(projects.compassCore)
+            api(projects.compassToolsWeb)
+            implementation(projects.compassAutocomplete)
+
+            implementation(libs.kotlinx.coroutines.core)
+        }
     }
 }

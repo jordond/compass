@@ -14,7 +14,7 @@ configureMultiplatform()
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            implementation(projects.compassCore)
+            api(projects.compassCore)
             api(projects.compassToolsWeb)
             implementation(projects.compassGeocoder)
 
