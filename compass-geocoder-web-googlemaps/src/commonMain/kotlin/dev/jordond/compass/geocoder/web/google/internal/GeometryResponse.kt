@@ -1,16 +1,19 @@
 package dev.jordond.compass.geocoder.web.google.internal
 
+import dev.jordond.compass.InternalCompassApi
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+@InternalCompassApi
 @Serializable
-internal data class GeometryResponse(
+public data class GeometryResponse(
     @Serializable
     val location: LocationResponse? = null,
 )
 
+@InternalCompassApi
 @Serializable
-internal data class LocationResponse(
+public data class LocationResponse(
     @SerialName("lat")
     val lat: Double,
 

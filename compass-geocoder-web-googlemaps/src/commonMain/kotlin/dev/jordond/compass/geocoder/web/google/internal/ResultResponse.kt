@@ -1,22 +1,25 @@
 package dev.jordond.compass.geocoder.web.google.internal
 
+import dev.jordond.compass.InternalCompassApi
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+@InternalCompassApi
 @Serializable
-internal data class ResultResponse(
+public data class ResultResponse(
     @SerialName("address_components")
-    val addressComponents: List<AddressComponentResponse> = emptyList(),
+    public val addressComponents: List<AddressComponentResponse> = emptyList(),
 
     @SerialName("formatted_address")
-    val formattedAddress: String? = null,
+    public val formattedAddress: String? = null,
 
     @SerialName("geometry")
-    val geometry: GeometryResponse? = null,
+    public val geometry: GeometryResponse? = null,
 )
 
+@InternalCompassApi
 @Serializable
-internal data class AddressComponentResponse(
+public data class AddressComponentResponse(
     @SerialName("long_name")
     val long: String,
 

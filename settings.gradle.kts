@@ -41,9 +41,9 @@ rootProject.name = "compass"
 include(
     ":compass-core",
     ":compass-autocomplete",
+    ":compass-autocomplete-geocoder-googlemaps",
     ":compass-autocomplete-mobile",
     ":compass-autocomplete-web",
-    ":compass-autocomplete-web-googleplaces",
     ":compass-geocoder",
     ":compass-geocoder-mobile",
     ":compass-geocoder-web",

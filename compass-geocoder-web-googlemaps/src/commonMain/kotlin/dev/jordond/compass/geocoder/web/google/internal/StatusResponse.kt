@@ -10,7 +10,7 @@ import kotlinx.serialization.SerialName
  */
 @Suppress("unused")
 @InternalCompassApi
-internal enum class StatusResponse {
+public enum class StatusResponse {
     @SerialName("OK")
     Ok,
 
