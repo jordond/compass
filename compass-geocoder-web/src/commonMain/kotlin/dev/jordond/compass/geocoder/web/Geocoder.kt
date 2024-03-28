@@ -3,6 +3,7 @@ package dev.jordond.compass.geocoder.web
 import dev.jordond.compass.geocoder.ForwardGeocoder
 import dev.jordond.compass.geocoder.Geocoder
 import dev.jordond.compass.geocoder.ReverseGeocoder
+import dev.jordond.compass.tools.web.HttpApiEndpoint
 import io.ktor.client.HttpClient
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -37,8 +38,8 @@ public fun Geocoder(
 public fun Geocoder(
     forwardEndpoint: ForwardEndpoint,
     reverseEndpoint: ReverseEndpoint,
-    json: Json = HttpApiPlatformGeocoder.json(),
-    httpClient: HttpClient = HttpApiPlatformGeocoder.httpClient(json),
+    json: Json = HttpApiEndpoint.json(),
+    httpClient: HttpClient = HttpApiEndpoint.httpClient(json),
     dispatcher: CoroutineDispatcher = Dispatchers.Default,
 ): Geocoder {
     val apiGeocoder = HttpApiPlatformGeocoder(forwardEndpoint, reverseEndpoint, json, httpClient)
@@ -56,8 +57,8 @@ public fun Geocoder(
  */
 public fun ForwardGeocoder(
     endpoint: ForwardEndpoint,
-    json: Json = HttpApiPlatformGeocoder.json(),
-    httpClient: HttpClient = HttpApiPlatformGeocoder.httpClient(json),
+    json: Json = HttpApiEndpoint.json(),
+    httpClient: HttpClient = HttpApiEndpoint.httpClient(json),
     dispatcher: CoroutineDispatcher = Dispatchers.Default,
 ): ForwardGeocoder {
     return ForwardGeocoder(ForwardHttpApiPlatformGeocoder(endpoint, httpClient), dispatcher)
@@ -74,8 +75,8 @@ public fun ForwardGeocoder(
  */
 public fun ReverseGeocoder(
     endpoint: ReverseEndpoint,
-    json: Json = HttpApiPlatformGeocoder.json(),
-    httpClient: HttpClient = HttpApiPlatformGeocoder.httpClient(json),
+    json: Json = HttpApiEndpoint.json(),
+    httpClient: HttpClient = HttpApiEndpoint.httpClient(json),
     dispatcher: CoroutineDispatcher = Dispatchers.Default,
 ): ReverseGeocoder {
     return ReverseGeocoder(ReverseHttpApiPlatformGeocoder(endpoint, httpClient), dispatcher)

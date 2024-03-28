@@ -14,6 +14,7 @@ configureMultiplatform(Platform.Android)
 kotlin {
     sourceSets {
         androidMain.dependencies {
+            implementation(projects.compassCore)
             implementation(libs.androidx.startup)
             implementation(libs.androidx.activity)
         }

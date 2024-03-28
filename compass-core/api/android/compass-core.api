@@ -25,6 +25,9 @@ public final class dev/jordond/compass/Coordinates {
 	public fun toString ()Ljava/lang/String;
 }
 
+public abstract interface annotation class dev/jordond/compass/InternalCompassApi : java/lang/annotation/Annotation {
+}
+
 public final class dev/jordond/compass/Location {
 	public fun <init> (Ldev/jordond/compass/Coordinates;DLdev/jordond/compass/Azimuth;Ldev/jordond/compass/Speed;Ldev/jordond/compass/Altitude;J)V
 	public fun equals (Ljava/lang/Object;)Z

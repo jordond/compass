@@ -1,70 +1,76 @@
 package dev.jordond.compass.geocoder.web.mapbox.internal
 
+import dev.jordond.compass.InternalCompassApi
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+@InternalCompassApi
 @Serializable
-internal data class ContextResponse(
+public data class ContextResponse(
     @SerialName("address")
-    val address: AddressDataPoint? = null,
+    public val address: AddressDataPoint? = null,
 
     @SerialName("street")
-    val street: DataPoint? = null,
+    public val street: DataPoint? = null,
 
     @SerialName("neighbourhood")
-    val neighborhood: DataPoint? = null,
+    public val neighborhood: DataPoint? = null,
 
     @SerialName("postcode")
-    val postcode: DataPoint? = null,
+    public val postcode: DataPoint? = null,
 
     @SerialName("locality")
-    val locality: DataPoint? = null,
+    public val locality: DataPoint? = null,
 
     @SerialName("place")
-    val place: DataPoint? = null,
+    public val place: DataPoint? = null,
 
     @SerialName("district")
-    val district: DataPoint? = null,
+    public val district: DataPoint? = null,
 
     @SerialName("region")
-    val region: RegionDataPoint? = null,
+    public val region: RegionDataPoint? = null,
 
     @SerialName("country")
-    val country: CountryDataPoint? = null,
+    public val country: CountryDataPoint? = null,
 )
 
+@InternalCompassApi
 @Serializable
-internal data class DataPoint(
+public data class DataPoint(
     @SerialName("name")
-    val name: String? = null,
+    public val name: String? = null,
 )
 
+@InternalCompassApi
 @Serializable
-internal data class AddressDataPoint(
+public data class AddressDataPoint(
     @SerialName("name")
-    val name: String? = null,
+    public val name: String? = null,
 
     @SerialName("street_name")
-    val streetName: String? = null,
+    public val streetName: String? = null,
 
     @SerialName("address_number")
-    val addressNumber: String? = null,
+    public val addressNumber: String? = null,
 )
 
+@InternalCompassApi
 @Serializable
-internal data class RegionDataPoint(
+public data class RegionDataPoint(
     @SerialName("name")
-    val name: String? = null,
+    public val name: String? = null,
 
     @SerialName("region_code")
-    val regionCode: String? = null,
+    public val regionCode: String? = null,
 )
 
+@InternalCompassApi
 @Serializable
-internal data class CountryDataPoint(
+public data class CountryDataPoint(
     @SerialName("name")
-    val name: String? = null,
+    public val name: String? = null,
 
     @SerialName("country_code")
-    val countryCode: String? = null,
+    public val countryCode: String? = null,
 )

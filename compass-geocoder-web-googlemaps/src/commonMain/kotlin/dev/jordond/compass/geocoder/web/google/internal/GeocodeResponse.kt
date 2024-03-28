@@ -1,6 +1,7 @@
 package dev.jordond.compass.geocoder.web.google.internal
 
 import dev.jordond.compass.Coordinates
+import dev.jordond.compass.InternalCompassApi
 import dev.jordond.compass.Place
 import dev.jordond.compass.geocoder.exception.GeocodeException
 import dev.jordond.compass.geocoder.web.google.internal.AddressComponentType.AdministrativeAreaLevel1
@@ -15,19 +16,21 @@ import dev.jordond.compass.geocoder.web.google.internal.AddressComponentType.Tho
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+@InternalCompassApi
 @Serializable
-internal data class GeocodeResponse(
+public data class GeocodeResponse(
     @SerialName("results")
-    val results: List<ResultResponse> = emptyList(),
+    public val results: List<ResultResponse> = emptyList(),
 
     @SerialName("status")
-    val status: StatusResponse,
+    public val status: StatusResponse,
 
     @SerialName("error_message")
-    val errorMessage: String,
+    public val errorMessage: String,
 )
 
-internal fun GeocodeResponse.resultsOrThrow(): List<ResultResponse> = when (status) {
+@InternalCompassApi
+public fun GeocodeResponse.resultsOrThrow(): List<ResultResponse> = when (status) {
     StatusResponse.Ok,
     StatusResponse.ZeroResults,
     -> results
@@ -41,7 +44,8 @@ internal fun List<ResultResponse>.toCoordinates(): List<Coordinates> {
     }
 }
 
-internal fun List<ResultResponse>.toPlaces(): List<Place> {
+@InternalCompassApi
+public fun List<ResultResponse>.toPlaces(): List<Place> {
     return mapNotNull { response ->
         val components = response.addressComponents
         val country = components.find(Country)

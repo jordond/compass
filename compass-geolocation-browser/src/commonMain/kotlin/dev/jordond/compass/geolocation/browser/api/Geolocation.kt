@@ -1,5 +1,6 @@
 package dev.jordond.compass.geolocation.browser.api
 
+import dev.jordond.compass.InternalCompassApi
 import dev.jordond.compass.geolocation.browser.api.model.GeolocationPosition
 import dev.jordond.compass.geolocation.browser.api.model.GeolocationPositionError
 import dev.jordond.compass.geolocation.browser.internal.Object
@@ -9,6 +10,7 @@ import dev.jordond.compass.geolocation.browser.internal.Object
  *
  * See [Geolocation](https://developer.mozilla.org/en-US/docs/Web/API/Geolocation)
  */
+@InternalCompassApi
 public expect class Geolocation {
 
     /**

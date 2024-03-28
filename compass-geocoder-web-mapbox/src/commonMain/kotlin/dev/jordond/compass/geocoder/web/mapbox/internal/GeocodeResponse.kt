@@ -1,12 +1,14 @@
 package dev.jordond.compass.geocoder.web.mapbox.internal
 
 import dev.jordond.compass.Coordinates
+import dev.jordond.compass.InternalCompassApi
 import dev.jordond.compass.Place
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+@InternalCompassApi
 @Serializable
-internal data class GeocodeResponse(
+public data class GeocodeResponse(
     @SerialName("features")
     val features: List<FeatureResponse>,
 )
@@ -21,7 +23,8 @@ internal fun GeocodeResponse.toCoordinates(): List<Coordinates> {
     }
 }
 
-internal fun GeocodeResponse.toPlaces(): List<Place> {
+@InternalCompassApi
+public fun GeocodeResponse.toPlaces(): List<Place> {
     return features.mapNotNull { response ->
         val data = response.properties?.context ?: return@mapNotNull null
         Place(

@@ -1,4 +1,4 @@
-public final class dev/jordond/compass/geocoder/web/TemplateForwardEndpoint : dev/jordond/compass/geocoder/web/HttpApiEndpoint {
+public final class dev/jordond/compass/geocoder/web/TemplateForwardEndpoint : dev/jordond/compass/tools/web/HttpApiEndpoint {
 	public fun <init> (Ljava/lang/String;Ldev/jordond/compass/geocoder/web/parameter/TemplateParameters;)V
 	public synthetic fun <init> (Ljava/lang/String;Ldev/jordond/compass/geocoder/web/parameter/TemplateParameters;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun <init> (Ljava/lang/String;Lkotlin/jvm/functions/Function1;)V
@@ -36,7 +36,7 @@ public final class dev/jordond/compass/geocoder/web/TemplatePlatformGeocoderKt {
 	public static synthetic fun template$default (Ldev/jordond/compass/geocoder/PlatformGeocoder$Companion;Ljava/lang/String;Lkotlinx/serialization/json/Json;Lio/ktor/client/HttpClient;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/jordond/compass/geocoder/web/TemplatePlatformGeocoder;
 }
 
-public final class dev/jordond/compass/geocoder/web/TemplateReverseEndpoint : dev/jordond/compass/geocoder/web/HttpApiEndpoint {
+public final class dev/jordond/compass/geocoder/web/TemplateReverseEndpoint : dev/jordond/compass/tools/web/HttpApiEndpoint {
 	public fun <init> (Ljava/lang/String;Ldev/jordond/compass/geocoder/web/parameter/TemplateParameters;)V
 	public synthetic fun <init> (Ljava/lang/String;Ldev/jordond/compass/geocoder/web/parameter/TemplateParameters;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun <init> (Ljava/lang/String;Lkotlin/jvm/functions/Function1;)V
@@ -45,7 +45,7 @@ public final class dev/jordond/compass/geocoder/web/TemplateReverseEndpoint : de
 	public synthetic fun url (Ljava/lang/Object;)Ljava/lang/String;
 }
 
-public final class dev/jordond/compass/geocoder/web/parameter/TemplateParameters : dev/jordond/compass/geocoder/web/parameter/QueryParameters {
+public final class dev/jordond/compass/geocoder/web/parameter/TemplateParameters : dev/jordond/compass/tools/web/parameter/QueryParameters {
 	public fun <init> ()V
 	public fun <init> (Ljava/lang/String;)V
 	public synthetic fun <init> (Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
@@ -57,10 +57,10 @@ public final class dev/jordond/compass/geocoder/web/parameter/TemplateParameters
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class dev/jordond/compass/geocoder/web/parameter/TemplateParametersBuilder : dev/jordond/compass/geocoder/web/parameter/QueryParametersBuilder {
+public final class dev/jordond/compass/geocoder/web/parameter/TemplateParametersBuilder : dev/jordond/compass/tools/web/parameter/QueryParametersBuilder {
 	public fun <init> ()V
-	public synthetic fun build ()Ldev/jordond/compass/geocoder/web/parameter/QueryParameters;
 	public fun build ()Ldev/jordond/compass/geocoder/web/parameter/TemplateParameters;
+	public synthetic fun build ()Ldev/jordond/compass/tools/web/parameter/QueryParameters;
 }
 
 public final class dev/jordond/compass/geocoder/web/parameter/TemplateParametersKt {

@@ -1,0 +1,19 @@
+public final class dev/jordond/compass/autocomplete/web/HttpAutocompleteKt {
+	public static final fun Autocomplete (Ldev/jordond/compass/autocomplete/web/HttpAutocompleteService;Ldev/jordond/compass/autocomplete/AutocompleteOptions;Lkotlinx/coroutines/CoroutineDispatcher;)Ldev/jordond/compass/autocomplete/Autocomplete;
+	public static final fun Autocomplete (Ldev/jordond/compass/tools/web/HttpApiEndpoint;Ldev/jordond/compass/autocomplete/AutocompleteOptions;Lkotlinx/serialization/json/Json;Lio/ktor/client/HttpClient;Lkotlinx/coroutines/CoroutineDispatcher;)Ldev/jordond/compass/autocomplete/Autocomplete;
+	public static synthetic fun Autocomplete$default (Ldev/jordond/compass/autocomplete/web/HttpAutocompleteService;Ldev/jordond/compass/autocomplete/AutocompleteOptions;Lkotlinx/coroutines/CoroutineDispatcher;ILjava/lang/Object;)Ldev/jordond/compass/autocomplete/Autocomplete;
+	public static synthetic fun Autocomplete$default (Ldev/jordond/compass/tools/web/HttpApiEndpoint;Ldev/jordond/compass/autocomplete/AutocompleteOptions;Lkotlinx/serialization/json/Json;Lio/ktor/client/HttpClient;Lkotlinx/coroutines/CoroutineDispatcher;ILjava/lang/Object;)Ldev/jordond/compass/autocomplete/Autocomplete;
+}
+
+public abstract interface class dev/jordond/compass/autocomplete/web/HttpAutocompleteService : dev/jordond/compass/autocomplete/AutocompleteService {
+	public static final field Companion Ldev/jordond/compass/autocomplete/web/HttpAutocompleteService$Companion;
+}
+
+public final class dev/jordond/compass/autocomplete/web/HttpAutocompleteService$Companion {
+}
+
+public final class dev/jordond/compass/autocomplete/web/HttpAutocompleteServiceKt {
+	public static final fun HttpAutocompleteService (Ldev/jordond/compass/tools/web/HttpApiEndpoint;Lkotlinx/serialization/json/Json;Lio/ktor/client/HttpClient;)Ldev/jordond/compass/autocomplete/web/HttpAutocompleteService;
+	public static synthetic fun HttpAutocompleteService$default (Ldev/jordond/compass/tools/web/HttpApiEndpoint;Lkotlinx/serialization/json/Json;Lio/ktor/client/HttpClient;ILjava/lang/Object;)Ldev/jordond/compass/autocomplete/web/HttpAutocompleteService;
+}
+

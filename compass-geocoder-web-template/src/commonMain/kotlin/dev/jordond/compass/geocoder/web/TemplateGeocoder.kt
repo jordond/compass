@@ -6,6 +6,7 @@ import dev.jordond.compass.geocoder.Geocoder
 import dev.jordond.compass.geocoder.web.parameter.TemplateParameters
 import dev.jordond.compass.geocoder.web.parameter.TemplateParametersBuilder
 import dev.jordond.compass.geocoder.web.parameter.templateParameters
+import dev.jordond.compass.tools.web.HttpApiEndpoint
 import io.ktor.client.HttpClient
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -26,8 +27,8 @@ import kotlinx.serialization.json.Json
 public fun TemplateGeocoder(
     apiKey: String,
     parameters: TemplateParameters = TemplateParameters(),
-    json: Json = HttpApiPlatformGeocoder.json(),
-    client: HttpClient = HttpApiPlatformGeocoder.httpClient(json),
+    json: Json = HttpApiEndpoint.json(),
+    client: HttpClient = HttpApiEndpoint.httpClient(json),
     dispatcher: CoroutineDispatcher = Dispatchers.Default,
 ): Geocoder {
     val platform = TemplatePlatformGeocoder(apiKey, parameters, json, client)
@@ -48,8 +49,8 @@ public fun TemplateGeocoder(
  */
 public fun TemplateGeocoder(
     apiKey: String,
-    json: Json = HttpApiPlatformGeocoder.json(),
-    client: HttpClient = HttpApiPlatformGeocoder.httpClient(json),
+    json: Json = HttpApiEndpoint.json(),
+    client: HttpClient = HttpApiEndpoint.httpClient(json),
     dispatcher: CoroutineDispatcher = Dispatchers.Default,
     block: TemplateParametersBuilder.() -> Unit,
 ): Geocoder = TemplateGeocoder(apiKey, templateParameters(block), json, client, dispatcher)
@@ -69,8 +70,8 @@ public fun TemplateGeocoder(
 public fun Geocoder.Companion.template(
     apiKey: String,
     parameters: TemplateParameters = TemplateParameters(),
-    json: Json = HttpApiPlatformGeocoder.json(),
-    client: HttpClient = HttpApiPlatformGeocoder.httpClient(json),
+    json: Json = HttpApiEndpoint.json(),
+    client: HttpClient = HttpApiEndpoint.httpClient(json),
     dispatcher: CoroutineDispatcher = Dispatchers.Default,
 ): Geocoder = TemplateGeocoder(apiKey, parameters, json, client, dispatcher)
 
@@ -88,8 +89,8 @@ public fun Geocoder.Companion.template(
  */
 public fun Geocoder.Companion.template(
     apiKey: String,
-    json: Json = HttpApiPlatformGeocoder.json(),
-    client: HttpClient = HttpApiPlatformGeocoder.httpClient(json),
+    json: Json = HttpApiEndpoint.json(),
+    client: HttpClient = HttpApiEndpoint.httpClient(json),
     dispatcher: CoroutineDispatcher = Dispatchers.Default,
     block: TemplateParametersBuilder.() -> Unit,
 ): Geocoder = TemplateGeocoder(apiKey, json, client, dispatcher, block)

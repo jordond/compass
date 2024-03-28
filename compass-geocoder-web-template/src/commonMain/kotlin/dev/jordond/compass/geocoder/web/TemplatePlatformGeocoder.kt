@@ -4,6 +4,7 @@ import dev.jordond.compass.geocoder.PlatformGeocoder
 import dev.jordond.compass.geocoder.web.parameter.TemplateParameters
 import dev.jordond.compass.geocoder.web.parameter.TemplateParametersBuilder
 import dev.jordond.compass.geocoder.web.parameter.templateParameters
+import dev.jordond.compass.tools.web.HttpApiEndpoint
 import io.ktor.client.HttpClient
 import kotlinx.serialization.json.Json
 
@@ -52,8 +53,8 @@ public interface TemplatePlatformGeocoder : HttpApiPlatformGeocoder {
 public fun TemplatePlatformGeocoder(
     apiKey: String,
     parameters: TemplateParameters = TemplateParameters(),
-    json: Json = HttpApiPlatformGeocoder.json(),
-    client: HttpClient = HttpApiPlatformGeocoder.httpClient(json),
+    json: Json = HttpApiEndpoint.json(),
+    client: HttpClient = HttpApiEndpoint.httpClient(json),
 ): TemplatePlatformGeocoder {
     val delegate = HttpApiPlatformGeocoder(
         forwardEndpoint = TemplateForwardEndpoint(apiKey, parameters),
@@ -77,8 +78,8 @@ public fun TemplatePlatformGeocoder(
  */
 public fun TemplatePlatformGeocoder(
     apiKey: String,
-    json: Json = HttpApiPlatformGeocoder.json(),
-    client: HttpClient = HttpApiPlatformGeocoder.httpClient(json),
+    json: Json = HttpApiEndpoint.json(),
+    client: HttpClient = HttpApiEndpoint.httpClient(json),
     block: TemplateParametersBuilder.() -> Unit,
 ): TemplatePlatformGeocoder =
     TemplatePlatformGeocoder(apiKey, templateParameters(block), json, client)
@@ -97,8 +98,8 @@ public fun TemplatePlatformGeocoder(
 public fun PlatformGeocoder.Companion.template(
     apiKey: String,
     parameters: TemplateParameters = TemplateParameters(),
-    json: Json = HttpApiPlatformGeocoder.json(),
-    client: HttpClient = HttpApiPlatformGeocoder.httpClient(json),
+    json: Json = HttpApiEndpoint.json(),
+    client: HttpClient = HttpApiEndpoint.httpClient(json),
 ): TemplatePlatformGeocoder =
     TemplatePlatformGeocoder(apiKey, parameters, json, client)
 
@@ -115,8 +116,8 @@ public fun PlatformGeocoder.Companion.template(
  */
 public fun PlatformGeocoder.Companion.template(
     apiKey: String,
-    json: Json = HttpApiPlatformGeocoder.json(),
-    client: HttpClient = HttpApiPlatformGeocoder.httpClient(json),
+    json: Json = HttpApiEndpoint.json(),
+    client: HttpClient = HttpApiEndpoint.httpClient(json),
     block: TemplateParametersBuilder.() -> Unit,
 ): TemplatePlatformGeocoder =
     TemplatePlatformGeocoder(apiKey, templateParameters(block), json, client)

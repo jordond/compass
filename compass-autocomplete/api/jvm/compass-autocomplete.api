@@ -1,0 +1,97 @@
+public abstract interface class dev/jordond/compass/autocomplete/Autocomplete {
+	public static final field Companion Ldev/jordond/compass/autocomplete/Autocomplete$Companion;
+	public abstract fun getOptions ()Ldev/jordond/compass/autocomplete/AutocompleteOptions;
+	public abstract fun search (Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class dev/jordond/compass/autocomplete/Autocomplete$Companion {
+}
+
+public final class dev/jordond/compass/autocomplete/AutocompleteKt {
+	public static final fun Autocomplete (Ldev/jordond/compass/autocomplete/AutocompleteService;Ldev/jordond/compass/autocomplete/AutocompleteOptions;Lkotlinx/coroutines/CoroutineDispatcher;)Ldev/jordond/compass/autocomplete/Autocomplete;
+	public static synthetic fun Autocomplete$default (Ldev/jordond/compass/autocomplete/AutocompleteService;Ldev/jordond/compass/autocomplete/AutocompleteOptions;Lkotlinx/coroutines/CoroutineDispatcher;ILjava/lang/Object;)Ldev/jordond/compass/autocomplete/Autocomplete;
+}
+
+public class dev/jordond/compass/autocomplete/AutocompleteOptions {
+	public fun <init> ()V
+	public fun <init> (I)V
+	public synthetic fun <init> (IILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getMinimumQuery ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract interface class dev/jordond/compass/autocomplete/AutocompleteResult {
+	public abstract fun errorOrNull ()Ldev/jordond/compass/autocomplete/AutocompleteResult$Error;
+	public abstract fun getOrNull ()Ljava/util/List;
+	public abstract fun isError ()Z
+	public abstract fun onFailed (Lkotlin/jvm/functions/Function1;)Ldev/jordond/compass/autocomplete/AutocompleteResult;
+	public abstract fun onSuccess (Lkotlin/jvm/functions/Function1;)Ldev/jordond/compass/autocomplete/AutocompleteResult;
+}
+
+public final class dev/jordond/compass/autocomplete/AutocompleteResult$DefaultImpls {
+	public static fun errorOrNull (Ldev/jordond/compass/autocomplete/AutocompleteResult;)Ldev/jordond/compass/autocomplete/AutocompleteResult$Error;
+	public static fun getOrNull (Ldev/jordond/compass/autocomplete/AutocompleteResult;)Ljava/util/List;
+	public static fun isError (Ldev/jordond/compass/autocomplete/AutocompleteResult;)Z
+	public static fun onFailed (Ldev/jordond/compass/autocomplete/AutocompleteResult;Lkotlin/jvm/functions/Function1;)Ldev/jordond/compass/autocomplete/AutocompleteResult;
+	public static fun onSuccess (Ldev/jordond/compass/autocomplete/AutocompleteResult;Lkotlin/jvm/functions/Function1;)Ldev/jordond/compass/autocomplete/AutocompleteResult;
+}
+
+public abstract interface class dev/jordond/compass/autocomplete/AutocompleteResult$Error : dev/jordond/compass/autocomplete/AutocompleteResult {
+	public abstract fun getMessage ()Ljava/lang/String;
+}
+
+public final class dev/jordond/compass/autocomplete/AutocompleteResult$Error$DefaultImpls {
+	public static fun errorOrNull (Ldev/jordond/compass/autocomplete/AutocompleteResult$Error;)Ldev/jordond/compass/autocomplete/AutocompleteResult$Error;
+	public static fun getOrNull (Ldev/jordond/compass/autocomplete/AutocompleteResult$Error;)Ljava/util/List;
+	public static fun isError (Ldev/jordond/compass/autocomplete/AutocompleteResult$Error;)Z
+	public static fun onFailed (Ldev/jordond/compass/autocomplete/AutocompleteResult$Error;Lkotlin/jvm/functions/Function1;)Ldev/jordond/compass/autocomplete/AutocompleteResult;
+	public static fun onSuccess (Ldev/jordond/compass/autocomplete/AutocompleteResult$Error;Lkotlin/jvm/functions/Function1;)Ldev/jordond/compass/autocomplete/AutocompleteResult;
+}
+
+public final class dev/jordond/compass/autocomplete/AutocompleteResult$Failed : dev/jordond/compass/autocomplete/AutocompleteResult$Error {
+	public fun <init> (Ljava/lang/String;)V
+	public fun equals (Ljava/lang/Object;)Z
+	public fun errorOrNull ()Ldev/jordond/compass/autocomplete/AutocompleteResult$Error;
+	public fun getMessage ()Ljava/lang/String;
+	public fun getOrNull ()Ljava/util/List;
+	public fun hashCode ()I
+	public fun isError ()Z
+	public fun onFailed (Lkotlin/jvm/functions/Function1;)Ldev/jordond/compass/autocomplete/AutocompleteResult;
+	public fun onSuccess (Lkotlin/jvm/functions/Function1;)Ldev/jordond/compass/autocomplete/AutocompleteResult;
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class dev/jordond/compass/autocomplete/AutocompleteResult$NotSupported : dev/jordond/compass/autocomplete/AutocompleteResult$Error {
+	public static final field INSTANCE Ldev/jordond/compass/autocomplete/AutocompleteResult$NotSupported;
+	public fun errorOrNull ()Ldev/jordond/compass/autocomplete/AutocompleteResult$Error;
+	public fun getMessage ()Ljava/lang/String;
+	public fun getOrNull ()Ljava/util/List;
+	public fun isError ()Z
+	public fun onFailed (Lkotlin/jvm/functions/Function1;)Ldev/jordond/compass/autocomplete/AutocompleteResult;
+	public fun onSuccess (Lkotlin/jvm/functions/Function1;)Ldev/jordond/compass/autocomplete/AutocompleteResult;
+}
+
+public final class dev/jordond/compass/autocomplete/AutocompleteResult$Success : dev/jordond/compass/autocomplete/AutocompleteResult {
+	public fun <init> (Ljava/util/List;)V
+	public fun equals (Ljava/lang/Object;)Z
+	public fun errorOrNull ()Ldev/jordond/compass/autocomplete/AutocompleteResult$Error;
+	public final fun getData ()Ljava/util/List;
+	public fun getOrNull ()Ljava/util/List;
+	public fun hashCode ()I
+	public fun isError ()Z
+	public fun onFailed (Lkotlin/jvm/functions/Function1;)Ldev/jordond/compass/autocomplete/AutocompleteResult;
+	public fun onSuccess (Lkotlin/jvm/functions/Function1;)Ldev/jordond/compass/autocomplete/AutocompleteResult;
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract interface class dev/jordond/compass/autocomplete/AutocompleteService {
+	public static final field Companion Ldev/jordond/compass/autocomplete/AutocompleteService$Companion;
+	public abstract fun isAvailable ()Z
+	public abstract fun search (Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class dev/jordond/compass/autocomplete/AutocompleteService$Companion {
+}
+

@@ -40,6 +40,11 @@ rootProject.name = "compass"
 
 include(
     ":compass-core",
+    ":compass-autocomplete",
+    ":compass-autocomplete-geocoder-googlemaps",
+    ":compass-autocomplete-geocoder-mapbox",
+    ":compass-autocomplete-mobile",
+    ":compass-autocomplete-web",
     ":compass-geocoder",
     ":compass-geocoder-mobile",
     ":compass-geocoder-web",
@@ -52,6 +57,7 @@ include(
     ":compass-permissions",
     ":compass-permissions-mobile",
     ":compass-tools-android",
+    ":compass-tools-web",
 )
 
 include(":demo:composeApp")

@@ -8,8 +8,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import cafe.adriel.voyager.core.screen.Screen
-import dev.jordond.compass.geocoder.web.HttpApiPlatformGeocoder
-import dev.jordond.compass.geocoder.web.MapBoxGeocoder
+import dev.jordond.compass.geocoder.web.MapboxGeocoder
+import dev.jordond.compass.tools.web.HttpApiEndpoint
 
 /**
  * This screen demonstrates how to use the Mapbox Geocoder for all platforms.
@@ -21,9 +21,9 @@ class MapboxGeocoderScreen : Screen {
         var apiKey by rememberSaveable { mutableStateOf("") }
         val geocoder by remember(apiKey) {
             derivedStateOf {
-                MapBoxGeocoder(
+                MapboxGeocoder(
                     apiKey = apiKey,
-                    client = HttpApiPlatformGeocoder.httpClient(enableLogging = true)
+                    client = HttpApiEndpoint.httpClient(enableLogging = true)
                 )
             }
         }

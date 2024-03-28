@@ -1,10 +1,12 @@
 package dev.jordond.compass.geocoder.web.mapbox.internal
 
+import dev.jordond.compass.InternalCompassApi
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+@InternalCompassApi
 @Serializable
-internal data class PropertiesResponse(
+public data class PropertiesResponse(
     @SerialName("name")
     val name: String? = null,
 
