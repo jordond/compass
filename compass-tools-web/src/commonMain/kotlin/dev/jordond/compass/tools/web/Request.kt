@@ -10,6 +10,17 @@ import io.ktor.client.statement.HttpResponse
 import kotlinx.coroutines.CancellationException
 
 @InternalCompassApi
+/**
+ * Makes a web request to the specified URL and returns the result of the request.
+ *
+ * Internal API.
+ *
+ * @param Result The type of the result of the request.
+ * @param url The URL to make the request to.
+ * @param resultMapper A function that maps the HTTP response to the result type.
+ * @return The result of the request.
+ * @throws WebException If the request fails.
+ */
 public suspend fun <Result> HttpClient.makeRequest(
     url: String,
     resultMapper: suspend (HttpResponse) -> Result,

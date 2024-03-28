@@ -17,6 +17,16 @@ import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import kotlinx.serialization.json.Json
 
+/**
+ * Creates a new [AutocompleteService] that uses the Google Maps Geocoding API to provide
+ * autocomplete suggestions.
+ *
+ * @param apiKey The Google Maps API key.
+ * @param parameters The parameters to use when making requests to the Google Maps Geocoding API.
+ * @param json The JSON serializer to use when parsing responses.
+ * @param client The HTTP client to use when making requests.
+ * @return A new [AutocompleteService] that uses the Google Maps Geocoding API.
+ */
 public fun GoogleMapsGeocoderAutocompleteService(
     apiKey: String,
     parameters: GoogleMapsParameters = GoogleMapsParameters(),
@@ -39,6 +49,17 @@ public fun GoogleMapsGeocoderAutocompleteService(
     }
 }
 
+/**
+ * Creates a new [AutocompleteService] that uses the Google Maps Geocoding API to provide
+ * autocomplete suggestions.
+ *
+ * @param apiKey The Google Maps API key.
+ * @param json The JSON serializer to use when parsing responses.
+ * @param client The HTTP client to use when making requests.
+ * @param block A block that configures the parameters to use when making requests to the
+ * Google Maps Geocoding API.
+ * @return A new [AutocompleteService] that uses the Google Maps Geocoding API.
+ */
 public fun GoogleMapsGeocoderAutocompleteService(
     apiKey: String,
     json: Json = HttpApiEndpoint.json(),
@@ -47,6 +68,16 @@ public fun GoogleMapsGeocoderAutocompleteService(
 ): AutocompleteService<Place> =
     GoogleMapsGeocoderAutocompleteService(apiKey, googleMapsParameters(block), json, client)
 
+/**
+ * Creates a new [AutocompleteService] that uses the Google Maps Geocoding API to provide
+ * autocomplete suggestions.
+ *
+ * @param apiKey The Google Maps API key.
+ * @param parameters The parameters to use when making requests to the Google Maps Geocoding API.
+ * @param json The JSON serializer to use when parsing responses.
+ * @param client The HTTP client to use when making requests.
+ * @return A new [AutocompleteService] that uses the Google Maps Geocoding API.
+ */
 public fun AutocompleteService.Companion.googleMapsGeocoder(
     apiKey: String,
     parameters: GoogleMapsParameters = GoogleMapsParameters(),
@@ -55,6 +86,17 @@ public fun AutocompleteService.Companion.googleMapsGeocoder(
 ): AutocompleteService<Place> =
     GoogleMapsGeocoderAutocompleteService(apiKey, parameters, json, client)
 
+/**
+ * Creates a new [AutocompleteService] that uses the Google Maps Geocoding API to provide
+ * autocomplete suggestions.
+ *
+ * @param apiKey The Google Maps API key.
+ * @param json The JSON serializer to use when parsing responses.
+ * @param client The HTTP client to use when making requests.
+ * @param block A block that configures the parameters to use when making requests to the
+ * Google Maps Geocoding API.
+ * @return A new [AutocompleteService] that uses the Google Maps Geocoding API.
+ */
 public fun AutocompleteService.Companion.googleMapsGeocoder(
     apiKey: String,
     json: Json = HttpApiEndpoint.json(),

@@ -14,6 +14,17 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.serialization.json.Json
 
+/**
+ * Creates a new [Autocomplete] instance that uses the Mapbox Geocoding API.
+ *
+ * @param apiKey The Mapbox API key.
+ * @param options The autocomplete options.
+ * @param parameters The Mapbox geocoder parameters.
+ * @param json The JSON serializer.
+ * @param client The HTTP client to make the requests with.
+ * @param dispatcher The coroutine dispatcher.
+ * @return A new [Autocomplete] instance.
+ */
 public fun MapboxGeocoderAutocomplete(
     apiKey: String,
     options: AutocompleteOptions = AutocompleteOptions(),
@@ -22,10 +33,21 @@ public fun MapboxGeocoderAutocomplete(
     client: HttpClient = HttpApiEndpoint.httpClient(json),
     dispatcher: CoroutineDispatcher = Dispatchers.Default,
 ): Autocomplete<Place> {
-    val service = GoogleMapsGeocoderAutocompleteService(apiKey, parameters, json, client)
+    val service = MapboxGeocoderAutocompleteService(apiKey, parameters, json, client)
     return Autocomplete(service, options, dispatcher)
 }
 
+/**
+ * Creates a new [Autocomplete] instance that uses the Mapbox Geocoding API.
+ *
+ * @param apiKey The Mapbox API key.
+ * @param options The autocomplete options.
+ * @param json The JSON serializer.
+ * @param client The HTTP client to make the requests with.
+ * @param dispatcher The coroutine dispatcher.
+ * @param block The builder block to configure the Mapbox geocoder parameters.
+ * @return A new [Autocomplete] instance.
+ */
 public fun MapboxGeocoderAutocomplete(
     apiKey: String,
     options: AutocompleteOptions = AutocompleteOptions(),
@@ -42,7 +64,17 @@ public fun MapboxGeocoderAutocomplete(
     dispatcher = dispatcher,
 )
 
-
+/**
+ * Creates a new [Autocomplete] instance that uses the Mapbox Geocoding API.
+ *
+ * @param apiKey The Mapbox API key.
+ * @param options The autocomplete options.
+ * @param parameters The Mapbox geocoder parameters.
+ * @param json The JSON serializer.
+ * @param client The HTTP client to make the requests with.
+ * @param dispatcher The coroutine dispatcher.
+ * @return A new [Autocomplete] instance.
+ */
 public fun Autocomplete.Companion.mapboxGeocoder(
     apiKey: String,
     options: AutocompleteOptions = AutocompleteOptions(),
@@ -53,6 +85,17 @@ public fun Autocomplete.Companion.mapboxGeocoder(
 ): Autocomplete<Place> =
     MapboxGeocoderAutocomplete(apiKey, options, parameters, json, client, dispatcher)
 
+/**
+ * Creates a new [Autocomplete] instance that uses the Mapbox Geocoding API.
+ *
+ * @param apiKey The Mapbox API key.
+ * @param options The autocomplete options.
+ * @param json The JSON serializer.
+ * @param client The HTTP client to make the requests with.
+ * @param dispatcher The coroutine dispatcher.
+ * @param block The builder block to configure the Mapbox geocoder parameters.
+ * @return A new [Autocomplete] instance.
+ */
 public fun Autocomplete.Companion.mapboxGeocoder(
     apiKey: String,
     options: AutocompleteOptions = AutocompleteOptions(),

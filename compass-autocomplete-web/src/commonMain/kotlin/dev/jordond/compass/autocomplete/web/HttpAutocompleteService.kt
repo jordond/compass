@@ -6,13 +6,34 @@ import dev.jordond.compass.tools.web.makeRequest
 import io.ktor.client.HttpClient
 import kotlinx.serialization.json.Json
 
+/**
+ * Represents an HTTP endpoint that can be used to search for autocomplete suggestions.
+ *
+ * @param T The type of the autocomplete suggestions.
+ */
 public typealias SearchEndpoint <T> = HttpApiEndpoint<String, List<T>>
 
+/**
+ * Represents an autocomplete service that uses an HTTP endpoint to search for suggestions.
+ *
+ * @param T The type of the autocomplete suggestions.
+ */
 public interface HttpAutocompleteService<T> : AutocompleteService<T> {
 
     public companion object
 }
 
+/**
+ * Creates an [HttpAutocompleteService] that uses the specified [searchEndpoint] to search for
+ * autocomplete suggestions.
+ *
+ * @param T The type of the autocomplete suggestions.
+ * @param searchEndpoint The HTTP endpoint to use for searching.
+ * @param json The JSON serializer to use.
+ * @param client The HTTP client to use.
+ * @return An [HttpAutocompleteService] that uses the specified [searchEndpoint] to search for
+ * autocomplete suggestions.
+ */
 public fun <T> HttpAutocompleteService(
     searchEndpoint: SearchEndpoint<T>,
     json: Json = HttpApiEndpoint.json(),

@@ -16,7 +16,17 @@ import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import kotlinx.serialization.json.Json
 
-public fun GoogleMapsGeocoderAutocompleteService(
+/**
+ * Creates a new [AutocompleteService] that uses the Mapbox Geocoding API to provide
+ * autocomplete suggestions.
+ *
+ * @param apiKey The Mapbox API key.
+ * @param parameters The parameters to use when making requests to the Mapbox Geocoding API.
+ * @param json The JSON serializer to use when parsing responses.
+ * @param client The HTTP client to use when making requests.
+ * @return A new [AutocompleteService] that uses the Mapbox Geocoding API.
+ */
+public fun MapboxGeocoderAutocompleteService(
     apiKey: String,
     parameters: MapboxParameters = MapboxParameters(),
     json: Json = HttpApiEndpoint.json(),
@@ -38,26 +48,58 @@ public fun GoogleMapsGeocoderAutocompleteService(
     }
 }
 
-public fun GoogleMapsGeocoderAutocompleteService(
+/**
+ * Creates a new [AutocompleteService] that uses the Mapbox Geocoding API to provide
+ * autocomplete suggestions.
+ *
+ * @param apiKey The Mapbox API key.
+ * @param json The JSON serializer to use when parsing responses.
+ * @param client The HTTP client to use when making requests.
+ * @param block A block that configures the parameters to use when making requests to the
+ * Mapbox Geocoding API.
+ * @return A new [AutocompleteService] that uses the Mapbox Geocoding API.
+ */
+public fun MapboxGeocoderAutocompleteService(
     apiKey: String,
     json: Json = HttpApiEndpoint.json(),
     client: HttpClient = HttpApiEndpoint.httpClient(json),
     block: MapboxParametersBuilder.() -> Unit,
 ): AutocompleteService<Place> =
-    GoogleMapsGeocoderAutocompleteService(apiKey, mapboxParameters(block), json, client)
+    MapboxGeocoderAutocompleteService(apiKey, mapboxParameters(block), json, client)
 
+/**
+ * Creates a new [AutocompleteService] that uses the Mapbox Geocoding API to provide
+ * autocomplete suggestions.
+ *
+ * @param apiKey The Mapbox API key.
+ * @param parameters The parameters to use when making requests to the Mapbox Geocoding API.
+ * @param json The JSON serializer to use when parsing responses.
+ * @param client The HTTP client to use when making requests.
+ * @return A new [AutocompleteService] that uses the Mapbox Geocoding API.
+ */
 public fun AutocompleteService.Companion.mapboxGeocoder(
     apiKey: String,
     parameters: MapboxParameters = MapboxParameters(),
     json: Json = HttpApiEndpoint.json(),
     client: HttpClient = HttpApiEndpoint.httpClient(json),
 ): AutocompleteService<Place> =
-    GoogleMapsGeocoderAutocompleteService(apiKey, parameters, json, client)
+    MapboxGeocoderAutocompleteService(apiKey, parameters, json, client)
 
+/**
+ * Creates a new [AutocompleteService] that uses the Mapbox Geocoding API to provide
+ * autocomplete suggestions.
+ *
+ * @param apiKey The Mapbox API key.
+ * @param json The JSON serializer to use when parsing responses.
+ * @param client The HTTP client to use when making requests.
+ * @param block A block that configures the parameters to use when making requests to the
+ * Mapbox Geocoding API.
+ * @return A new [AutocompleteService] that uses the Mapbox Geocoding API.
+ */
 public fun AutocompleteService.Companion.mapboxGeocoder(
     apiKey: String,
     json: Json = HttpApiEndpoint.json(),
     client: HttpClient = HttpApiEndpoint.httpClient(json),
     block: MapboxParametersBuilder.() -> Unit,
 ): AutocompleteService<Place> =
-    GoogleMapsGeocoderAutocompleteService(apiKey, mapboxParameters(block), json, client)
+    MapboxGeocoderAutocompleteService(apiKey, mapboxParameters(block), json, client)

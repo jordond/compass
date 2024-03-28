@@ -14,6 +14,17 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.serialization.json.Json
 
+/**
+ * Creates a new [Autocomplete] instance that uses the Google Maps Geocoding API.
+ *
+ * @param apiKey The Google Maps API key.
+ * @param options The autocomplete options.
+ * @param parameters The Google Maps geocoder parameters.
+ * @param json The JSON serializer.
+ * @param client The HTTP client to make the requests with.
+ * @param dispatcher The coroutine dispatcher.
+ * @return A new [Autocomplete] instance.
+ */
 public fun GoogleMapsGeocoderAutocomplete(
     apiKey: String,
     options: AutocompleteOptions = AutocompleteOptions(),
@@ -26,6 +37,17 @@ public fun GoogleMapsGeocoderAutocomplete(
     return Autocomplete(service, options, dispatcher)
 }
 
+/**
+ * Creates a new [Autocomplete] instance that uses the Google Maps Geocoding API.
+ *
+ * @param apiKey The Google Maps API key.
+ * @param options The autocomplete options.
+ * @param json The JSON serializer.
+ * @param client The HTTP client to make the requests with.
+ * @param dispatcher The coroutine dispatcher.
+ * @param block The builder block to configure the Google Maps geocoder parameters.
+ * @return A new [Autocomplete] instance.
+ */
 public fun GoogleMapsGeocoderAutocomplete(
     apiKey: String,
     options: AutocompleteOptions = AutocompleteOptions(),
@@ -42,7 +64,17 @@ public fun GoogleMapsGeocoderAutocomplete(
     dispatcher = dispatcher,
 )
 
-
+/**
+ * Creates a new [Autocomplete] instance that uses the Google Maps Geocoding API.
+ *
+ * @param apiKey The Google Maps API key.
+ * @param options The autocomplete options.
+ * @param parameters The Google Maps geocoder parameters.
+ * @param json The JSON serializer.
+ * @param client The HTTP client to make the requests with.
+ * @param dispatcher The coroutine dispatcher.
+ * @return A new [Autocomplete] instance.
+ */
 public fun Autocomplete.Companion.googleMapsGeocoder(
     apiKey: String,
     options: AutocompleteOptions = AutocompleteOptions(),
@@ -53,6 +85,17 @@ public fun Autocomplete.Companion.googleMapsGeocoder(
 ): Autocomplete<Place> =
     GoogleMapsGeocoderAutocomplete(apiKey, options, parameters, json, client, dispatcher)
 
+/**
+ * Creates a new [Autocomplete] instance that uses the Google Maps Geocoding API.
+ *
+ * @param apiKey The Google Maps API key.
+ * @param options The autocomplete options.
+ * @param json The JSON serializer.
+ * @param client The HTTP client to make the requests with.
+ * @param dispatcher The coroutine dispatcher.
+ * @param block The builder block to configure the Google Maps geocoder parameters.
+ * @return A new [Autocomplete] instance.
+ */
 public fun Autocomplete.Companion.googleMapsGeocoder(
     apiKey: String,
     options: AutocompleteOptions = AutocompleteOptions(),
