@@ -42,6 +42,7 @@ include(
     ":compass-core",
     ":compass-autocomplete",
     ":compass-autocomplete-geocoder-googlemaps",
+    ":compass-autocomplete-geocoder-mapbox",
     ":compass-autocomplete-mobile",
     ":compass-autocomplete-web",
     ":compass-geocoder",
