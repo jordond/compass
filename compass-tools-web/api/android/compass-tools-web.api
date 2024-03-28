@@ -1,0 +1,55 @@
+public abstract interface class dev/jordond/compass/tools/web/HttpApiEndpoint {
+	public static final field Companion Ldev/jordond/compass/tools/web/HttpApiEndpoint$Companion;
+	public abstract fun mapResponse (Lio/ktor/client/statement/HttpResponse;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun url (Ljava/lang/Object;)Ljava/lang/String;
+}
+
+public final class dev/jordond/compass/tools/web/HttpApiEndpoint$Companion {
+	public final fun httpClient (Lkotlinx/serialization/json/Json;ZZILkotlin/jvm/functions/Function1;)Lio/ktor/client/HttpClient;
+	public static synthetic fun httpClient$default (Ldev/jordond/compass/tools/web/HttpApiEndpoint$Companion;Lkotlinx/serialization/json/Json;ZZILkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/ktor/client/HttpClient;
+	public final fun json (Lkotlin/jvm/functions/Function1;)Lkotlinx/serialization/json/Json;
+	public static synthetic fun json$default (Ldev/jordond/compass/tools/web/HttpApiEndpoint$Companion;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlinx/serialization/json/Json;
+}
+
+public final class dev/jordond/compass/tools/web/HttpApiEndpointKt {
+	public static final fun HttpApiEndpoint (Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;)Ldev/jordond/compass/tools/web/HttpApiEndpoint;
+}
+
+public final class dev/jordond/compass/tools/web/exception/WebException : java/lang/Throwable {
+	public fun <init> (Lio/ktor/http/HttpStatusCode;Ljava/lang/String;)V
+	public fun getMessage ()Ljava/lang/String;
+	public final fun getStatusCode ()Lio/ktor/http/HttpStatusCode;
+}
+
+public abstract interface class dev/jordond/compass/tools/web/parameter/QueryParamListValue : dev/jordond/compass/tools/web/parameter/QueryParamValue {
+	public abstract fun getSeparator ()Ljava/lang/String;
+	public abstract fun getValue ()Ljava/lang/String;
+	public abstract fun getValues ()Ljava/util/List;
+}
+
+public final class dev/jordond/compass/tools/web/parameter/QueryParamListValue$DefaultImpls {
+	public static fun getSeparator (Ldev/jordond/compass/tools/web/parameter/QueryParamListValue;)Ljava/lang/String;
+	public static fun getValue (Ldev/jordond/compass/tools/web/parameter/QueryParamListValue;)Ljava/lang/String;
+}
+
+public abstract interface class dev/jordond/compass/tools/web/parameter/QueryParamValue {
+	public abstract fun getValue ()Ljava/lang/String;
+}
+
+public abstract interface class dev/jordond/compass/tools/web/parameter/QueryParameters {
+	public abstract fun encode ()Ljava/lang/String;
+	public abstract fun getParameters ()Ljava/util/Map;
+}
+
+public final class dev/jordond/compass/tools/web/parameter/QueryParameters$DefaultImpls {
+	public static fun encode (Ldev/jordond/compass/tools/web/parameter/QueryParameters;)Ljava/lang/String;
+}
+
+public abstract interface class dev/jordond/compass/tools/web/parameter/QueryParametersBuilder {
+	public abstract fun build ()Ldev/jordond/compass/tools/web/parameter/QueryParameters;
+}
+
+public final class dev/jordond/compass/tools/web/parameter/QueryParametersKt {
+	public static final fun parametersOf (Ldev/jordond/compass/tools/web/parameter/QueryParameters;[Lkotlin/Pair;)Ljava/util/Map;
+}
+

@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.multiplatform)
     alias(libs.plugins.poko)
+    alias(libs.plugins.kotlinx.serialization)
     alias(libs.plugins.dokka)
     alias(libs.plugins.publish)
     alias(libs.plugins.convention.multiplatform)

@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalWasmDsl::class)
+@file:OptIn(ExperimentalWasmDsl::class, ExperimentalKotlinGradlePluginApi::class)
 
 package dev.jordond.compass.convention
 
@@ -14,7 +14,9 @@ fun Project.configureMultiplatform(platform: Platform) {
     configureMultiplatform(listOf(platform))
 }
 
-fun Project.configureMultiplatform(platforms: List<Platform> = Platforms.All) {
+fun Project.configureMultiplatform(
+    platforms: List<Platform> = Platforms.All,
+) {
     extensions.configure<KotlinMultiplatformExtension> {
         configureKotlin()
         configurePlatforms(platforms)
@@ -25,12 +27,15 @@ fun Project.configureMultiplatform(platforms: List<Platform> = Platforms.All) {
     }
 }
 
-internal fun KotlinMultiplatformExtension.configurePlatforms(platforms: List<Platform> = Platforms.All) {
+internal fun KotlinMultiplatformExtension.configurePlatforms(
+    platforms: List<Platform> = Platforms.All,
+) {
     applyDefaultHierarchyTemplate()
 
     @OptIn(ExperimentalKotlinGradlePluginApi::class)
     compilerOptions {
         freeCompilerArgs.add("-Xexpect-actual-classes")
+        optIn.add("dev.jordond.compass.InternalCompassApi")
     }
 
     if (platforms.contains(Platform.Android)) {
@@ -83,7 +88,6 @@ internal fun KotlinMultiplatformExtension.configurePlatforms(platforms: List<Pla
             target.binaries.framework {
                 baseName = project.name
                 isStatic = true
-                println("Configuring [${target.name}]: $baseName")
             }
         }
     }

@@ -4,6 +4,7 @@ import dev.jordond.compass.geocoder.PlatformGeocoder
 import dev.jordond.compass.geocoder.web.parameter.GoogleMapsParameters
 import dev.jordond.compass.geocoder.web.parameter.GoogleMapsParametersBuilder
 import dev.jordond.compass.geocoder.web.parameter.googleMapsParameters
+import dev.jordond.compass.tools.web.HttpApiEndpoint
 import io.ktor.client.HttpClient
 import kotlinx.serialization.json.Json
 
@@ -51,8 +52,8 @@ public interface GoogleMapsPlatformGeocoder : HttpApiPlatformGeocoder {
 public fun GoogleMapsPlatformGeocoder(
     apiKey: String,
     parameters: GoogleMapsParameters = GoogleMapsParameters(),
-    json: Json = HttpApiPlatformGeocoder.json(),
-    client: HttpClient = HttpApiPlatformGeocoder.httpClient(json),
+    json: Json = HttpApiEndpoint.json(),
+    client: HttpClient = HttpApiEndpoint.httpClient(json),
 ): GoogleMapsPlatformGeocoder {
     val delegate = HttpApiPlatformGeocoder(
         forwardEndpoint = GoogleMapsForwardEndpoint(apiKey, parameters),
@@ -76,8 +77,8 @@ public fun GoogleMapsPlatformGeocoder(
  */
 public fun GoogleMapsPlatformGeocoder(
     apiKey: String,
-    json: Json = HttpApiPlatformGeocoder.json(),
-    client: HttpClient = HttpApiPlatformGeocoder.httpClient(json),
+    json: Json = HttpApiEndpoint.json(),
+    client: HttpClient = HttpApiEndpoint.httpClient(json),
     block: GoogleMapsParametersBuilder.() -> Unit,
 ): GoogleMapsPlatformGeocoder =
     GoogleMapsPlatformGeocoder(apiKey, googleMapsParameters(block), json, client)
@@ -96,8 +97,8 @@ public fun GoogleMapsPlatformGeocoder(
 public fun PlatformGeocoder.Companion.googleMaps(
     apiKey: String,
     parameters: GoogleMapsParameters = GoogleMapsParameters(),
-    json: Json = HttpApiPlatformGeocoder.json(),
-    client: HttpClient = HttpApiPlatformGeocoder.httpClient(json),
+    json: Json = HttpApiEndpoint.json(),
+    client: HttpClient = HttpApiEndpoint.httpClient(json),
 ): GoogleMapsPlatformGeocoder =
     GoogleMapsPlatformGeocoder(apiKey, parameters, json, client)
 
@@ -114,8 +115,8 @@ public fun PlatformGeocoder.Companion.googleMaps(
  */
 public fun PlatformGeocoder.Companion.googleMaps(
     apiKey: String,
-    json: Json = HttpApiPlatformGeocoder.json(),
-    client: HttpClient = HttpApiPlatformGeocoder.httpClient(json),
+    json: Json = HttpApiEndpoint.json(),
+    client: HttpClient = HttpApiEndpoint.httpClient(json),
     block: GoogleMapsParametersBuilder.() -> Unit,
 ): GoogleMapsPlatformGeocoder =
     GoogleMapsPlatformGeocoder(apiKey, googleMapsParameters(block), json, client)

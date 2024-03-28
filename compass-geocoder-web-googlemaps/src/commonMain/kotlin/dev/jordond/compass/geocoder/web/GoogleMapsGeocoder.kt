@@ -6,6 +6,7 @@ import dev.jordond.compass.geocoder.Geocoder
 import dev.jordond.compass.geocoder.web.parameter.GoogleMapsParameters
 import dev.jordond.compass.geocoder.web.parameter.GoogleMapsParametersBuilder
 import dev.jordond.compass.geocoder.web.parameter.googleMapsParameters
+import dev.jordond.compass.tools.web.HttpApiEndpoint
 import io.ktor.client.HttpClient
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -26,8 +27,8 @@ import kotlinx.serialization.json.Json
 public fun GoogleMapsGeocoder(
     apiKey: String,
     parameters: GoogleMapsParameters = GoogleMapsParameters(),
-    json: Json = HttpApiPlatformGeocoder.json(),
-    client: HttpClient = HttpApiPlatformGeocoder.httpClient(json),
+    json: Json = HttpApiEndpoint.json(),
+    client: HttpClient = HttpApiEndpoint.httpClient(json),
     dispatcher: CoroutineDispatcher = Dispatchers.Default,
 ): Geocoder {
     val platform = GoogleMapsPlatformGeocoder(apiKey, parameters, json, client)
@@ -48,8 +49,8 @@ public fun GoogleMapsGeocoder(
  */
 public fun GoogleMapsGeocoder(
     apiKey: String,
-    json: Json = HttpApiPlatformGeocoder.json(),
-    client: HttpClient = HttpApiPlatformGeocoder.httpClient(json),
+    json: Json = HttpApiEndpoint.json(),
+    client: HttpClient = HttpApiEndpoint.httpClient(json),
     dispatcher: CoroutineDispatcher = Dispatchers.Default,
     block: GoogleMapsParametersBuilder.() -> Unit,
 ): Geocoder = GoogleMapsGeocoder(apiKey, googleMapsParameters(block), json, client, dispatcher)
@@ -69,8 +70,8 @@ public fun GoogleMapsGeocoder(
 public fun Geocoder.Companion.googleMaps(
     apiKey: String,
     parameters: GoogleMapsParameters = GoogleMapsParameters(),
-    json: Json = HttpApiPlatformGeocoder.json(),
-    client: HttpClient = HttpApiPlatformGeocoder.httpClient(json),
+    json: Json = HttpApiEndpoint.json(),
+    client: HttpClient = HttpApiEndpoint.httpClient(json),
     dispatcher: CoroutineDispatcher = Dispatchers.Default,
 ): Geocoder = GoogleMapsGeocoder(apiKey, parameters, json, client, dispatcher)
 
@@ -88,8 +89,8 @@ public fun Geocoder.Companion.googleMaps(
  */
 public fun Geocoder.Companion.googleMaps(
     apiKey: String,
-    json: Json = HttpApiPlatformGeocoder.json(),
-    client: HttpClient = HttpApiPlatformGeocoder.httpClient(json),
+    json: Json = HttpApiEndpoint.json(),
+    client: HttpClient = HttpApiEndpoint.httpClient(json),
     dispatcher: CoroutineDispatcher = Dispatchers.Default,
     block: GoogleMapsParametersBuilder.() -> Unit,
 ): Geocoder = GoogleMapsGeocoder(apiKey, json, client, dispatcher, block)

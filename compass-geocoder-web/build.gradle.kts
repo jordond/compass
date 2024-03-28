@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.multiplatform)
     alias(libs.plugins.poko)
+    alias(libs.plugins.kotlinx.serialization)
     alias(libs.plugins.dokka)
     alias(libs.plugins.publish)
     alias(libs.plugins.convention.multiplatform)
@@ -14,7 +15,8 @@ configureMultiplatform()
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            implementation(projects.compassCore)
+            api(projects.compassCore)
+            api(projects.compassToolsWeb)
             implementation(projects.compassGeocoder)
 
             implementation(libs.kermit)

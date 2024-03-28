@@ -51,6 +51,7 @@ kotlin {
             implementation(projects.compassGeocoderWebGooglemaps)
             implementation(projects.compassGeolocation)
 
+            implementation(libs.kotlinx.coroutines.core)
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material3)

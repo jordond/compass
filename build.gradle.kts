@@ -16,11 +16,8 @@ plugins {
 }
 
 apiValidation {
-    ignoredProjects.addAll(
-        listOf(
-            "composeApp",
-        ),
-    )
+    nonPublicMarkers += "dev.jordond.compass.InternalCompassApi"
+    ignoredProjects += "composeApp"
 }
 
 tasks.withType<DokkaMultiModuleTask>().configureEach {
