@@ -5,9 +5,9 @@ package dev.jordond.compass.autocomplete.web
 import dev.jordond.compass.Place
 import dev.jordond.compass.autocomplete.Autocomplete
 import dev.jordond.compass.autocomplete.AutocompleteOptions
-import dev.jordond.compass.geocoder.web.parameter.MapBoxParameters
-import dev.jordond.compass.geocoder.web.parameter.MapBoxParametersBuilder
-import dev.jordond.compass.geocoder.web.parameter.mapBoxParameters
+import dev.jordond.compass.geocoder.web.parameter.MapboxParameters
+import dev.jordond.compass.geocoder.web.parameter.MapboxParametersBuilder
+import dev.jordond.compass.geocoder.web.parameter.mapboxParameters
 import dev.jordond.compass.tools.web.HttpApiEndpoint
 import io.ktor.client.HttpClient
 import kotlinx.coroutines.CoroutineDispatcher
@@ -17,7 +17,7 @@ import kotlinx.serialization.json.Json
 public fun MapboxGeocoderAutocomplete(
     apiKey: String,
     options: AutocompleteOptions = AutocompleteOptions(),
-    parameters: MapBoxParameters = MapBoxParameters(),
+    parameters: MapboxParameters = MapboxParameters(),
     json: Json = HttpApiEndpoint.json(),
     client: HttpClient = HttpApiEndpoint.httpClient(json),
     dispatcher: CoroutineDispatcher = Dispatchers.Default,
@@ -32,11 +32,11 @@ public fun MapboxGeocoderAutocomplete(
     json: Json = HttpApiEndpoint.json(),
     client: HttpClient = HttpApiEndpoint.httpClient(json),
     dispatcher: CoroutineDispatcher = Dispatchers.Default,
-    block: MapBoxParametersBuilder.() -> Unit,
+    block: MapboxParametersBuilder.() -> Unit,
 ): Autocomplete<Place> = MapboxGeocoderAutocomplete(
     apiKey = apiKey,
     options = options,
-    parameters = mapBoxParameters(block),
+    parameters = mapboxParameters(block),
     json = json,
     client = client,
     dispatcher = dispatcher,
@@ -46,7 +46,7 @@ public fun MapboxGeocoderAutocomplete(
 public fun Autocomplete.Companion.mapboxGeocoder(
     apiKey: String,
     options: AutocompleteOptions = AutocompleteOptions(),
-    parameters: MapBoxParameters = MapBoxParameters(),
+    parameters: MapboxParameters = MapboxParameters(),
     json: Json = HttpApiEndpoint.json(),
     client: HttpClient = HttpApiEndpoint.httpClient(json),
     dispatcher: CoroutineDispatcher = Dispatchers.Default,
@@ -59,6 +59,6 @@ public fun Autocomplete.Companion.mapboxGeocoder(
     json: Json = HttpApiEndpoint.json(),
     client: HttpClient = HttpApiEndpoint.httpClient(json),
     dispatcher: CoroutineDispatcher = Dispatchers.Default,
-    block: MapBoxParametersBuilder.() -> Unit,
+    block: MapboxParametersBuilder.() -> Unit,
 ): Autocomplete<Place> =
     MapboxGeocoderAutocomplete(apiKey, options, json, client, dispatcher, block)

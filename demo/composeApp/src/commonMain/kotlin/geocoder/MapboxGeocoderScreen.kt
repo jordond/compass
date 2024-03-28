@@ -8,7 +8,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import cafe.adriel.voyager.core.screen.Screen
-import dev.jordond.compass.geocoder.web.MapBoxGeocoder
+import dev.jordond.compass.geocoder.web.MapboxGeocoder
 import dev.jordond.compass.tools.web.HttpApiEndpoint
 
 /**
@@ -21,7 +21,7 @@ class MapboxGeocoderScreen : Screen {
         var apiKey by rememberSaveable { mutableStateOf("") }
         val geocoder by remember(apiKey) {
             derivedStateOf {
-                MapBoxGeocoder(
+                MapboxGeocoder(
                     apiKey = apiKey,
                     client = HttpApiEndpoint.httpClient(enableLogging = true)
                 )

@@ -5,9 +5,9 @@ import dev.jordond.compass.tools.web.parameter.QueryParamValue
 /**
  * The world view parameter is used to filter the results to a specific country or region.
  *
- * See [MapBox Geocoding API](https://docs.mapbox.com/api/search/geocoding-v6/#forward-geocoding-with-search-text-input)
+ * See [Mapbox Geocoding API](https://docs.mapbox.com/api/search/geocoding-v6/#forward-geocoding-with-search-text-input)
  */
-public enum class WorldView : QueryParamValue {
+public enum class MapboxWorldView : QueryParamValue {
     AR,
     CN,
     IN,

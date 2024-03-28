@@ -7,9 +7,9 @@ import dev.jordond.compass.tools.web.parameter.QueryParametersBuilder
 import dev.jordond.compass.tools.web.parameter.parametersOf
 
 /**
- * Options for the MapBox geocoder.
+ * Options for the Mapbox geocoder.
  *
- * See the [MapBox documentation](https://docs.mapbox.com/api/search/geocoding-v6/#forward-geocoding-with-structured-input)
+ * See the [Mapbox documentation](https://docs.mapbox.com/api/search/geocoding-v6/#forward-geocoding-with-structured-input)
  * for more information.
  *
  * @property limit The maximum number of results to return. The default is 5.
@@ -35,19 +35,19 @@ import dev.jordond.compass.tools.web.parameter.parametersOf
  * @property worldView Returns features that are defined differently by audiences that belong to
  * various regional, cultural, or political groups. If worldview is not set, the us worldview
  * boundaries are returned by default.
- * @constructor Create a new default instance of [MapBoxParameters] with API specific defaults.
+ * @constructor Create a new default instance of [MapboxParameters] with API specific defaults.
  */
 @Poko
-public class MapBoxParameters(
+public class MapboxParameters(
     public val permanent: Boolean = false,
     public val autocomplete: Boolean = true,
     public val limit: Int? = null,
-    public val bbox: MapBoxBoundingBox? = null,
+    public val bbox: MapboxBoundingBox? = null,
     public val country: String? = null,
     public val language: String? = null,
     public val proximity: String? = null,
-    public val types: MapBoxTypesList? = null,
-    public val worldView: WorldView? = null,
+    public val types: MapboxTypesList? = null,
+    public val worldView: MapboxWorldView? = null,
 ) : QueryParameters {
 
     override val parameters: Map<String, String> = parametersOf(
@@ -64,73 +64,73 @@ public class MapBoxParameters(
 }
 
 /**
- * A builder class to build [MapBoxParameters].
+ * A builder class to build [MapboxParameters].
  */
 @Suppress("MemberVisibilityCanBePrivate")
-public class MapBoxParametersBuilder : QueryParametersBuilder<MapBoxParameters> {
+public class MapboxParametersBuilder : QueryParametersBuilder<MapboxParameters> {
 
     /**
-     * @see MapBoxParameters.limit
+     * @see MapboxParameters.limit
      */
     public var limit: Int = Geocoder.DefaultMaxResults
 
     /**
-     * @see MapBoxParameters.permanent
+     * @see MapboxParameters.permanent
      */
     public var permanent: Boolean = false
 
     /**
-     * @see MapBoxParameters.autocomplete
+     * @see MapboxParameters.autocomplete
      */
     public var autocomplete: Boolean = true
 
     /**
-     * @see MapBoxParameters.bbox
+     * @see MapboxParameters.bbox
      */
-    public var bbox: MapBoxBoundingBox? = null
+    public var bbox: MapboxBoundingBox? = null
 
     /**
-     * @see MapBoxParameters.country
+     * @see MapboxParameters.country
      */
     public var country: String? = null
 
     /**
-     * @see MapBoxParameters.language
+     * @see MapboxParameters.language
      */
     public var language: String? = null
 
     /**
-     * @see MapBoxParameters.proximity
+     * @see MapboxParameters.proximity
      */
     public var proximity: String? = null
 
     /**
-     * @see MapBoxParameters.types
+     * @see MapboxParameters.types
      */
-    public var types: MapBoxTypesList? = null
+    public var types: MapboxTypesList? = null
 
     /**
-     * @see MapBoxParameters.worldView
+     * @see MapboxParameters.worldView
      */
-    public var worldView: WorldView? = null
+    public var worldView: MapboxWorldView? = null
 
     /**
-     * Create a [MapBoxBoundingBox] and set it to [bbox].
-     * @see MapBoxParameters.bbox
+     * Create a [MapboxBoundingBox] and set it to [bbox].
+     * @see MapboxParameters.bbox
      */
     public fun boundingBox(
         minLongitude: Double,
         minLatitude: Double,
         maxLongitude: Double,
         maxLatitude: Double,
-    ): MapBoxParametersBuilder = apply {
-        this.bbox = MapBoxBoundingBox(minLongitude, minLatitude, maxLongitude, maxLatitude)
+    ): MapboxParametersBuilder = apply {
+        this.bbox = MapboxBoundingBox(minLongitude, minLatitude, maxLongitude, maxLatitude)
     }
 
     /**
-     * Build the instance of [MapBoxParameters].
+     * Build the instance of [MapboxParameters].
      */
-    override fun build(): MapBoxParameters = MapBoxParameters(
+    override fun build(): MapboxParameters = MapboxParameters(
         limit = limit,
         permanent = permanent,
         autocomplete = autocomplete,
@@ -144,10 +144,10 @@ public class MapBoxParametersBuilder : QueryParametersBuilder<MapBoxParameters> 
 }
 
 /**
- * Create a [MapBoxParameters] instance with the provided [block].
+ * Create a [MapboxParameters] instance with the provided [block].
  *
- * @param block The builder block to build the instance of [MapBoxParameters].
- * @return The instance of [MapBoxParameters].
+ * @param block The builder block to build the instance of [MapboxParameters].
+ * @return The instance of [MapboxParameters].
  */
-public fun mapBoxParameters(block: MapBoxParametersBuilder.() -> Unit): MapBoxParameters =
-    MapBoxParametersBuilder().apply(block).build()
+public fun mapboxParameters(block: MapboxParametersBuilder.() -> Unit): MapboxParameters =
+    MapboxParametersBuilder().apply(block).build()

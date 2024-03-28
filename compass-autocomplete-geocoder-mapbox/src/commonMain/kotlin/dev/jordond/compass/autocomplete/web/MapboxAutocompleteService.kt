@@ -4,12 +4,12 @@ package dev.jordond.compass.autocomplete.web
 
 import dev.jordond.compass.Place
 import dev.jordond.compass.autocomplete.AutocompleteService
-import dev.jordond.compass.geocoder.web.MapBoxForwardEndpoint
+import dev.jordond.compass.geocoder.web.MapboxForwardEndpoint
 import dev.jordond.compass.geocoder.web.mapbox.internal.GeocodeResponse
 import dev.jordond.compass.geocoder.web.mapbox.internal.toPlaces
-import dev.jordond.compass.geocoder.web.parameter.MapBoxParameters
-import dev.jordond.compass.geocoder.web.parameter.MapBoxParametersBuilder
-import dev.jordond.compass.geocoder.web.parameter.mapBoxParameters
+import dev.jordond.compass.geocoder.web.parameter.MapboxParameters
+import dev.jordond.compass.geocoder.web.parameter.MapboxParametersBuilder
+import dev.jordond.compass.geocoder.web.parameter.mapboxParameters
 import dev.jordond.compass.tools.web.HttpApiEndpoint
 import dev.jordond.compass.tools.web.makeRequest
 import io.ktor.client.HttpClient
@@ -18,11 +18,11 @@ import kotlinx.serialization.json.Json
 
 public fun GoogleMapsGeocoderAutocompleteService(
     apiKey: String,
-    parameters: MapBoxParameters = MapBoxParameters(),
+    parameters: MapboxParameters = MapboxParameters(),
     json: Json = HttpApiEndpoint.json(),
     client: HttpClient = HttpApiEndpoint.httpClient(json),
 ): AutocompleteService<Place> {
-    val delegateEndpoint = MapBoxForwardEndpoint(apiKey, parameters)
+    val delegateEndpoint = MapboxForwardEndpoint(apiKey, parameters)
     val endpoint = HttpApiEndpoint(
         url = delegateEndpoint::url,
         mapResponse = { response -> response.body<GeocodeResponse>().toPlaces() }
@@ -42,13 +42,13 @@ public fun GoogleMapsGeocoderAutocompleteService(
     apiKey: String,
     json: Json = HttpApiEndpoint.json(),
     client: HttpClient = HttpApiEndpoint.httpClient(json),
-    block: MapBoxParametersBuilder.() -> Unit,
+    block: MapboxParametersBuilder.() -> Unit,
 ): AutocompleteService<Place> =
-    GoogleMapsGeocoderAutocompleteService(apiKey, mapBoxParameters(block), json, client)
+    GoogleMapsGeocoderAutocompleteService(apiKey, mapboxParameters(block), json, client)
 
 public fun AutocompleteService.Companion.mapboxGeocoder(
     apiKey: String,
-    parameters: MapBoxParameters = MapBoxParameters(),
+    parameters: MapboxParameters = MapboxParameters(),
     json: Json = HttpApiEndpoint.json(),
     client: HttpClient = HttpApiEndpoint.httpClient(json),
 ): AutocompleteService<Place> =
@@ -58,6 +58,6 @@ public fun AutocompleteService.Companion.mapboxGeocoder(
     apiKey: String,
     json: Json = HttpApiEndpoint.json(),
     client: HttpClient = HttpApiEndpoint.httpClient(json),
-    block: MapBoxParametersBuilder.() -> Unit,
+    block: MapboxParametersBuilder.() -> Unit,
 ): AutocompleteService<Place> =
-    GoogleMapsGeocoderAutocompleteService(apiKey, mapBoxParameters(block), json, client)
+    GoogleMapsGeocoderAutocompleteService(apiKey, mapboxParameters(block), json, client)

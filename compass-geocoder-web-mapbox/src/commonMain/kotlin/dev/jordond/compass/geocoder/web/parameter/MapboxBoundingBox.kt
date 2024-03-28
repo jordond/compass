@@ -15,7 +15,7 @@ import dev.jordond.compass.tools.web.parameter.QueryParamValue
  */
 @Poko
 @Suppress("MemberVisibilityCanBePrivate")
-public class MapBoxBoundingBox(
+public class MapboxBoundingBox(
     public val minLongitude: Double,
     public val minLatitude: Double,
     public val maxLongitude: Double,
@@ -25,7 +25,7 @@ public class MapBoxBoundingBox(
     public override val value: String = "$minLongitude,$minLatitude,$maxLongitude,$maxLatitude"
 
     /**
-     * Create a copy of [MapBoxBoundingBox] with the given or current values.
+     * Create a copy of [MapboxBoundingBox] with the given or current values.
      *
      * @param minLongitude The minimum longitude of the bounding box.
      * @param minLatitude The minimum latitude of the bounding box.
@@ -37,5 +37,5 @@ public class MapBoxBoundingBox(
         minLatitude: Double = this.minLatitude,
         maxLongitude: Double = this.maxLongitude,
         maxLatitude: Double = this.maxLatitude,
-    ): MapBoxBoundingBox = MapBoxBoundingBox(minLongitude, minLatitude, maxLongitude, maxLatitude)
+    ): MapboxBoundingBox = MapboxBoundingBox(minLongitude, minLatitude, maxLongitude, maxLatitude)
 }
