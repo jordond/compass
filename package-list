@@ -1,6 +1,16 @@
 $dokka.format:html-v1
 $dokka.linkExtension:html
 
+module:compass-autocomplete
+dev.jordond.compass.autocomplete
+module:compass-autocomplete-geocoder-googlemaps
+dev.jordond.compass.autocomplete.web
+module:compass-autocomplete-geocoder-mapbox
+dev.jordond.compass.autocomplete.web
+module:compass-autocomplete-mobile
+dev.jordond.compass.autocomplete.mobile
+module:compass-autocomplete-web
+dev.jordond.compass.autocomplete.web
 module:compass-core
 dev.jordond.compass
 dev.jordond.compass.exception
@@ -11,12 +21,13 @@ module:compass-geocoder-mobile
 dev.jordond.compass.geocoder.mobile
 module:compass-geocoder-web
 dev.jordond.compass.geocoder.web
-dev.jordond.compass.geocoder.web.parameter
 module:compass-geocoder-web-googlemaps
 dev.jordond.compass.geocoder.web
+dev.jordond.compass.geocoder.web.google.internal
 dev.jordond.compass.geocoder.web.parameter
 module:compass-geocoder-web-mapbox
 dev.jordond.compass.geocoder.web
+dev.jordond.compass.geocoder.web.mapbox.internal
 dev.jordond.compass.geocoder.web.parameter
 module:compass-geolocation
 dev.jordond.compass.geolocation
@@ -35,3 +46,7 @@ module:compass-permissions-mobile
 dev.jordond.compass.permissions.mobile
 module:compass-tools-android
 dev.jordond.compass.tools
+module:compass-tools-web
+dev.jordond.compass.tools.web
+dev.jordond.compass.tools.web.exception
+dev.jordond.compass.tools.web.parameter
