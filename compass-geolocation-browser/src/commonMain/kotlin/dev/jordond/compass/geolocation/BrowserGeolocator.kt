@@ -1,6 +1,7 @@
-package dev.jordond.compass.geolocation.browser
+package dev.jordond.compass.geolocation
 
-import dev.jordond.compass.geolocation.Geolocator
+import dev.jordond.compass.geolocation.browser.BrowserLocator
+import dev.jordond.compass.geolocation.browser.createBrowserLocator
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 

@@ -1,4 +1,4 @@
-public final class dev/jordond/compass/geolocation/mobile/GeolocatorKt {
+public final class dev/jordond/compass/geolocation/MobileGeolocatorKt {
 	public static final fun Geolocator (Ldev/jordond/compass/permissions/LocationPermissionController;Lkotlinx/coroutines/CoroutineDispatcher;)Ldev/jordond/compass/geolocation/Geolocator;
 	public static synthetic fun Geolocator$default (Ldev/jordond/compass/permissions/LocationPermissionController;Lkotlinx/coroutines/CoroutineDispatcher;ILjava/lang/Object;)Ldev/jordond/compass/geolocation/Geolocator;
 	public static final fun MobileGeolocator (Ldev/jordond/compass/permissions/LocationPermissionController;Lkotlinx/coroutines/CoroutineDispatcher;)Ldev/jordond/compass/geolocation/Geolocator;

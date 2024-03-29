@@ -1,8 +1,10 @@
-package dev.jordond.compass.geocoder.web
+package dev.jordond.compass.geocoder
 
-import dev.jordond.compass.geocoder.ForwardGeocoder
-import dev.jordond.compass.geocoder.Geocoder
-import dev.jordond.compass.geocoder.ReverseGeocoder
+import dev.jordond.compass.geocoder.web.ForwardEndpoint
+import dev.jordond.compass.geocoder.web.ForwardHttpApiPlatformGeocoder
+import dev.jordond.compass.geocoder.web.HttpApiPlatformGeocoder
+import dev.jordond.compass.geocoder.web.ReverseEndpoint
+import dev.jordond.compass.geocoder.web.ReverseHttpApiPlatformGeocoder
 import dev.jordond.compass.tools.web.HttpApiEndpoint
 import io.ktor.client.HttpClient
 import kotlinx.coroutines.CoroutineDispatcher

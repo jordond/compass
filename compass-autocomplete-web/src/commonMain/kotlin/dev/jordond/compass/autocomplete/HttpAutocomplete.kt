@@ -1,7 +1,7 @@
-package dev.jordond.compass.autocomplete.web
+package dev.jordond.compass.autocomplete
 
-import dev.jordond.compass.autocomplete.Autocomplete
-import dev.jordond.compass.autocomplete.AutocompleteOptions
+import dev.jordond.compass.autocomplete.web.HttpAutocompleteService
+import dev.jordond.compass.autocomplete.web.SearchEndpoint
 import dev.jordond.compass.tools.web.HttpApiEndpoint
 import io.ktor.client.HttpClient
 import kotlinx.coroutines.CoroutineDispatcher
