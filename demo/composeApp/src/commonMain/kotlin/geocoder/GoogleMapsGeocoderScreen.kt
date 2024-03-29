@@ -8,7 +8,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import cafe.adriel.voyager.core.screen.Screen
-import dev.jordond.compass.geocoder.web.GoogleMapsGeocoder
+import dev.jordond.compass.geocoder.GoogleMapsGeocoder
 import dev.jordond.compass.geocoder.web.parameter.GoogleMapsLocationType
 import dev.jordond.compass.tools.web.HttpApiEndpoint
 

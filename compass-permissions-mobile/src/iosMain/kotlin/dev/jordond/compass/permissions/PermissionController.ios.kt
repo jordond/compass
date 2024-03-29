@@ -1,8 +1,6 @@
-package dev.jordond.compass.permissions.mobile
+package dev.jordond.compass.permissions
 
 import dev.jordond.compass.Priority
-import dev.jordond.compass.permissions.LocationPermissionController
-import dev.jordond.compass.permissions.PermissionState
 import dev.jordond.compass.permissions.mobile.internal.LocationPermissionManagerDelegate
 import dev.jordond.compass.permissions.mobile.internal.toPermissionState
 import kotlinx.coroutines.flow.MutableStateFlow

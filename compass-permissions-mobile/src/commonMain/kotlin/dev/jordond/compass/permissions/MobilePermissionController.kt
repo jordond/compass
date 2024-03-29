@@ -1,6 +1,4 @@
-package dev.jordond.compass.permissions.mobile
-
-import dev.jordond.compass.permissions.LocationPermissionController
+package dev.jordond.compass.permissions
 
 /**
  * Creates a new [LocationPermissionController] for Android and iOS.
@@ -9,6 +7,16 @@ import dev.jordond.compass.permissions.LocationPermissionController
  */
 public fun LocationPermissionController(): LocationPermissionController {
     return createPermissionController()
+}
+
+/**
+ * Creates a new [LocationPermissionController] for Android and iOS.
+ *
+ * @return A new [LocationPermissionController].
+ */
+@Suppress("FunctionName")
+public fun MobileLocationPermissionController(): LocationPermissionController {
+    return LocationPermissionController()
 }
 
 /**

@@ -3,7 +3,7 @@ package dev.jordond.compass.geolocation.mobile
 import dev.jordond.compass.geolocation.Locator
 import dev.jordond.compass.geolocation.PermissionLocator
 import dev.jordond.compass.permissions.LocationPermissionController
-import dev.jordond.compass.permissions.mobile.mobile
+import dev.jordond.compass.permissions.mobile
 
 /**
  * A locator that provides geolocation services on Android and iOS.

@@ -1,8 +1,8 @@
 @file:Suppress("FunctionName")
 
-package dev.jordond.compass.geocoder.web
+package dev.jordond.compass.geocoder
 
-import dev.jordond.compass.geocoder.Geocoder
+import dev.jordond.compass.geocoder.web.MapboxPlatformGeocoder
 import dev.jordond.compass.geocoder.web.parameter.MapboxParameters
 import dev.jordond.compass.geocoder.web.parameter.MapboxParametersBuilder
 import dev.jordond.compass.geocoder.web.parameter.mapboxParameters
@@ -11,6 +11,28 @@ import io.ktor.client.HttpClient
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.serialization.json.Json
+
+/**
+ * Creates a new [Geocoder] using the Mapbox HTTP API geocoding service.
+ *
+ * See [Mapbox](https://www.mapbox.com/) for more information.
+ *
+ * @param apiKey The Mapbox API key.
+ * @param parameters The parameters to use for the geocoder.
+ * @param json The JSON implementation to use for serialization.
+ * @param client The HTTP client to use for requests.
+ * @param dispatcher The coroutine dispatcher to use for requests.
+ * @return A new [Geocoder] using the Mapbox HTTP API geocoding service.
+ */
+public fun Geocoder(
+    apiKey: String,
+    parameters: MapboxParameters = MapboxParameters(),
+    json: Json = HttpApiEndpoint.json(),
+    client: HttpClient = HttpApiEndpoint.httpClient(json),
+    dispatcher: CoroutineDispatcher = Dispatchers.Default,
+): Geocoder {
+    return MapboxGeocoder(apiKey, parameters, json, client, dispatcher)
+}
 
 /**
  * Creates a new [Geocoder] using the Mapbox HTTP API geocoding service.

@@ -1,4 +1,4 @@
-public final class dev/jordond/compass/autocomplete/mobile/AutocompleteKt {
+public final class dev/jordond/compass/autocomplete/MobileAutocompleteKt {
 	public static final fun Autocomplete (Ldev/jordond/compass/autocomplete/AutocompleteOptions;Lkotlinx/coroutines/CoroutineDispatcher;)Ldev/jordond/compass/autocomplete/Autocomplete;
 	public static synthetic fun Autocomplete$default (Ldev/jordond/compass/autocomplete/AutocompleteOptions;Lkotlinx/coroutines/CoroutineDispatcher;ILjava/lang/Object;)Ldev/jordond/compass/autocomplete/Autocomplete;
 	public static final fun MobileAutocomplete (Ldev/jordond/compass/autocomplete/AutocompleteOptions;Lkotlinx/coroutines/CoroutineDispatcher;)Ldev/jordond/compass/autocomplete/Autocomplete;

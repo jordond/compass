@@ -1,12 +1,10 @@
-package dev.jordond.compass.permissions.mobile
+package dev.jordond.compass.permissions
 
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
 import androidx.core.content.ContextCompat
 import dev.jordond.compass.Priority
-import dev.jordond.compass.permissions.LocationPermissionController
-import dev.jordond.compass.permissions.PermissionState
 import dev.jordond.compass.permissions.mobile.internal.activity.ActivityProvider
 import dev.jordond.compass.tools.ContextProvider
 import kotlinx.coroutines.sync.Mutex

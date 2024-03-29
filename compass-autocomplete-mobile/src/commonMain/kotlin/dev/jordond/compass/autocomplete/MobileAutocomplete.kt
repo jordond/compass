@@ -1,9 +1,7 @@
-package dev.jordond.compass.autocomplete.mobile
+package dev.jordond.compass.autocomplete
 
 import dev.jordond.compass.Place
-import dev.jordond.compass.autocomplete.Autocomplete
-import dev.jordond.compass.autocomplete.AutocompleteOptions
-import dev.jordond.compass.autocomplete.AutocompleteService
+import dev.jordond.compass.autocomplete.mobile.mobile
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 

@@ -1,13 +1,6 @@
-public final class dev/jordond/compass/geocoder/web/TemplateForwardEndpoint : dev/jordond/compass/tools/web/HttpApiEndpoint {
-	public fun <init> (Ljava/lang/String;Ldev/jordond/compass/geocoder/web/parameter/TemplateParameters;)V
-	public synthetic fun <init> (Ljava/lang/String;Ldev/jordond/compass/geocoder/web/parameter/TemplateParameters;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public fun <init> (Ljava/lang/String;Lkotlin/jvm/functions/Function1;)V
-	public fun mapResponse (Lio/ktor/client/statement/HttpResponse;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public synthetic fun url (Ljava/lang/Object;)Ljava/lang/String;
-	public fun url (Ljava/lang/String;)Ljava/lang/String;
-}
-
-public final class dev/jordond/compass/geocoder/web/TemplateGeocoderKt {
+public final class dev/jordond/compass/geocoder/TemplateGeocoderKt {
+	public static final fun Geocoder (Ljava/lang/String;Ldev/jordond/compass/geocoder/web/parameter/TemplateParameters;Lkotlinx/serialization/json/Json;Lio/ktor/client/HttpClient;Lkotlinx/coroutines/CoroutineDispatcher;)Ldev/jordond/compass/geocoder/Geocoder;
+	public static synthetic fun Geocoder$default (Ljava/lang/String;Ldev/jordond/compass/geocoder/web/parameter/TemplateParameters;Lkotlinx/serialization/json/Json;Lio/ktor/client/HttpClient;Lkotlinx/coroutines/CoroutineDispatcher;ILjava/lang/Object;)Ldev/jordond/compass/geocoder/Geocoder;
 	public static final fun TemplateGeocoder (Ljava/lang/String;Ldev/jordond/compass/geocoder/web/parameter/TemplateParameters;Lkotlinx/serialization/json/Json;Lio/ktor/client/HttpClient;Lkotlinx/coroutines/CoroutineDispatcher;)Ldev/jordond/compass/geocoder/Geocoder;
 	public static final fun TemplateGeocoder (Ljava/lang/String;Lkotlinx/serialization/json/Json;Lio/ktor/client/HttpClient;Lkotlinx/coroutines/CoroutineDispatcher;Lkotlin/jvm/functions/Function1;)Ldev/jordond/compass/geocoder/Geocoder;
 	public static synthetic fun TemplateGeocoder$default (Ljava/lang/String;Ldev/jordond/compass/geocoder/web/parameter/TemplateParameters;Lkotlinx/serialization/json/Json;Lio/ktor/client/HttpClient;Lkotlinx/coroutines/CoroutineDispatcher;ILjava/lang/Object;)Ldev/jordond/compass/geocoder/Geocoder;
@@ -16,6 +9,15 @@ public final class dev/jordond/compass/geocoder/web/TemplateGeocoderKt {
 	public static final fun template (Ldev/jordond/compass/geocoder/Geocoder$Companion;Ljava/lang/String;Lkotlinx/serialization/json/Json;Lio/ktor/client/HttpClient;Lkotlinx/coroutines/CoroutineDispatcher;Lkotlin/jvm/functions/Function1;)Ldev/jordond/compass/geocoder/Geocoder;
 	public static synthetic fun template$default (Ldev/jordond/compass/geocoder/Geocoder$Companion;Ljava/lang/String;Ldev/jordond/compass/geocoder/web/parameter/TemplateParameters;Lkotlinx/serialization/json/Json;Lio/ktor/client/HttpClient;Lkotlinx/coroutines/CoroutineDispatcher;ILjava/lang/Object;)Ldev/jordond/compass/geocoder/Geocoder;
 	public static synthetic fun template$default (Ldev/jordond/compass/geocoder/Geocoder$Companion;Ljava/lang/String;Lkotlinx/serialization/json/Json;Lio/ktor/client/HttpClient;Lkotlinx/coroutines/CoroutineDispatcher;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/jordond/compass/geocoder/Geocoder;
+}
+
+public final class dev/jordond/compass/geocoder/web/TemplateForwardEndpoint : dev/jordond/compass/tools/web/HttpApiEndpoint {
+	public fun <init> (Ljava/lang/String;Ldev/jordond/compass/geocoder/web/parameter/TemplateParameters;)V
+	public synthetic fun <init> (Ljava/lang/String;Ldev/jordond/compass/geocoder/web/parameter/TemplateParameters;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Ljava/lang/String;Lkotlin/jvm/functions/Function1;)V
+	public fun mapResponse (Lio/ktor/client/statement/HttpResponse;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public synthetic fun url (Ljava/lang/Object;)Ljava/lang/String;
+	public fun url (Ljava/lang/String;)Ljava/lang/String;
 }
 
 public abstract interface class dev/jordond/compass/geocoder/web/TemplatePlatformGeocoder : dev/jordond/compass/geocoder/web/HttpApiPlatformGeocoder {

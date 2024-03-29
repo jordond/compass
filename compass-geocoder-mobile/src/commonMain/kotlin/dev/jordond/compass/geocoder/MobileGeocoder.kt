@@ -1,6 +1,6 @@
-package dev.jordond.compass.geocoder.mobile
+package dev.jordond.compass.geocoder
 
-import dev.jordond.compass.geocoder.Geocoder
+import dev.jordond.compass.geocoder.mobile.MobilePlatformGeocoder
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 

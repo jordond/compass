@@ -1,8 +1,8 @@
-package dev.jordond.compass.geolocation.mobile
+package dev.jordond.compass.geolocation
 
-import dev.jordond.compass.geolocation.Geolocator
+import dev.jordond.compass.geolocation.mobile.MobileLocator
 import dev.jordond.compass.permissions.LocationPermissionController
-import dev.jordond.compass.permissions.mobile.mobile
+import dev.jordond.compass.permissions.mobile
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 
