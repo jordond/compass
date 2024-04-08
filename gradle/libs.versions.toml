@@ -24,7 +24,7 @@ poko = "0.15.2"
 versions = "0.51.0"
 kotest = "5.8.1"
 ktor = "3.0.0-wasm2"
-voyager = "1.1.0-alpha03"
+voyager = "1.1.0-alpha04"
 stateHolder = "1.1.0"
 
 [libraries]
