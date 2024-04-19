@@ -39,8 +39,8 @@ compass = "1.0.0"
 compass-geocoder = { module = "dev.jordond.compass:compass-geocoder", version.ref = "compass" }
 compass-geocoder-mobile = { module = "dev.jordond.compass:compass-geocoder-mobile", version.ref = "compass" }
 compass-geocoder-web = { module = "dev.jordond.compass:compass-geocoder-web", version.ref = "compass" }
-compass-geocoder-web-googlemaps = { module = "dev.jordond.compass:compass-geocoder-googlemaps", version.ref = "compass" }
-compass-geocoder-web-mapbox = { module = "dev.jordond.compass:compass-geocoder-mapbox", version.ref = "compass" }
+compass-geocoder-web-googlemaps = { module = "dev.jordond.compass:compass-geocoder-web-googlemaps", version.ref = "compass" }
+compass-geocoder-web-mapbox = { module = "dev.jordond.compass:compass-geocoder-web-mapbox", version.ref = "compass" }
 compass-geolocation = { module = "dev.jordond.compass:compass-geolocation", version.ref = "compass" }
 compass-geolocation-mobile = { module = "dev.jordond.compass:compass-geolocation-mobile", version.ref = "compass" }
 compass-geolocation-browser = { module = "dev.jordond.compass:compass-geolocation-browser", version.ref = "compass" }
