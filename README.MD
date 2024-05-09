@@ -42,6 +42,11 @@ view the generated KDoc at [docs.compass.jordond.dev](https://docs.compass.jordo
     - Get the current location of the device
     - Monitor the location of the device
     - JS/WASM browser geolocation support
+- **Autocomplete**:
+    - Provide suggestions for addresses based on user input
+    - Support via native Android/iOS services
+    - Support for all platforms via third party geocoder API's
+    - Support for Google Places API (planned)
 
 ## Setup
 
