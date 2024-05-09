@@ -21,6 +21,7 @@ fun Project.configureMultiplatform(
     platforms: List<Platform> = Platforms.All,
     name: String = this.name,
 ) {
+    group = name.replace("compass-", "")
     extensions.configure<KotlinMultiplatformExtension> {
         configureKotlin()
         configurePlatforms(platforms, name)
