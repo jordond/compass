@@ -14,15 +14,15 @@ First you will need to add the necessary dependencies:
 # gradle/libs.versions.toml
 
 [libraries]
-compass-geocoder = { module = "dev.jordond.compass:compass-geocoder", version.ref = "compass" }
-compass-geocoder-mobile = { module = "dev.jordond.compass:compass-geocoder-mobile", version.ref = "compass" }
-compass-geocoder-web = { module = "dev.jordond.compass:compass-geocoder-web", version.ref = "compass" }
-compass-geocoder-web-googlemaps = { module = "dev.jordond.compass:compass-geocoder-googlemaps", version.ref = "compass" }
-compass-geocoder-web-mapbox = { module = "dev.jordond.compass:compass-geocoder-mapbox", version.ref = "compass" }
+compass-geocoder = { module = "dev.jordond.compass:geocoder", version.ref = "compass" }
+compass-geocoder-mobile = { module = "dev.jordond.compass:geocoder-mobile", version.ref = "compass" }
+compass-geocoder-web = { module = "dev.jordond.compass:geocoder-web", version.ref = "compass" }
+compass-geocoder-web-googlemaps = { module = "dev.jordond.compass:geocoder-googlemaps", version.ref = "compass" }
+compass-geocoder-web-mapbox = { module = "dev.jordond.compass:geocoder-mapbox", version.ref = "compass" }
 ```
 
 {% hint style="info" %}
-Compass includes out of the box support for [Google Maps](https://developers.google.com/maps/documentation/geocoding/overview) and [Mapbox](https://docs.mapbox.com/api/search/geocoding-v6/). If you need support for another service you can use the `compass-geocoder-web` to implement your own, or [request-a-geocoder-api.md](../geocoding/request-a-geocoder-api.md "mention")
+Compass includes out of the box support for [Google Maps](https://developers.google.com/maps/documentation/geocoding/overview) and [Mapbox](https://docs.mapbox.com/api/search/geocoding-v6/). If you need support for another service you can use the `geocoder-web` to implement your own, or [request-a-geocoder-api.md](../geocoding/request-a-geocoder-api.md "mention")
 {% endhint %}
 
 ### Add dependencies & create source-set
@@ -125,4 +125,3 @@ class MyRepository {
     }
 }
 ```
-

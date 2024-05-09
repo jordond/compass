@@ -8,10 +8,10 @@ If you only need to support mobile (Android and iOS) add the following dependenc
 # gradle/libs.versions.toml
 
 [libraries]
-compass-geocoder = { module = "dev.jordond.compass:compass-geocoder", version.ref = "compass" }
-compass-geocoder-mobile = { module = "dev.jordond.compass:compass-geocoder-mobile", version.ref = "compass" }
-compass-geolocation = { module = "dev.jordond.compass:compass-geolocation", version.ref = "compass" }
-compass-geolocation-mobile = { module = "dev.jordond.compass:compass-geolocation-mobile", version.ref = "compass" }
+compass-geocoder = { module = "dev.jordond.compass:geocoder", version.ref = "compass" }
+compass-geocoder-mobile = { module = "dev.jordond.compass:geocoder-mobile", version.ref = "compass" }
+compass-geolocation = { module = "dev.jordond.compass:geolocation", version.ref = "compass" }
+compass-geolocation-mobile = { module = "dev.jordond.compass:geolocation-mobile", version.ref = "compass" }
 ```
 
 Then you can add them to your `build.gradle.kts`:
@@ -44,7 +44,7 @@ Location permissions are required for using geolocation on Android and iOS. Comp
 
 #### Android
 
-On Android you don't need to declare any location permission in your manifest since Compass includes those in the `compass-geolocation-mobile` artifact.
+On Android you don't need to declare any location permission in your manifest since Compass includes those in the `geolocation-mobile` artifact.
 
 #### iOS
 

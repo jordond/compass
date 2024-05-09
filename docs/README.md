@@ -17,6 +17,11 @@ Compass is a Kotlin Multiplatform library location toolkit. It provides a set of
   * Mobile support (Android/iOS)
   * Browser [Geolocation API](https://developer.mozilla.org/en-US/docs/Web/API/Geolocation\_API)
   * Built-in permission handling
+* [Broken link](broken-reference "mention")
+  * Mobile support (Android/iOS) via Geocoder
+  * Support for other platforms by using web based APIs
+    * Included support for [Google Maps ](https://developers.google.com/maps/documentation/geocoding)and [Mapbox](https://docs.mapbox.com/#search) via the Decoder API
+    * Google Places API support is planned
 
 ### Easy to use
 
