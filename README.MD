@@ -1,5 +1,3 @@
-## 🚧 Under Construction 🚧
-
 <img width="500px" src="art/logo-full.png" alt="logo"/>
 <br />
 
