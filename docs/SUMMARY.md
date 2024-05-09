@@ -26,6 +26,13 @@
 * [📱 Android / iOS](geolocation/android-ios.md)
 * [🖥️ Browser](geolocation/browser.md)
 
+## Autocomplete
+
+* [🔍 Autocomplete Overview](autocomplete/overview.md)
+* [🌎 Via Geocoding](autocomplete/via-geocoding.md)
+  * [📱Android / iOS](autocomplete/geocoding/android-ios.md)
+  * [📈 Web API Service](autocomplete/geocoding/web-api-service.md)
+
 ## Misc
 
 * [📲 Demo](misc/demo.md)
