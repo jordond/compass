@@ -3,8 +3,10 @@ package dev.jordond.compass.geocoder.web
 import dev.jordond.compass.Coordinates
 import dev.jordond.compass.Place
 import dev.jordond.compass.exception.NotSupportedException
+import dev.jordond.compass.tools.web.HttpApiEndpoint
 import dev.jordond.compass.tools.web.makeRequest
 import io.ktor.client.HttpClient
+import io.ktor.client.statement.HttpResponse
 import io.ktor.http.encodeURLParameter
 
 /**
@@ -30,3 +32,14 @@ public class ForwardHttpApiPlatformGeocoder(
         throw NotSupportedException()
     }
 }
+
+/**
+ * An endpoint for forward geocoding.
+ *
+ * @param url The URL to use for forward geocoding.
+ * @param mapResponse A function to map the response to a list of [Coordinates].
+ */
+public fun ForwardEndpoint(
+    url: (String) -> String,
+    mapResponse: suspend (HttpResponse) -> List<Coordinates>,
+): ForwardEndpoint = HttpApiEndpoint(url, mapResponse)

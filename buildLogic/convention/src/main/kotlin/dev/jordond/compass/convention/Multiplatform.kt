@@ -2,6 +2,7 @@
 
 package dev.jordond.compass.convention
 
+import com.vanniktech.maven.publish.MavenPublishBaseExtension
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.get
@@ -21,7 +22,6 @@ fun Project.configureMultiplatform(
     platforms: List<Platform> = Platforms.All,
     name: String = this.name,
 ) {
-    group = name.replace("compass-", "")
     extensions.configure<KotlinMultiplatformExtension> {
         configureKotlin()
         configurePlatforms(platforms, name)
@@ -29,6 +29,13 @@ fun Project.configureMultiplatform(
 
     if (platforms.contains(Platform.Android)) {
         configureAndroid(name)
+    }
+
+    runCatching {
+        extensions.configure<MavenPublishBaseExtension> {
+            val artifactName = name.replace("compass-", "")
+            coordinates(artifactId = artifactName)
+        }
     }
 }
 
