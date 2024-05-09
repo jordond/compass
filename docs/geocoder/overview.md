@@ -24,4 +24,5 @@ fun getPlaceFromCoordinates(lat: Long, lng: Long): Place? {
 }
 ```
 
-In this quick example the `Geocoder()` function is a convenience function for creating a `Geocoder` object. Each of the `compass-geocoder-*` artifacts provide one.
+In this quick example the `Geocoder()` function is a convenience function for creating a `Geocoder`
+object. Each of the `geocoder-*` artifacts provide one.

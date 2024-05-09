@@ -50,6 +50,7 @@ kotlin {
             implementation(projects.compassGeocoderWebMapbox)
             implementation(projects.compassGeocoderWebGooglemaps)
             implementation(projects.compassGeolocation)
+            implementation(projects.compassAutocomplete)
 
             implementation(libs.kotlinx.coroutines.core)
             implementation(compose.runtime)
@@ -77,6 +78,7 @@ kotlin {
                 implementation(projects.compassGeocoderMobile)
                 implementation(projects.compassGeolocationMobile)
                 implementation(projects.compassPermissionsMobile)
+                implementation(projects.compassAutocompleteMobile)
             }
         }
 
@@ -93,6 +95,7 @@ kotlin {
             wasmJsMain.dependsOn(this)
             dependencies {
                 implementation(projects.compassGeocoderWebGooglemaps)
+                implementation(projects.compassAutocompleteGeocoderGooglemaps)
             }
         }
 
