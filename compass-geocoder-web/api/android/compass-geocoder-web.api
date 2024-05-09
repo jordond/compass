@@ -16,6 +16,10 @@ public final class dev/jordond/compass/geocoder/web/ForwardHttpApiPlatformGeocod
 	public fun reverse (DDLkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
 
+public final class dev/jordond/compass/geocoder/web/ForwardHttpApiPlatformGeocoderKt {
+	public static final fun ForwardEndpoint (Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;)Ldev/jordond/compass/tools/web/HttpApiEndpoint;
+}
+
 public abstract interface class dev/jordond/compass/geocoder/web/HttpApiPlatformGeocoder : dev/jordond/compass/geocoder/PlatformGeocoder {
 	public static final field Companion Ldev/jordond/compass/geocoder/web/HttpApiPlatformGeocoder$Companion;
 }
@@ -33,5 +37,9 @@ public final class dev/jordond/compass/geocoder/web/ReverseHttpApiPlatformGeocod
 	public fun forward (Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun isAvailable ()Z
 	public fun reverse (DDLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class dev/jordond/compass/geocoder/web/ReverseHttpApiPlatformGeocoderKt {
+	public static final fun ReverseEndpoint (Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;)Ldev/jordond/compass/tools/web/HttpApiEndpoint;
 }
 
