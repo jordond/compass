@@ -39,10 +39,12 @@ public abstract interface class dev/jordond/compass/tools/web/parameter/QueryPar
 public abstract interface class dev/jordond/compass/tools/web/parameter/QueryParameters {
 	public abstract fun encode ()Ljava/lang/String;
 	public abstract fun getParameters ()Ljava/util/Map;
+	public abstract fun toInt (Z)I
 }
 
 public final class dev/jordond/compass/tools/web/parameter/QueryParameters$DefaultImpls {
 	public static fun encode (Ldev/jordond/compass/tools/web/parameter/QueryParameters;)Ljava/lang/String;
+	public static fun toInt (Ldev/jordond/compass/tools/web/parameter/QueryParameters;Z)I
 }
 
 public abstract interface class dev/jordond/compass/tools/web/parameter/QueryParametersBuilder {

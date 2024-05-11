@@ -213,6 +213,7 @@ public final class dev/jordond/compass/geocoder/web/parameter/MapboxParameters :
 	public final fun getTypes ()Ldev/jordond/compass/geocoder/web/parameter/MapboxTypesList;
 	public final fun getWorldView ()Ldev/jordond/compass/geocoder/web/parameter/MapboxWorldView;
 	public fun hashCode ()I
+	public fun toInt (Z)I
 	public fun toString ()Ljava/lang/String;
 }
 
