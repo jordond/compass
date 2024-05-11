@@ -15,28 +15,27 @@ import kotlinx.serialization.json.Json
  * See [OpenCage](https://opencagedata.com/api)
  * for more information.
  */
-public interface OpenCageGeocoder : HttpApiPlatformGeocoder {
+public interface OpenCagePlatformGeocoder : HttpApiPlatformGeocoder {
 
-    // TODO
     public companion object {
 
-        private const val BASE_URL = ""
+        private const val BASE_URL = "https://api.opencagedata.com/geocode/v1/json"
 
         private fun createUrl(
             target: String,
             apiKey: String,
             params: OpenCageParameters,
-        ): String = "$BASE_URL?$target&${params.encode()}key=$apiKey"
+        ): String = "$BASE_URL?$target&${params.encode()}&key=$apiKey"
 
         internal fun forwardUrl(address: String, apiKey: String, params: OpenCageParameters) =
-            createUrl(target = "address=$address", apiKey = apiKey, params = params)
+            createUrl(target = "q=$address", apiKey = apiKey, params = params)
 
         internal fun reverseUrl(
             latitude: Double,
             longitude: Double,
             apiKey: String,
             params: OpenCageParameters,
-        ) = createUrl(target = "latlng=$latitude,$longitude", apiKey = apiKey, params = params)
+        ) = createUrl(target = "q=$latitude+$longitude", apiKey = apiKey, params = params)
     }
 }
 
@@ -56,14 +55,14 @@ public fun OpenCagePlatformGeocoder(
     parameters: OpenCageParameters = OpenCageParameters(),
     json: Json = HttpApiEndpoint.json(),
     client: HttpClient = HttpApiEndpoint.httpClient(json),
-): OpenCageGeocoder {
+): OpenCagePlatformGeocoder {
     val delegate = HttpApiPlatformGeocoder(
         forwardEndpoint = OpenCageForwardEndpoint(apiKey, parameters),
         reverseEndpoint = OpenCageReverseEndpoint(apiKey, parameters),
         json = json,
         client = client,
     )
-    return object : HttpApiPlatformGeocoder by delegate, OpenCageGeocoder {}
+    return object : HttpApiPlatformGeocoder by delegate, OpenCagePlatformGeocoder {}
 }
 
 /**
@@ -82,7 +81,8 @@ public fun OpenCagePlatformGeocoder(
     json: Json = HttpApiEndpoint.json(),
     client: HttpClient = HttpApiEndpoint.httpClient(json),
     block: OpenCageParametersBuilder.() -> Unit,
-): OpenCageGeocoder = OpenCagePlatformGeocoder(apiKey, openCageParameters(block), json, client)
+): OpenCagePlatformGeocoder =
+    OpenCagePlatformGeocoder(apiKey, openCageParameters(block), json, client)
 
 /**
  * Creates a [OpenCagePlatformGeocoder] to be used with the [Geocoder].
@@ -100,7 +100,7 @@ public fun PlatformGeocoder.Companion.openCage(
     parameters: OpenCageParameters = OpenCageParameters(),
     json: Json = HttpApiEndpoint.json(),
     client: HttpClient = HttpApiEndpoint.httpClient(json),
-): OpenCageGeocoder = OpenCagePlatformGeocoder(apiKey, parameters, json, client)
+): OpenCagePlatformGeocoder = OpenCagePlatformGeocoder(apiKey, parameters, json, client)
 
 /**
  * Creates a [OpenCagePlatformGeocoder] to be used with the [Geocoder].
@@ -118,5 +118,6 @@ public fun PlatformGeocoder.Companion.openCage(
     json: Json = HttpApiEndpoint.json(),
     client: HttpClient = HttpApiEndpoint.httpClient(json),
     block: OpenCageParametersBuilder.() -> Unit,
-): OpenCageGeocoder = OpenCagePlatformGeocoder(apiKey, openCageParameters(block), json, client)
+): OpenCagePlatformGeocoder =
+    OpenCagePlatformGeocoder(apiKey, openCageParameters(block), json, client)
 

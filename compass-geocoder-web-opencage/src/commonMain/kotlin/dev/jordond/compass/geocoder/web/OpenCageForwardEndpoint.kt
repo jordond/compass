@@ -1,11 +1,11 @@
 package dev.jordond.compass.geocoder.web
 
 import dev.jordond.compass.Coordinates
+import dev.jordond.compass.geocoder.web.opencage.internal.GeocodeResponse
+import dev.jordond.compass.geocoder.web.opencage.internal.toCoordinates
 import dev.jordond.compass.geocoder.web.parameter.OpenCageParameters
 import dev.jordond.compass.geocoder.web.parameter.OpenCageParametersBuilder
 import dev.jordond.compass.geocoder.web.parameter.openCageParameters
-import dev.jordond.compass.geocoder.web.template.internal.GeocodeResponse
-import dev.jordond.compass.geocoder.web.template.internal.toCoordinates
 import io.ktor.client.call.body
 import io.ktor.client.statement.HttpResponse
 import io.ktor.http.encodeURLQueryComponent
@@ -34,7 +34,7 @@ public class OpenCageForwardEndpoint(
 
     override fun url(param: String): String {
         val encodedQuery = param.encodeURLQueryComponent()
-        return OpenCageGeocoder.forwardUrl(encodedQuery, apiKey, parameters)
+        return OpenCagePlatformGeocoder.forwardUrl(encodedQuery, apiKey, parameters)
     }
 
     override suspend fun mapResponse(response: HttpResponse): List<Coordinates> {

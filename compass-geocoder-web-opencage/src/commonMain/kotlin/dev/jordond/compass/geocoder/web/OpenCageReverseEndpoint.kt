@@ -2,11 +2,11 @@ package dev.jordond.compass.geocoder.web
 
 import dev.jordond.compass.Coordinates
 import dev.jordond.compass.Place
+import dev.jordond.compass.geocoder.web.opencage.internal.GeocodeResponse
+import dev.jordond.compass.geocoder.web.opencage.internal.toPlaces
 import dev.jordond.compass.geocoder.web.parameter.OpenCageParameters
 import dev.jordond.compass.geocoder.web.parameter.OpenCageParametersBuilder
 import dev.jordond.compass.geocoder.web.parameter.openCageParameters
-import dev.jordond.compass.geocoder.web.template.internal.GeocodeResponse
-import dev.jordond.compass.geocoder.web.template.internal.toPlaces
 import io.ktor.client.call.body
 import io.ktor.client.statement.HttpResponse
 
@@ -34,7 +34,7 @@ public class OpenCageReverseEndpoint(
 
     override fun url(param: Coordinates): String {
         val (latitude, longitude) = param.run { latitude to longitude }
-        return OpenCageGeocoder.reverseUrl(latitude, longitude, apiKey, parameters)
+        return OpenCagePlatformGeocoder.reverseUrl(latitude, longitude, apiKey, parameters)
     }
 
     override suspend fun mapResponse(response: HttpResponse): List<Place> {
