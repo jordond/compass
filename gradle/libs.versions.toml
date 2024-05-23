@@ -6,7 +6,7 @@ sdk-min = "21"
 jvmTarget = "17"
 agp = "8.4.1"
 kotlin = "2.0.0"
-kotlinx-coroutines = "1.8.0"
+kotlinx-coroutines = "1.8.1"
 kotlinx-serialization = "1.6.3"
 kotlinx-atomicfu = "0.24.0"
 compose = "1.6.7"
@@ -20,7 +20,7 @@ kermit = "2.0.3"
 binaryCompatibility = "0.14.0"
 dokka = "1.9.20"
 publish = "0.28.0"
-poko = "0.15.3"
+poko = "0.16.0-beta01"
 versions = "0.51.0"
 kotest = "5.9.0"
 ktor = "3.0.0-wasm2"
@@ -67,6 +67,7 @@ voyager = ["voyager-navigator", "voyager-screenModel"]
 [plugins]
 multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 compose = { id = "org.jetbrains.compose", version.ref = "compose-multiplatform" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
