@@ -1,13 +1,11 @@
 package dev.jordond.compass.geolocation.browser.api.model
 
-import kotlin.js.json
+import dev.jordond.compass.geolocation.browser.internal.Object
 
 public actual fun createGeolocationOptions(
     enableHighAccuracy: Boolean,
     timeout: Double,
     maximumAge: Double,
-): dynamic = json(
-    "enableHighAccuracy" to enableHighAccuracy,
-    "timeout" to timeout,
-    "maximumAge" to maximumAge,
-)
+): Object = js(
+    "({enableHighAccuracy: enableHighAccuracy, timeout: timeout, maximumAge: maximumAge})",
+) as Object
