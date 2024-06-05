@@ -1,0 +1,87 @@
+public final class dev/jordond/compass/geocoder/OpenCageGeocoderKt {
+	public static final fun Geocoder (Ljava/lang/String;Ldev/jordond/compass/geocoder/web/parameter/OpenCageParameters;Lkotlinx/serialization/json/Json;Lio/ktor/client/HttpClient;Lkotlinx/coroutines/CoroutineDispatcher;)Ldev/jordond/compass/geocoder/Geocoder;
+	public static synthetic fun Geocoder$default (Ljava/lang/String;Ldev/jordond/compass/geocoder/web/parameter/OpenCageParameters;Lkotlinx/serialization/json/Json;Lio/ktor/client/HttpClient;Lkotlinx/coroutines/CoroutineDispatcher;ILjava/lang/Object;)Ldev/jordond/compass/geocoder/Geocoder;
+	public static final fun OpenCageGeocoder (Ljava/lang/String;Ldev/jordond/compass/geocoder/web/parameter/OpenCageParameters;Lkotlinx/serialization/json/Json;Lio/ktor/client/HttpClient;Lkotlinx/coroutines/CoroutineDispatcher;)Ldev/jordond/compass/geocoder/Geocoder;
+	public static final fun OpenCageGeocoder (Ljava/lang/String;Lkotlinx/serialization/json/Json;Lio/ktor/client/HttpClient;Lkotlinx/coroutines/CoroutineDispatcher;Lkotlin/jvm/functions/Function1;)Ldev/jordond/compass/geocoder/Geocoder;
+	public static synthetic fun OpenCageGeocoder$default (Ljava/lang/String;Ldev/jordond/compass/geocoder/web/parameter/OpenCageParameters;Lkotlinx/serialization/json/Json;Lio/ktor/client/HttpClient;Lkotlinx/coroutines/CoroutineDispatcher;ILjava/lang/Object;)Ldev/jordond/compass/geocoder/Geocoder;
+	public static synthetic fun OpenCageGeocoder$default (Ljava/lang/String;Lkotlinx/serialization/json/Json;Lio/ktor/client/HttpClient;Lkotlinx/coroutines/CoroutineDispatcher;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/jordond/compass/geocoder/Geocoder;
+	public static final fun openCage (Ldev/jordond/compass/geocoder/Geocoder$Companion;Ljava/lang/String;Ldev/jordond/compass/geocoder/web/parameter/OpenCageParameters;Lkotlinx/serialization/json/Json;Lio/ktor/client/HttpClient;Lkotlinx/coroutines/CoroutineDispatcher;)Ldev/jordond/compass/geocoder/Geocoder;
+	public static final fun openCage (Ldev/jordond/compass/geocoder/Geocoder$Companion;Ljava/lang/String;Lkotlinx/serialization/json/Json;Lio/ktor/client/HttpClient;Lkotlinx/coroutines/CoroutineDispatcher;Lkotlin/jvm/functions/Function1;)Ldev/jordond/compass/geocoder/Geocoder;
+	public static synthetic fun openCage$default (Ldev/jordond/compass/geocoder/Geocoder$Companion;Ljava/lang/String;Ldev/jordond/compass/geocoder/web/parameter/OpenCageParameters;Lkotlinx/serialization/json/Json;Lio/ktor/client/HttpClient;Lkotlinx/coroutines/CoroutineDispatcher;ILjava/lang/Object;)Ldev/jordond/compass/geocoder/Geocoder;
+	public static synthetic fun openCage$default (Ldev/jordond/compass/geocoder/Geocoder$Companion;Ljava/lang/String;Lkotlinx/serialization/json/Json;Lio/ktor/client/HttpClient;Lkotlinx/coroutines/CoroutineDispatcher;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/jordond/compass/geocoder/Geocoder;
+}
+
+public final class dev/jordond/compass/geocoder/web/OpenCageForwardEndpoint : dev/jordond/compass/tools/web/HttpApiEndpoint {
+	public fun <init> (Ljava/lang/String;Ldev/jordond/compass/geocoder/web/parameter/OpenCageParameters;)V
+	public synthetic fun <init> (Ljava/lang/String;Ldev/jordond/compass/geocoder/web/parameter/OpenCageParameters;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Ljava/lang/String;Lkotlin/jvm/functions/Function1;)V
+	public fun mapResponse (Lio/ktor/client/statement/HttpResponse;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public synthetic fun url (Ljava/lang/Object;)Ljava/lang/String;
+	public fun url (Ljava/lang/String;)Ljava/lang/String;
+}
+
+public abstract interface class dev/jordond/compass/geocoder/web/OpenCagePlatformGeocoder : dev/jordond/compass/geocoder/web/HttpApiPlatformGeocoder {
+	public static final field Companion Ldev/jordond/compass/geocoder/web/OpenCagePlatformGeocoder$Companion;
+}
+
+public final class dev/jordond/compass/geocoder/web/OpenCagePlatformGeocoder$Companion {
+}
+
+public final class dev/jordond/compass/geocoder/web/OpenCagePlatformGeocoderKt {
+	public static final fun OpenCagePlatformGeocoder (Ljava/lang/String;Ldev/jordond/compass/geocoder/web/parameter/OpenCageParameters;Lkotlinx/serialization/json/Json;Lio/ktor/client/HttpClient;)Ldev/jordond/compass/geocoder/web/OpenCagePlatformGeocoder;
+	public static final fun OpenCagePlatformGeocoder (Ljava/lang/String;Lkotlinx/serialization/json/Json;Lio/ktor/client/HttpClient;Lkotlin/jvm/functions/Function1;)Ldev/jordond/compass/geocoder/web/OpenCagePlatformGeocoder;
+	public static synthetic fun OpenCagePlatformGeocoder$default (Ljava/lang/String;Ldev/jordond/compass/geocoder/web/parameter/OpenCageParameters;Lkotlinx/serialization/json/Json;Lio/ktor/client/HttpClient;ILjava/lang/Object;)Ldev/jordond/compass/geocoder/web/OpenCagePlatformGeocoder;
+	public static synthetic fun OpenCagePlatformGeocoder$default (Ljava/lang/String;Lkotlinx/serialization/json/Json;Lio/ktor/client/HttpClient;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/jordond/compass/geocoder/web/OpenCagePlatformGeocoder;
+	public static final fun openCage (Ldev/jordond/compass/geocoder/PlatformGeocoder$Companion;Ljava/lang/String;Ldev/jordond/compass/geocoder/web/parameter/OpenCageParameters;Lkotlinx/serialization/json/Json;Lio/ktor/client/HttpClient;)Ldev/jordond/compass/geocoder/web/OpenCagePlatformGeocoder;
+	public static final fun openCage (Ldev/jordond/compass/geocoder/PlatformGeocoder$Companion;Ljava/lang/String;Lkotlinx/serialization/json/Json;Lio/ktor/client/HttpClient;Lkotlin/jvm/functions/Function1;)Ldev/jordond/compass/geocoder/web/OpenCagePlatformGeocoder;
+	public static synthetic fun openCage$default (Ldev/jordond/compass/geocoder/PlatformGeocoder$Companion;Ljava/lang/String;Ldev/jordond/compass/geocoder/web/parameter/OpenCageParameters;Lkotlinx/serialization/json/Json;Lio/ktor/client/HttpClient;ILjava/lang/Object;)Ldev/jordond/compass/geocoder/web/OpenCagePlatformGeocoder;
+	public static synthetic fun openCage$default (Ldev/jordond/compass/geocoder/PlatformGeocoder$Companion;Ljava/lang/String;Lkotlinx/serialization/json/Json;Lio/ktor/client/HttpClient;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/jordond/compass/geocoder/web/OpenCagePlatformGeocoder;
+}
+
+public final class dev/jordond/compass/geocoder/web/OpenCageReverseEndpoint : dev/jordond/compass/tools/web/HttpApiEndpoint {
+	public fun <init> (Ljava/lang/String;Ldev/jordond/compass/geocoder/web/parameter/OpenCageParameters;)V
+	public synthetic fun <init> (Ljava/lang/String;Ldev/jordond/compass/geocoder/web/parameter/OpenCageParameters;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Ljava/lang/String;Lkotlin/jvm/functions/Function1;)V
+	public fun mapResponse (Lio/ktor/client/statement/HttpResponse;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun url (Ldev/jordond/compass/Coordinates;)Ljava/lang/String;
+	public synthetic fun url (Ljava/lang/Object;)Ljava/lang/String;
+}
+
+public final class dev/jordond/compass/geocoder/web/parameter/OpenCageParameters : dev/jordond/compass/tools/web/parameter/QueryParameters {
+	public static final field Companion Ldev/jordond/compass/geocoder/web/parameter/OpenCageParameters$Companion;
+	public fun <init> ()V
+	public fun <init> (ILjava/util/List;ZZ)V
+	public synthetic fun <init> (ILjava/util/List;ZZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun encode ()Ljava/lang/String;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCountryCode ()Ljava/util/List;
+	public final fun getLimit ()I
+	public final fun getNoDedupe ()Z
+	public final fun getNoRecord ()Z
+	public fun getParameters ()Ljava/util/Map;
+	public fun hashCode ()I
+	public fun toInt (Z)I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class dev/jordond/compass/geocoder/web/parameter/OpenCageParameters$Companion {
+}
+
+public final class dev/jordond/compass/geocoder/web/parameter/OpenCageParametersBuilder : dev/jordond/compass/tools/web/parameter/QueryParametersBuilder {
+	public fun <init> ()V
+	public fun build ()Ldev/jordond/compass/geocoder/web/parameter/OpenCageParameters;
+	public synthetic fun build ()Ldev/jordond/compass/tools/web/parameter/QueryParameters;
+	public final fun countryCode ([Ljava/lang/String;)V
+	public final fun countryCodes (Ljava/util/List;)V
+	public final fun getLimit ()I
+	public final fun getNoDedupe ()Z
+	public final fun getNoRecord ()Z
+	public final fun setLimit (I)V
+	public final fun setNoDedupe (Z)V
+	public final fun setNoRecord (Z)V
+}
+
+public final class dev/jordond/compass/geocoder/web/parameter/OpenCageParametersKt {
+	public static final fun openCageParameters (Lkotlin/jvm/functions/Function1;)Ldev/jordond/compass/geocoder/web/parameter/OpenCageParameters;
+}
+

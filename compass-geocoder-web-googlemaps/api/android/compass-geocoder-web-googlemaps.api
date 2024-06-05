@@ -150,6 +150,7 @@ public final class dev/jordond/compass/geocoder/web/parameter/GoogleMapsParamete
 	public final fun getLocationType ()Ldev/jordond/compass/geocoder/web/parameter/GoogleMapsLocationTypeList;
 	public fun getParameters ()Ljava/util/Map;
 	public fun hashCode ()I
+	public fun toInt (Z)I
 	public fun toString ()Ljava/lang/String;
 }
 

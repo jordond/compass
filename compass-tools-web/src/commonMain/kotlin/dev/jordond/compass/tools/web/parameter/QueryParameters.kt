@@ -21,6 +21,11 @@ public interface QueryParameters {
         .map { (key, value) -> "$key=$value" }
         .joinToString("&")
         .encodeURLQueryComponent(encodeFull = true)
+
+    /**
+     * Convert a boolean value to an integer.
+     */
+    public fun Boolean.toInt(): Int = if (this) 1 else 0
 }
 
 /**

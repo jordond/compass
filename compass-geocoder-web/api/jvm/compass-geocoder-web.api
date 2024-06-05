@@ -1,4 +1,4 @@
-public final class dev/jordond/compass/geocoder/GeocoderKt {
+public final class dev/jordond/compass/geocoder/WebGeocoderKt {
 	public static final fun ForwardGeocoder (Ldev/jordond/compass/tools/web/HttpApiEndpoint;Lkotlinx/serialization/json/Json;Lio/ktor/client/HttpClient;Lkotlinx/coroutines/CoroutineDispatcher;)Ldev/jordond/compass/geocoder/ForwardGeocoder;
 	public static synthetic fun ForwardGeocoder$default (Ldev/jordond/compass/tools/web/HttpApiEndpoint;Lkotlinx/serialization/json/Json;Lio/ktor/client/HttpClient;Lkotlinx/coroutines/CoroutineDispatcher;ILjava/lang/Object;)Ldev/jordond/compass/geocoder/ForwardGeocoder;
 	public static final fun Geocoder (Ldev/jordond/compass/geocoder/web/HttpApiPlatformGeocoder;Lkotlinx/coroutines/CoroutineDispatcher;)Ldev/jordond/compass/geocoder/Geocoder;
