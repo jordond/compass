@@ -27,40 +27,40 @@ internal class Coordinate(
 @Serializable
 internal class Components(
     @SerialName("_category")
-    val category: String,
+    val category: String? = null,
 
     @SerialName("_normalized_city")
-    val normalizedCity: String,
+    val normalizedCity: String? = null,
 
     @SerialName("_type")
-    val type: String,
+    val type: String? = null,
 
     @SerialName("city")
-    val city: String,
+    val city: String? = null,
 
     @SerialName("continent")
-    val continent: String,
+    val continent: String? = null,
 
     @SerialName("country")
-    val country: String,
+    val country: String? = null,
 
     @SerialName("country_code")
-    val countryCode: String,
+    val countryCode: String? = null,
 
     @SerialName("postcode")
-    val postcode: String,
+    val postcode: String? = null,
 
     @SerialName("restaurant")
-    val restaurant: String,
+    val restaurant: String? = null,
 
     @SerialName("road")
-    val road: String,
+    val road: String? = null,
 
     @SerialName("state")
-    val state: String,
+    val state: String? = null,
 
     @SerialName("suburb")
-    val suburb: String,
+    val suburb: String? = null,
 )
 
 @Serializable

@@ -19,16 +19,16 @@ internal fun GeocodeResponse.toPlaces(): List<Place> = results.mapNotNull { resu
     val components = result.components
     Place(
         coordinates = result.toCoordinates(),
-        name = components.restaurant.takeIf { it.isNotBlank() },
-        street = components.road.takeIf { it.isNotBlank() },
-        isoCountryCode = components.countryCode.takeIf { it.isNotBlank() },
-        country = components.country.takeIf { it.isNotBlank() },
-        postalCode = components.postcode.takeIf { it.isNotBlank() },
-        administrativeArea = components.state.takeIf { it.isNotBlank() },
+        name = components.restaurant?.takeIf { it.isNotBlank() },
+        street = components.road?.takeIf { it.isNotBlank() },
+        isoCountryCode = components.countryCode?.takeIf { it.isNotBlank() },
+        country = components.country?.takeIf { it.isNotBlank() },
+        postalCode = components.postcode?.takeIf { it.isNotBlank() },
+        administrativeArea = components.state?.takeIf { it.isNotBlank() },
         subAdministrativeArea = null,
-        locality = components.normalizedCity.takeIf { it.isNotBlank() },
-        subLocality = components.suburb.takeIf { it.isNotBlank() },
-        thoroughfare = components.road.takeIf { it.isNotBlank() },
+        locality = components.normalizedCity?.takeIf { it.isNotBlank() },
+        subLocality = components.suburb?.takeIf { it.isNotBlank() },
+        thoroughfare = components.road?.takeIf { it.isNotBlank() },
         subThoroughfare = null,
     ).takeIf { it.isEmpty.not() }
 }

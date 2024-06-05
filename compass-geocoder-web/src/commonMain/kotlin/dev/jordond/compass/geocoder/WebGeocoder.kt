@@ -24,7 +24,7 @@ import kotlinx.serialization.json.Json
 public fun Geocoder(
     platformGeocoder: HttpApiPlatformGeocoder,
     dispatcher: CoroutineDispatcher = Dispatchers.Default,
-): Geocoder = Geocoder(platformGeocoder, dispatcher)
+): Geocoder = Geocoder(platformGeocoder as PlatformGeocoder, dispatcher)
 
 /**
  * Create a new [Geocoder] instance that uses a [HttpApiPlatformGeocoder] which is constructed

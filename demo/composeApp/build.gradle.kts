@@ -50,6 +50,7 @@ kotlin {
             implementation(projects.compassGeocoder)
             implementation(projects.compassGeocoderWebMapbox)
             implementation(projects.compassGeocoderWebGooglemaps)
+            implementation(projects.compassGeocoderWebOpencage)
             implementation(projects.compassGeolocation)
             implementation(projects.compassAutocomplete)
 

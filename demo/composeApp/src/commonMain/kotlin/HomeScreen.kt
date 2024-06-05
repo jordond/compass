@@ -15,6 +15,7 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import geocoder.GoogleMapsGeocoderScreen
 import geocoder.MapboxGeocoderScreen
+import geocoder.OpenCageGeocoderScreen
 import geocoder.PlatformGeocoderFallbackScreen
 import geocoder.PlatformGeocoderScreen
 import geolocation.BrowserGeolocationScreen
@@ -43,6 +44,9 @@ class HomeScreen(private val isBrowser: Boolean = false) : Screen {
                 }
                 NavButton("Mapbox") {
                     navigator.push(MapboxGeocoderScreen())
+                }
+                NavButton("OpenCage") {
+                    navigator.push(OpenCageGeocoderScreen())
                 }
 
                 HorizontalDivider(Modifier.padding(vertical = 32.dp))
