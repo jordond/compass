@@ -60,11 +60,11 @@ jobs:
           java-version: 17
           distribution: adopt
 
-      - name: Gradle Wrapper Validation
-        uses: gradle/actions/wrapper-validation@v3
-
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
+
+      - name: Gradle Wrapper Validation
+        uses: gradle/actions/wrapper-validation@v3
 
       - name: Generate documentation
         run: ./gradlew dokkaHtmlMultiModule
