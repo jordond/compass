@@ -1,3 +1,3 @@
 package dev.jordond.compass.geolocation.browser.internal
 
-public actual external interface Object
+public actual external class Object
