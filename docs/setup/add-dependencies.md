@@ -46,6 +46,7 @@ compass-geocoder-mobile = { module = "dev.jordond.compass:geocoder-mobile", vers
 compass-geocoder-web = { module = "dev.jordond.compass:geocoder-web", version.ref = "compass" }
 compass-geocoder-web-googlemaps = { module = "dev.jordond.compass:geocoder-web-googlemaps", version.ref = "compass" }
 compass-geocoder-web-mapbox = { module = "dev.jordond.compass:geocoder-web-mapbox", version.ref = "compass" }
+compass-geocoder-web-opencage = { module = "dev.jordond.compass:geocoder-web-opencage", version.ref = "compass" }
 compass-geolocation = { module = "dev.jordond.compass:geolocation", version.ref = "compass" }
 compass-geolocation-mobile = { module = "dev.jordond.compass:geolocation-mobile", version.ref = "compass" }
 compass-geolocation-browser = { module = "dev.jordond.compass:geolocation-browser", version.ref = "compass" }
@@ -72,6 +73,7 @@ kotlin {
                 // Optional - Geocoder support for all platforms, but requires an API key from the service
                 implementation(libs.compass.geocoder.web.googlemaps)
                 implementation(libs.compass.geocoder.web.mapbox)
+                implementation(libs.compass.geocoder.web.opencage)
 
                 // Optional - If you want to create your own geocoder implementation
                 implementation(libs.compass.geocoder.web)
@@ -129,6 +131,7 @@ kotlin {
                 // Optional - Geocoder support for all platforms, but requires an API key from the service
                 implementation("dev.jordond.compass:geocoder-web-googlemaps:$compassVersion")
                 implementation("dev.jordond.compass:geocoder-web-mapbox:$compassVersion")
+                implementation("dev.jordond.compass:geocoder-web-opencage:$compassVersion")
 
                 // Optional - If you want to create your own geocoder implementation
                 implementation("dev.jordond.compass:geocoder-web:$compassVersion")
