@@ -94,7 +94,7 @@ val geolocator: Geolocator
 val status = geolocator.trackingStatus.map { status ->
     when (status) {
         is TrackingStatus.Idle -> println("Not Tracking")
-        is TrackingStatus.Update -> printLn(status.location.coordinates)
+        is TrackingStatus.Update -> println(status.location.coordinates)
         is TrackingStatus.Error -> {
             val error: GeolocatorResult.Error = status.cause
 
