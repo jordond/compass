@@ -9,6 +9,7 @@ import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.tasks.CancellationTokenSource
+import dev.jordond.compass.exception.NotFoundException
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -46,7 +47,14 @@ internal class LocationManager(
 
             fusedLocationClient
                 .getCurrentLocation(priority, cancellation.token)
-                .addOnSuccessListener { location -> continuation.resume(location) }
+                .addOnSuccessListener { location ->
+                    // Can actually be null. This most often happens when requesting a coarse location
+                    // and no other app recently successfully retrieved a location.
+                    if (location == null) {
+                        throw NotFoundException()
+                    }
+                    continuation.resume(location)
+                }
                 .addOnFailureListener { exception -> continuation.resumeWithException(exception) }
 
             continuation.invokeOnCancellation {
