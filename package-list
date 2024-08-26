@@ -37,6 +37,10 @@ dev.jordond.compass.geocoder
 dev.jordond.compass.geocoder.web
 dev.jordond.compass.geocoder.web.mapbox.internal
 dev.jordond.compass.geocoder.web.parameter
+module:compass-geocoder-web-opencage
+dev.jordond.compass.geocoder
+dev.jordond.compass.geocoder.web
+dev.jordond.compass.geocoder.web.parameter
 module:compass-geolocation
 dev.jordond.compass.geolocation
 dev.jordond.compass.geolocation.exception
