@@ -46,6 +46,9 @@ jobs:
           ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.SIGNING_KEY }}
           ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.SIGNING_PASSWORD }}
 
+      - name: Update README for ${{ env.RELEASE_VERSION }}
+        run: ./.github/version.sh "${RELEASE_VERSION}"
+
   documentation:
     name: "Generate Documentation"
     runs-on: ubuntu-latest
