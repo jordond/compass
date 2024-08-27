@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
 import androidx.activity.ComponentActivity
-import dev.jordond.compass.permissions.exception.PermissionRequestException
 import dev.jordond.compass.permissions.mobile.internal.PermissionRequester
 import java.lang.ref.WeakReference
 
@@ -15,10 +14,7 @@ internal class ActivityProvider(
     private var requester: WeakReference<PermissionRequester>? = null
 
     val permissionRequester: PermissionRequester
-        get() = requester?.get() ?: throw PermissionRequestException(
-            message = "PermissionRequester is not available",
-            permission = "Any"
-        )
+        get() = requester?.get() ?: throw IllegalStateException("PermissionRequester is not available")
 
     private val lifecycleObserver = createActivityLifecycleObserver { activity ->
         this.requester = WeakReference(PermissionRequester(activity))

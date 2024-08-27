@@ -82,7 +82,6 @@ internal class DefaultGeolocator(
         is PermissionException -> when (this) {
             is PermissionDeniedException -> GeolocatorResult.PermissionDenied(false)
             is PermissionDeniedForeverException -> GeolocatorResult.PermissionDenied(true)
-            else -> GeolocatorResult.PermissionError(this)
         }
         is NotSupportedException -> GeolocatorResult.NotSupported
         is NotFoundException -> GeolocatorResult.NotFound
