@@ -51,7 +51,7 @@ internal class LocationManager(
                     // Can actually be null. This most often happens when requesting a coarse location
                     // and no other app recently successfully retrieved a location.
                     if (location == null) {
-                        throw NotFoundException()
+                        continuation.resumeWithException(NotFoundException())
                     }
                     continuation.resume(location)
                 }
