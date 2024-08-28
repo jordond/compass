@@ -50,10 +50,12 @@ internal class LocationManager(
                 .addOnSuccessListener { location ->
                     // Can actually be null. This most often happens when requesting a coarse location
                     // and no other app recently successfully retrieved a location.
+                    // See https://developer.android.com/develop/sensors-and-location/location/retrieve-current#last-known
                     if (location == null) {
-                        throw NotFoundException()
+                        continuation.resumeWithException(NotFoundException())
+                    } else {
+                        continuation.resume(location)
                     }
-                    continuation.resume(location)
                 }
                 .addOnFailureListener { exception -> continuation.resumeWithException(exception) }
 
