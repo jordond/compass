@@ -10,12 +10,11 @@ import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.tasks.CancellationTokenSource
 import dev.jordond.compass.exception.NotFoundException
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.suspendCancellableCoroutine
-import kotlin.coroutines.resume
-import kotlin.coroutines.resumeWithException
+import kotlinx.coroutines.tasks.await
 
 internal class LocationManager(
     private val context: Context,
@@ -41,28 +40,18 @@ internal class LocationManager(
             || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     suspend fun currentLocation(priority: Int): Location {
-        return suspendCancellableCoroutine { continuation ->
-            val cancellation = CancellationTokenSource()
+        val cancellation = CancellationTokenSource()
 
-            fusedLocationClient
-                .getCurrentLocation(priority, cancellation.token)
-                .addOnSuccessListener { location ->
-                    // Can actually be null. This most often happens when requesting a coarse location
-                    // and no other app recently successfully retrieved a location.
-                    // See https://developer.android.com/develop/sensors-and-location/location/retrieve-current#last-known
-                    if (location == null) {
-                        continuation.resumeWithException(NotFoundException())
-                    } else {
-                        continuation.resume(location)
-                    }
-                }
-                .addOnFailureListener { exception -> continuation.resumeWithException(exception) }
+        val location: Location? = fusedLocationClient
+            .getCurrentLocation(priority, cancellation.token)
+            .await(cancellation)
 
-            continuation.invokeOnCancellation {
-                cancellation.cancel()
-            }
+        if (location == null) {
+            throw NotFoundException()
         }
+        return location
     }
 
     fun startTracking(request: LocationRequest): Flow<LocationResult> {
