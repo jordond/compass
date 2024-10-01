@@ -33,7 +33,7 @@ dependencyResolutionManagement {
 {% code fullWidth="false" %}
 ```toml
 [versions]
-compass = "1.0.0"
+compass = "1.2.2"
 
 [libraries]
 compass-autocomplete = { module = "dev.jordond.compass:autocomplete", version.ref = "compass" }
