@@ -42,12 +42,3 @@ public abstract class dev/jordond/compass/permissions/exception/PermissionExcept
 	public synthetic fun <init> (Ljava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 }
 
-public final class dev/jordond/compass/permissions/exception/PermissionMissingException : dev/jordond/compass/permissions/exception/PermissionException {
-	public fun <init> (Ljava/lang/String;)V
-}
-
-public final class dev/jordond/compass/permissions/exception/PermissionRequestException : dev/jordond/compass/permissions/exception/PermissionException {
-	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-}
-
