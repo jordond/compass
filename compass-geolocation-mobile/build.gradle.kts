@@ -27,10 +27,10 @@ kotlin {
         androidMain.dependencies {
             implementation(projects.compassToolsAndroid)
             api(libs.play.services.location)
+            implementation(libs.play.services.coroutines)
             implementation(libs.androidx.activity)
             implementation(libs.androidx.fragment)
             implementation(libs.androidx.startup)
-
         }
 
         iosMain.dependencies {
