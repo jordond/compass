@@ -46,7 +46,7 @@ public interface Geolocator {
      *
      * @return `true` if location services are available, `false` otherwise.
      */
-    public suspend fun isAvailable(): Boolean
+    public fun isAvailable(): Boolean
 
     /**
      * Get the current location.
