@@ -107,20 +107,6 @@ public final class dev/jordond/compass/geolocation/GeolocatorResult$PermissionDe
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class dev/jordond/compass/geolocation/GeolocatorResult$PermissionError : dev/jordond/compass/geolocation/GeolocatorResult$Error {
-	public fun <init> (Ldev/jordond/compass/permissions/exception/PermissionException;)V
-	public fun equals (Ljava/lang/Object;)Z
-	public fun errorOrNull ()Ldev/jordond/compass/geolocation/GeolocatorResult$Error;
-	public final fun getCause ()Ldev/jordond/compass/permissions/exception/PermissionException;
-	public fun getMessage ()Ljava/lang/String;
-	public fun getOrNull ()Ldev/jordond/compass/Location;
-	public fun hashCode ()I
-	public fun isError ()Z
-	public fun onFailed (Lkotlin/jvm/functions/Function1;)Ldev/jordond/compass/geolocation/GeolocatorResult;
-	public fun onSuccess (Lkotlin/jvm/functions/Function1;)Ldev/jordond/compass/geolocation/GeolocatorResult;
-	public fun toString ()Ljava/lang/String;
-}
-
 public final class dev/jordond/compass/geolocation/GeolocatorResult$Success : dev/jordond/compass/geolocation/GeolocatorResult {
 	public fun <init> (Ldev/jordond/compass/Location;)V
 	public fun equals (Ljava/lang/Object;)Z
