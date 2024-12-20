@@ -40,17 +40,6 @@ public sealed interface GeolocatorResult {
     public class GeolocationFailed(override val message: String) : Error
 
     /**
-     * Geocoding operation failed because of a permission error.
-     *
-     * Either the user denied the permission, or the permission was denied forever.
-     */
-    @Poko
-    @Suppress("MemberVisibilityCanBePrivate")
-    public class PermissionError(public val cause: PermissionException) : Error {
-        override val message: String = cause.message ?: "Permission Error"
-    }
-
-    /**
      * Geocoding operation failed because the user denied the permission.
      *
      * @param forever `true` if the permission was denied forever, `false` otherwise.

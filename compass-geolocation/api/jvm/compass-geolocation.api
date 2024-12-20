@@ -10,7 +10,7 @@ public abstract interface class dev/jordond/compass/geolocation/Geolocator {
 	public abstract fun current (Ldev/jordond/compass/Priority;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public abstract fun getLocationUpdates ()Lkotlinx/coroutines/flow/Flow;
 	public abstract fun getTrackingStatus ()Lkotlinx/coroutines/flow/Flow;
-	public abstract fun isAvailable (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun isAvailable ()Z
 	public abstract fun startTracking (Ldev/jordond/compass/geolocation/LocationRequest;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public abstract fun stopTracking ()V
 	public abstract fun track (Ldev/jordond/compass/geolocation/LocationRequest;)Lkotlinx/coroutines/flow/Flow;
@@ -98,20 +98,6 @@ public final class dev/jordond/compass/geolocation/GeolocatorResult$PermissionDe
 	public fun equals (Ljava/lang/Object;)Z
 	public fun errorOrNull ()Ldev/jordond/compass/geolocation/GeolocatorResult$Error;
 	public final fun getForever ()Z
-	public fun getMessage ()Ljava/lang/String;
-	public fun getOrNull ()Ldev/jordond/compass/Location;
-	public fun hashCode ()I
-	public fun isError ()Z
-	public fun onFailed (Lkotlin/jvm/functions/Function1;)Ldev/jordond/compass/geolocation/GeolocatorResult;
-	public fun onSuccess (Lkotlin/jvm/functions/Function1;)Ldev/jordond/compass/geolocation/GeolocatorResult;
-	public fun toString ()Ljava/lang/String;
-}
-
-public final class dev/jordond/compass/geolocation/GeolocatorResult$PermissionError : dev/jordond/compass/geolocation/GeolocatorResult$Error {
-	public fun <init> (Ldev/jordond/compass/permissions/exception/PermissionException;)V
-	public fun equals (Ljava/lang/Object;)Z
-	public fun errorOrNull ()Ldev/jordond/compass/geolocation/GeolocatorResult$Error;
-	public final fun getCause ()Ldev/jordond/compass/permissions/exception/PermissionException;
 	public fun getMessage ()Ljava/lang/String;
 	public fun getOrNull ()Ldev/jordond/compass/Location;
 	public fun hashCode ()I

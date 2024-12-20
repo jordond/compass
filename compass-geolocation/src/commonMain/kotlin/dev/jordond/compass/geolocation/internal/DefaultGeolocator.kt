@@ -43,9 +43,7 @@ internal class DefaultGeolocator(
 
     override val trackingStatus: Flow<TrackingStatus> = status
 
-    override suspend fun isAvailable(): Boolean = withContext(dispatcher) {
-        locator.isAvailable()
-    }
+    override fun isAvailable(): Boolean = locator.isAvailable()
 
     override suspend fun current(priority: Priority): GeolocatorResult {
         return handleResult { locator.current(priority) }
@@ -82,7 +80,6 @@ internal class DefaultGeolocator(
         is PermissionException -> when (this) {
             is PermissionDeniedException -> GeolocatorResult.PermissionDenied(false)
             is PermissionDeniedForeverException -> GeolocatorResult.PermissionDenied(true)
-            else -> GeolocatorResult.PermissionError(this)
         }
         is NotSupportedException -> GeolocatorResult.NotSupported
         is NotFoundException -> GeolocatorResult.NotFound

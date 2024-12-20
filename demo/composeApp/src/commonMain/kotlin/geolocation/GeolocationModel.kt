@@ -17,10 +17,8 @@ import kotlinx.coroutines.launch
 class GeolocationModel(private val geolocator: Geolocator) : StateScreenModel<State>(State()) {
 
     init {
-        screenModelScope.launch {
-            val isAvailable = geolocator.isAvailable()
-            updateState { it.copy(locationServiceAvailable = isAvailable) }
-        }
+        val isAvailable = geolocator.isAvailable()
+        updateState { it.copy(locationServiceAvailable = isAvailable) }
 
         geolocator.trackingStatus
             .onEach { status ->
