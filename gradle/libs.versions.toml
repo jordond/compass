@@ -4,6 +4,7 @@ sdk-target = "34"
 sdk-compile = "34"
 sdk-min = "21"
 jvmTarget = "17"
+
 agp = "8.7.3"
 kotlin = "2.1.0"
 kotlinx-coroutines = "1.9.0"
@@ -16,6 +17,7 @@ androidx-fragment = "1.8.5"
 androidx-startup = "1.2.0"
 androidx-activityCompose = "1.9.3"
 playServicesLocation = "21.3.0"
+playServicesCoroutines = "1.9.0"
 kermit = "2.0.5"
 binaryCompatibility = "0.17.0"
 dokka = "2.0.0"
@@ -49,6 +51,7 @@ compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview"
 kotest-assertions = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
 kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
 play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "playServicesLocation" }
+play-services-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services", version.ref = "playServicesCoroutines" }
 stateHolder = { module = "dev.stateholder:core", version.ref = "stateHolder" }
 stateHolder-compose = { module = "dev.stateholder:extensions-compose", version.ref = "stateHolder" }
 stateHolder-voyager = { module = "dev.stateholder:extensions-voyager", version.ref = "stateHolder" }
