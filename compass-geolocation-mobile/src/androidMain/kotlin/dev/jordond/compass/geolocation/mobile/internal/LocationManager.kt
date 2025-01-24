@@ -3,11 +3,19 @@ package dev.jordond.compass.geolocation.mobile.internal
 import android.content.Context
 import android.location.Location
 import android.location.LocationManager
+import android.os.Build.VERSION
+import android.os.Build.VERSION_CODES
 import android.os.Looper
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.LocationSettingsRequest
+import com.google.android.gms.location.Priority.PRIORITY_BALANCED_POWER_ACCURACY
+import com.google.android.gms.location.Priority.PRIORITY_HIGH_ACCURACY
+import com.google.android.gms.location.Priority.PRIORITY_LOW_POWER
+import com.google.android.gms.location.Priority.PRIORITY_PASSIVE
+import com.google.android.gms.location.SettingsClient
 import com.google.android.gms.tasks.CancellationTokenSource
 import dev.jordond.compass.exception.NotFoundException
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -33,11 +41,25 @@ internal class LocationManager(
         LocationServices.getFusedLocationProviderClient(context)
     }
 
-    fun locationEnabled(): Boolean {
-        val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+    private val settingsClient: SettingsClient by lazy {
+        LocationServices.getSettingsClient(context)
+    }
 
-        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
-            || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+    suspend fun locationEnabled(): Boolean {
+        val request = LocationSettingsRequest.Builder().addAllLocationRequests(
+            listOf(
+                LocationRequest.Builder(PRIORITY_HIGH_ACCURACY, 100).build(),
+                LocationRequest.Builder(PRIORITY_BALANCED_POWER_ACCURACY, 100).build(),
+                LocationRequest.Builder(PRIORITY_PASSIVE, 100).build(),
+                LocationRequest.Builder(PRIORITY_LOW_POWER, 100).build(),
+            )
+        ).build()
+
+        val result = runCatching {
+            settingsClient.checkLocationSettings(request).await()
+        }.isSuccess
+
+        return result || legacyLocationEnabled()
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -74,5 +96,17 @@ internal class LocationManager(
             fusedLocationClient.removeLocationUpdates(callback)
             locationCallback = null
         }
+    }
+
+    private fun legacyLocationEnabled(): Boolean {
+        val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+
+        val providers = listOfNotNull(
+            LocationManager.GPS_PROVIDER,
+            LocationManager.NETWORK_PROVIDER,
+            if (VERSION.SDK_INT >= VERSION_CODES.S) LocationManager.FUSED_PROVIDER else null,
+        )
+
+        return providers.any { locationManager.isProviderEnabled(it) }
     }
 }

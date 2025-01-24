@@ -10,7 +10,7 @@ public abstract interface class dev/jordond/compass/geolocation/Geolocator {
 	public abstract fun current (Ldev/jordond/compass/Priority;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public abstract fun getLocationUpdates ()Lkotlinx/coroutines/flow/Flow;
 	public abstract fun getTrackingStatus ()Lkotlinx/coroutines/flow/Flow;
-	public abstract fun isAvailable ()Z
+	public abstract fun isAvailable (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public abstract fun startTracking (Ldev/jordond/compass/geolocation/LocationRequest;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public abstract fun stopTracking ()V
 	public abstract fun track (Ldev/jordond/compass/geolocation/LocationRequest;)Lkotlinx/coroutines/flow/Flow;
@@ -136,7 +136,7 @@ public abstract interface class dev/jordond/compass/geolocation/Locator {
 	public static final field Companion Ldev/jordond/compass/geolocation/Locator$Companion;
 	public abstract fun current (Ldev/jordond/compass/Priority;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public abstract fun getLocationUpdates ()Lkotlinx/coroutines/flow/Flow;
-	public abstract fun isAvailable ()Z
+	public abstract fun isAvailable (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public abstract fun stopTracking ()V
 	public abstract fun track (Ldev/jordond/compass/geolocation/LocationRequest;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
@@ -153,7 +153,7 @@ public final class dev/jordond/compass/geolocation/NotSupportedLocator : dev/jor
 	public static final field INSTANCE Ldev/jordond/compass/geolocation/NotSupportedLocator;
 	public fun current (Ldev/jordond/compass/Priority;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun getLocationUpdates ()Lkotlinx/coroutines/flow/Flow;
-	public fun isAvailable ()Z
+	public fun isAvailable (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun stopTracking ()V
 	public fun track (Ldev/jordond/compass/geolocation/LocationRequest;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }

@@ -40,7 +40,7 @@ internal class DefaultBrowserLocator : BrowserLocator {
     )
     override val locationUpdates: Flow<Location> = _locationUpdates
 
-    override fun isAvailable(): Boolean {
+    override suspend fun isAvailable(): Boolean {
         return navigator?.geolocation != null
     }
 

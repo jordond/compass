@@ -43,7 +43,7 @@ internal class IosLocator(
         }
     }
 
-    override fun isAvailable(): Boolean {
+    override suspend fun isAvailable(): Boolean {
         return CLLocationManager.locationServicesEnabled()
     }
 
