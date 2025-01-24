@@ -8,6 +8,7 @@ public final class dev/jordond/compass/geolocation/ExtensionsKt {
 public abstract interface class dev/jordond/compass/geolocation/Geolocator {
 	public static final field Companion Ldev/jordond/compass/geolocation/Geolocator$Companion;
 	public abstract fun current (Ldev/jordond/compass/Priority;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun current (Ldev/jordond/compass/geolocation/LocationRequest;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public abstract fun getLocationUpdates ()Lkotlinx/coroutines/flow/Flow;
 	public abstract fun getTrackingStatus ()Lkotlinx/coroutines/flow/Flow;
 	public abstract fun isAvailable (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
@@ -122,9 +123,10 @@ public final class dev/jordond/compass/geolocation/GeolocatorResult$Success : de
 
 public final class dev/jordond/compass/geolocation/LocationRequest {
 	public fun <init> ()V
-	public fun <init> (Ldev/jordond/compass/Priority;JJ)V
-	public synthetic fun <init> (Ldev/jordond/compass/Priority;JJILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Ldev/jordond/compass/Priority;JJZ)V
+	public synthetic fun <init> (Ldev/jordond/compass/Priority;JJZILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun equals (Ljava/lang/Object;)Z
+	public final fun getIgnoreAvailableCheck ()Z
 	public final fun getInterval ()J
 	public final fun getMaximumAge ()J
 	public final fun getPriority ()Ldev/jordond/compass/Priority;
