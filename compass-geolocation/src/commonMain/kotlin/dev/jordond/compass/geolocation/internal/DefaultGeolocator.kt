@@ -45,15 +45,18 @@ internal class DefaultGeolocator(
 
     override suspend fun isAvailable(): Boolean = locator.isAvailable()
 
-    override suspend fun current(priority: Priority): GeolocatorResult {
-        return handleResult { locator.current(priority) }
+    override suspend fun current(request: LocationRequest): GeolocatorResult {
+        return handleResult(request) { locator.current(request.priority) }
     }
+
+    override suspend fun current(priority: Priority): GeolocatorResult =
+        current(LocationRequest(priority))
 
     override fun track(request: LocationRequest): Flow<TrackingStatus> = status.also {
         if (trackingJob?.isActive == true) return@also
 
         trackingJob = coroutineScope.launch {
-            if (!isAvailable()) {
+            if (!request.ignoreAvailableCheck && !isAvailable()) {
                 status.update { TrackingStatus.Error(GeolocatorResult.NotSupported) }
             } else {
                 status.update { TrackingStatus.Tracking }
@@ -86,9 +89,12 @@ internal class DefaultGeolocator(
         else -> GeolocatorResult.GeolocationFailed(this.message ?: "Unknown error")
     }
 
-    private suspend fun handleResult(block: suspend () -> Location?): GeolocatorResult {
+    private suspend fun handleResult(
+        request: LocationRequest,
+        block: suspend () -> Location?,
+    ): GeolocatorResult {
         try {
-            if (!isAvailable()) {
+            if (!request.ignoreAvailableCheck && !isAvailable()) {
                 return GeolocatorResult.NotSupported
             }
             val result = withContext(dispatcher) { block() }

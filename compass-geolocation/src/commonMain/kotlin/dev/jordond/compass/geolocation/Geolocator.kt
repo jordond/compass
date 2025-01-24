@@ -57,6 +57,14 @@ public interface Geolocator {
     public suspend fun current(priority: Priority = Priority.Balanced): GeolocatorResult
 
     /**
+     * Get the current location.
+     *
+     * @param request The location request details.
+     * @return A [GeolocatorResult] with the success or error state.
+     */
+    public suspend fun current(request: LocationRequest): GeolocatorResult
+
+    /**
      * Start tracking the location.
      *
      * Either collect the returned flow or use [locationUpdates] to receive location updates. If
