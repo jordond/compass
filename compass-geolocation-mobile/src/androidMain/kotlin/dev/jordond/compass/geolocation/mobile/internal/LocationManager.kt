@@ -48,10 +48,10 @@ internal class LocationManager(
     suspend fun locationEnabled(): Boolean {
         val request = LocationSettingsRequest.Builder().addAllLocationRequests(
             listOf(
-                LocationRequest.Builder(PRIORITY_HIGH_ACCURACY, 100).build(),
-                LocationRequest.Builder(PRIORITY_BALANCED_POWER_ACCURACY, 100).build(),
-                LocationRequest.Builder(PRIORITY_PASSIVE, 100).build(),
-                LocationRequest.Builder(PRIORITY_LOW_POWER, 100).build(),
+                LocationRequest.Builder(PRIORITY_HIGH_ACCURACY, 1000).build(),
+                LocationRequest.Builder(PRIORITY_BALANCED_POWER_ACCURACY, 1000).build(),
+                LocationRequest.Builder(PRIORITY_PASSIVE, 1000).build(),
+                LocationRequest.Builder(PRIORITY_LOW_POWER, 1000).build(),
             )
         ).build()
 
