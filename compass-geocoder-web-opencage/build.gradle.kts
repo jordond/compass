@@ -18,6 +18,7 @@ kotlin {
             api(projects.compassCore)
             implementation(projects.compassGeocoder)
             api(projects.compassGeocoderWeb)
+            api(projects.compassToolsWeb)
 
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.kotlinx.serialization.json)
