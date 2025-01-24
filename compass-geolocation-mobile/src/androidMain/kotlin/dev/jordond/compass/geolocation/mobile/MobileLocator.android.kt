@@ -33,7 +33,7 @@ internal class AndroidLocator(
     override val locationUpdates: Flow<Location> = locationManager.locationUpdates
         .mapNotNull { result -> result.lastLocation?.toModel() }
 
-    override fun isAvailable(): Boolean {
+    override suspend fun isAvailable(): Boolean {
         return locationManager.locationEnabled()
     }
 
