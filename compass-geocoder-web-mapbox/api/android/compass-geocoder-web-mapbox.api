@@ -55,7 +55,6 @@ public synthetic class dev/jordond/compass/geocoder/web/mapbox/internal/AddressD
 	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
 	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/jordond/compass/geocoder/web/mapbox/internal/AddressDataPoint;)V
 	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
-	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
 }
 
 public final class dev/jordond/compass/geocoder/web/mapbox/internal/AddressDataPoint$Companion {
@@ -70,7 +69,6 @@ public synthetic class dev/jordond/compass/geocoder/web/mapbox/internal/ContextR
 	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
 	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/jordond/compass/geocoder/web/mapbox/internal/ContextResponse;)V
 	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
-	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
 }
 
 public final class dev/jordond/compass/geocoder/web/mapbox/internal/ContextResponse$Companion {
@@ -85,7 +83,6 @@ public synthetic class dev/jordond/compass/geocoder/web/mapbox/internal/Coordina
 	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
 	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/jordond/compass/geocoder/web/mapbox/internal/CoordinatesResponse;)V
 	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
-	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
 }
 
 public final class dev/jordond/compass/geocoder/web/mapbox/internal/CoordinatesResponse$Companion {
@@ -100,7 +97,6 @@ public synthetic class dev/jordond/compass/geocoder/web/mapbox/internal/CountryD
 	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
 	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/jordond/compass/geocoder/web/mapbox/internal/CountryDataPoint;)V
 	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
-	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
 }
 
 public final class dev/jordond/compass/geocoder/web/mapbox/internal/CountryDataPoint$Companion {
@@ -115,7 +111,6 @@ public synthetic class dev/jordond/compass/geocoder/web/mapbox/internal/DataPoin
 	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
 	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/jordond/compass/geocoder/web/mapbox/internal/DataPoint;)V
 	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
-	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
 }
 
 public final class dev/jordond/compass/geocoder/web/mapbox/internal/DataPoint$Companion {
@@ -130,7 +125,6 @@ public synthetic class dev/jordond/compass/geocoder/web/mapbox/internal/FeatureR
 	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
 	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/jordond/compass/geocoder/web/mapbox/internal/FeatureResponse;)V
 	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
-	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
 }
 
 public final class dev/jordond/compass/geocoder/web/mapbox/internal/FeatureResponse$Companion {
@@ -145,7 +139,6 @@ public synthetic class dev/jordond/compass/geocoder/web/mapbox/internal/GeocodeR
 	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
 	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/jordond/compass/geocoder/web/mapbox/internal/GeocodeResponse;)V
 	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
-	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
 }
 
 public final class dev/jordond/compass/geocoder/web/mapbox/internal/GeocodeResponse$Companion {
@@ -160,7 +153,6 @@ public synthetic class dev/jordond/compass/geocoder/web/mapbox/internal/Properti
 	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
 	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/jordond/compass/geocoder/web/mapbox/internal/PropertiesResponse;)V
 	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
-	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
 }
 
 public final class dev/jordond/compass/geocoder/web/mapbox/internal/PropertiesResponse$Companion {
@@ -175,7 +167,6 @@ public synthetic class dev/jordond/compass/geocoder/web/mapbox/internal/RegionDa
 	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
 	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/jordond/compass/geocoder/web/mapbox/internal/RegionDataPoint;)V
 	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
-	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
 }
 
 public final class dev/jordond/compass/geocoder/web/mapbox/internal/RegionDataPoint$Companion {

@@ -1,13 +1,13 @@
 [versions]
 group = "dev.jordond"
-sdk-target = "34"
-sdk-compile = "34"
+sdk-target = "35"
+sdk-compile = "35"
 sdk-min = "21"
 jvmTarget = "17"
 
 agp = "8.8.0"
 kotlin = "2.1.0"
-kotlinx-coroutines = "1.9.0"
+kotlinx-coroutines = "1.10.1"
 kotlinx-serialization = "1.8.0"
 kotlinx-atomicfu = "0.27.0"
 compose = "1.7.6"
