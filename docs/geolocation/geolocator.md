@@ -1,6 +1,6 @@
 # 🔍 Geolocator
 
-The `compass-geolocator` artifact provides an interface `Geolocator` that has members for:
+The `compass-geolocation` artifact provides an interface `Geolocator` that has members for:
 
 * Getting the current location
 * Starting and stopping tracking the location

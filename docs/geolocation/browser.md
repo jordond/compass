@@ -1,6 +1,6 @@
 # 🖥️ Browser
 
-Compass supports [HTML5 Geolocation API](https://developer.mozilla.org/en-US/docs/Web/API/Geolocation\_API) with the `compass-geolocator-browser` artifact. The artifact supports JS and WASM targets.
+Compass supports [HTML5 Geolocation API](https://developer.mozilla.org/en-US/docs/Web/API/Geolocation\_API) with the `compass-geolocation-browser` artifact. The artifact supports JS and WASM targets.
 
 Geolocation in the browser requires the user to provide permission. This is handled automatically when you start tracking or attempt to get the current location.
 
