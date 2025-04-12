@@ -67,6 +67,7 @@ internal class IosLocator(
     }
 
     override suspend fun track(request: LocationRequest): Flow<Location> {
+        requirePermission()
         if (locationDelegate.isTracking) return locationUpdates
 
         suspendCoroutine { continuation ->
