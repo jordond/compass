@@ -26,7 +26,7 @@ public data class GeocodeResponse(
     public val status: StatusResponse,
 
     @SerialName("error_message")
-    public val errorMessage: String,
+    public val errorMessage: String? = null
 )
 
 @InternalCompassApi
