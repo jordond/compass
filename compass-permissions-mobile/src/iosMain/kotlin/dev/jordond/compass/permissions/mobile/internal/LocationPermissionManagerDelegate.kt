@@ -3,6 +3,7 @@ package dev.jordond.compass.permissions.mobile.internal
 import platform.CoreLocation.CLAuthorizationStatus
 import platform.CoreLocation.CLLocationManager
 import platform.CoreLocation.CLLocationManagerDelegateProtocol
+import platform.Foundation.NSBundle
 import platform.darwin.NSObject
 
 internal class LocationPermissionManagerDelegate : NSObject(), CLLocationManagerDelegateProtocol {
@@ -11,8 +12,15 @@ internal class LocationPermissionManagerDelegate : NSObject(), CLLocationManager
 
     private var permissionCallback: ((CLAuthorizationStatus) -> Unit)? = null
 
+    private val useAlwaysAuthorization = canUseAlwaysAuthorization()
+    
     init {
         manager.delegate = this
+    }
+
+    private fun canUseAlwaysAuthorization(): Boolean {
+        return NSBundle.mainBundle.infoDictionary
+            ?.containsKey("NSLocationAlwaysAndWhenInUseUsageDescription") ?: false
     }
 
     fun currentPermissionStatus(): CLAuthorizationStatus {
@@ -30,6 +38,11 @@ internal class LocationPermissionManagerDelegate : NSObject(), CLLocationManager
 
     fun requestPermission(callback: (CLAuthorizationStatus) -> Unit) {
         permissionCallback = callback
-        manager.requestAlwaysAuthorization()
+        
+        if (useAlwaysAuthorization) {
+            manager.requestAlwaysAuthorization()
+        } else {
+            manager.requestWhenInUseAuthorization()
+        }
     }
 }
