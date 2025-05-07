@@ -11,6 +11,7 @@ internal class LocationPermissionManagerDelegate : NSObject(), CLLocationManager
     internal val manager = CLLocationManager()
 
     private var permissionCallback: ((CLAuthorizationStatus) -> Unit)? = null
+    private var requestPermissionCallback: ((CLAuthorizationStatus) -> Unit)? = null
 
     private val useAlwaysAuthorization = canUseAlwaysAuthorization()
     
@@ -33,11 +34,16 @@ internal class LocationPermissionManagerDelegate : NSObject(), CLLocationManager
     }
 
     override fun locationManagerDidChangeAuthorization(manager: CLLocationManager) {
-        permissionCallback?.invoke(manager.authorizationStatus)
+        val status = manager.authorizationStatus
+        permissionCallback?.invoke(status)
+        requestPermissionCallback?.invoke(status)
     }
 
     fun requestPermission(callback: (CLAuthorizationStatus) -> Unit) {
-        permissionCallback = callback
+        requestPermissionCallback = { status ->
+            callback(status)
+            requestPermissionCallback = null
+        }
         
         if (useAlwaysAuthorization) {
             manager.requestAlwaysAuthorization()
