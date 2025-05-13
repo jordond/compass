@@ -6,8 +6,7 @@ import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.get
-import org.jetbrains.kotlin.gradle.dsl.ExplicitApiMode
-import org.jetbrains.kotlin.gradle.dsl.KotlinTopLevelExtension
+import org.jetbrains.kotlin.gradle.dsl.KotlinBaseExtension
 
 internal fun Project.configureAndroid(name: String = this.name) {
     setNamespace(name)
@@ -41,18 +40,6 @@ internal fun Project.configureKotlinAndroid(commonExtension: CommonExtension<*, 
     }
 }
 
-fun Project.configureAndroidCompose(commonExtension: CommonExtension<*, *, *, *, *, *>) {
-    commonExtension.apply {
-        buildFeatures {
-            compose = true
-        }
-
-        composeOptions {
-            kotlinCompilerExtensionVersion = libs.findVersion("compose-compiler").get().toString()
-        }
-    }
-}
-
 internal fun Project.setNamespace(name: String) {
     extensions.configure<LibraryExtension> {
         val packageName = libs.findVersion("group").get().toString()
@@ -60,14 +47,8 @@ internal fun Project.setNamespace(name: String) {
     }
 }
 
-fun Project.disableExplicitApi() {
-    extensions.configure<KotlinTopLevelExtension> {
-        explicitApi = ExplicitApiMode.Disabled
-    }
-}
-
 internal fun Project.configureKotlin() {
-    extensions.configure<KotlinTopLevelExtension> {
+    extensions.configure<KotlinBaseExtension> {
         explicitApi()
         jvmToolchain(jvmTargetVersion)
     }
