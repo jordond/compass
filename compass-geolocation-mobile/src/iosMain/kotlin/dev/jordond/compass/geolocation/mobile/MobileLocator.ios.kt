@@ -43,6 +43,11 @@ internal class IosLocator(
         }
     }
 
+    override suspend fun lastLocation(priority: Priority): Location? {
+        requirePermission()
+        return locationDelegate.lastLocation()?.toModel()
+    }
+
     override suspend fun isAvailable(): Boolean {
         return CLLocationManager.locationServicesEnabled()
     }

@@ -18,11 +18,15 @@ import com.google.android.gms.location.Priority.PRIORITY_PASSIVE
 import com.google.android.gms.location.SettingsClient
 import com.google.android.gms.tasks.CancellationTokenSource
 import dev.jordond.compass.exception.NotFoundException
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.tasks.await
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
+import kotlin.coroutines.suspendCoroutine
 
 internal class LocationManager(
     private val context: Context,
@@ -43,6 +47,19 @@ internal class LocationManager(
 
     private val settingsClient: SettingsClient by lazy {
         LocationServices.getSettingsClient(context)
+    }
+
+    suspend fun lastLocation(): Location? {
+        return suspendCoroutine { continuation ->
+            fusedLocationClient.lastLocation
+                .addOnSuccessListener { location ->
+                    continuation.resume(location)
+                }.addOnCanceledListener {
+                    continuation.resumeWithException(CancellationException())
+                }.addOnFailureListener { exception ->
+                    continuation.resumeWithException(exception)
+                }
+        }
     }
 
     suspend fun locationEnabled(): Boolean {

@@ -25,6 +25,9 @@ public interface Locator {
      */
     public val locationUpdates: Flow<Location>
 
+
+    public suspend fun lastLocation(priority: Priority = Priority.Balanced): Location?
+
     /**
      * Check if the platform supports geolocation.
      */
@@ -86,6 +89,7 @@ public interface PermissionLocator : Locator {
 public object NotSupportedLocator : Locator {
 
     override val locationUpdates: Flow<Location> = emptyFlow()
+    override suspend fun lastLocation(priority: Priority): Location? = throw NotSupportedException()
     override suspend fun isAvailable(): Boolean = false
     override suspend fun current(priority: Priority): Location = throw NotSupportedException()
     override suspend fun track(request: LocationRequest): Flow<Location> = emptyFlow()

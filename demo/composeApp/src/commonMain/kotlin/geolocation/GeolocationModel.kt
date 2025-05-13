@@ -30,6 +30,13 @@ class GeolocationModel(private val geolocator: Geolocator) : StateScreenModel<St
             .launchIn(screenModelScope)
     }
 
+    fun getLastLocation() {
+        screenModelScope.launch {
+            val result = geolocator.lastLocation()
+            updateState { it.copy(lastLocation = result) }
+        }
+    }
+
     fun currentLocation() {
         screenModelScope.launch {
             updateState { it.copy(loading = true) }
@@ -55,6 +62,7 @@ class GeolocationModel(private val geolocator: Geolocator) : StateScreenModel<St
         val lastResult: GeolocatorResult? = null,
         val locationServiceAvailable: Boolean = false,
         val trackingLocation: TrackingStatus = TrackingStatus.Idle,
+        val lastLocation: GeolocatorResult? = null,
     ) {
 
         val tracking = trackingLocation.isActive
