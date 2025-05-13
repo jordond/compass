@@ -42,7 +42,7 @@ public interface Geolocator {
         get() = trackingStatus.filterIsInstance<TrackingStatus.Update>().map { it.location }
 
     /**
-     * Get the last known location. Supported only on Android and iOS.
+     * Get the last known location on Android and iOS. On the web, it returns the current location.
      *
      * @param priority The priority of the location request.
      * @return A [GeolocatorResult] with the success or error state.
@@ -50,7 +50,7 @@ public interface Geolocator {
     public suspend fun lastLocation(priority: Priority = Priority.Balanced): GeolocatorResult
 
     /**
-     * Get the last known location. Supported only on Android and iOS.
+     * Get the last known location on Android and iOS. On the web, it returns the current location.
      *
      * @param request The location request details.
      * @return A [GeolocatorResult] with the success or error state.
