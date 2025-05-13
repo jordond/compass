@@ -12,6 +12,8 @@ public abstract interface class dev/jordond/compass/geolocation/Geolocator {
 	public abstract fun getLocationUpdates ()Lkotlinx/coroutines/flow/Flow;
 	public abstract fun getTrackingStatus ()Lkotlinx/coroutines/flow/Flow;
 	public abstract fun isAvailable (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun lastLocation (Ldev/jordond/compass/Priority;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun lastLocation (Ldev/jordond/compass/geolocation/LocationRequest;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public abstract fun startTracking (Ldev/jordond/compass/geolocation/LocationRequest;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public abstract fun stopTracking ()V
 	public abstract fun track (Ldev/jordond/compass/geolocation/LocationRequest;)Lkotlinx/coroutines/flow/Flow;
@@ -23,6 +25,7 @@ public final class dev/jordond/compass/geolocation/Geolocator$Companion {
 public final class dev/jordond/compass/geolocation/Geolocator$DefaultImpls {
 	public static synthetic fun current$default (Ldev/jordond/compass/geolocation/Geolocator;Ldev/jordond/compass/Priority;Lkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
 	public static fun getLocationUpdates (Ldev/jordond/compass/geolocation/Geolocator;)Lkotlinx/coroutines/flow/Flow;
+	public static synthetic fun lastLocation$default (Ldev/jordond/compass/geolocation/Geolocator;Ldev/jordond/compass/Priority;Lkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
 	public static fun startTracking (Ldev/jordond/compass/geolocation/Geolocator;Ldev/jordond/compass/geolocation/LocationRequest;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public static synthetic fun startTracking$default (Ldev/jordond/compass/geolocation/Geolocator;Ldev/jordond/compass/geolocation/LocationRequest;Lkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
 	public static synthetic fun track$default (Ldev/jordond/compass/geolocation/Geolocator;Ldev/jordond/compass/geolocation/LocationRequest;ILjava/lang/Object;)Lkotlinx/coroutines/flow/Flow;
@@ -139,6 +142,7 @@ public abstract interface class dev/jordond/compass/geolocation/Locator {
 	public abstract fun current (Ldev/jordond/compass/Priority;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public abstract fun getLocationUpdates ()Lkotlinx/coroutines/flow/Flow;
 	public abstract fun isAvailable (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun lastLocation (Ldev/jordond/compass/Priority;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public abstract fun stopTracking ()V
 	public abstract fun track (Ldev/jordond/compass/geolocation/LocationRequest;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
@@ -148,6 +152,7 @@ public final class dev/jordond/compass/geolocation/Locator$Companion {
 
 public final class dev/jordond/compass/geolocation/Locator$DefaultImpls {
 	public static synthetic fun current$default (Ldev/jordond/compass/geolocation/Locator;Ldev/jordond/compass/Priority;Lkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
+	public static synthetic fun lastLocation$default (Ldev/jordond/compass/geolocation/Locator;Ldev/jordond/compass/Priority;Lkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
 	public static synthetic fun track$default (Ldev/jordond/compass/geolocation/Locator;Ldev/jordond/compass/geolocation/LocationRequest;Lkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
 }
 
@@ -156,6 +161,7 @@ public final class dev/jordond/compass/geolocation/NotSupportedLocator : dev/jor
 	public fun current (Ldev/jordond/compass/Priority;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun getLocationUpdates ()Lkotlinx/coroutines/flow/Flow;
 	public fun isAvailable (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun lastLocation (Ldev/jordond/compass/Priority;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun stopTracking ()V
 	public fun track (Ldev/jordond/compass/geolocation/LocationRequest;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
