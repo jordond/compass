@@ -33,6 +33,11 @@ internal class AndroidLocator(
     override val locationUpdates: Flow<Location> = locationManager.locationUpdates
         .mapNotNull { result -> result.lastLocation?.toModel() }
 
+    override suspend fun lastLocation(priority: Priority): Location? {
+        requirePermission(priority)
+        return locationManager.lastLocation()?.toModel()
+    }
+
     override suspend fun isAvailable(): Boolean {
         return locationManager.locationEnabled()
     }

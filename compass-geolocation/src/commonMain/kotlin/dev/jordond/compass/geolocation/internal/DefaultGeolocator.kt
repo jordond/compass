@@ -43,6 +43,12 @@ internal class DefaultGeolocator(
 
     override val trackingStatus: Flow<TrackingStatus> = status
 
+    override suspend fun lastLocation(priority: Priority): GeolocatorResult =
+        lastLocation(LocationRequest(priority))
+
+    override suspend fun lastLocation(request: LocationRequest): GeolocatorResult =
+        handleResult(request) { locator.lastLocation(request.priority) }
+
     override suspend fun isAvailable(): Boolean = locator.isAvailable()
 
     override suspend fun current(request: LocationRequest): GeolocatorResult {

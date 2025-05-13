@@ -63,6 +63,7 @@ class PlatformGeolocationScreen : Screen {
                 currentLocation = model::currentLocation,
                 startTracking = model::startTracking,
                 stopTracking = model::stopTracking,
+                getLastLocation = model::getLastLocation,
                 modifier = Modifier.padding(innerPadding),
             )
         }

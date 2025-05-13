@@ -21,6 +21,10 @@ internal class LocationManagerDelegate : NSObject(), CLLocationManagerDelegatePr
         manager.delegate = this
     }
 
+    fun lastLocation(): CLLocation? {
+        return manager.location
+    }
+
     fun monitorLocation(callback: (CLLocation) -> Unit) {
         locationCallback = callback
     }

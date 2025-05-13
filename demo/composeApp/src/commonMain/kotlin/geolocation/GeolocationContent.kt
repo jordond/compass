@@ -23,6 +23,7 @@ fun GeolocationContent(
     currentLocation: () -> Unit,
     startTracking: () -> Unit,
     stopTracking: () -> Unit,
+    getLastLocation: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -55,6 +56,17 @@ fun GeolocationContent(
             }
             Button(enabled = state.tracking, onClick = stopTracking) {
                 Text("Stop")
+            }
+        }
+
+        Spacer(modifier = Modifier.height(64.dp))
+
+        Text("Last Location")
+        Text("Last known location: ${state.lastLocation}")
+
+        Row {
+            Button(onClick = getLastLocation) {
+                Text("Get Last Location")
             }
         }
     }
