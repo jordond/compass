@@ -54,6 +54,6 @@ internal fun CLLocation.toModel(): Location {
         altitude = altitude,
         speed = speed,
         azimuth = azimuth,
-        timestampMillis = timestamp.timeIntervalSince1970.toLong(),
+        timestampMillis = timestamp.timeIntervalSince1970.toLong() * 1000L,
     )
 }
