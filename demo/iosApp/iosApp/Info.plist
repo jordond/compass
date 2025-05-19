@@ -48,7 +48,5 @@
 	</array>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Its a demo about location</string>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>A demo about geolocation</string>
 </dict>
 </plist>
