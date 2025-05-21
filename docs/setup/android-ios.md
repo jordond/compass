@@ -48,17 +48,15 @@ On Android you don't need to declare any location permission in your manifest si
 
 #### iOS
 
-On iOS you are required to edit your `info.plist` and add the following entries:
+On iOS you are required to edit your `info.plist` and add the following entry:
 
 ```xml
 <key>NSLocationWhenInUseUsageDescription</key>
 <string>Add a description for why you need this permission</string>
-<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-<string>Add a description for why you need this permission</string>
 ```
 
 {% hint style="info" %}
-Make sure you change the description for both permissions. You are required to explain to your users why you need their location. Check out the [Documentation](https://developer.apple.com/documentation/corelocation/requesting\_authorization\_to\_use\_location\_services#3385302\)).
+Make sure you change the description for the permission. You are required to explain to your users why you need their location. Check out the [Documentation](https://developer.apple.com/documentation/corelocation/requesting\_authorization\_to\_use\_location\_services#3385302\)).
 {% endhint %}
 
-If you don't add these keys to your `info.plist`, you will encounter a runtime exception when requesting permissions.
+If you don't add this key to your `info.plist`, you will encounter a runtime exception when requesting permissions.
