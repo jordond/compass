@@ -11,9 +11,11 @@ import dev.jordond.compass.geocoder.mobile.internal.syncOperation
 import dev.jordond.compass.geocoder.mobile.internal.toCoordinates
 import dev.jordond.compass.geocoder.mobile.internal.toPlaces
 import dev.jordond.compass.tools.ContextProvider
+import java.util.Locale
 
 internal class AndroidPlatformGeocoder(
     private val context: Context,
+    private val locale: Locale?,
 ) : MobilePlatformGeocoder {
 
     override fun isAvailable(): Boolean = Geocoder.isPresent()
@@ -59,7 +61,7 @@ internal class AndroidPlatformGeocoder(
 
     private fun createGeocoder(): Geocoder {
         if (Geocoder.isPresent().not()) throw NotSupportedException()
-        return Geocoder(context)
+        return if (locale != null) Geocoder(context, locale) else Geocoder(context)
     }
 
     companion object {
@@ -68,6 +70,6 @@ internal class AndroidPlatformGeocoder(
     }
 }
 
-internal actual fun createPlatformGeocoder(): MobilePlatformGeocoder {
-    return AndroidPlatformGeocoder(ContextProvider.getInstance().context)
+internal actual fun createPlatformGeocoder(locale: String?): MobilePlatformGeocoder {
+    return AndroidPlatformGeocoder(ContextProvider.getInstance().context, locale?.let(Locale::forLanguageTag))
 }
