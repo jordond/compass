@@ -7,7 +7,8 @@ import dev.jordond.compass.geocoder.mobile.MobilePlatformGeocoder
 
 @Suppress("FunctionName")
 public fun MobileAutocompleteService(
-    platformGeocoder: MobilePlatformGeocoder = MobilePlatformGeocoder(),
+    locale: String? = null,
+    platformGeocoder: MobilePlatformGeocoder = MobilePlatformGeocoder(locale),
 ): AutocompleteService<Place> = DefaultMobileAutocompleteService(
     platformGeocoder = platformGeocoder,
 )
