@@ -47,7 +47,7 @@ public final class dev/jordond/compass/geocoder/web/GoogleMapsReverseEndpoint : 
 	public synthetic fun url (Ljava/lang/Object;)Ljava/lang/String;
 }
 
-public synthetic class dev/jordond/compass/geocoder/web/google/internal/AddressComponentResponse$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+public final synthetic class dev/jordond/compass/geocoder/web/google/internal/AddressComponentResponse$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
 	public static final field INSTANCE Ldev/jordond/compass/geocoder/web/google/internal/AddressComponentResponse$$serializer;
 	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
 	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/jordond/compass/geocoder/web/google/internal/AddressComponentResponse;
@@ -55,13 +55,14 @@ public synthetic class dev/jordond/compass/geocoder/web/google/internal/AddressC
 	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
 	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/jordond/compass/geocoder/web/google/internal/AddressComponentResponse;)V
 	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
 }
 
 public final class dev/jordond/compass/geocoder/web/google/internal/AddressComponentResponse$Companion {
 	public final fun serializer ()Lkotlinx/serialization/KSerializer;
 }
 
-public synthetic class dev/jordond/compass/geocoder/web/google/internal/GeocodeResponse$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+public final synthetic class dev/jordond/compass/geocoder/web/google/internal/GeocodeResponse$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
 	public static final field INSTANCE Ldev/jordond/compass/geocoder/web/google/internal/GeocodeResponse$$serializer;
 	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
 	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/jordond/compass/geocoder/web/google/internal/GeocodeResponse;
@@ -69,13 +70,14 @@ public synthetic class dev/jordond/compass/geocoder/web/google/internal/GeocodeR
 	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
 	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/jordond/compass/geocoder/web/google/internal/GeocodeResponse;)V
 	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
 }
 
 public final class dev/jordond/compass/geocoder/web/google/internal/GeocodeResponse$Companion {
 	public final fun serializer ()Lkotlinx/serialization/KSerializer;
 }
 
-public synthetic class dev/jordond/compass/geocoder/web/google/internal/GeometryResponse$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+public final synthetic class dev/jordond/compass/geocoder/web/google/internal/GeometryResponse$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
 	public static final field INSTANCE Ldev/jordond/compass/geocoder/web/google/internal/GeometryResponse$$serializer;
 	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
 	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/jordond/compass/geocoder/web/google/internal/GeometryResponse;
@@ -83,13 +85,14 @@ public synthetic class dev/jordond/compass/geocoder/web/google/internal/Geometry
 	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
 	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/jordond/compass/geocoder/web/google/internal/GeometryResponse;)V
 	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
 }
 
 public final class dev/jordond/compass/geocoder/web/google/internal/GeometryResponse$Companion {
 	public final fun serializer ()Lkotlinx/serialization/KSerializer;
 }
 
-public synthetic class dev/jordond/compass/geocoder/web/google/internal/LocationResponse$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+public final synthetic class dev/jordond/compass/geocoder/web/google/internal/LocationResponse$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
 	public static final field INSTANCE Ldev/jordond/compass/geocoder/web/google/internal/LocationResponse$$serializer;
 	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
 	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/jordond/compass/geocoder/web/google/internal/LocationResponse;
@@ -97,13 +100,14 @@ public synthetic class dev/jordond/compass/geocoder/web/google/internal/Location
 	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
 	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/jordond/compass/geocoder/web/google/internal/LocationResponse;)V
 	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
 }
 
 public final class dev/jordond/compass/geocoder/web/google/internal/LocationResponse$Companion {
 	public final fun serializer ()Lkotlinx/serialization/KSerializer;
 }
 
-public synthetic class dev/jordond/compass/geocoder/web/google/internal/ResultResponse$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+public final synthetic class dev/jordond/compass/geocoder/web/google/internal/ResultResponse$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
 	public static final field INSTANCE Ldev/jordond/compass/geocoder/web/google/internal/ResultResponse$$serializer;
 	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
 	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/jordond/compass/geocoder/web/google/internal/ResultResponse;
@@ -111,6 +115,7 @@ public synthetic class dev/jordond/compass/geocoder/web/google/internal/ResultRe
 	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
 	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/jordond/compass/geocoder/web/google/internal/ResultResponse;)V
 	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
 }
 
 public final class dev/jordond/compass/geocoder/web/google/internal/ResultResponse$Companion {

@@ -9,14 +9,18 @@ public abstract interface class dev/jordond/compass/geolocation/Geolocator {
 	public static final field Companion Ldev/jordond/compass/geolocation/Geolocator$Companion;
 	public abstract fun current (Ldev/jordond/compass/Priority;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public abstract fun current (Ldev/jordond/compass/geolocation/LocationRequest;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public abstract fun getLocationUpdates ()Lkotlinx/coroutines/flow/Flow;
+	public static synthetic fun current$default (Ldev/jordond/compass/geolocation/Geolocator;Ldev/jordond/compass/Priority;Lkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
+	public fun getLocationUpdates ()Lkotlinx/coroutines/flow/Flow;
 	public abstract fun getTrackingStatus ()Lkotlinx/coroutines/flow/Flow;
 	public abstract fun isAvailable (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public abstract fun lastLocation (Ldev/jordond/compass/Priority;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public abstract fun lastLocation (Ldev/jordond/compass/geolocation/LocationRequest;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public abstract fun startTracking (Ldev/jordond/compass/geolocation/LocationRequest;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static synthetic fun lastLocation$default (Ldev/jordond/compass/geolocation/Geolocator;Ldev/jordond/compass/Priority;Lkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
+	public fun startTracking (Ldev/jordond/compass/geolocation/LocationRequest;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static synthetic fun startTracking$default (Ldev/jordond/compass/geolocation/Geolocator;Ldev/jordond/compass/geolocation/LocationRequest;Lkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
 	public abstract fun stopTracking ()V
 	public abstract fun track (Ldev/jordond/compass/geolocation/LocationRequest;)Lkotlinx/coroutines/flow/Flow;
+	public static synthetic fun track$default (Ldev/jordond/compass/geolocation/Geolocator;Ldev/jordond/compass/geolocation/LocationRequest;ILjava/lang/Object;)Lkotlinx/coroutines/flow/Flow;
 }
 
 public final class dev/jordond/compass/geolocation/Geolocator$Companion {
@@ -37,11 +41,11 @@ public final class dev/jordond/compass/geolocation/GeolocatorKt {
 }
 
 public abstract interface class dev/jordond/compass/geolocation/GeolocatorResult {
-	public abstract fun errorOrNull ()Ldev/jordond/compass/geolocation/GeolocatorResult$Error;
-	public abstract fun getOrNull ()Ldev/jordond/compass/Location;
-	public abstract fun isError ()Z
-	public abstract fun onFailed (Lkotlin/jvm/functions/Function1;)Ldev/jordond/compass/geolocation/GeolocatorResult;
-	public abstract fun onSuccess (Lkotlin/jvm/functions/Function1;)Ldev/jordond/compass/geolocation/GeolocatorResult;
+	public fun errorOrNull ()Ldev/jordond/compass/geolocation/GeolocatorResult$Error;
+	public fun getOrNull ()Ldev/jordond/compass/Location;
+	public fun isError ()Z
+	public fun onFailed (Lkotlin/jvm/functions/Function1;)Ldev/jordond/compass/geolocation/GeolocatorResult;
+	public fun onSuccess (Lkotlin/jvm/functions/Function1;)Ldev/jordond/compass/geolocation/GeolocatorResult;
 }
 
 public final class dev/jordond/compass/geolocation/GeolocatorResult$DefaultImpls {
@@ -140,11 +144,14 @@ public final class dev/jordond/compass/geolocation/LocationRequest {
 public abstract interface class dev/jordond/compass/geolocation/Locator {
 	public static final field Companion Ldev/jordond/compass/geolocation/Locator$Companion;
 	public abstract fun current (Ldev/jordond/compass/Priority;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static synthetic fun current$default (Ldev/jordond/compass/geolocation/Locator;Ldev/jordond/compass/Priority;Lkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
 	public abstract fun getLocationUpdates ()Lkotlinx/coroutines/flow/Flow;
 	public abstract fun isAvailable (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public abstract fun lastLocation (Ldev/jordond/compass/Priority;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static synthetic fun lastLocation$default (Ldev/jordond/compass/geolocation/Locator;Ldev/jordond/compass/Priority;Lkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
 	public abstract fun stopTracking ()V
 	public abstract fun track (Ldev/jordond/compass/geolocation/LocationRequest;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static synthetic fun track$default (Ldev/jordond/compass/geolocation/Locator;Ldev/jordond/compass/geolocation/LocationRequest;Lkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
 }
 
 public final class dev/jordond/compass/geolocation/Locator$Companion {
@@ -171,7 +178,7 @@ public abstract interface class dev/jordond/compass/geolocation/PermissionLocato
 }
 
 public abstract interface class dev/jordond/compass/geolocation/TrackingStatus {
-	public abstract fun isActive ()Z
+	public fun isActive ()Z
 }
 
 public final class dev/jordond/compass/geolocation/TrackingStatus$DefaultImpls {

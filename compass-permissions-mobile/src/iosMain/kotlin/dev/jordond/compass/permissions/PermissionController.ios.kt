@@ -5,8 +5,6 @@ import dev.jordond.compass.permissions.mobile.internal.LocationPermissionManager
 import dev.jordond.compass.permissions.mobile.internal.toPermissionState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.sync.Mutex
-import kotlinx.coroutines.sync.withLock
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
@@ -17,8 +15,6 @@ internal actual fun createPermissionController(): LocationPermissionController {
 internal class IosLocationPermissionController(
     private val locationDelegate: LocationPermissionManagerDelegate,
 ) : LocationPermissionController {
-
-    private val mutex: Mutex = Mutex()
 
     private val _permissionsStatus = MutableStateFlow(
         value = locationDelegate.currentPermissionStatus().toPermissionState,
@@ -39,7 +35,7 @@ internal class IosLocationPermissionController(
         return when {
             currentState == PermissionState.Granted ||
                 currentState == PermissionState.DeniedForever -> currentState
-            else -> mutex.withLock {
+            else -> {
                 val result = suspendCoroutine { continuation ->
                     locationDelegate.requestPermission { continuation.resume(it) }
                 }

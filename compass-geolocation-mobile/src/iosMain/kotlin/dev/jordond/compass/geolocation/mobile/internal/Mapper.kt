@@ -29,24 +29,34 @@ internal fun CLLocation.toModel(): Location {
         )
     }
 
-    val speed = Speed(
-        mps = speed.toFloat(),
-        accuracy = speedAccuracy.toFloat(),
-    )
+    val speed = speed.toFloat()
+        .takeIf { speedValue -> speedValue >= 0.0 && speedAccuracy >= 0.0 }
+        ?.let { speedValue ->
+            Speed(
+                mps = speedValue,
+                accuracy = speedAccuracy.toFloat(),
+            )
+        }
 
-    val courseAccuracy =
-        if (UIDevice.currentDevice.systemVersion < "13.4") null
-        else courseAccuracy
+    val courseAccuracy = courseAccuracy.takeIf { UIDevice.currentDevice.systemVersion >= "13.4" }
 
-    val azimuth = Azimuth(
-        degrees = course.toFloat(),
-        accuracy = courseAccuracy?.toFloat(),
-    )
+    val azimuth = course.toFloat()
+        .takeIf { azimuthValue -> azimuthValue >= 0.0 && (courseAccuracy == null || courseAccuracy >= 0.0) }
+        ?.let { azimuthValue ->
+            Azimuth(
+                degrees = azimuthValue,
+                accuracy = courseAccuracy?.toFloat(),
+            )
+        }
 
-    val altitude = Altitude(
-        meters = altitude,
-        accuracy = verticalAccuracy.toFloat(),
-    )
+    val altitude = verticalAccuracy.toFloat()
+        .takeIf { verticalAccuracyValue -> verticalAccuracyValue > 0.0 }
+        ?.let { verticalAccuracyValue ->
+            Altitude(
+                meters = altitude,
+                accuracy = verticalAccuracyValue,
+            )
+        }
 
     return Location(
         coordinates = coordinates,
