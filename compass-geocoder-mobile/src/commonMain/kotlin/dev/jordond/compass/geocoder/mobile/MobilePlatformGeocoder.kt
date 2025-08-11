@@ -24,7 +24,8 @@ public interface MobilePlatformGeocoder : PlatformGeocoder {
  * @param locale The locale string used for reverse geocoding, null will use device default
  * @return A new Android/iOS [PlatformGeocoder] instance.
  */
-public fun MobilePlatformGeocoder(locale: String?): MobilePlatformGeocoder = createPlatformGeocoder(locale)
+public fun MobilePlatformGeocoder(locale: String? = null): MobilePlatformGeocoder =
+    createPlatformGeocoder(locale)
 
 /**
  * Create an Android/iOS [PlatformGeocoder] instance for geocoding operations.
@@ -32,6 +33,7 @@ public fun MobilePlatformGeocoder(locale: String?): MobilePlatformGeocoder = cre
  * @param locale The locale string used for reverse geocoding, null will use device default
  * @return A new Android/iOS [PlatformGeocoder] instance.
  */
-public fun PlatformGeocoder.Companion.mobile(locale: String?): MobilePlatformGeocoder = MobilePlatformGeocoder(locale)
+public fun PlatformGeocoder.Companion.mobile(locale: String? = null): MobilePlatformGeocoder =
+    MobilePlatformGeocoder(locale)
 
-internal expect fun createPlatformGeocoder(locale: String?): MobilePlatformGeocoder
+internal expect fun createPlatformGeocoder(locale: String? = null): MobilePlatformGeocoder

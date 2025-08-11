@@ -17,6 +17,8 @@ public abstract interface class dev/jordond/compass/geocoder/mobile/MobilePlatfo
 
 public final class dev/jordond/compass/geocoder/mobile/MobilePlatformGeocoderKt {
 	public static final fun MobilePlatformGeocoder (Ljava/lang/String;)Ldev/jordond/compass/geocoder/mobile/MobilePlatformGeocoder;
+	public static synthetic fun MobilePlatformGeocoder$default (Ljava/lang/String;ILjava/lang/Object;)Ldev/jordond/compass/geocoder/mobile/MobilePlatformGeocoder;
 	public static final fun mobile (Ldev/jordond/compass/geocoder/PlatformGeocoder$Companion;Ljava/lang/String;)Ldev/jordond/compass/geocoder/mobile/MobilePlatformGeocoder;
+	public static synthetic fun mobile$default (Ldev/jordond/compass/geocoder/PlatformGeocoder$Companion;Ljava/lang/String;ILjava/lang/Object;)Ldev/jordond/compass/geocoder/mobile/MobilePlatformGeocoder;
 }
 
