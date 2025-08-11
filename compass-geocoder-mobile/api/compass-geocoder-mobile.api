@@ -1,10 +1,10 @@
 public final class dev/jordond/compass/geocoder/MobileGeocoderKt {
-	public static final fun Geocoder (Lkotlinx/coroutines/CoroutineDispatcher;)Ldev/jordond/compass/geocoder/Geocoder;
-	public static synthetic fun Geocoder$default (Lkotlinx/coroutines/CoroutineDispatcher;ILjava/lang/Object;)Ldev/jordond/compass/geocoder/Geocoder;
-	public static final fun MobileGeocoder (Lkotlinx/coroutines/CoroutineDispatcher;)Ldev/jordond/compass/geocoder/Geocoder;
-	public static synthetic fun MobileGeocoder$default (Lkotlinx/coroutines/CoroutineDispatcher;ILjava/lang/Object;)Ldev/jordond/compass/geocoder/Geocoder;
-	public static final fun mobile (Ldev/jordond/compass/geocoder/Geocoder$Companion;Lkotlinx/coroutines/CoroutineDispatcher;)Ldev/jordond/compass/geocoder/Geocoder;
-	public static synthetic fun mobile$default (Ldev/jordond/compass/geocoder/Geocoder$Companion;Lkotlinx/coroutines/CoroutineDispatcher;ILjava/lang/Object;)Ldev/jordond/compass/geocoder/Geocoder;
+	public static final fun Geocoder (Lkotlinx/coroutines/CoroutineDispatcher;Ljava/lang/String;)Ldev/jordond/compass/geocoder/Geocoder;
+	public static synthetic fun Geocoder$default (Lkotlinx/coroutines/CoroutineDispatcher;Ljava/lang/String;ILjava/lang/Object;)Ldev/jordond/compass/geocoder/Geocoder;
+	public static final fun MobileGeocoder (Lkotlinx/coroutines/CoroutineDispatcher;Ljava/lang/String;)Ldev/jordond/compass/geocoder/Geocoder;
+	public static synthetic fun MobileGeocoder$default (Lkotlinx/coroutines/CoroutineDispatcher;Ljava/lang/String;ILjava/lang/Object;)Ldev/jordond/compass/geocoder/Geocoder;
+	public static final fun mobile (Ldev/jordond/compass/geocoder/Geocoder$Companion;Lkotlinx/coroutines/CoroutineDispatcher;Ljava/lang/String;)Ldev/jordond/compass/geocoder/Geocoder;
+	public static synthetic fun mobile$default (Ldev/jordond/compass/geocoder/Geocoder$Companion;Lkotlinx/coroutines/CoroutineDispatcher;Ljava/lang/String;ILjava/lang/Object;)Ldev/jordond/compass/geocoder/Geocoder;
 }
 
 public final class dev/jordond/compass/geocoder/mobile/ExtensionsKt {
@@ -16,7 +16,7 @@ public abstract interface class dev/jordond/compass/geocoder/mobile/MobilePlatfo
 }
 
 public final class dev/jordond/compass/geocoder/mobile/MobilePlatformGeocoderKt {
-	public static final fun MobilePlatformGeocoder ()Ldev/jordond/compass/geocoder/mobile/MobilePlatformGeocoder;
-	public static final fun mobile (Ldev/jordond/compass/geocoder/PlatformGeocoder$Companion;)Ldev/jordond/compass/geocoder/mobile/MobilePlatformGeocoder;
+	public static final fun MobilePlatformGeocoder (Ljava/lang/String;)Ldev/jordond/compass/geocoder/mobile/MobilePlatformGeocoder;
+	public static final fun mobile (Ldev/jordond/compass/geocoder/PlatformGeocoder$Companion;Ljava/lang/String;)Ldev/jordond/compass/geocoder/mobile/MobilePlatformGeocoder;
 }
 

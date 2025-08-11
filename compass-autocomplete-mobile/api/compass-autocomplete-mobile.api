@@ -8,8 +8,8 @@ public final class dev/jordond/compass/autocomplete/MobileAutocompleteKt {
 }
 
 public final class dev/jordond/compass/autocomplete/mobile/MobileAutocompleteServiceKt {
-	public static final fun MobileAutocompleteService (Ldev/jordond/compass/geocoder/mobile/MobilePlatformGeocoder;)Ldev/jordond/compass/autocomplete/AutocompleteService;
-	public static synthetic fun MobileAutocompleteService$default (Ldev/jordond/compass/geocoder/mobile/MobilePlatformGeocoder;ILjava/lang/Object;)Ldev/jordond/compass/autocomplete/AutocompleteService;
+	public static final fun MobileAutocompleteService (Ljava/lang/String;Ldev/jordond/compass/geocoder/mobile/MobilePlatformGeocoder;)Ldev/jordond/compass/autocomplete/AutocompleteService;
+	public static synthetic fun MobileAutocompleteService$default (Ljava/lang/String;Ldev/jordond/compass/geocoder/mobile/MobilePlatformGeocoder;ILjava/lang/Object;)Ldev/jordond/compass/autocomplete/AutocompleteService;
 	public static final fun mobile (Ldev/jordond/compass/autocomplete/AutocompleteService$Companion;)Ldev/jordond/compass/autocomplete/AutocompleteService;
 }
 
