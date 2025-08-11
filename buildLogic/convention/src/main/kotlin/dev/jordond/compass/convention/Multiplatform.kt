@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalWasmDsl::class, ExperimentalKotlinGradlePluginApi::class)
+@file:OptIn(ExperimentalWasmDsl::class)
 
 package dev.jordond.compass.convention
 
@@ -6,7 +6,6 @@ import com.vanniktech.maven.publish.MavenPublishBaseExtension
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.get
-import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
@@ -45,7 +44,6 @@ internal fun KotlinMultiplatformExtension.configurePlatforms(
 ) {
     applyDefaultHierarchyTemplate()
 
-    @OptIn(ExperimentalKotlinGradlePluginApi::class)
     compilerOptions {
         freeCompilerArgs.add("-Xexpect-actual-classes")
         optIn.add("dev.jordond.compass.InternalCompassApi")
@@ -53,7 +51,7 @@ internal fun KotlinMultiplatformExtension.configurePlatforms(
 
     if (platforms.contains(Platform.Android)) {
         androidTarget {
-            publishAllLibraryVariants()
+            publishLibraryVariants("release", "debug")
         }
     }
 
@@ -66,11 +64,10 @@ internal fun KotlinMultiplatformExtension.configurePlatforms(
         macosArm64()
     }
 
-    // TODO: Waiting on ktor to have stable wasm support
-//                if (platforms.contains(Platform.Linux)) {
-//                    linuxX64()
-//                    linuxArm64()
-//                }
+    if (platforms.contains(Platform.Linux)) {
+        linuxX64()
+        linuxArm64()
+    }
 
     if (platforms.contains(Platform.Js)) {
         js {
@@ -106,7 +103,7 @@ internal fun KotlinMultiplatformExtension.configurePlatforms(
     }
 
     // https://kotlinlang.org/docs/native-objc-interop.html#export-of-kdoc-comments-to-generated-objective-c-headers
-    this.targets.withType(KotlinNativeTarget::class.java) {
+    targets.withType(KotlinNativeTarget::class.java) {
         compilations["main"].compileTaskProvider.configure {
             compilerOptions {
                 freeCompilerArgs.add("-Xexport-kdoc")
@@ -116,7 +113,6 @@ internal fun KotlinMultiplatformExtension.configurePlatforms(
 
     sourceSets.commonTest.dependencies {
         implementation(kotlin("test"))
-        // TODO: Waiting on kotest 5.9 for wasm
-//                    implementation(libs.findLibrary("kotest-assertions").get())
+        implementation(project.libs.findLibrary("kotest-assertions").get())
     }
 }
