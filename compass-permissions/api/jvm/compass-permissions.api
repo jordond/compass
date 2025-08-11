@@ -2,7 +2,7 @@ public abstract interface class dev/jordond/compass/permissions/LocationPermissi
 	public static final field Companion Ldev/jordond/compass/permissions/LocationPermissionController$Companion;
 	public abstract fun hasPermission ()Z
 	public abstract fun requirePermissionFor (Ldev/jordond/compass/Priority;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public abstract fun requirePermissionForOrThrow (Ldev/jordond/compass/Priority;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun requirePermissionForOrThrow (Ldev/jordond/compass/Priority;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
 
 public final class dev/jordond/compass/permissions/LocationPermissionController$Companion {

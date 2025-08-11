@@ -22,8 +22,8 @@ public final class dev/jordond/compass/tools/web/exception/WebException : java/l
 }
 
 public abstract interface class dev/jordond/compass/tools/web/parameter/QueryParamListValue : dev/jordond/compass/tools/web/parameter/QueryParamValue {
-	public abstract fun getSeparator ()Ljava/lang/String;
-	public abstract fun getValue ()Ljava/lang/String;
+	public fun getSeparator ()Ljava/lang/String;
+	public fun getValue ()Ljava/lang/String;
 	public abstract fun getValues ()Ljava/util/List;
 }
 
@@ -37,9 +37,9 @@ public abstract interface class dev/jordond/compass/tools/web/parameter/QueryPar
 }
 
 public abstract interface class dev/jordond/compass/tools/web/parameter/QueryParameters {
-	public abstract fun encode ()Ljava/lang/String;
+	public fun encode ()Ljava/lang/String;
 	public abstract fun getParameters ()Ljava/util/Map;
-	public abstract fun toInt (Z)I
+	public fun toInt (Z)I
 }
 
 public final class dev/jordond/compass/tools/web/parameter/QueryParameters$DefaultImpls {

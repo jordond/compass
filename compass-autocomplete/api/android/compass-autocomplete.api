@@ -25,11 +25,11 @@ public class dev/jordond/compass/autocomplete/AutocompleteOptions {
 }
 
 public abstract interface class dev/jordond/compass/autocomplete/AutocompleteResult {
-	public abstract fun errorOrNull ()Ldev/jordond/compass/autocomplete/AutocompleteResult$Error;
-	public abstract fun getOrNull ()Ljava/util/List;
-	public abstract fun isError ()Z
-	public abstract fun onFailed (Lkotlin/jvm/functions/Function1;)Ldev/jordond/compass/autocomplete/AutocompleteResult;
-	public abstract fun onSuccess (Lkotlin/jvm/functions/Function1;)Ldev/jordond/compass/autocomplete/AutocompleteResult;
+	public fun errorOrNull ()Ldev/jordond/compass/autocomplete/AutocompleteResult$Error;
+	public fun getOrNull ()Ljava/util/List;
+	public fun isError ()Z
+	public fun onFailed (Lkotlin/jvm/functions/Function1;)Ldev/jordond/compass/autocomplete/AutocompleteResult;
+	public fun onSuccess (Lkotlin/jvm/functions/Function1;)Ldev/jordond/compass/autocomplete/AutocompleteResult;
 }
 
 public final class dev/jordond/compass/autocomplete/AutocompleteResult$DefaultImpls {
