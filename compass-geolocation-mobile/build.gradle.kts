@@ -31,6 +31,7 @@ kotlin {
             implementation(libs.androidx.activity)
             implementation(libs.androidx.fragment)
             implementation(libs.androidx.startup)
+            implementation(libs.location.altitude)
         }
 
         iosMain.dependencies {
