@@ -1,8 +1,8 @@
 public final class dev/jordond/compass/Altitude {
-	public fun <init> (DLjava/lang/Float;)V
+	public fun <init> (Ljava/lang/Double;Ljava/lang/Float;)V
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getAccuracy ()Ljava/lang/Float;
-	public final fun getMeters ()D
+	public final fun getMeters ()Ljava/lang/Double;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
@@ -29,12 +29,13 @@ public abstract interface annotation class dev/jordond/compass/InternalCompassAp
 }
 
 public final class dev/jordond/compass/Location {
-	public fun <init> (Ldev/jordond/compass/Coordinates;DLdev/jordond/compass/Azimuth;Ldev/jordond/compass/Speed;Ldev/jordond/compass/Altitude;J)V
+	public fun <init> (Ldev/jordond/compass/Coordinates;DLdev/jordond/compass/Azimuth;Ldev/jordond/compass/Speed;Ldev/jordond/compass/Altitude;Ldev/jordond/compass/Altitude;J)V
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getAccuracy ()D
-	public final fun getAltitude ()Ldev/jordond/compass/Altitude;
 	public final fun getAzimuth ()Ldev/jordond/compass/Azimuth;
 	public final fun getCoordinates ()Ldev/jordond/compass/Coordinates;
+	public final fun getEllipsoidalAltitude ()Ldev/jordond/compass/Altitude;
+	public final fun getMslAltitude ()Ldev/jordond/compass/Altitude;
 	public final fun getSpeed ()Ldev/jordond/compass/Speed;
 	public final fun getTimestampMillis ()J
 	public fun hashCode ()I

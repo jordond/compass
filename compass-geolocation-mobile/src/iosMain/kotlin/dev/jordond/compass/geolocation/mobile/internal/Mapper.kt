@@ -58,10 +58,20 @@ internal fun CLLocation.toModel(): Location {
             )
         }
 
+    val ellipsoidalAltitude = verticalAccuracy.toFloat()
+        .takeIf { verticalAccuracyValue -> verticalAccuracyValue > 0.0 }
+        ?.let { verticalAccuracyValue ->
+            Altitude(
+                meters = ellipsoidalAltitude,
+                accuracy = verticalAccuracyValue,
+            )
+        }
+
     return Location(
         coordinates = coordinates,
         accuracy = horizontalAccuracy,
-        altitude = altitude,
+        mslAltitude = altitude,
+        ellipsoidalAltitude = ellipsoidalAltitude,
         speed = speed,
         azimuth = azimuth,
         timestampMillis = timestamp.timeIntervalSince1970.toLong() * 1000L,
