@@ -10,7 +10,8 @@ import dev.jordond.compass.geolocation.browser.api.model.GeolocationPosition
 internal fun GeolocationPosition.toModel(): Location = Location(
     coordinates = Coordinates(coords.latitude, coords.longitude),
     accuracy = coords.accuracy,
-    altitude = coords.altitude?.let { Altitude(it, coords.altitudeAccuracy?.toFloat()) },
+    mslAltitude = null,
+    ellipsoidalAltitude = coords.altitude?.let { Altitude(it, coords.altitudeAccuracy?.toFloat()) },
     azimuth = coords.heading?.let { Azimuth(it.toFloat(), null) },
     speed = coords.speed?.let { Speed(it.toFloat(), null) },
     timestampMillis = timestamp.toLong(),

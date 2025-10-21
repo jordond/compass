@@ -12,8 +12,11 @@ import dev.drewhamilton.poko.Poko
  * the accuracy of the location request.
  * @property speed The speed of the location in meters per second, this value can be empty depending
  * on the accuracy of the location request.
- * @property altitude The altitude of the location in meters, this value can be empty depending on
- * the accuracy of the location request.
+ * @property mslAltitude The altitude above mean sea level of the location in meters, this value can
+ * be empty depending on the accuracy of the location request.
+ * @property ellipsoidalAltitude The altitude as a height above the World Geodetic System 1984
+ * (WGS84) ellipsoid, measured in meters, this value can be empty depending on the accuracy of the
+ * location request.
  * @property timestampMillis The timestamp of the location in milliseconds since epoch.
  */
 @Poko
@@ -22,7 +25,8 @@ public class Location(
     public val accuracy: Double,
     public val azimuth: Azimuth?,
     public val speed: Speed?,
-    public val altitude: Altitude?,
+    public val mslAltitude: Altitude?,
+    public val ellipsoidalAltitude: Altitude?,
     public val timestampMillis: Long,
 )
 
@@ -64,6 +68,6 @@ public class Speed(
  */
 @Poko
 public class Altitude(
-    public val meters: Double,
+    public val meters: Double?,
     public val accuracy: Float?,
 )
