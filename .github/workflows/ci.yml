@@ -28,7 +28,7 @@ jobs:
     runs-on: macos-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: setup-java
         uses: actions/setup-java@v5
@@ -61,7 +61,7 @@ jobs:
     needs: verify
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: setup-java
         uses: actions/setup-java@v5
@@ -96,7 +96,7 @@ jobs:
     needs: verify
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: setup-java
         uses: actions/setup-java@v5
