@@ -2,6 +2,7 @@ package dev.jordond.compass.geolocation
 
 import dev.jordond.compass.Location
 import dev.jordond.compass.Priority
+import dev.jordond.compass.exception.NotFoundException
 import dev.jordond.compass.exception.NotSupportedException
 import dev.jordond.compass.geolocation.exception.GeolocationException
 import dev.jordond.compass.permissions.exception.PermissionException
@@ -37,7 +38,9 @@ public interface Locator {
      * Get the current location.
      *
      * @param priority The priority of the location request.
-     * @return A [GeolocatorResult] with the success or error state.
+     * @return The current location, if available. If no location is available, this function
+     * will throw a [NotFoundException].
+     * @throws NotFoundException If no location is available.
      * @throws NotSupportedException If location services aren't available.
      * @throws GeolocationException If there is an error getting the location.
      * @throws PermissionException If the location permission isn't granted.
@@ -89,7 +92,7 @@ public interface PermissionLocator : Locator {
 public object NotSupportedLocator : Locator {
 
     override val locationUpdates: Flow<Location> = emptyFlow()
-    override suspend fun lastLocation(priority: Priority): Location? = throw NotSupportedException()
+    override suspend fun lastLocation(priority: Priority): Location = throw NotSupportedException()
     override suspend fun isAvailable(): Boolean = false
     override suspend fun current(priority: Priority): Location = throw NotSupportedException()
     override suspend fun track(request: LocationRequest): Flow<Location> = emptyFlow()

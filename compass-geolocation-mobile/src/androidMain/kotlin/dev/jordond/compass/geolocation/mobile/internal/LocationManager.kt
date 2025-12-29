@@ -1,5 +1,6 @@
 package dev.jordond.compass.geolocation.mobile.internal
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.location.Location
 import android.location.LocationManager
@@ -49,6 +50,7 @@ internal class LocationManager(
         LocationServices.getSettingsClient(context)
     }
 
+    @SuppressLint("MissingPermission")
     suspend fun lastLocation(): Location? {
         return suspendCoroutine { continuation ->
             fusedLocationClient.lastLocation
@@ -79,6 +81,7 @@ internal class LocationManager(
         return result || legacyLocationEnabled()
     }
 
+    @SuppressLint("MissingPermission")
     @OptIn(ExperimentalCoroutinesApi::class)
     suspend fun currentLocation(priority: Int): Location {
         val cancellation = CancellationTokenSource()
@@ -93,8 +96,9 @@ internal class LocationManager(
         return location
     }
 
-    fun startTracking(request: LocationRequest): Flow<LocationResult> {
-        if (locationCallback != null) return _locationUpdates
+    @SuppressLint("MissingPermission")
+    fun startTracking(request: LocationRequest) {
+        if (locationCallback != null) return
 
         val callback = object : LocationCallback() {
             override fun onLocationResult(result: LocationResult) {
@@ -104,8 +108,6 @@ internal class LocationManager(
 
         fusedLocationClient.requestLocationUpdates(request, callback, Looper.getMainLooper())
         locationCallback = callback
-
-        return _locationUpdates
     }
 
     fun stopTracking() {
