@@ -48,21 +48,21 @@ view the generated KDoc at [docs.compass.jordond.dev](https://docs.compass.jordo
 
 ## Setup
 
-Read the [Setup documentation](https://compass.jordond.dev/docs/setup/) for more information on setup and usage.
+Read the [Setup documentation](https://jordons-organization.gitbook.io/docs/setup/) for more information on setup and usage.
 
 ## Demo
 
 A demo app is available in the `demo` directory. It is a Compose Multiplatform app that runs on
 Android, and iOS.
 
-See [Documentation](https://compass.jordond.dev/docs/misc/demo) for more.
+See [Documentation](https://jordons-organization.gitbook.io/docs/misc/demo) for more.
 
 ## Contributing
 
 Contributions are always welcome!. If you'd like to contribute, please feel free to create a PR or
 open an issue.
 
-See [Documentation](https://compass.jordond.dev/docs/misc/contributing) for more.
+See [Documentation](https://jordons-organization.gitbook.io/docs/misc/contributing) for more.
 
 ## License
 
