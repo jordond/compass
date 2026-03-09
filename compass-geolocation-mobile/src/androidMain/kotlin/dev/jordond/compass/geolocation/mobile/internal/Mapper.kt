@@ -24,7 +24,13 @@ internal suspend fun Location.toModel(context: Context): dev.jordond.compass.Loc
     // collectors of the SharedFlow invoke toModel on the same Location instance.
     val location = Location(this)
     return withContext(Dispatchers.IO) {
-        addMslAltitudeToLocation(context, location)
+        if (location.hasAltitude()) {
+            try {
+                addMslAltitudeToLocation(context, location)
+            } catch (_: Exception) {
+                // MSL altitude conversion failed; continue without it
+            }
+        }
 
         dev.jordond.compass.Location(
             coordinates =
