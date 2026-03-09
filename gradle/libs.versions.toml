@@ -10,22 +10,24 @@ kotlin = "2.3.10"
 kotlinx-coroutines = "1.10.2"
 kotlinx-serialization = "1.10.0"
 kotlinx-atomicfu = "0.31.0"
-compose = "1.10.3"
-compose-multiplatform = "1.10.1"
+compose = "1.10.4"
+compose-multiplatform = "1.10.2"
+compose-material3 = "1.9.0"
+materialIconsExtended = "1.7.3"
 androidx-activity = "1.12.4"
 androidx-fragment = "1.8.9"
 androidx-startup = "1.2.0"
 androidx-activityCompose = "1.12.4"
 playServicesLocation = "21.3.0"
 playServicesCoroutines = "1.10.2"
-kermit = "2.0.8"
+kermit = "2.1.0"
 binaryCompatibility = "0.18.1"
 dokka = "2.1.0"
 publish = "0.35.0"
-poko = "0.21.1"
+poko = "0.21.3"
 versions = "0.53.0"
-kotest = "6.1.3"
-ktor = "3.4.0"
+kotest = "6.1.4"
+ktor = "3.4.1"
 voyager = "1.1.0-beta03"
 stateHolder = "1.2.0"
 locationAltitude = "1.0.0-beta01"
@@ -47,8 +49,15 @@ ktor-client-js = { module = "io.ktor:ktor-client-js", version.ref = "ktor" }
 ktor-client-contentNegotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
 ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
 ktor-serialization-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
-compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
+compose-foundation = { module = "org.jetbrains.compose.foundation:foundation", version.ref = "compose-multiplatform" }
+compose-material3 = { module = "org.jetbrains.compose.material3:material3", version.ref = "compose-material3" }
+compose-materialIconsExtended = { module = "org.jetbrains.compose.material:material-icons-extended", version.ref = "materialIconsExtended" }
+compose-resources = { module = "org.jetbrains.compose.components:components-resources", version.ref = "compose-multiplatform" }
+compose-runtime = { module = "org.jetbrains.compose.runtime:runtime", version.ref = "compose-multiplatform" }
+compose-ui = { module = "org.jetbrains.compose.ui:ui", version.ref = "compose-multiplatform" }
+compose-ui-test = { module = "org.jetbrains.compose.ui:ui-test", version.ref = "compose-multiplatform" }
+compose-ui-tooling = { module = "org.jetbrains.compose.ui:ui-tooling", version.ref = "compose-multiplatform" }
+compose-ui-tooling-preview = { module = "org.jetbrains.compose.ui:ui-tooling-preview", version.ref = "compose-multiplatform" }
 kotest-assertions = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
 kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
 play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "playServicesLocation" }
