@@ -2,11 +2,14 @@
 
 package dev.jordond.compass.convention
 
+import com.android.build.api.dsl.KotlinMultiplatformAndroidLibraryTarget
 import com.vanniktech.maven.publish.MavenPublishBaseExtension
 import org.gradle.api.Project
+import org.gradle.api.plugins.ExtensionAware
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.get
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 
@@ -23,11 +26,7 @@ fun Project.configureMultiplatform(
 ) {
     extensions.configure<KotlinMultiplatformExtension> {
         configureKotlin()
-        configurePlatforms(platforms, name)
-    }
-
-    if (platforms.contains(Platform.Android)) {
-        configureAndroid(name)
+        configurePlatforms(this@configureMultiplatform, platforms, name)
     }
 
     runCatching {
@@ -39,6 +38,7 @@ fun Project.configureMultiplatform(
 }
 
 internal fun KotlinMultiplatformExtension.configurePlatforms(
+    project: Project,
     platforms: List<Platform> = Platforms.All,
     name: String,
 ) {
@@ -50,9 +50,27 @@ internal fun KotlinMultiplatformExtension.configurePlatforms(
     }
 
     if (platforms.contains(Platform.Android)) {
-        androidTarget {
-            publishLibraryVariants("release", "debug")
-        }
+        (this as ExtensionAware)
+            .extensions
+            .findByType(KotlinMultiplatformAndroidLibraryTarget::class.java)
+            ?.apply {
+                namespace = project.buildNamespace(name)
+                compileSdk = project.libs
+                    .findVersion("sdk-compile")
+                    .get()
+                    .toString()
+                    .toInt()
+
+                minSdk = project.libs
+                    .findVersion("sdk-min")
+                    .get()
+                    .toString()
+                    .toInt()
+
+                compilerOptions.jvmTarget.set(
+                    JvmTarget.fromTarget(project.jvmTargetVersion.toString()),
+                )
+            }
     }
 
     if (platforms.contains(Platform.Jvm)) {
@@ -111,8 +129,10 @@ internal fun KotlinMultiplatformExtension.configurePlatforms(
         }
     }
 
-    sourceSets.commonTest.dependencies {
-        implementation(kotlin("test"))
-        implementation(project.libs.findLibrary("kotest-assertions").get())
+    if (platforms.size > 1) {
+        sourceSets.commonTest.dependencies {
+            implementation(kotlin("test"))
+            implementation(project.libs.findLibrary("kotest-assertions").get())
+        }
     }
 }

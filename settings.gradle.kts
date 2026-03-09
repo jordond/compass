@@ -60,3 +60,4 @@ include(
 )
 
 include(":demo:composeApp")
+include(":demo:androidApp")

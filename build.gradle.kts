@@ -7,7 +7,6 @@ plugins {
     alias(libs.plugins.compose.compiler) apply false
     alias(libs.plugins.android.application) apply false
     alias(libs.plugins.android.library) apply false
-    alias(libs.plugins.kotlin.android) apply false
     alias(libs.plugins.kotlinx.serialization) apply false
     alias(libs.plugins.poko) apply false
     alias(libs.plugins.publish) apply false
@@ -18,7 +17,7 @@ plugins {
 
 apiValidation {
     nonPublicMarkers += "dev.jordond.compass.InternalCompassApi"
-    ignoredProjects += "composeApp"
+    ignoredProjects += listOf("composeApp", "androidApp")
 }
 
 tasks.withType<DokkaMultiModuleTask>().configureEach {

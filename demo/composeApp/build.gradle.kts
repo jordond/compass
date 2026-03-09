@@ -1,17 +1,29 @@
+import com.android.build.api.dsl.KotlinMultiplatformAndroidLibraryTarget
+import org.gradle.api.plugins.ExtensionAware
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.multiplatform)
-    alias(libs.plugins.android.application)
+    alias(libs.plugins.android.library)
     alias(libs.plugins.compose)
     alias(libs.plugins.compose.compiler)
 }
 
 kotlin {
     applyDefaultHierarchyTemplate()
-    androidTarget()
+
+    (this as ExtensionAware)
+        .extensions
+        .findByType(KotlinMultiplatformAndroidLibraryTarget::class.java)
+        ?.apply {
+            namespace = "dev.jordond.compass.demo"
+            compileSdk = libs.versions.sdk.compile.get().toInt()
+            minSdk = libs.versions.sdk.min.get().toInt()
+            compilerOptions.jvmTarget.set(JvmTarget.JVM_11)
+        }
 
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
@@ -54,6 +66,7 @@ kotlin {
 
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.compose.runtime)
+            implementation(libs.compose.resources)
             implementation(libs.compose.foundation)
             implementation(libs.compose.material3)
             implementation(libs.compose.materialIconsExtended)
@@ -82,7 +95,6 @@ kotlin {
             }
         }
 
-
         val wasmJsMain by getting {
             dependencies {
                 implementation(projects.compassGeolocationBrowser)
@@ -110,48 +122,6 @@ kotlin {
     @OptIn(ExperimentalKotlinGradlePluginApi::class)
     compilerOptions {
         freeCompilerArgs.add("-Xexpect-actual-classes")
-    }
-}
-
-android {
-    namespace = "dev.jordond.compass.demo"
-    compileSdk = libs.versions.sdk.compile.get().toInt()
-
-    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
-    sourceSets["main"].res.srcDirs("src/androidMain/res")
-    sourceSets["main"].resources.srcDirs("src/commonMain/resources")
-
-    defaultConfig {
-        applicationId = "dev.jordond.compass.demo"
-        minSdk = libs.versions.sdk.min.get().toInt()
-        targetSdk = libs.versions.sdk.target.get().toInt()
-        versionCode = 1
-        versionName = "1.0"
-    }
-
-    packaging {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
-    }
-
-    buildTypes {
-        getByName("release") {
-            isMinifyEnabled = false
-        }
-    }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-
-    kotlin {
-        jvmToolchain(11)
-    }
-
-    dependencies {
-        debugImplementation(libs.compose.ui.tooling)
     }
 }
 
