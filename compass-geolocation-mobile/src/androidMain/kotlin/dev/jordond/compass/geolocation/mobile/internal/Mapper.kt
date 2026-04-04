@@ -43,7 +43,7 @@ internal suspend fun Location.toModel(context: Context): dev.jordond.compass.Loc
                 Azimuth(
                     degrees = location.bearing,
                     accuracy =
-                        if (VERSION.SDK_INT < VERSION_CODES.O) {
+                        if (VERSION.SDK_INT < VERSION_CODES.O || !location.hasBearingAccuracy()) {
                             null
                         } else {
                             location.bearingAccuracyDegrees
@@ -53,7 +53,7 @@ internal suspend fun Location.toModel(context: Context): dev.jordond.compass.Loc
                 Speed(
                     mps = location.speed,
                     accuracy =
-                        if (VERSION.SDK_INT < VERSION_CODES.O) {
+                        if (VERSION.SDK_INT < VERSION_CODES.O || !location.hasSpeedAccuracy()) {
                             null
                         } else {
                             location.speedAccuracyMetersPerSecond
