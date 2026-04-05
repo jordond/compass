@@ -40,25 +40,33 @@ internal suspend fun Location.toModel(context: Context): dev.jordond.compass.Loc
                 ),
             accuracy = location.accuracy.toDouble(),
             azimuth =
-                Azimuth(
-                    degrees = location.bearing,
-                    accuracy =
-                        if (VERSION.SDK_INT < VERSION_CODES.O || !location.hasBearingAccuracy()) {
-                            null
-                        } else {
-                            location.bearingAccuracyDegrees
-                        },
-                ),
+                if (!hasBearing()) {
+                    null
+                } else {
+                    Azimuth(
+                        degrees = location.bearing,
+                        accuracy =
+                            if (VERSION.SDK_INT < VERSION_CODES.O || !location.hasBearingAccuracy()) {
+                                null
+                            } else {
+                                location.bearingAccuracyDegrees
+                            }
+                    )
+                },
             speed =
-                Speed(
-                    mps = location.speed,
-                    accuracy =
-                        if (VERSION.SDK_INT < VERSION_CODES.O || !location.hasSpeedAccuracy()) {
-                            null
-                        } else {
-                            location.speedAccuracyMetersPerSecond
-                        },
-                ),
+                if (!hasSpeed()) {
+                    null
+                } else {
+                    Speed(
+                        mps = location.speed,
+                        accuracy =
+                            if (VERSION.SDK_INT < VERSION_CODES.O || !location.hasSpeedAccuracy()) {
+                                null
+                            } else {
+                                location.speedAccuracyMetersPerSecond
+                            },
+                    )
+                },
             mslAltitude =
                 Altitude(
                     meters =
