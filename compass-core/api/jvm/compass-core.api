@@ -1,8 +1,8 @@
 public final class dev/jordond/compass/Altitude {
-	public fun <init> (Ljava/lang/Double;Ljava/lang/Float;)V
+	public fun <init> (DLjava/lang/Float;)V
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getAccuracy ()Ljava/lang/Float;
-	public final fun getMeters ()Ljava/lang/Double;
+	public final fun getMeters ()D
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
