@@ -68,6 +68,6 @@ public class Speed(
  */
 @Poko
 public class Altitude(
-    public val meters: Double?,
+    public val meters: Double,
     public val accuracy: Float?,
 )

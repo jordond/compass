@@ -68,30 +68,33 @@ internal suspend fun Location.toModel(context: Context): dev.jordond.compass.Loc
                     )
                 },
             mslAltitude =
-                Altitude(
-                    meters =
-                        if (!LocationCompat.hasMslAltitude(location)) {
-                            null
-                        } else {
-                            LocationCompat.getMslAltitudeMeters(location)
-                        },
-                    accuracy =
-                        if (!LocationCompat.hasMslAltitudeAccuracy(location)) {
-                            null
-                        } else {
-                            LocationCompat.getMslAltitudeAccuracyMeters(location)
-                        },
-                ),
+                if (!LocationCompat.hasMslAltitude(location)) {
+                    null
+                } else {
+                    Altitude(
+                        meters = LocationCompat.getMslAltitudeMeters(location),
+                        accuracy =
+                            if (!LocationCompat.hasMslAltitudeAccuracy(location)) {
+                                null
+                            } else {
+                                LocationCompat.getMslAltitudeAccuracyMeters(location)
+                            }
+                    )
+                },
             ellipsoidalAltitude =
-                Altitude(
-                    meters = if (!location.hasAltitude()) null else location.altitude,
-                    accuracy =
-                        if (VERSION.SDK_INT < VERSION_CODES.O || !location.hasVerticalAccuracy()) {
-                            null
-                        } else {
-                            location.verticalAccuracyMeters
-                        },
-                ),
+                if (!location.hasAltitude()) {
+                    null
+                } else {
+                    Altitude(
+                        meters = location.altitude,
+                        accuracy =
+                            if (VERSION.SDK_INT < VERSION_CODES.O || !location.hasVerticalAccuracy()) {
+                                null
+                            } else {
+                                location.verticalAccuracyMeters
+                            },
+                    )
+                },
             timestampMillis = location.time,
         )
     }
