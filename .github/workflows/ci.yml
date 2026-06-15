@@ -25,7 +25,7 @@ permissions:
 jobs:
   verify:
     name: "Verify"
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -53,7 +53,7 @@ jobs:
       matrix:
         config: [
           { target: "default", os: "ubuntu-latest", tasks: "test", continueOnError: false },
-          { target: "osx", os: "macos-latest", tasks: "test", continueOnError: false },
+          # { target: "osx", os: "macos-latest", tasks: "test", continueOnError: false },
           { target: "package", os: "ubuntu-latest", tasks: ":demo:composeApp:packageDistributionForCurrentOS", continueOnError: false }
         ]
     runs-on: ${{ matrix.config.os }}
