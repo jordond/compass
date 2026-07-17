@@ -22,7 +22,7 @@ kotlin {
             namespace = "dev.jordond.compass.demo"
             compileSdk = libs.versions.sdk.compile.get().toInt()
             minSdk = libs.versions.sdk.min.get().toInt()
-            compilerOptions.jvmTarget.set(JvmTarget.JVM_11)
+            compilerOptions.jvmTarget.set(JvmTarget.JVM_17)
         }
 
     @OptIn(ExperimentalWasmDsl::class)
@@ -39,7 +39,6 @@ kotlin {
     jvm("desktop")
 
     listOf(
-        iosX64(),
         iosArm64(),
         iosSimulatorArm64()
     ).forEach { iosTarget ->

@@ -109,7 +109,6 @@ internal fun KotlinMultiplatformExtension.configurePlatforms(
 
     if (platforms.contains(Platform.Ios)) {
         listOf(
-            iosX64(),
             iosArm64(),
             iosSimulatorArm64()
         ).forEach { target ->
