@@ -22,7 +22,7 @@ kotlin {
             namespace = "dev.jordond.compass.demo"
             compileSdk = libs.versions.sdk.compile.get().toInt()
             minSdk = libs.versions.sdk.min.get().toInt()
-            compilerOptions.jvmTarget.set(JvmTarget.JVM_11)
+            compilerOptions.jvmTarget.set(JvmTarget.JVM_17)
         }
 
     @OptIn(ExperimentalWasmDsl::class)
@@ -39,7 +39,6 @@ kotlin {
     jvm("desktop")
 
     listOf(
-        iosX64(),
         iosArm64(),
         iosSimulatorArm64()
     ).forEach { iosTarget ->
@@ -77,13 +76,13 @@ kotlin {
             implementation(libs.bundles.stateHolder)
         }
 
-        val desktopMain by getting {
+        val desktopMain = getByName("desktopMain") {
             dependencies {
                 implementation(compose.desktop.currentOs)
             }
         }
 
-        val mobileMain by creating {
+        val mobileMain = create("mobileMain") {
             dependsOn(commonMain.get())
             androidMain.get().dependsOn(this)
             iosMain.get().dependsOn(this)
@@ -95,13 +94,13 @@ kotlin {
             }
         }
 
-        val wasmJsMain by getting {
+        val wasmJsMain = getByName("wasmJsMain") {
             dependencies {
                 implementation(projects.compassGeolocationBrowser)
             }
         }
 
-        val nonMobileMain by creating {
+        val nonMobileMain = create("nonMobileMain") {
             dependsOn(commonMain.get())
             desktopMain.dependsOn(this)
             wasmJsMain.dependsOn(this)
@@ -111,7 +110,7 @@ kotlin {
             }
         }
 
-        val nonBrowser by creating {
+        val nonBrowser = create("nonBrowser") {
             dependsOn(commonMain.get())
             desktopMain.dependsOn(this)
             androidMain.get().dependsOn(this)

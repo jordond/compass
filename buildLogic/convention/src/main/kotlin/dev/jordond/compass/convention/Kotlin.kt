@@ -36,7 +36,7 @@ internal fun Project.configureKotlin() {
     tasks.withType<KotlinCompilationTask<*>>().configureEach {
         compilerOptions {
             if (this is KotlinJvmCompilerOptions) {
-                jvmTarget.set(JvmTarget.JVM_11)
+                jvmTarget.set(JvmTarget.JVM_17)
             }
         }
     }
