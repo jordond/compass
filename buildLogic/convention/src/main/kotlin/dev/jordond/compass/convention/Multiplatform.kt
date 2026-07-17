@@ -70,6 +70,8 @@ internal fun KotlinMultiplatformExtension.configurePlatforms(
                 compilerOptions.jvmTarget.set(
                     JvmTarget.fromTarget(project.jvmTargetVersion.toString()),
                 )
+
+                withHostTest {}
             }
     }
 
@@ -78,6 +80,8 @@ internal fun KotlinMultiplatformExtension.configurePlatforms(
     }
 
     if (platforms.contains(Platform.MacOS)) {
+        // Kotlin deprecated Intel Apple targets; keep publishing until removed upstream
+        @Suppress("DEPRECATION")
         macosX64()
         macosArm64()
     }
