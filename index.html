@@ -1,43 +1,41 @@
 <!DOCTYPE html>
-<html class="no-js">
+<html class="no-js" lang="en">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
     <title>All modules</title>
     <link href="images/logo-icon.svg" rel="icon" type="image/svg">
-    <script>var pathToRoot = "";</script>
-    <script>document.documentElement.classList.replace("no-js","js");</script>
+        <script>var pathToRoot = "";</script>
+    <script>document.documentElement.classList.replace("no-js", "js");</script>
     <script>const storage = localStorage.getItem("dokka-dark-mode")
-    if (storage == null) {
+      if (storage == null) {
         const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
         if (osDarkSchemePreferred === true) {
-            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+          document.getElementsByTagName("html")[0].classList.add("theme-dark")
         }
-    } else {
+      } else {
         const savedDarkMode = JSON.parse(storage)
-        if(savedDarkMode === true) {
-            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        if (savedDarkMode === true) {
+          document.getElementsByTagName("html")[0].classList.add("theme-dark")
         }
-    }
+      }
     </script>
 <script type="text/javascript" src="scripts/sourceset_dependencies.js" async="async"></script>
 <link href="styles/style.css" rel="Stylesheet">
 <link href="styles/main.css" rel="Stylesheet">
 <link href="styles/prism.css" rel="Stylesheet">
 <link href="styles/logo-styles.css" rel="Stylesheet">
-<link href="styles/font-jb-sans-auto.css" rel="Stylesheet">
 <link href="ui-kit/ui-kit.min.css" rel="Stylesheet">
-<script type="text/javascript" src="scripts/clipboard.js" async="async"></script>
+<script type="text/javascript" src="scripts/safe-local-storage_blocking.js"></script>
 <script type="text/javascript" src="scripts/navigation-loader.js" async="async"></script>
 <script type="text/javascript" src="scripts/platform-content-handler.js" async="async"></script>
 <script type="text/javascript" src="scripts/main.js" defer="defer"></script>
 <script type="text/javascript" src="scripts/prism.js" async="async"></script>
 <script type="text/javascript" src="ui-kit/ui-kit.min.js" defer="defer"></script>
-<script type="text/javascript" src="scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
 </head>
 <body>
-    <div class="root">
-    <nav class="navigation theme-dark" id="navigation-wrapper">
-            <a class="library-name--link" href="index.html">
+<div class="root">
+    <header class="navigation theme-dark" id="navigation-wrapper" role="banner">
+            <a class="library-name--link" href="index.html" tabindex="1">
                     compass
             </a>
         <button class="navigation-controls--btn navigation-controls--btn_toc ui-kit_mobile-only" id="toc-toggle"
@@ -54,32 +52,34 @@
                 API
             </div>
         </div>
-    </nav>
-        <div id="container">
-            <div class="sidebar" id="leftColumn">
-                <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
-                    <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list"
-                        data-role="dropdown-listbox">
-                        <div class="dropdown--header">
+    </header>
+    <div id="container">
+        <nav id="leftColumn" class="sidebar" data-item-type="SECTION" data-item-config='{"defaultSize": 280, "minSize": 200, "maxSize": 400}'>
+            <a class="toc--skip-link" href="#main">Skip to content</a>
+            <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
+                <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list"
+                    data-role="dropdown-listbox" aria-label="Table of contents">
+                    <div class="dropdown--header">
                             <span>
                                     compass
                             </span>
-                            <button class="button" data-role="dropdown-toggle" aria-label="Close table of contents">
-                                <i class="ui-kit-icon ui-kit-icon_cross"></i>
-                            </button>
-                        </div>
-                        <div class="sidebar--inner" id="sideMenu"></div>
-                    </ul>
-                    <div class="dropdown--overlay"></div>
-                </div>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close table of contents">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                    <div class="sidebar--inner" id="sideMenu"></div>
+                </ul>
+                <div class="dropdown--overlay"></div>
             </div>
-            <div id="main">
+        </nav>
+        <div id="resizer" class="resizer" data-item-type="BAR"></div>
+        <div id="main" data-item-type="SECTION" role="main">
 <div class="main-content" id="content" pageIds="compass::.ext/allModules///PointingToDeclaration//0">
   <div class="breadcrumbs"></div>
   <div class="cover ">
     <h2 class="">All modules:</h2>
     <div class="table"><a data-name="-2029988622%2FMain%2F0" anchor-label="compass-autocomplete" id="-2029988622%2FMain%2F0" data-filterable-set=""></a>
-      <div class="table-row">
+      <div class="table-row table-row_multimodule">
         <div class="main-subrow ">
           <div class="w-100"><span class="inline-flex">
               <div><a href="compass-autocomplete/index.html">compass-autocomplete</a></div>
@@ -90,7 +90,7 @@
         </div>
       </div>
 <a data-name="2139823862%2FMain%2F0" anchor-label="compass-autocomplete-geocoder-googlemaps" id="2139823862%2FMain%2F0" data-filterable-set=""></a>
-      <div class="table-row">
+      <div class="table-row table-row_multimodule">
         <div class="main-subrow ">
           <div class="w-100"><span class="inline-flex">
               <div><a href="compass-autocomplete-geocoder-googlemaps/index.html">compass-autocomplete-geocoder-googlemaps</a></div>
@@ -101,7 +101,7 @@
         </div>
       </div>
 <a data-name="-1252726857%2FMain%2F0" anchor-label="compass-autocomplete-geocoder-mapbox" id="-1252726857%2FMain%2F0" data-filterable-set=""></a>
-      <div class="table-row">
+      <div class="table-row table-row_multimodule">
         <div class="main-subrow ">
           <div class="w-100"><span class="inline-flex">
               <div><a href="compass-autocomplete-geocoder-mapbox/index.html">compass-autocomplete-geocoder-mapbox</a></div>
@@ -112,7 +112,7 @@
         </div>
       </div>
 <a data-name="-559534047%2FMain%2F0" anchor-label="compass-autocomplete-mobile" id="-559534047%2FMain%2F0" data-filterable-set=""></a>
-      <div class="table-row">
+      <div class="table-row table-row_multimodule">
         <div class="main-subrow ">
           <div class="w-100"><span class="inline-flex">
               <div><a href="compass-autocomplete-mobile/index.html">compass-autocomplete-mobile</a></div>
@@ -123,7 +123,7 @@
         </div>
       </div>
 <a data-name="-1936420277%2FMain%2F0" anchor-label="compass-autocomplete-web" id="-1936420277%2FMain%2F0" data-filterable-set=""></a>
-      <div class="table-row">
+      <div class="table-row table-row_multimodule">
         <div class="main-subrow ">
           <div class="w-100"><span class="inline-flex">
               <div><a href="compass-autocomplete-web/index.html">compass-autocomplete-web</a></div>
@@ -134,7 +134,7 @@
         </div>
       </div>
 <a data-name="1478760987%2FMain%2F0" anchor-label="compass-core" id="1478760987%2FMain%2F0" data-filterable-set=""></a>
-      <div class="table-row">
+      <div class="table-row table-row_multimodule">
         <div class="main-subrow ">
           <div class="w-100"><span class="inline-flex">
               <div><a href="compass-core/index.html">compass-core</a></div>
@@ -145,7 +145,7 @@
         </div>
       </div>
 <a data-name="753036134%2FMain%2F0" anchor-label="compass-geocoder" id="753036134%2FMain%2F0" data-filterable-set=""></a>
-      <div class="table-row">
+      <div class="table-row table-row_multimodule">
         <div class="main-subrow ">
           <div class="w-100"><span class="inline-flex">
               <div><a href="compass-geocoder/index.html">compass-geocoder</a></div>
@@ -156,7 +156,7 @@
         </div>
       </div>
 <a data-name="200814381%2FMain%2F0" anchor-label="compass-geocoder-mobile" id="200814381%2FMain%2F0" data-filterable-set=""></a>
-      <div class="table-row">
+      <div class="table-row table-row_multimodule">
         <div class="main-subrow ">
           <div class="w-100"><span class="inline-flex">
               <div><a href="compass-geocoder-mobile/index.html">compass-geocoder-mobile</a></div>
@@ -167,7 +167,7 @@
         </div>
       </div>
 <a data-name="-1575104833%2FMain%2F0" anchor-label="compass-geocoder-web" id="-1575104833%2FMain%2F0" data-filterable-set=""></a>
-      <div class="table-row">
+      <div class="table-row table-row_multimodule">
         <div class="main-subrow ">
           <div class="w-100"><span class="inline-flex">
               <div><a href="compass-geocoder-web/index.html">compass-geocoder-web</a></div>
@@ -178,7 +178,7 @@
         </div>
       </div>
 <a data-name="-1080698042%2FMain%2F0" anchor-label="compass-geocoder-web-googlemaps" id="-1080698042%2FMain%2F0" data-filterable-set=""></a>
-      <div class="table-row">
+      <div class="table-row table-row_multimodule">
         <div class="main-subrow ">
           <div class="w-100"><span class="inline-flex">
               <div><a href="compass-geocoder-web-googlemaps/index.html">compass-geocoder-web-googlemaps</a></div>
@@ -189,7 +189,7 @@
         </div>
       </div>
 <a data-name="-230011897%2FMain%2F0" anchor-label="compass-geocoder-web-mapbox" id="-230011897%2FMain%2F0" data-filterable-set=""></a>
-      <div class="table-row">
+      <div class="table-row table-row_multimodule">
         <div class="main-subrow ">
           <div class="w-100"><span class="inline-flex">
               <div><a href="compass-geocoder-web-mapbox/index.html">compass-geocoder-web-mapbox</a></div>
@@ -200,7 +200,7 @@
         </div>
       </div>
 <a data-name="-1433141616%2FMain%2F0" anchor-label="compass-geocoder-web-opencage" id="-1433141616%2FMain%2F0" data-filterable-set=""></a>
-      <div class="table-row">
+      <div class="table-row table-row_multimodule">
         <div class="main-subrow ">
           <div class="w-100"><span class="inline-flex">
               <div><a href="compass-geocoder-web-opencage/index.html">compass-geocoder-web-opencage</a></div>
@@ -211,7 +211,7 @@
         </div>
       </div>
 <a data-name="-797693918%2FMain%2F0" anchor-label="compass-geolocation" id="-797693918%2FMain%2F0" data-filterable-set=""></a>
-      <div class="table-row">
+      <div class="table-row table-row_multimodule">
         <div class="main-subrow ">
           <div class="w-100"><span class="inline-flex">
               <div><a href="compass-geolocation/index.html">compass-geolocation</a></div>
@@ -222,7 +222,7 @@
         </div>
       </div>
 <a data-name="1480058151%2FMain%2F0" anchor-label="compass-geolocation-browser" id="1480058151%2FMain%2F0" data-filterable-set=""></a>
-      <div class="table-row">
+      <div class="table-row table-row_multimodule">
         <div class="main-subrow ">
           <div class="w-100"><span class="inline-flex">
               <div><a href="compass-geolocation-browser/index.html">compass-geolocation-browser</a></div>
@@ -233,7 +233,7 @@
         </div>
       </div>
 <a data-name="429385457%2FMain%2F0" anchor-label="compass-geolocation-mobile" id="429385457%2FMain%2F0" data-filterable-set=""></a>
-      <div class="table-row">
+      <div class="table-row table-row_multimodule">
         <div class="main-subrow ">
           <div class="w-100"><span class="inline-flex">
               <div><a href="compass-geolocation-mobile/index.html">compass-geolocation-mobile</a></div>
@@ -244,7 +244,7 @@
         </div>
       </div>
 <a data-name="-203936924%2FMain%2F0" anchor-label="compass-permissions" id="-203936924%2FMain%2F0" data-filterable-set=""></a>
-      <div class="table-row">
+      <div class="table-row table-row_multimodule">
         <div class="main-subrow ">
           <div class="w-100"><span class="inline-flex">
               <div><a href="compass-permissions/index.html">compass-permissions</a></div>
@@ -255,7 +255,7 @@
         </div>
       </div>
 <a data-name="-1991764625%2FMain%2F0" anchor-label="compass-permissions-mobile" id="-1991764625%2FMain%2F0" data-filterable-set=""></a>
-      <div class="table-row">
+      <div class="table-row table-row_multimodule">
         <div class="main-subrow ">
           <div class="w-100"><span class="inline-flex">
               <div><a href="compass-permissions-mobile/index.html">compass-permissions-mobile</a></div>
@@ -266,7 +266,7 @@
         </div>
       </div>
 <a data-name="-1693052981%2FMain%2F0" anchor-label="compass-tools-android" id="-1693052981%2FMain%2F0" data-filterable-set=""></a>
-      <div class="table-row">
+      <div class="table-row table-row_multimodule">
         <div class="main-subrow ">
           <div class="w-100"><span class="inline-flex">
               <div><a href="compass-tools-android/index.html">compass-tools-android</a></div>
@@ -277,7 +277,7 @@
         </div>
       </div>
 <a data-name="880628486%2FMain%2F0" anchor-label="compass-tools-web" id="880628486%2FMain%2F0" data-filterable-set=""></a>
-      <div class="table-row">
+      <div class="table-row table-row_multimodule">
         <div class="main-subrow ">
           <div class="w-100"><span class="inline-flex">
               <div><a href="compass-tools-web/index.html">compass-tools-web</a></div>
@@ -291,17 +291,21 @@
   </div>
 </div>
     <div class="footer">
-        <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
-        <span>© 2025 Copyright</span>
-        <span class="pull-right">
-            <span>Generated by </span>
-            <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
-                <span>dokka</span>
-            </a>
-        </span>
-    </div>
+        <div class="footer--container">
+            <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
+            <div class="footer--content">
+                <div>
+                    <span>Generated by </span>
+                    <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
+                        Dokka
+                    </a>
+                    <div>© 2026 Copyright</div>
+                </div>
             </div>
         </div>
     </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>
