@@ -112,5 +112,12 @@ internal val Priority.toAndroidPriority: Int
 internal fun CompassLocationRequest.toAndroidLocationRequest(): LocationRequest =
     LocationRequest
         .Builder(priority.toAndroidPriority, interval)
+        // Left unset, the minimum update interval stays at LocationRequest.Builder's
+        // IMPLICIT_MIN_UPDATE_INTERVAL, which the fused provider resolves to intervalMillis / 2.
+        // That lets it deliver at twice the requested rate whenever something else is already
+        // driving location, which is why the interval only appeared to hold for high accuracy
+        // requests: those drive the hardware themselves, the lower priorities piggyback. Pinning
+        // the minimum to the interval is what makes the requested rate the actual rate.
+        .setMinUpdateIntervalMillis(interval)
         .setGranularity(com.google.android.gms.location.Granularity.GRANULARITY_PERMISSION_LEVEL)
         .build()

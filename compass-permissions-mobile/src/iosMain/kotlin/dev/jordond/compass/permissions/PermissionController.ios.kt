@@ -5,8 +5,6 @@ import dev.jordond.compass.permissions.mobile.internal.LocationPermissionManager
 import dev.jordond.compass.permissions.mobile.internal.toPermissionState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
-import kotlin.coroutines.resume
-import kotlin.coroutines.suspendCoroutine
 
 internal actual fun createPermissionController(): LocationPermissionController {
     return IosLocationPermissionController(LocationPermissionManagerDelegate())
@@ -16,6 +14,9 @@ internal class IosLocationPermissionController(
     private val locationDelegate: LocationPermissionManagerDelegate,
 ) : LocationPermissionController {
 
+    // Seeded up front rather than left to the first report from `monitorPermission`, which arrives
+    // a main thread hop later. `hasPermission` cannot suspend to wait for that, so seeding late
+    // would have it answer `false` for an app that already holds the permission.
     private val _permissionsStatus = MutableStateFlow(
         value = locationDelegate.currentPermissionStatus().toPermissionState,
     )
@@ -35,13 +36,7 @@ internal class IosLocationPermissionController(
         return when {
             currentState == PermissionState.Granted ||
                 currentState == PermissionState.DeniedForever -> currentState
-            else -> {
-                val result = suspendCoroutine { continuation ->
-                    locationDelegate.requestPermission { continuation.resume(it) }
-                }
-
-                result.toPermissionState
-            }
+            else -> locationDelegate.requestPermission().toPermissionState
         }
     }
 }

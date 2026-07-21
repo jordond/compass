@@ -24,6 +24,10 @@ kotlin {
             implementation(libs.kermit)
         }
 
+        commonTest.dependencies {
+            implementation(libs.kotlinx.coroutines.test)
+        }
+
         androidMain.dependencies {
             implementation(projects.compassToolsAndroid)
             api(libs.play.services.location)

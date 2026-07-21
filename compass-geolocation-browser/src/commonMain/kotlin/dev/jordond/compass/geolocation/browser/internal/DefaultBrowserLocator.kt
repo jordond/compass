@@ -22,7 +22,6 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
-import kotlin.coroutines.suspendCoroutine
 
 /**
  * A [BrowserLocator] implementation that uses the browser's Geolocation API.
@@ -40,11 +39,14 @@ internal class DefaultBrowserLocator : BrowserLocator {
     )
     override val locationUpdates: Flow<Location> = _locationUpdates
 
-    override suspend fun lastLocation(priority: Priority): Location? {
-        try {
-            return current(priority)
+    override suspend fun lastLocation(priority: Priority): Location? =
+        lastLocation(LocationRequest(priority = priority))
+
+    override suspend fun lastLocation(request: LocationRequest): Location? {
+        return try {
+            current(request)
         } catch (error: NotFoundException) {
-            return null
+            null
         }
     }
 
@@ -52,18 +54,26 @@ internal class DefaultBrowserLocator : BrowserLocator {
         return navigator?.geolocation != null
     }
 
-    override suspend fun current(priority: Priority): Location {
-        val request = LocationRequest(priority = priority)
+    override suspend fun current(priority: Priority): Location =
+        current(LocationRequest(priority = priority))
 
-        return suspendCoroutine { continuation ->
-            navigator?.geolocation
-                ?.getCurrentPosition(
-                    success = { position -> position?.toModel()?.let(continuation::resume) },
-                    error = { error -> continuation.resumeWithException(error.error()) },
-                    options = request.toOptions(),
-                )
-                ?: throw NotSupportedException()
-        } ?: throw NotFoundException()
+    override suspend fun current(request: LocationRequest): Location {
+        val geolocation = navigator?.geolocation ?: throw NotSupportedException()
+
+        // Cancellable so that a caller can impose its own deadline. The Geolocation API defaults
+        // `timeout` to infinity and offers no way to abort a pending request, so without this a
+        // prompt the user never answers would suspend the caller forever.
+        return suspendCancellableCoroutine { continuation ->
+            geolocation.getCurrentPosition(
+                success = { position ->
+                    val location = position?.toModel()
+                    if (location != null) continuation.resume(location)
+                    else continuation.resumeWithException(NotFoundException())
+                },
+                error = { error -> continuation.resumeWithException(error.error()) },
+                options = request.toOptions(),
+            )
+        }
     }
 
     override suspend fun track(request: LocationRequest): Flow<Location> {

@@ -47,12 +47,12 @@ internal class DefaultGeolocator(
         lastLocation(LocationRequest(priority))
 
     override suspend fun lastLocation(request: LocationRequest): GeolocatorResult =
-        handleResult(request) { locator.lastLocation(request.priority) }
+        handleResult(request) { locator.lastLocation(request) }
 
     override suspend fun isAvailable(): Boolean = locator.isAvailable()
 
     override suspend fun current(request: LocationRequest): GeolocatorResult {
-        return handleResult(request) { locator.current(request.priority) }
+        return handleResult(request) { locator.current(request) }
     }
 
     override suspend fun current(priority: Priority): GeolocatorResult =
