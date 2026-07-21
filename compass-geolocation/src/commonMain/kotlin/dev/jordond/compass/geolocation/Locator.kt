@@ -30,6 +30,17 @@ public interface Locator {
     public suspend fun lastLocation(priority: Priority = Priority.Balanced): Location?
 
     /**
+     * Get the last known location, using every detail of [request] the platform supports.
+     *
+     * The default implementation only honours [LocationRequest.priority]. Implementations that can
+     * do better should override it.
+     *
+     * @param request The location request details.
+     */
+    public suspend fun lastLocation(request: LocationRequest): Location? =
+        lastLocation(request.priority)
+
+    /**
      * Check if the platform supports geolocation.
      */
     public suspend fun isAvailable(): Boolean
@@ -46,6 +57,24 @@ public interface Locator {
      * @throws PermissionException If the location permission isn't granted.
      */
     public suspend fun current(priority: Priority = Priority.Balanced): Location
+
+    /**
+     * Get the current location, using every detail of [request] the platform supports.
+     *
+     * Notably this is the only overload that can honour [LocationRequest.maximumAge], which lets a
+     * recent cached fix satisfy the request instead of waiting for a new one. The default
+     * implementation only honours [LocationRequest.priority], so implementations that can serve a
+     * cached fix should override it.
+     *
+     * @param request The location request details.
+     * @return The current location, if available. If no location is available, this function
+     * will throw a [NotFoundException].
+     * @throws NotFoundException If no location is available.
+     * @throws NotSupportedException If location services aren't available.
+     * @throws GeolocationException If there is an error getting the location.
+     * @throws PermissionException If the location permission isn't granted.
+     */
+    public suspend fun current(request: LocationRequest): Location = current(request.priority)
 
     /**
      * Start tracking the location.

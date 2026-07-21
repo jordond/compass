@@ -4,6 +4,7 @@ import dev.jordond.compass.Location
 import dev.jordond.compass.Priority
 import dev.jordond.compass.geolocation.LocationRequest
 import dev.jordond.compass.geolocation.mobile.internal.LocationManagerDelegate
+import dev.jordond.compass.geolocation.mobile.internal.cachedLocationOrNull
 import dev.jordond.compass.geolocation.mobile.internal.toIosPriority
 import dev.jordond.compass.geolocation.mobile.internal.toModel
 import dev.jordond.compass.permissions.LocationPermissionController
@@ -56,6 +57,9 @@ internal class IosLocator(
         requirePermission(priority)
         return locationDelegate.requestLocation(priority.toIosPriority).toModel()
     }
+
+    override suspend fun current(request: LocationRequest): Location =
+        cachedLocationOrNull(request) ?: current(request.priority)
 
     override suspend fun track(request: LocationRequest): Flow<Location> {
         requirePermission(request.priority)

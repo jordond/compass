@@ -40,11 +40,14 @@ internal class DefaultBrowserLocator : BrowserLocator {
     )
     override val locationUpdates: Flow<Location> = _locationUpdates
 
-    override suspend fun lastLocation(priority: Priority): Location? {
-        try {
-            return current(priority)
+    override suspend fun lastLocation(priority: Priority): Location? =
+        lastLocation(LocationRequest(priority = priority))
+
+    override suspend fun lastLocation(request: LocationRequest): Location? {
+        return try {
+            current(request)
         } catch (error: NotFoundException) {
-            return null
+            null
         }
     }
 
@@ -52,9 +55,10 @@ internal class DefaultBrowserLocator : BrowserLocator {
         return navigator?.geolocation != null
     }
 
-    override suspend fun current(priority: Priority): Location {
-        val request = LocationRequest(priority = priority)
+    override suspend fun current(priority: Priority): Location =
+        current(LocationRequest(priority = priority))
 
+    override suspend fun current(request: LocationRequest): Location {
         return suspendCoroutine { continuation ->
             navigator?.geolocation
                 ?.getCurrentPosition(
