@@ -3,7 +3,6 @@ package dev.jordond.compass.geolocation.mobile
 import dev.jordond.compass.Location
 import dev.jordond.compass.Priority
 import dev.jordond.compass.geolocation.LocationRequest
-import dev.jordond.compass.geolocation.exception.GeolocationException
 import dev.jordond.compass.geolocation.mobile.internal.LocationManagerDelegate
 import dev.jordond.compass.geolocation.mobile.internal.toIosPriority
 import dev.jordond.compass.geolocation.mobile.internal.toModel
@@ -14,9 +13,6 @@ import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import platform.CoreLocation.CLLocationManager
-import kotlin.coroutines.resume
-import kotlin.coroutines.resumeWithException
-import kotlin.coroutines.suspendCoroutine
 
 internal actual fun createLocator(
     permissionController: LocationPermissionController,
@@ -44,7 +40,7 @@ internal class IosLocator(
     }
 
     override suspend fun lastLocation(priority: Priority): Location? {
-        requirePermission()
+        requirePermission(priority)
         return locationDelegate.lastLocation()?.toModel()
     }
 
@@ -57,33 +53,15 @@ internal class IosLocator(
     }
 
     override suspend fun current(priority: Priority): Location {
-        requirePermission()
-
-        return suspendCoroutine { continuation ->
-            locationDelegate.requestLocation { error, location ->
-                if (location != null) {
-                    continuation.resume(location.toModel())
-                } else {
-                    val cause = error?.localizedDescription ?: "Unknown error"
-                    continuation.resumeWithException(GeolocationException(cause))
-                }
-            }
-        }
+        requirePermission(priority)
+        return locationDelegate.requestLocation(priority.toIosPriority).toModel()
     }
 
     override suspend fun track(request: LocationRequest): Flow<Location> {
-        requirePermission()
+        requirePermission(request.priority)
         if (locationDelegate.isTracking) return locationUpdates
 
-        suspendCoroutine { continuation ->
-            locationDelegate.trackLocation(request.priority.toIosPriority) { error ->
-                if (error == null) continuation.resume(Unit)
-                else {
-                    val cause = error.localizedDescription
-                    continuation.resumeWithException(GeolocationException(cause))
-                }
-            }
-        }
+        locationDelegate.trackLocation(request.priority.toIosPriority)
 
         return locationUpdates
     }
@@ -92,8 +70,8 @@ internal class IosLocator(
         locationDelegate.stopTracking()
     }
 
-    private suspend fun requirePermission() {
-        val state = permissionController.requirePermissionFor(Priority.Balanced)
+    private suspend fun requirePermission(priority: Priority) {
+        val state = permissionController.requirePermissionFor(priority)
         if (state != PermissionState.Granted) {
             state.throwOnError()
         }
