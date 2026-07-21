@@ -14,10 +14,12 @@ internal class IosLocationPermissionController(
     private val locationDelegate: LocationPermissionManagerDelegate,
 ) : LocationPermissionController {
 
-    // Seeded by `monitorPermission` below, which reports the current status as soon as it gets onto
-    // the main thread. `requirePermissionFor` reads a fresh status rather than this flow, so the
-    // permission gate stays correct even before the first report lands.
-    private val _permissionsStatus = MutableStateFlow(PermissionState.NotDetermined)
+    // Seeded up front rather than left to the first report from `monitorPermission`, which arrives
+    // a main thread hop later. `hasPermission` cannot suspend to wait for that, so seeding late
+    // would have it answer `false` for an app that already holds the permission.
+    private val _permissionsStatus = MutableStateFlow(
+        value = locationDelegate.currentPermissionStatus().toPermissionState,
+    )
 
     init {
         locationDelegate.monitorPermission { permissionStatus ->

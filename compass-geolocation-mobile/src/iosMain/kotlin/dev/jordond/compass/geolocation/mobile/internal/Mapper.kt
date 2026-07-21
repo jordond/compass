@@ -74,6 +74,8 @@ internal fun CLLocation.toModel(): Location {
         ellipsoidalAltitude = ellipsoidalAltitude,
         speed = speed,
         azimuth = azimuth,
-        timestampMillis = timestamp.timeIntervalSince1970.toLong() * 1000L,
+        // Scaled before truncating. Rounding to whole seconds first would report every fix as up
+        // to a second older than it is, which `LocationRequest.maximumAge` is measured against.
+        timestampMillis = (timestamp.timeIntervalSince1970 * 1000).toLong(),
     )
 }

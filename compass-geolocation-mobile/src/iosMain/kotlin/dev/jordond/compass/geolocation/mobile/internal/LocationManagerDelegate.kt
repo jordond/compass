@@ -1,9 +1,8 @@
 package dev.jordond.compass.geolocation.mobile.internal
 
 import dev.jordond.compass.geolocation.exception.GeolocationException
-import kotlinx.coroutines.Dispatchers
+import kotlinx.atomicfu.atomic
 import kotlinx.coroutines.suspendCancellableCoroutine
-import kotlinx.coroutines.withContext
 import platform.CoreLocation.CLLocation
 import platform.CoreLocation.CLLocationAccuracy
 import platform.CoreLocation.CLLocationManager
@@ -13,9 +12,9 @@ import platform.darwin.NSObject
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
-private typealias LocationWaiter = (NSError?, CLLocation?) -> Unit
+private typealias LocationWaiter = (GeolocationException?, CLLocation?) -> Unit
 
-private typealias TrackingWaiter = (NSError?) -> Unit
+private typealias TrackingWaiter = (GeolocationException?) -> Unit
 
 /**
  * Owns the [CLLocationManager] instances used to resolve locations.
@@ -26,21 +25,28 @@ private typealias TrackingWaiter = (NSError?) -> Unit
  * with each other.
  *
  * Both managers are created and driven on the main thread, see [onMainThread]. Delegate callbacks
- * arrive there too, so none of the callback bookkeeping below needs synchronizing.
+ * arrive there too, so none of the callback bookkeeping below needs synchronizing. [isTracking] is
+ * the exception: it is read from whichever thread starts or stops tracking, so it is atomic.
+ *
+ * Every waiter registered here is resumed on exactly one path. A request that can no longer be
+ * answered resumes with a failure rather than being dropped, since a dropped waiter leaves its
+ * caller suspended for good.
  */
 internal class LocationManagerDelegate : NSObject(), CLLocationManagerDelegateProtocol {
 
     private var oneShotManager: CLLocationManager? = null
     private var trackingManager: CLLocationManager? = null
 
-    internal var isTracking: Boolean = false
-        private set
+    private val _isTracking = atomic(false)
+
+    internal val isTracking: Boolean
+        get() = _isTracking.value
 
     private var locationCallback: ((CLLocation) -> Unit)? = null
     private val locationWaiters = mutableListOf<LocationWaiter>()
     private var trackingWaiter: TrackingWaiter? = null
 
-    suspend fun lastLocation(): CLLocation? = withContext(Dispatchers.Main) {
+    suspend fun lastLocation(): CLLocation? = awaitOnMainThread {
         requireOneShotManager().location
     }
 
@@ -60,10 +66,7 @@ internal class LocationManagerDelegate : NSObject(), CLLocationManagerDelegatePr
         return suspendCancellableCoroutine { continuation ->
             val waiter: LocationWaiter = { error, location ->
                 if (location != null) continuation.resume(location)
-                else {
-                    val cause = error?.localizedDescription ?: "Unknown error"
-                    continuation.resumeWithException(GeolocationException(cause))
-                }
+                else continuation.resumeWithException(error ?: unknownError())
             }
 
             continuation.invokeOnCancellation {
@@ -84,7 +87,8 @@ internal class LocationManagerDelegate : NSObject(), CLLocationManagerDelegatePr
     /**
      * Start tracking at the given [accuracy], suspending until the first update arrives.
      *
-     * @throws GeolocationException If CoreLocation reports an error.
+     * @throws GeolocationException If CoreLocation reports an error, or if tracking is stopped
+     * before the first update arrives.
      */
     suspend fun trackLocation(accuracy: CLLocationAccuracy) {
         if (isTracking) return
@@ -92,11 +96,19 @@ internal class LocationManagerDelegate : NSObject(), CLLocationManagerDelegatePr
         suspendCancellableCoroutine { continuation ->
             val waiter: TrackingWaiter = { error ->
                 if (error == null) continuation.resume(Unit)
-                else continuation.resumeWithException(GeolocationException(error.localizedDescription))
+                else continuation.resumeWithException(error)
             }
 
+            // Cancelling before the first fix has to undo the start as well as drop the waiter.
+            // Otherwise CoreLocation keeps running with nothing listening, and `isTracking` stays
+            // true, which would make every later `trackLocation` return without restarting it.
             continuation.invokeOnCancellation {
-                onMainThread { if (trackingWaiter == waiter) trackingWaiter = null }
+                onMainThread {
+                    if (trackingWaiter == waiter) {
+                        trackingWaiter = null
+                        stopUpdating()
+                    }
+                }
             }
 
             onMainThread {
@@ -105,17 +117,22 @@ internal class LocationManagerDelegate : NSObject(), CLLocationManagerDelegatePr
                     val manager = requireTrackingManager()
                     manager.desiredAccuracy = accuracy
                     manager.startUpdatingLocation()
-                    isTracking = true
+                    _isTracking.value = true
                 }
             }
         }
     }
 
     fun stopTracking() {
-        isTracking = false
         onMainThread {
-            trackingManager?.stopUpdatingLocation()
-            trackingWaiter = null
+            stopUpdating()
+
+            // A `trackLocation` still waiting on its first fix will never get one now, so fail it
+            // rather than leave its caller suspended.
+            trackingWaiter?.let { waiter ->
+                trackingWaiter = null
+                waiter(GeolocationException("Tracking stopped before a location was reported"))
+            }
         }
     }
 
@@ -136,22 +153,32 @@ internal class LocationManagerDelegate : NSObject(), CLLocationManagerDelegatePr
     }
 
     override fun locationManager(manager: CLLocationManager, didFailWithError: NSError) {
+        val error = GeolocationException(didFailWithError.localizedDescription)
+
         if (manager == trackingManager) {
             trackingWaiter?.let { waiter ->
                 trackingWaiter = null
-                waiter(didFailWithError)
+                waiter(error)
             }
         } else {
-            resumeLocationWaiters(error = didFailWithError, location = null)
+            resumeLocationWaiters(error = error, location = null)
         }
     }
 
-    private fun resumeLocationWaiters(error: NSError?, location: CLLocation?) {
+    private fun resumeLocationWaiters(error: GeolocationException?, location: CLLocation?) {
         if (locationWaiters.isEmpty()) return
 
         val waiters = locationWaiters.toList()
         locationWaiters.clear()
         waiters.forEach { waiter -> waiter(error, location) }
+    }
+
+    /**
+     * Only valid on the main thread, see [onMainThread].
+     */
+    private fun stopUpdating() {
+        trackingManager?.stopUpdatingLocation()
+        _isTracking.value = false
     }
 
     /**
@@ -171,4 +198,6 @@ internal class LocationManagerDelegate : NSObject(), CLLocationManagerDelegatePr
             manager.delegate = this
             trackingManager = manager
         }
+
+    private fun unknownError() = GeolocationException("Unknown error")
 }
