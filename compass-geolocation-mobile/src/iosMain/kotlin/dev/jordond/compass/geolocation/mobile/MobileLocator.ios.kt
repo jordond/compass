@@ -5,6 +5,7 @@ import dev.jordond.compass.Priority
 import dev.jordond.compass.geolocation.LocationRequest
 import dev.jordond.compass.geolocation.mobile.internal.LocationManagerDelegate
 import dev.jordond.compass.geolocation.mobile.internal.cachedLocationOrNull
+import dev.jordond.compass.geolocation.mobile.internal.currentTimeMillis
 import dev.jordond.compass.geolocation.mobile.internal.toIosPriority
 import dev.jordond.compass.geolocation.mobile.internal.toModel
 import dev.jordond.compass.permissions.LocationPermissionController
@@ -34,9 +35,18 @@ internal class IosLocator(
 
     override val locationUpdates: Flow<Location> = _locationUpdates
 
+    // CoreLocation has no notion of an update interval, it reports a fix whenever it has one. These
+    // throttle what reaches [locationUpdates] so that `LocationRequest.interval` means the same
+    // thing here as it does on Android. Written from [track] before it hands off to the main
+    // thread, and read from there, so the dispatch establishes the ordering between them.
+    private var updateIntervalMillis: Long = 0L
+    private var lastEmittedAtMillis: Long = 0L
+
     init {
         locationDelegate.monitorLocation { location ->
-            _locationUpdates.tryEmit(location.toModel())
+            if (shouldEmit()) {
+                _locationUpdates.tryEmit(location.toModel())
+            }
         }
     }
 
@@ -65,9 +75,27 @@ internal class IosLocator(
         requirePermission(request.priority)
         if (locationDelegate.isTracking) return locationUpdates
 
+        updateIntervalMillis = request.interval
+        lastEmittedAtMillis = 0L
         locationDelegate.trackLocation(request.priority.toIosPriority)
 
         return locationUpdates
+    }
+
+    /**
+     * Whether enough time has passed since the last update to forward another one.
+     *
+     * Only called from the main thread, where CoreLocation delivers its callbacks, so the
+     * bookkeeping needs no synchronizing. The first update after [track] always goes through.
+     */
+    private fun shouldEmit(): Boolean {
+        if (updateIntervalMillis <= 0L) return true
+
+        val now = currentTimeMillis()
+        if (now - lastEmittedAtMillis < updateIntervalMillis) return false
+
+        lastEmittedAtMillis = now
+        return true
     }
 
     override fun stopTracking() {
