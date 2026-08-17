@@ -47,6 +47,28 @@ On Android there are no further steps required, but on iOS you need to edit your
 
 When you attempt to access the location, Compass will automatically ask the user for permission.
 
+### Precise and approximate location
+
+A granted permission does not mean the app can read a precise location. The user can allow location while withholding precision, on Android by answering "Approximate" and on iOS by turning Precise Location off, and the fixes that follow are accurate to kilometres rather than metres. `Priority.HighAccuracy` does not override that, the system clamps the request.
+
+`LocationPermissionController.grantedAccuracy()` reports which of the two the app currently holds. It reads the current state and never prompts.
+
+```kotlin
+val controller = LocationPermissionController.mobile()
+
+when (controller.grantedAccuracy()) {
+    LocationAccuracy.Full -> preselectTheNearestCafe()
+    // Kilometre scale, so a 150m proximity check can never pass. Ask the user to
+    // turn precision on in Settings instead of silently failing.
+    LocationAccuracy.Reduced -> promptForPreciseLocation()
+    LocationAccuracy.Unknown -> requestPermission()
+}
+```
+
+{% hint style="warning" %}
+The two platforms differ in what `priority` does when requesting. On Android `Priority.HighAccuracy` requests `ACCESS_FINE_LOCATION`, so `PermissionState.Granted` does mean precise location was granted. On iOS the priority is ignored, because `CLLocationManager` has no way to ask for precision up front, the user chooses it inside the one system prompt. `Granted` there means only that a location can be read. Use `grantedAccuracy()` rather than assuming.
+{% endhint %}
+
 ## Get location
 
 Now you can follow the steps in [geolocator.md](geolocator.md "mention")
