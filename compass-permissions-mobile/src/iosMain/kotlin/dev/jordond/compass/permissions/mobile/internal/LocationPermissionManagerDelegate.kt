@@ -1,6 +1,5 @@
 package dev.jordond.compass.permissions.mobile.internal
 
-import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.coroutines.suspendCancellableCoroutine
 import platform.CoreLocation.CLAccuracyAuthorization
 import platform.CoreLocation.CLAuthorizationStatus
@@ -9,7 +8,6 @@ import platform.CoreLocation.CLLocationManagerDelegateProtocol
 import platform.CoreLocation.kCLAuthorizationStatusDenied
 import platform.CoreLocation.kCLAuthorizationStatusNotDetermined
 import platform.Foundation.NSBundle
-import platform.Foundation.NSSelectorFromString
 import platform.darwin.NSObject
 import kotlin.coroutines.resume
 
@@ -21,6 +19,10 @@ private const val WHEN_IN_USE_USAGE_DESCRIPTION = "NSLocationWhenInUseUsageDescr
  * The manager that prompts is created and driven on the main thread, see [onMainThread], because
  * CoreLocation only delivers [locationManagerDidChangeAuthorization] on the run loop the manager
  * was created on. Reading the status does not go through it, see [statusReader].
+ *
+ * Assumes iOS 14 or newer. The instance `authorizationStatus`, `accuracyAuthorization` and
+ * [locationManagerDidChangeAuthorization] all arrived in 14, and none of them is guarded, so a
+ * guard on any one of them on its own would not buy anything.
  */
 internal class LocationPermissionManagerDelegate : NSObject(), CLLocationManagerDelegateProtocol {
 
@@ -36,25 +38,13 @@ internal class LocationPermissionManagerDelegate : NSObject(), CLLocationManager
      */
     private val statusReader: CLLocationManager by lazy { CLLocationManager() }
 
-    /**
-     * `accuracyAuthorization` arrived in iOS 14, and reading it below that traps.
-     *
-     * Asked of the object rather than compared against `UIDevice.systemVersion`, because that
-     * property is a string and comparing it orders "9.0" above "14.0".
-     */
-    @OptIn(ExperimentalForeignApi::class)
-    private val supportsAccuracyAuthorization: Boolean by lazy {
-        statusReader.respondsToSelector(NSSelectorFromString("accuracyAuthorization"))
-    }
-
     private var permissionCallback: ((CLAuthorizationStatus) -> Unit)? = null
     private var requestPermissionCallback: ((CLAuthorizationStatus) -> Unit)? = null
 
     fun currentPermissionStatus(): CLAuthorizationStatus = statusReader.authorizationStatus
 
     /**
-     * Whether the app holds full accuracy, or `null` on a system that has no notion of reduced
-     * accuracy at all.
+     * Whether the app holds full accuracy.
      *
      * Read off [statusReader] for the same reason the status is, it needs no run loop and callers
      * cannot suspend to get onto the main thread.
@@ -62,11 +52,9 @@ internal class LocationPermissionManagerDelegate : NSObject(), CLLocationManager
      * Only meaningful once the app is authorized. CoreLocation reports full accuracy while the
      * status is still `notDetermined`, so this must not be read on its own to decide anything.
      */
-    fun currentFullAccuracy(): Boolean? {
-        if (!supportsAccuracyAuthorization) return null
-        return statusReader.accuracyAuthorization ==
+    fun currentFullAccuracy(): Boolean =
+        statusReader.accuracyAuthorization ==
             CLAccuracyAuthorization.CLAccuracyAuthorizationFullAccuracy
-    }
 
     /**
      * Report every authorization change to [callback].

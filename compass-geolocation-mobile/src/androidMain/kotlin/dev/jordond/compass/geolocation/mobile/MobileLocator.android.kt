@@ -9,6 +9,7 @@ import dev.jordond.compass.geolocation.mobile.internal.cachedLocationOrNull
 import dev.jordond.compass.geolocation.mobile.internal.toAndroidLocationRequest
 import dev.jordond.compass.geolocation.mobile.internal.toAndroidPriority
 import dev.jordond.compass.geolocation.mobile.internal.toModel
+import dev.jordond.compass.permissions.LocationAccuracy
 import dev.jordond.compass.permissions.LocationPermissionController
 import dev.jordond.compass.permissions.PermissionState
 import dev.jordond.compass.permissions.throwOnError
@@ -45,6 +46,10 @@ internal class AndroidLocator(
 
     override fun hasPermission(): Boolean {
         return permissionController.hasPermission()
+    }
+
+    override fun grantedAccuracy(): LocationAccuracy {
+        return permissionController.grantedAccuracy()
     }
 
     override suspend fun current(priority: Priority): Location {

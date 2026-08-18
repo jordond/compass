@@ -37,11 +37,17 @@ public interface LocationPermissionController {
      * at different times.
      *
      * On **Android** it selects which permissions are requested.
-     * [dev.jordond.compass.Priority.HighAccuracy] requests `ACCESS_FINE_LOCATION` alongside
-     * `ACCESS_COARSE_LOCATION`, every other priority requests `ACCESS_COARSE_LOCATION` only.
-     * Answering the fine request with "Approximate" leaves the fine permission ungranted, so
-     * [PermissionState.Granted] for [dev.jordond.compass.Priority.HighAccuracy] does mean the app
-     * holds precise location.
+     * [dev.jordond.compass.Priority.HighAccuracy] selects `ACCESS_FINE_LOCATION` and
+     * `ACCESS_COARSE_LOCATION`, every other priority selects `ACCESS_COARSE_LOCATION` only. Of
+     * those, only the ones not already held are actually requested. Answering the fine request
+     * with "Approximate" leaves the fine permission ungranted, so [PermissionState.Granted] for
+     * [dev.jordond.compass.Priority.HighAccuracy] does mean the app holds precise location.
+     *
+     * This cannot upgrade [LocationAccuracy.Reduced] to [LocationAccuracy.Full]. Answering
+     * "Approximate" grants `ACCESS_COARSE_LOCATION`, so a second
+     * [dev.jordond.compass.Priority.HighAccuracy] request narrows to `ACCESS_FINE_LOCATION` on its
+     * own, and an app targeting SDK 31 or higher on Android 12 or newer has a fine-only request
+     * ignored by the system with no prompt shown. Send the user to the app's settings instead.
      *
      * On **iOS** it is ignored. `CLLocationManager` offers no way to ask for precision up front,
      * the user chooses Precise Location on or off inside the one system prompt, so there is nothing

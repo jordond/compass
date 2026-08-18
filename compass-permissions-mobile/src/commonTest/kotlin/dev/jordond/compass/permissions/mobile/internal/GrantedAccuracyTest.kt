@@ -26,24 +26,6 @@ class GrantedAccuracyTest {
     }
 
     @Test
-    fun reportsFullWhenThePlatformCannotDistinguishAccuracy() {
-        // Reduced accuracy arrived in iOS 14. Below that a granted permission is always precise,
-        // so `Unknown` would understate what the app actually holds.
-        assertEquals(
-            LocationAccuracy.Full,
-            resolveGrantedAccuracy(granted = true, fullAccuracy = null),
-        )
-    }
-
-    @Test
-    fun reportsUnknownWithoutAnyPermission() {
-        assertEquals(
-            LocationAccuracy.Unknown,
-            resolveGrantedAccuracy(granted = false, fullAccuracy = null),
-        )
-    }
-
-    @Test
     fun reportsUnknownWithoutPermissionEvenWhenTheSystemClaimsFullAccuracy() {
         // CoreLocation reports full accuracy while the status is still `notDetermined`, before the
         // user has answered anything. Taking that at face value would have `grantedAccuracy()`

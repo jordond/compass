@@ -29,7 +29,11 @@ public enum class LocationAccuracy {
     Reduced,
 
     /**
-     * The accuracy is not meaningful, because the app holds no location permission at all.
+     * The accuracy is not known.
+     *
+     * Either the app holds no location permission at all, or whatever was asked does not report
+     * accuracy. It is never a claim that the accuracy is poor, only that there is nothing to say
+     * about it.
      */
     Unknown,
 }
