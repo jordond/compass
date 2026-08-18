@@ -1,5 +1,6 @@
 public final class dev/jordond/compass/geolocation/ExtensionsKt {
 	public static final fun currentLocationOrNull (Ldev/jordond/compass/geolocation/Geolocator;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun grantedAccuracy (Ldev/jordond/compass/geolocation/Geolocator;)Ldev/jordond/compass/permissions/LocationAccuracy;
 	public static final fun hasPermission (Ldev/jordond/compass/geolocation/Geolocator;)Z
 	public static final fun isPermissionDenied (Ldev/jordond/compass/geolocation/GeolocatorResult$Error;)Z
 	public static final fun isPermissionDeniedForever (Ldev/jordond/compass/geolocation/GeolocatorResult$Error;)Z
@@ -180,11 +181,13 @@ public final class dev/jordond/compass/geolocation/NotSupportedLocator : dev/jor
 }
 
 public abstract interface class dev/jordond/compass/geolocation/PermissionLocator : dev/jordond/compass/geolocation/Locator {
+	public fun grantedAccuracy ()Ldev/jordond/compass/permissions/LocationAccuracy;
 	public abstract fun hasPermission ()Z
 }
 
 public final class dev/jordond/compass/geolocation/PermissionLocator$DefaultImpls {
 	public static fun current (Ldev/jordond/compass/geolocation/PermissionLocator;Ldev/jordond/compass/geolocation/LocationRequest;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static fun grantedAccuracy (Ldev/jordond/compass/geolocation/PermissionLocator;)Ldev/jordond/compass/permissions/LocationAccuracy;
 	public static fun lastLocation (Ldev/jordond/compass/geolocation/PermissionLocator;Ldev/jordond/compass/geolocation/LocationRequest;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
 

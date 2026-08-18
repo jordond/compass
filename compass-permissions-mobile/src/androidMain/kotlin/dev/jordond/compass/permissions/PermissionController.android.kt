@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import androidx.core.content.ContextCompat
 import dev.jordond.compass.Priority
 import dev.jordond.compass.permissions.mobile.internal.activity.ActivityProvider
+import dev.jordond.compass.permissions.mobile.internal.resolveGrantedAccuracy
 import dev.jordond.compass.tools.ContextProvider
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -29,6 +30,13 @@ internal class AndroidLocationPermissionController(
     override fun hasPermission(): Boolean {
         return context.hasAnyPermission()
     }
+
+    override fun grantedAccuracy(): LocationAccuracy = resolveGrantedAccuracy(
+        granted = context.hasAnyPermission(),
+        // Holding the fine permission is what precise location is on Android. A user who answered
+        // "Approximate" leaves this ungranted while the coarse one is granted.
+        fullAccuracy = context.hasPermission(Manifest.permission.ACCESS_FINE_LOCATION),
+    )
 
     override suspend fun requirePermissionFor(priority: Priority): PermissionState {
         val permissions = permissionsFor(priority).filter { !context.hasPermission(it) }

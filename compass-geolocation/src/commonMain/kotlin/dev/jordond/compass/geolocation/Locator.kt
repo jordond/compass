@@ -5,6 +5,7 @@ import dev.jordond.compass.Priority
 import dev.jordond.compass.exception.NotFoundException
 import dev.jordond.compass.exception.NotSupportedException
 import dev.jordond.compass.geolocation.exception.GeolocationException
+import dev.jordond.compass.permissions.LocationAccuracy
 import dev.jordond.compass.permissions.exception.PermissionException
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
@@ -111,6 +112,19 @@ public interface Locator {
 public interface PermissionLocator : Locator {
 
     public fun hasPermission(): Boolean
+
+    /**
+     * How precise the locations this [Locator] is currently allowed to read are.
+     *
+     * [hasPermission] returning `true` does not imply [LocationAccuracy.Full]. The user can grant
+     * the location permission while withholding precision, and a request for a finer accuracy is
+     * then clamped by the system.
+     *
+     * Reads the current state, it never prompts.
+     *
+     * @return [LocationAccuracy.Unknown] when the locator does not report accuracy.
+     */
+    public fun grantedAccuracy(): LocationAccuracy = LocationAccuracy.Unknown
 }
 
 /**

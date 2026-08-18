@@ -1,5 +1,15 @@
+public final class dev/jordond/compass/permissions/LocationAccuracy : java/lang/Enum {
+	public static final field Full Ldev/jordond/compass/permissions/LocationAccuracy;
+	public static final field Reduced Ldev/jordond/compass/permissions/LocationAccuracy;
+	public static final field Unknown Ldev/jordond/compass/permissions/LocationAccuracy;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Ldev/jordond/compass/permissions/LocationAccuracy;
+	public static fun values ()[Ldev/jordond/compass/permissions/LocationAccuracy;
+}
+
 public abstract interface class dev/jordond/compass/permissions/LocationPermissionController {
 	public static final field Companion Ldev/jordond/compass/permissions/LocationPermissionController$Companion;
+	public fun grantedAccuracy ()Ldev/jordond/compass/permissions/LocationAccuracy;
 	public abstract fun hasPermission ()Z
 	public abstract fun requirePermissionFor (Ldev/jordond/compass/Priority;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun requirePermissionForOrThrow (Ldev/jordond/compass/Priority;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
@@ -9,6 +19,7 @@ public final class dev/jordond/compass/permissions/LocationPermissionController$
 }
 
 public final class dev/jordond/compass/permissions/LocationPermissionController$DefaultImpls {
+	public static fun grantedAccuracy (Ldev/jordond/compass/permissions/LocationPermissionController;)Ldev/jordond/compass/permissions/LocationAccuracy;
 	public static fun requirePermissionForOrThrow (Ldev/jordond/compass/permissions/LocationPermissionController;Ldev/jordond/compass/Priority;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
 

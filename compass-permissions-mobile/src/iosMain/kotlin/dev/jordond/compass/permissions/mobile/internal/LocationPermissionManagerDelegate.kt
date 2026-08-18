@@ -1,6 +1,7 @@
 package dev.jordond.compass.permissions.mobile.internal
 
 import kotlinx.coroutines.suspendCancellableCoroutine
+import platform.CoreLocation.CLAccuracyAuthorization
 import platform.CoreLocation.CLAuthorizationStatus
 import platform.CoreLocation.CLLocationManager
 import platform.CoreLocation.CLLocationManagerDelegateProtocol
@@ -18,6 +19,10 @@ private const val WHEN_IN_USE_USAGE_DESCRIPTION = "NSLocationWhenInUseUsageDescr
  * The manager that prompts is created and driven on the main thread, see [onMainThread], because
  * CoreLocation only delivers [locationManagerDidChangeAuthorization] on the run loop the manager
  * was created on. Reading the status does not go through it, see [statusReader].
+ *
+ * Assumes iOS 14 or newer. The instance `authorizationStatus`, `accuracyAuthorization` and
+ * [locationManagerDidChangeAuthorization] all arrived in 14, and none of them is guarded, so a
+ * guard on any one of them on its own would not buy anything.
  */
 internal class LocationPermissionManagerDelegate : NSObject(), CLLocationManagerDelegateProtocol {
 
@@ -37,6 +42,19 @@ internal class LocationPermissionManagerDelegate : NSObject(), CLLocationManager
     private var requestPermissionCallback: ((CLAuthorizationStatus) -> Unit)? = null
 
     fun currentPermissionStatus(): CLAuthorizationStatus = statusReader.authorizationStatus
+
+    /**
+     * Whether the app holds full accuracy.
+     *
+     * Read off [statusReader] for the same reason the status is, it needs no run loop and callers
+     * cannot suspend to get onto the main thread.
+     *
+     * Only meaningful once the app is authorized. CoreLocation reports full accuracy while the
+     * status is still `notDetermined`, so this must not be read on its own to decide anything.
+     */
+    fun currentFullAccuracy(): Boolean =
+        statusReader.accuracyAuthorization ==
+            CLAccuracyAuthorization.CLAccuracyAuthorizationFullAccuracy
 
     /**
      * Report every authorization change to [callback].
