@@ -8,13 +8,19 @@ set -e
 SEMVER_REG="([[:digit:]]+(\.[[:digit:]]+)+)"
 
 README_FILE="$PARENT/README.md"
+DOCS_DIR="$PARENT/docs"
 VERSION_FILE="$PARENT/gradle/libs.versions.toml"
 
 NEW_VERSION="$ORG_GRADLE_PROJECT_VERSION_NAME"
 if [ -z "$NEW_VERSION" ]; then
   NEW_VERSION="$1"
   if [ -n "$NEW_VERSION" ]; then
-    echo "Update README with version: '$NEW_VERSION'"
+    echo "Update README and docs with version: '$NEW_VERSION'"
+
+    if [ ! -d "$DOCS_DIR" ]; then
+      echo "Unable to find docs directory in '$DOCS_DIR'" >&2
+      exit 1
+    fi
 
     if [[ "$OSTYPE" == "darwin"* ]]; then
       # Update artifact versions in README.md
@@ -22,9 +28,21 @@ if [ -z "$NEW_VERSION" ]; then
 
       # Update version catalog in README.md
       sed -i '' -E "s/compass = \"$SEMVER_REG\"/compass = \"$NEW_VERSION\"/" "$README_FILE"
+
+      # Update Compass versions in docs
+      find "$DOCS_DIR" -type f -name '*.md' -exec sed -i '' -E \
+        -e "s/compass = \"$SEMVER_REG\"/compass = \"$NEW_VERSION\"/g" \
+        -e "s/compassVersion = \"$SEMVER_REG\"/compassVersion = \"$NEW_VERSION\"/g" \
+        -e "s/(dev\.jordond\.compass:[[:alnum:]-]+:)$SEMVER_REG/\1$NEW_VERSION/g" {} +
     else
       sed -i -E "s/\:$SEMVER_REG\"/\:$NEW_VERSION\"/g" "$README_FILE"
       sed -i -E "s/compass = \"$SEMVER_REG\"/compass = \"$NEW_VERSION\"/g" "$README_FILE"
+
+      # Update Compass versions in docs
+      find "$DOCS_DIR" -type f -name '*.md' -exec sed -i -E \
+        -e "s/compass = \"$SEMVER_REG\"/compass = \"$NEW_VERSION\"/g" \
+        -e "s/compassVersion = \"$SEMVER_REG\"/compassVersion = \"$NEW_VERSION\"/g" \
+        -e "s/(dev\.jordond\.compass:[[:alnum:]-]+:)$SEMVER_REG/\1$NEW_VERSION/g" {} +
     fi
   fi
 fi
