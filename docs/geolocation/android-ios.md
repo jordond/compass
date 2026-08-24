@@ -69,6 +69,68 @@ when (controller.grantedAccuracy()) {
 The two platforms differ in what `priority` does when requesting. On Android `Priority.HighAccuracy` requests `ACCESS_FINE_LOCATION`, so `PermissionState.Granted` does mean precise location was granted. On iOS the priority is ignored, because `CLLocationManager` has no way to ask for precision up front, the user chooses it inside the one system prompt. `Granted` there means only that a location can be read. Use `grantedAccuracy()` rather than assuming.
 {% endhint %}
 
+## Google Play Services on Android
+
+On Android there are two ways to read a location, and you can pick which one you want.
+
+`geolocation-mobile` uses the built-in `LocationManager` and doesn't depend on Google Play Services. It works on every Android device, including ones without Play Services, and it's safe to use in a copyleft licensed app.
+
+`geolocation-android-gms` adds the Play Services fused location provider, which combines GPS, Wi-Fi, cell and sensors to get better locations while using less battery. It pulls in the closed source `play-services-location` library.
+
+### Using the fused provider
+
+Add the artifact to your Android source set, that's the only step:
+
+```kts
+kotlin {
+    sourceSets {
+        androidMain.dependencies {
+            implementation("dev.jordond.compass:geolocation-android-gms:$compassVersion")
+        }
+    }
+}
+```
+
+Your common code doesn't change. `MobileLocator()` and `Geolocator.mobile()` will prefer the fused provider, and fall back to `LocationManager` on devices where Play Services is missing or out of date:
+
+```kotlin
+// commonMain, unchanged
+val geolocator: Geolocator = Geolocator.mobile()
+```
+
+If you want the fused provider and nothing else, so that a device without Play Services fails instead of falling back, the artifact also has Android-only entry points:
+
+```kotlin
+val locator: Locator = GmsLocator()
+val locator: Locator = Locator.gms()
+
+val geolocator: Geolocator = GmsGeolocator()
+val geolocator: Geolocator = Geolocator.gms()
+
+// Throws IllegalStateException when Play Services is unavailable, so check first
+if (isPlayServicesAvailable()) Geolocator.gms() else Geolocator.mobile()
+```
+
+### Which one to use
+
+* You want the best accuracy and battery usage, and depending on Play Services is fine, then add `geolocation-android-gms`.
+* You can't have proprietary dependencies, maybe you're shipping to F-Droid or your app is GPL licensed, then you don't need to do anything since `geolocation-mobile` already covers you.
+* You want to support devices without Play Services, but still get the fused locations where they exist, then add `geolocation-android-gms` and the fallback is handled for you.
+
+{% hint style="warning" %}
+Before Compass 1.3.0 the `geolocation-mobile` and `permissions-mobile` artifacts depended on `play-services-location` and always used the fused provider. They no longer do. To get the old behaviour back, add `geolocation-android-gms` to your Android source set. Without it your app keeps working, using the built-in `LocationManager`.
+{% endhint %}
+
+### What changes without Play Services
+
+Location still works, but the two sources aren't identical.
+
+The accuracy will differ. On API 31 and above the platform has a fused provider of its own, which Compass uses, and it's close to the Play Services one. Below API 31 there is no fused source, so Compass picks GPS or network based on the request `priority`. Expect slower first locations and more variance there.
+
+`isAvailable()` reports whether location services are turned on, while the Play Services version also checks the request settings.
+
+The `interval` option is honoured by both, see below.
+
 ## Get location
 
 Now you can follow the steps in [geolocator.md](geolocator.md "mention")
@@ -81,7 +143,7 @@ Now you can follow the steps in [geolocator.md](geolocator.md "mention")
 
 The gap between location updates while tracking, defaulting to 5 seconds.
 
-Android passes this to the fused location provider, which also holds the minimum update interval to the same value. Without that the provider is free to deliver at twice the requested rate whenever another app is already driving location.
+On Android this is passed to the location provider, and the minimum update interval is held to the same value. Without that the provider is free to deliver updates at twice the rate you asked for whenever another app is already using location. That applies to both the built-in `LocationManager` and the fused provider.
 
 CoreLocation has no time based equivalent, it reports a fix whenever it has one, so on iOS the interval is applied to the updates as they come out. The first update after `track` always arrives, later ones are dropped until the interval has elapsed. The rate CoreLocation itself runs at is unchanged, so this costs no extra battery, and it does not make updates arrive any sooner than CoreLocation produces them.
 

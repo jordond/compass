@@ -6,15 +6,12 @@ import android.os.Build.VERSION
 import android.os.Build.VERSION_CODES
 import androidx.core.location.LocationCompat
 import androidx.core.location.altitude.AltitudeConverterCompat.addMslAltitudeToLocation
-import com.google.android.gms.location.LocationRequest
 import dev.jordond.compass.Altitude
 import dev.jordond.compass.Azimuth
 import dev.jordond.compass.Coordinates
-import dev.jordond.compass.Priority
 import dev.jordond.compass.Speed
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import dev.jordond.compass.geolocation.LocationRequest as CompassLocationRequest
 
 /**
  * Converts a [Location] to a [dev.jordond.compass.Location].
@@ -99,25 +96,3 @@ internal suspend fun Location.toModel(context: Context): dev.jordond.compass.Loc
         )
     }
 }
-
-internal val Priority.toAndroidPriority: Int
-    get() =
-        when (this) {
-            Priority.Balanced -> com.google.android.gms.location.Priority.PRIORITY_BALANCED_POWER_ACCURACY
-            Priority.HighAccuracy -> com.google.android.gms.location.Priority.PRIORITY_HIGH_ACCURACY
-            Priority.LowPower -> com.google.android.gms.location.Priority.PRIORITY_LOW_POWER
-            Priority.Passive -> com.google.android.gms.location.Priority.PRIORITY_PASSIVE
-        }
-
-internal fun CompassLocationRequest.toAndroidLocationRequest(): LocationRequest =
-    LocationRequest
-        .Builder(priority.toAndroidPriority, interval)
-        // Left unset, the minimum update interval stays at LocationRequest.Builder's
-        // IMPLICIT_MIN_UPDATE_INTERVAL, which the fused provider resolves to intervalMillis / 2.
-        // That lets it deliver at twice the requested rate whenever something else is already
-        // driving location, which is why the interval only appeared to hold for high accuracy
-        // requests: those drive the hardware themselves, the lower priorities piggyback. Pinning
-        // the minimum to the interval is what makes the requested rate the actual rate.
-        .setMinUpdateIntervalMillis(interval)
-        .setGranularity(com.google.android.gms.location.Granularity.GRANULARITY_PERMISSION_LEVEL)
-        .build()

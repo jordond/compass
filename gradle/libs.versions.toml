@@ -16,6 +16,7 @@ materialIconsExtended = "1.7.3"
 androidx-activity = "1.13.0"
 androidx-fragment = "1.9.0"
 androidx-startup = "1.2.0"
+androidx-core = "1.18.0"
 androidx-activityCompose = "1.13.0"
 playServicesLocation = "21.4.0"
 playServicesCoroutines = "1.11.0"
@@ -36,6 +37,7 @@ androidx-activity-compose = { module = "androidx.activity:activity-compose", ver
 androidx-activity = { module = "androidx.activity:activity-ktx", version.ref = "androidx-activity" }
 androidx-fragment = { module = "androidx.fragment:fragment-ktx", version.ref = "androidx-fragment" }
 androidx-startup = { module = "androidx.startup:startup-runtime", version.ref = "androidx-startup" }
+androidx-core = { module = "androidx.core:core", version.ref = "androidx-core" }
 kotlinx-atomicfu = { module = "org.jetbrains.kotlinx:atomicfu", version.ref = "kotlinx-atomicfu" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinx-coroutines" }
