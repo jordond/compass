@@ -49,6 +49,7 @@ compass-geocoder-web-mapbox = { module = "dev.jordond.compass:geocoder-web-mapbo
 compass-geocoder-web-opencage = { module = "dev.jordond.compass:geocoder-web-opencage", version.ref = "compass" }
 compass-geolocation = { module = "dev.jordond.compass:geolocation", version.ref = "compass" }
 compass-geolocation-mobile = { module = "dev.jordond.compass:geolocation-mobile", version.ref = "compass" }
+compass-geolocation-android-gms = { module = "dev.jordond.compass:geolocation-android-gms", version.ref = "compass" }
 compass-geolocation-browser = { module = "dev.jordond.compass:geolocation-browser", version.ref = "compass" }
 compass-permissions-mobile = { module = "dev.jordond.compass:permissions-mobile", version.ref = "compass" }
 ```
@@ -105,7 +106,15 @@ kotlin {
                 // Optional - Location permissions for mobile
                 implementation(libs.compass.permissions.mobile)
             }
-        }  
+        }
+
+        androidMain {
+            dependencies {
+                // Optional - Use Google Play Services fused location on Android.
+                // Requires the proprietary Play Services, see the note below.
+                implementation(libs.compass.geolocation.android.gms)
+            }
+        }
     }
 }
 ```
@@ -164,6 +173,14 @@ kotlin {
                 implementation("dev.jordond.compass:permissions-mobile:$compassVersion")
             }
         }
+
+        androidMain {
+            dependencies {
+                // Optional - Use Google Play Services fused location on Android.
+                // Requires the proprietary Play Services, see the note below.
+                implementation("dev.jordond.compass:geolocation-android-gms:$compassVersion")
+            }
+        }
     }
 }
 ```
@@ -172,4 +189,8 @@ kotlin {
 
 {% hint style="info" %}
 If you plan on using Compass in a project that targets both mobile and non-mobile platforms (desktop, browser, etc). Then you will need to make sure use `expect/actual` to provide the implementation for each platform. See [mixed-platforms.md](../usage/mixed-platforms.md "mention").
+{% endhint %}
+
+{% hint style="warning" %}
+`geolocation-android-gms` depends on Google Play Services, and it is the only one that goes in an Android source set rather than `commonMain`. See [android-ios.md](../geolocation/android-ios.md "mention") for which one you want.
 {% endhint %}

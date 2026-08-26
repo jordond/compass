@@ -40,6 +40,7 @@ view the generated KDoc at [docs.compass.jordond.dev](https://docs.compass.jordo
     - Get the current location of the device
     - Monitor the location of the device
     - JS/WASM browser geolocation support
+    - No Google Play Services dependency on Android, with opt-in fused location support
 - **Autocomplete**:
     - Provide suggestions for addresses based on user input
     - Support via native Android/iOS services

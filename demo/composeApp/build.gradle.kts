@@ -1,7 +1,5 @@
 import com.android.build.api.dsl.KotlinMultiplatformAndroidLibraryTarget
-import org.gradle.api.plugins.ExtensionAware
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
-import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
@@ -52,6 +50,7 @@ kotlin {
         androidMain.dependencies {
             implementation(libs.compose.ui.tooling.preview)
             implementation(libs.androidx.activity.compose)
+            implementation(projects.compassGeolocationAndroidGms)
         }
 
         commonMain.dependencies {
@@ -118,7 +117,6 @@ kotlin {
         }
     }
 
-    @OptIn(ExperimentalKotlinGradlePluginApi::class)
     compilerOptions {
         freeCompilerArgs.add("-Xexpect-actual-classes")
     }

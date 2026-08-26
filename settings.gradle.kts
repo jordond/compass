@@ -52,6 +52,7 @@ include(
     ":compass-geocoder-web-template",
     ":compass-geolocation",
     ":compass-geolocation-mobile",
+    ":compass-geolocation-android-gms",
     ":compass-geolocation-browser",
     ":compass-permissions",
     ":compass-permissions-mobile",
