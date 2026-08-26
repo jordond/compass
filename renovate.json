@@ -17,6 +17,48 @@
       ]
     }
   ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "Keep the Compass version in the docs in sync with Maven Central",
+      "managerFilePatterns": [
+        "/^docs/.*\\.md$/"
+      ],
+      "matchStrings": [
+        "compass = \"(?<currentValue>[^\"]+)\"",
+        "compassVersion = \"(?<currentValue>[^\"]+)\""
+      ],
+      "depNameTemplate": "dev.jordond.compass:core",
+      "datasourceTemplate": "maven",
+      "versioningTemplate": "semver"
+    },
+    {
+      "customType": "regex",
+      "description": "Keep the Kotlin badge in README.MD in sync with the version catalog",
+      "managerFilePatterns": [
+        "/^README\\.MD$/"
+      ],
+      "matchStrings": [
+        "kotlin-v(?<currentValue>[0-9]+\\.[0-9]+\\.[0-9]+)-blue"
+      ],
+      "depNameTemplate": "org.jetbrains.kotlin:kotlin-gradle-plugin",
+      "datasourceTemplate": "maven",
+      "versioningTemplate": "semver"
+    },
+    {
+      "customType": "regex",
+      "description": "Keep the Compose Multiplatform badge in README.MD in sync with the version catalog",
+      "managerFilePatterns": [
+        "/^README\\.MD$/"
+      ],
+      "matchStrings": [
+        "Compose%20Multiplatform-v(?<currentValue>[0-9]+\\.[0-9]+\\.[0-9]+)-blue"
+      ],
+      "depNameTemplate": "org.jetbrains.compose:compose-gradle-plugin",
+      "datasourceTemplate": "maven",
+      "versioningTemplate": "semver"
+    }
+  ],
   "ignoreDeps": [
     "org.jetbrains.kotlinx:kotlinx-coroutines-test",
     "org.jetbrains.kotlinx:kotlinx-coroutines-android",
@@ -24,7 +66,3 @@
     "androidx.core:core-ktx"
   ]
 }
-
-
-
-

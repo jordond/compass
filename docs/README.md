@@ -1,6 +1,6 @@
 # 🧭 Compass
 
-[![Maven Central Version](https://img.shields.io/maven-central/v/dev.jordond.compass/compass-core)](https://central.sonatype.com/namespace/dev.jordond.compass)
+[![Maven Central Version](https://img.shields.io/maven-central/v/dev.jordond.compass/core)](https://central.sonatype.com/namespace/dev.jordond.compass)
 
 ## Overview
 
