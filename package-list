@@ -44,6 +44,8 @@ dev.jordond.compass.geocoder.web.parameter
 module:compass-geolocation
 dev.jordond.compass.geolocation
 dev.jordond.compass.geolocation.exception
+module:compass-geolocation-android-gms
+dev.jordond.compass.geolocation.mobile.gms
 module:compass-geolocation-browser
 dev.jordond.compass.geolocation
 dev.jordond.compass.geolocation.browser
