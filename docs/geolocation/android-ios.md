@@ -118,7 +118,7 @@ if (isPlayServicesAvailable()) Geolocator.gms() else Geolocator.mobile()
 * You want to support devices without Play Services, but still get the fused locations where they exist, then add `geolocation-android-gms` and the fallback is handled for you.
 
 {% hint style="warning" %}
-Before Compass 1.3.0 the `geolocation-mobile` and `permissions-mobile` artifacts depended on `play-services-location` and always used the fused provider. They no longer do. To get the old behaviour back, add `geolocation-android-gms` to your Android source set. Without it your app keeps working, using the built-in `LocationManager`.
+Before Compass 4.0.0 the `geolocation-mobile` and `permissions-mobile` artifacts depended on `play-services-location` and always used the fused provider. They no longer do. To get the old behaviour back, add `geolocation-android-gms` to your Android source set. Without it your app keeps working, using the built-in `LocationManager`. See [4.0.0.md](../migration/4.0.0.md "mention").
 {% endhint %}
 
 ### What changes without Play Services
