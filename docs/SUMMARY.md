@@ -10,6 +10,10 @@
 * [🤖 Android / iOS](setup/android-ios.md)
 * [📱 Mixed platforms](usage/mixed-platforms.md)
 
+## Migration
+
+* [⬆️ Migrating to 4.0.0](migration/4.0.0.md)
+
 ## Geocoding
 
 * [🌎 Geocoding Overview](geocoder/overview.md)

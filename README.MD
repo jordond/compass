@@ -20,6 +20,12 @@ geocoding operations.
 Check out the [Documentation](https://compass.jordond.dev) for detailed instructions. You can also
 view the generated KDoc at [docs.compass.jordond.dev](https://docs.compass.jordond.dev)
 
+> [!IMPORTANT]
+> **Compass 4.0.0 removes the Google Play Services dependency on Android.** `geolocation-mobile` now
+> uses the built-in `LocationManager`. To keep the fused location provider, add
+> `dev.jordond.compass:geolocation-android-gms` to your Android source set. No API changed. See the
+> [migration guide](https://compass.jordond.dev/docs/migration/4.0.0).
+
 ## Table of Contents
 
 - [Features](#features)
