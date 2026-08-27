@@ -33,7 +33,7 @@ dependencyResolutionManagement {
 {% code fullWidth="false" %}
 ```toml
 [versions]
-compass = "3.3.0"
+compass = "4.0.0"
 
 [libraries]
 compass-autocomplete = { module = "dev.jordond.compass:autocomplete", version.ref = "compass" }
@@ -127,7 +127,7 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
-                val compassVersion = "3.3.0"
+                val compassVersion = "4.0.0"
 
                 // Geocoding
                 implementation("dev.jordond.compass:geocoder:$compassVersion")
