@@ -30,7 +30,7 @@ kotest = "6.2.5"
 ktor = "3.6.0"
 voyager = "2.2.21-1.10.3"
 stateHolder = "1.2.0"
-locationAltitude = "1.0.0"
+locationAltitude = "1.0.1"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
