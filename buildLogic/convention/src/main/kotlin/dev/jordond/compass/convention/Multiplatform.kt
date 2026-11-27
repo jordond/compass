@@ -135,7 +135,21 @@ internal fun KotlinMultiplatformExtension.configurePlatforms(
     if (platforms.size > 1) {
         sourceSets.commonTest.dependencies {
             implementation(kotlin("test"))
+            implementation(project.libs.findLibrary("kotlinx-coroutines-test").get())
             implementation(project.libs.findLibrary("kotest-assertions").get())
+            implementation(project.libs.findLibrary("turbine").get())
+        }
+    }
+
+    if (platforms.contains(Platform.Android)) {
+        sourceSets.named("androidHostTest").configure {
+            dependencies {
+                implementation(kotlin("test"))
+                implementation(project.libs.findLibrary("kotlinx-coroutines-test").get())
+                implementation(project.libs.findLibrary("kotest-assertions").get())
+                implementation(project.libs.findLibrary("mockk-android").get())
+                implementation(project.libs.findLibrary("mockk-agent").get())
+            }
         }
     }
 }
