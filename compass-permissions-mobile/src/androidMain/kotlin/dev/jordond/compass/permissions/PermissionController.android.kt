@@ -8,10 +8,10 @@ import dev.jordond.compass.Priority
 import dev.jordond.compass.permissions.mobile.internal.activity.ActivityProvider
 import dev.jordond.compass.permissions.mobile.internal.resolveGrantedAccuracy
 import dev.jordond.compass.tools.ContextProvider
+import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlin.coroutines.resume
-import kotlin.coroutines.suspendCoroutine
 
 internal actual fun createPermissionController(): LocationPermissionController {
     return AndroidLocationPermissionController(
@@ -43,10 +43,13 @@ internal class AndroidLocationPermissionController(
         if (permissions.isEmpty() || permissions.hasPermissions()) return PermissionState.Granted
 
         return mutex.withLock {
-            suspendCoroutine { continuation ->
-                activityProvider.permissionRequester.request(permissions) { result ->
-                    continuation.resume(result)
+            suspendCancellableCoroutine { continuation ->
+                val request = activityProvider.permissionRequester.request(permissions) { result ->
+                    if (continuation.isActive) continuation.resume(result)
                 }
+
+                // The system prompt cannot be dismissed, but the caller and the lock are released
+                continuation.invokeOnCancellation { request.cancel() }
             }
         }
     }

@@ -180,12 +180,14 @@ class DefaultGeolocatorTrackingTest {
     }
 
     @Test
-    fun trackingAgainAfterTheLocationFlowCompletesRestartsTheLocator() = runTest {
+    fun aLocationFlowThatCompletesReturnsToIdleAndCanBeTrackedAgain() = runTest {
         val locator = FakeLocator().apply { onTrack = { emptyFlow() } }
         val geolocator = geolocator(locator)
 
         geolocator.track()
         runCurrent()
+        assertEquals(TrackingStatus.Idle, statusOf(geolocator))
+
         geolocator.track()
         runCurrent()
 

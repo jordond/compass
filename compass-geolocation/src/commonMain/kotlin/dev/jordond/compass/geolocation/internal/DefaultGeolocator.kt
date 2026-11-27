@@ -12,6 +12,8 @@ import dev.jordond.compass.geolocation.TrackingStatus
 import dev.jordond.compass.permissions.exception.PermissionDeniedException
 import dev.jordond.compass.permissions.exception.PermissionDeniedForeverException
 import dev.jordond.compass.permissions.exception.PermissionException
+import kotlinx.atomicfu.locks.SynchronizedObject
+import kotlinx.atomicfu.locks.synchronized
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
@@ -21,6 +23,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -32,6 +35,9 @@ internal class DefaultGeolocator(
 ) : Geolocator {
 
     private val status = MutableStateFlow<TrackingStatus>(TrackingStatus.Idle)
+
+    // Guards trackingJob, track and stopTracking can be called from different threads
+    private val lock = SynchronizedObject()
     private var trackingJob: Job? = null
 
     init {
@@ -62,8 +68,13 @@ internal class DefaultGeolocator(
     override suspend fun current(priority: Priority): GeolocatorResult =
         current(LocationRequest(priority))
 
-    override fun track(request: LocationRequest): Flow<TrackingStatus> = status.also {
-        if (trackingJob?.isActive == true) return@also
+    override fun track(request: LocationRequest): Flow<TrackingStatus> {
+        synchronized(lock) { startTrackingJob(request) }
+        return status
+    }
+
+    private fun startTrackingJob(request: LocationRequest) {
+        if (trackingJob?.isActive == true) return
 
         // A failed attempt leaves its error behind, clear it so a retry reports its own outcome
         status.update { current -> if (current is TrackingStatus.Error) TrackingStatus.Idle else current }
@@ -77,6 +88,7 @@ internal class DefaultGeolocator(
                 try {
                     locator.track(request)
                         .catch { cause -> status.update { TrackingStatus.Error(cause.toResult()) } }
+                        .onCompletion { cause -> if (cause == null) onTrackingEnded() }
                         .launchIn(this)
                 } catch (cause: Throwable) {
                     if (cause is CancellationException) throw cause
@@ -87,10 +99,19 @@ internal class DefaultGeolocator(
     }
 
     override fun stopTracking() {
-        locator.stopTracking()
-        status.update { TrackingStatus.Idle }
-        trackingJob?.cancel()
-        trackingJob = null
+        synchronized(lock) {
+            locator.stopTracking()
+            status.update { TrackingStatus.Idle }
+            trackingJob?.cancel()
+            trackingJob = null
+        }
+    }
+
+    /**
+     * The locator ended its location flow on its own, so nothing is being tracked anymore.
+     */
+    private fun onTrackingEnded() {
+        status.update { current -> if (current.isActive) TrackingStatus.Idle else current }
     }
 
     private fun Throwable.toResult(): GeolocatorResult.Error = when (this) {

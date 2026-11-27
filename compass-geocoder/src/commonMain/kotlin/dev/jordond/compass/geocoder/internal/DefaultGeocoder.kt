@@ -25,7 +25,7 @@ internal class DefaultGeocoder(
      * @see Geocoder.reverse
      */
     override suspend fun reverse(latitude: Double, longitude: Double): GeocoderResult<Place> {
-        return handleResult {
+        return handleResult(invalidArgument = GeocoderResult.InvalidCoordinates) {
             platformGeocoder.reverse(latitude, longitude)
         }
     }
@@ -39,7 +39,14 @@ internal class DefaultGeocoder(
         }
     }
 
-    private suspend fun <T> handleResult(block: suspend () -> List<T>): GeocoderResult<T> {
+    /**
+     * @param invalidArgument What an [IllegalArgumentException] from the platform means, when it
+     * means something more specific than a failed lookup.
+     */
+    private suspend fun <T> handleResult(
+        invalidArgument: GeocoderResult.Error? = null,
+        block: suspend () -> List<T>,
+    ): GeocoderResult<T> {
         try {
             if (!isAvailable()) {
                 return GeocoderResult.NotSupported
@@ -55,10 +62,13 @@ internal class DefaultGeocoder(
         } catch (cause: Throwable) {
             return when (cause) {
                 is NotSupportedException -> GeocoderResult.NotSupported
-                is IllegalArgumentException -> GeocoderResult.InvalidCoordinates
                 is NotFoundException -> GeocoderResult.NotFound
-                else -> GeocoderResult.GeocodeFailed(cause.message ?: "Unknown error")
+                is IllegalArgumentException -> invalidArgument ?: cause.toFailed()
+                else -> cause.toFailed()
             }
         }
     }
+
+    private fun Throwable.toFailed(): GeocoderResult.Error =
+        GeocoderResult.GeocodeFailed(message ?: "Unknown error")
 }

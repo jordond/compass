@@ -18,6 +18,7 @@ kotlin {
             api(projects.compassCore)
             api(projects.compassPermissions)
 
+            implementation(libs.kotlinx.atomicfu)
             implementation(libs.kotlinx.coroutines.core)
         }
     }

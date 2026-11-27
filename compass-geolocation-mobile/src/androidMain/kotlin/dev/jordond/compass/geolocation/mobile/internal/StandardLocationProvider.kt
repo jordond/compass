@@ -100,6 +100,8 @@ internal class StandardLocationProvider(
 
         private var registeredProvider: String? = null
 
+        private var stopped = false
+
         private val listener = object : LocationListenerCompat {
 
             override fun onLocationChanged(location: Location) {
@@ -131,11 +133,14 @@ internal class StandardLocationProvider(
         }
 
         fun stop() {
+            stopped = true
             runCatching { context.unregisterReceiver(settingsReceiver) }
             unregister()
         }
 
         private fun refresh() {
+            // A provider or settings change can still be delivered after the session was stopped
+            if (stopped) return
             runCatching { register() }
         }
 
