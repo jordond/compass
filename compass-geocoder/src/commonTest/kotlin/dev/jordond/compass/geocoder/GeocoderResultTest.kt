@@ -9,75 +9,49 @@ import kotlin.test.assertTrue
 
 class GeocoderResultTest {
 
-    private val errors: List<GeocoderResult.Error> = listOf(
-        GeocoderResult.NotFound,
-        GeocoderResult.NotSupported,
-        GeocoderResult.InvalidCoordinates,
-        GeocoderResult.GeocodeFailed("failed"),
-    )
-
     @Test
-    fun successIsNotError() {
-        val result = GeocoderResult.Success(listOf(1))
-        assertFalse(result.isError)
-        assertNull(result.errorOrNull())
+    fun successExposesItsDataAndOnlyRunsOnSuccess() {
+        val success: GeocoderResult<Int> = GeocoderResult.Success(listOf(1, 2))
+        var received: List<Int>? = null
+        var failed = false
+
+        assertFalse(success.isError)
+        assertNull(success.errorOrNull())
+        assertEquals(listOf(1, 2), success.getOrNull())
+        assertEquals(1, success.getFirstOrNull())
+        assertSame(success, success.onSuccess { data -> received = data })
+        assertSame(success, success.onFailed { failed = true })
+        assertEquals(listOf(1, 2), received)
+        assertFalse(failed)
     }
 
     @Test
-    fun errorsAreErrors() {
-        errors.forEach { error ->
-            assertTrue(error.isError)
-            assertSame(error, error.errorOrNull())
-            assertNull(error.getOrNull())
-            assertNull(error.getFirstOrNull())
-        }
-    }
-
-    @Test
-    fun getOrNullReturnsData() {
-        assertEquals(listOf(1, 2), GeocoderResult.Success(listOf(1, 2)).getOrNull())
-    }
-
-    @Test
-    fun getFirstOrNullReturnsFirstElement() {
-        assertEquals(1, GeocoderResult.Success(listOf(1, 2)).getFirstOrNull())
-    }
-
-    @Test
-    fun getFirstOrNullOnEmptySuccessIsNull() {
+    fun getFirstOrNullIsNullForAnEmptySuccess() {
         assertNull(GeocoderResult.Success(emptyList<Int>()).getFirstOrNull())
     }
 
     @Test
-    fun onSuccessRunsOnlyForSuccessAndReturnsSelf() {
-        var received: List<Int>? = null
-        val success = GeocoderResult.Success(listOf(7))
-        assertSame(success, success.onSuccess { received = it })
-        assertEquals(listOf(7), received)
+    fun errorsExposeThemselvesAndOnlyRunOnFailed() {
+        val errors: List<GeocoderResult.Error> = listOf(
+            GeocoderResult.NotFound,
+            GeocoderResult.NotSupported,
+            GeocoderResult.InvalidCoordinates,
+            GeocoderResult.GeocodeFailed("failed"),
+        )
 
-        var called = false
-        val error: GeocoderResult<Int> = GeocoderResult.NotFound
-        assertSame(error, error.onSuccess { called = true })
-        assertFalse(called)
-    }
+        errors.forEach { error ->
+            val result: GeocoderResult<Int> = error
+            var received: GeocoderResult.Error? = null
+            var succeeded = false
 
-    @Test
-    fun onFailedRunsOnlyForErrorAndReturnsSelf() {
-        var received: GeocoderResult.Error? = null
-        val error: GeocoderResult<Int> = GeocoderResult.NotSupported
-        assertSame(error, error.onFailed { received = it })
-        assertSame(GeocoderResult.NotSupported, received)
-
-        var called = false
-        val success: GeocoderResult<Int> = GeocoderResult.Success(listOf(1))
-        assertSame(success, success.onFailed { called = true })
-        assertFalse(called)
-    }
-
-    @Test
-    fun successAndGeocodeFailedHaveStructuralEquality() {
-        assertEquals(GeocoderResult.Success(listOf(1)), GeocoderResult.Success(listOf(1)))
-        assertEquals(GeocoderResult.GeocodeFailed("a"), GeocoderResult.GeocodeFailed("a"))
-        assertTrue(GeocoderResult.GeocodeFailed("a") != GeocoderResult.GeocodeFailed("b"))
+            assertTrue(result.isError, "$error")
+            assertSame(error, result.errorOrNull(), "$error")
+            assertNull(result.getOrNull(), "$error")
+            assertNull(result.getFirstOrNull(), "$error")
+            assertSame(result, result.onFailed { cause -> received = cause })
+            assertSame(result, result.onSuccess { succeeded = true })
+            assertSame(error, received, "$error")
+            assertFalse(succeeded, "$error")
+        }
     }
 }

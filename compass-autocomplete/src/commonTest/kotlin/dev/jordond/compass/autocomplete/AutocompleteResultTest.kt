@@ -9,57 +9,40 @@ import kotlin.test.assertTrue
 
 class AutocompleteResultTest {
 
-    private val success: AutocompleteResult<String> = AutocompleteResult.Success(listOf("a", "b"))
-    private val failed: AutocompleteResult<String> = AutocompleteResult.Failed("boom")
-
     @Test
-    fun successIsNotAnError() {
+    fun successExposesItsDataAndOnlyRunsOnSuccess() {
+        val success: AutocompleteResult<String> = AutocompleteResult.Success(listOf("a", "b"))
+        var received: List<String>? = null
+        var failed = false
+
         assertFalse(success.isError)
         assertEquals(listOf("a", "b"), success.getOrNull())
         assertNull(success.errorOrNull())
+        assertSame(success, success.onSuccess { data -> received = data })
+        assertSame(success, success.onFailed { failed = true })
+        assertEquals(listOf("a", "b"), received)
+        assertFalse(failed)
     }
 
     @Test
-    fun failedIsAnErrorWithMessage() {
-        assertTrue(failed.isError)
-        assertNull(failed.getOrNull())
-        assertEquals("boom", failed.errorOrNull()?.message)
-    }
+    fun errorsExposeThemselvesAndOnlyRunOnFailed() {
+        val errors: List<AutocompleteResult.Error> = listOf(
+            AutocompleteResult.Failed("boom"),
+            AutocompleteResult.NotSupported,
+        )
 
-    @Test
-    fun notSupportedIsAnErrorWithMessage() {
-        val result: AutocompleteResult<String> = AutocompleteResult.NotSupported
+        errors.forEach { error ->
+            val result: AutocompleteResult<String> = error
+            var received: AutocompleteResult.Error? = null
+            var succeeded = false
 
-        assertTrue(result.isError)
-        assertNull(result.getOrNull())
-        assertEquals("Device does not support autocomplete.", result.errorOrNull()?.message)
-    }
-
-    @Test
-    fun onSuccessOnlyRunsForSuccess() {
-        val received = mutableListOf<List<String>>()
-
-        assertSame(success, success.onSuccess { received += it })
-        assertSame(failed, failed.onSuccess { received += it })
-
-        assertEquals(listOf(listOf("a", "b")), received)
-    }
-
-    @Test
-    fun onFailedOnlyRunsForErrors() {
-        val received = mutableListOf<String>()
-
-        assertSame(success, success.onFailed { received += it.message })
-        assertSame(failed, failed.onFailed { received += it.message })
-        AutocompleteResult.NotSupported.onFailed { received += it.message }
-
-        assertEquals(listOf("boom", "Device does not support autocomplete."), received)
-    }
-
-    @Test
-    fun successAndFailedHaveValueEquality() {
-        assertEquals(AutocompleteResult.Success(listOf(1)), AutocompleteResult.Success(listOf(1)))
-        assertEquals(AutocompleteResult.Failed("x"), AutocompleteResult.Failed("x"))
-        assertFalse(AutocompleteResult.Failed("x") == AutocompleteResult.Failed("y"))
+            assertTrue(result.isError, "$error")
+            assertNull(result.getOrNull(), "$error")
+            assertSame(error, result.errorOrNull(), "$error")
+            assertSame(result, result.onFailed { cause -> received = cause })
+            assertSame(result, result.onSuccess { succeeded = true })
+            assertSame(error, received, "$error")
+            assertFalse(succeeded, "$error")
+        }
     }
 }

@@ -1,6 +1,8 @@
 package dev.jordond.compass.geocoder
 
 import dev.jordond.compass.Coordinates
+import dev.jordond.compass.test.place
+import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -8,10 +10,19 @@ import kotlin.test.assertNull
 
 class ExtensionsTest {
 
-    private val places = listOf(place("first"), place("second"))
+    private val places = listOf(place(name = "first"), place(name = "second"))
     private val coordinates = listOf(Coordinates(1.0, 2.0), Coordinates(3.0, 4.0))
 
-    private fun geocoder(available: Boolean = true, empty: Boolean = false) = Geocoder(
+    private val extensions: Map<String, suspend Geocoder.() -> Any?> = mapOf(
+        "placesOrNull(Coordinates)" to { placesOrNull(Coordinates(1.0, 2.0)) },
+        "placesOrNull(lat, lng)" to { placesOrNull(1.0, 2.0) },
+        "placeOrNull(Coordinates)" to { placeOrNull(Coordinates(1.0, 2.0)) },
+        "placeOrNull(lat, lng)" to { placeOrNull(1.0, 2.0) },
+        "coordinatesListOrNull" to { coordinatesListOrNull("x") },
+        "coordinatesOrNull" to { coordinatesOrNull("x") },
+    )
+
+    private fun TestScope.geocoder(available: Boolean = true, empty: Boolean = false) = geocoder(
         FakePlatformGeocoder(
             available = available,
             onForward = { if (empty) emptyList() else coordinates },
@@ -20,40 +31,34 @@ class ExtensionsTest {
     )
 
     @Test
-    fun placesOrNullReturnsAllPlaces() = runTest {
+    fun listExtensionsReturnEveryResult() = runTest {
         assertEquals(places, geocoder().placesOrNull(Coordinates(1.0, 2.0)))
         assertEquals(places, geocoder().placesOrNull(1.0, 2.0))
-    }
-
-    @Test
-    fun placeOrNullReturnsFirstPlace() = runTest {
-        assertEquals(places.first(), geocoder().placeOrNull(Coordinates(1.0, 2.0)))
-        assertEquals(places.first(), geocoder().placeOrNull(1.0, 2.0))
-    }
-
-    @Test
-    fun coordinatesOrNullReturnsFirst() = runTest {
-        assertEquals(coordinates.first(), geocoder().coordinatesOrNull("x"))
-    }
-
-    @Test
-    fun coordinatesListOrNullReturnsAll() = runTest {
         assertEquals(coordinates, geocoder().coordinatesListOrNull("x"))
     }
 
     @Test
-    fun extensionsReturnNullOnEmptyResults() = runTest {
-        val geocoder = geocoder(empty = true)
-        assertNull(geocoder.placesOrNull(1.0, 2.0))
-        assertNull(geocoder.placeOrNull(Coordinates(1.0, 2.0)))
-        assertNull(geocoder.coordinatesOrNull("x"))
-        assertNull(geocoder.coordinatesListOrNull("x"))
+    fun singleExtensionsReturnTheFirstResult() = runTest {
+        assertEquals(places.first(), geocoder().placeOrNull(Coordinates(1.0, 2.0)))
+        assertEquals(places.first(), geocoder().placeOrNull(1.0, 2.0))
+        assertEquals(coordinates.first(), geocoder().coordinatesOrNull("x"))
     }
 
     @Test
-    fun extensionsReturnNullWhenUnavailable() = runTest {
+    fun everyExtensionReturnsNullWhenNothingIsFound() = runTest {
+        val geocoder = geocoder(empty = true)
+
+        extensions.forEach { (name, extension) ->
+            assertNull(geocoder.extension(), name)
+        }
+    }
+
+    @Test
+    fun everyExtensionReturnsNullWhenUnavailable() = runTest {
         val geocoder = geocoder(available = false)
-        assertNull(geocoder.placesOrNull(1.0, 2.0))
-        assertNull(geocoder.coordinatesOrNull("x"))
+
+        extensions.forEach { (name, extension) ->
+            assertNull(geocoder.extension(), name)
+        }
     }
 }

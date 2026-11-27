@@ -1,12 +1,12 @@
 package dev.jordond.compass.geolocation.mobile.internal
 
-import dev.jordond.compass.Coordinates
 import dev.jordond.compass.Location
 import dev.jordond.compass.Priority
 import dev.jordond.compass.exception.NotFoundException
 import dev.jordond.compass.geolocation.LocationRequest
 import dev.jordond.compass.geolocation.mobile.MobileLocator
 import dev.jordond.compass.permissions.exception.PermissionDeniedForeverException
+import dev.jordond.compass.test.location
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
@@ -23,7 +23,7 @@ class CachedLocationTest {
 
     @Test
     fun neverServesACachedFixWhenMaximumAgeIsZero() = runTest {
-        val locator = FakeMobileLocator { locationAt(NOW) }
+        val locator = FakeMobileLocator { location(timestampMillis = NOW) }
 
         assertNull(locator.cachedLocationOrNull(request(maximumAge = 0)) { NOW })
 
@@ -34,7 +34,7 @@ class CachedLocationTest {
 
     @Test
     fun servesAFixYoungerThanMaximumAge() = runTest {
-        val cached = locationAt(NOW - 4_000)
+        val cached = location(timestampMillis = NOW - 4_000)
         val locator = FakeMobileLocator { cached }
 
         assertSame(cached, locator.cachedLocationOrNull(request(maximumAge = 5_000)) { NOW })
@@ -42,7 +42,7 @@ class CachedLocationTest {
 
     @Test
     fun servesAFixExactlyAtMaximumAge() = runTest {
-        val cached = locationAt(NOW - 5_000)
+        val cached = location(timestampMillis = NOW - 5_000)
         val locator = FakeMobileLocator { cached }
 
         assertSame(cached, locator.cachedLocationOrNull(request(maximumAge = 5_000)) { NOW })
@@ -50,14 +50,14 @@ class CachedLocationTest {
 
     @Test
     fun rejectsAFixOlderThanMaximumAge() = runTest {
-        val locator = FakeMobileLocator { locationAt(NOW - 5_001) }
+        val locator = FakeMobileLocator { location(timestampMillis = NOW - 5_001) }
 
         assertNull(locator.cachedLocationOrNull(request(maximumAge = 5_000)) { NOW })
     }
 
     @Test
     fun rejectsAFixStampedInTheFuture() = runTest {
-        val locator = FakeMobileLocator { locationAt(NOW + 1) }
+        val locator = FakeMobileLocator { location(timestampMillis = NOW + 1) }
 
         assertNull(locator.cachedLocationOrNull(request(maximumAge = 5_000)) { NOW })
     }
@@ -76,7 +76,7 @@ class CachedLocationTest {
         var clock = NOW
         val locator = FakeMobileLocator {
             clock += 5_000
-            locationAt(NOW)
+            location(timestampMillis = NOW)
         }
 
         assertNull(locator.cachedLocationOrNull(request(maximumAge = 4_999)) { clock })
@@ -110,16 +110,6 @@ class CachedLocationTest {
     }
 
     private fun request(maximumAge: Long) = LocationRequest(maximumAge = maximumAge)
-
-    private fun locationAt(timestampMillis: Long) = Location(
-        coordinates = Coordinates(latitude = 0.0, longitude = 0.0),
-        accuracy = 0.0,
-        azimuth = null,
-        speed = null,
-        mslAltitude = null,
-        ellipsoidalAltitude = null,
-        timestampMillis = timestampMillis,
-    )
 }
 
 private class FakeMobileLocator(

@@ -2,21 +2,15 @@ package dev.jordond.compass.geocoder
 
 import dev.jordond.compass.Coordinates
 import dev.jordond.compass.Place
+import dev.jordond.compass.geocoder.internal.DefaultGeocoder
+import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.TestScope
 
-internal fun place(name: String? = "Place", coordinates: Coordinates = Coordinates(1.0, 2.0)) = Place(
-    coordinates = coordinates,
-    name = name,
-    street = null,
-    isoCountryCode = null,
-    country = null,
-    postalCode = null,
-    administrativeArea = null,
-    subAdministrativeArea = null,
-    locality = null,
-    subLocality = null,
-    thoroughfare = null,
-    subThoroughfare = null,
-)
+/**
+ * A geocoder over [platform] that runs on the scheduler of the calling test.
+ */
+internal fun TestScope.geocoder(platform: PlatformGeocoder): Geocoder =
+    DefaultGeocoder(platform, StandardTestDispatcher(testScheduler))
 
 internal class FakePlatformGeocoder(
     var available: Boolean = true,

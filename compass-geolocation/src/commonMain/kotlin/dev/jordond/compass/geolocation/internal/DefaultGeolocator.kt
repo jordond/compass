@@ -36,8 +36,11 @@ internal class DefaultGeolocator(
 
     init {
         coroutineScope.launch {
+            // Only a tracking session reports locations, a late or replayed fix must not undo a stop
             locator.locationUpdates.collect { value ->
-                status.update { TrackingStatus.Update(value) }
+                status.update { current ->
+                    if (current.isActive) TrackingStatus.Update(value) else current
+                }
             }
         }
     }

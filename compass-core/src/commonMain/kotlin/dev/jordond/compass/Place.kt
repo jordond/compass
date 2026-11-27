@@ -60,35 +60,4 @@ public class Place(
         get() = name ?: street ?: thoroughfare ?: subThoroughfare ?: subLocality ?: locality
         ?: subAdministrativeArea ?: administrativeArea ?: postalCode ?: country ?: isoCountryCode
         ?: throw IllegalStateException("Place is empty")
-
-    /**
-     * Used for testing purposes.
-     */
-    internal fun nullCopy(
-        coordinates: Coordinates = this.coordinates,
-        name: String? = null,
-        street: String? = null,
-        isoCountryCode: String? = null,
-        country: String? = null,
-        postalCode: String? = null,
-        administrativeArea: String? = null,
-        subAdministrativeArea: String? = null,
-        locality: String? = null,
-        subLocality: String? = null,
-        thoroughfare: String? = null,
-        subThoroughfare: String? = null,
-    ): Place = Place(
-        coordinates = coordinates,
-        name = name,
-        street = street,
-        isoCountryCode = isoCountryCode,
-        country = country,
-        postalCode = postalCode,
-        administrativeArea = administrativeArea,
-        subAdministrativeArea = subAdministrativeArea,
-        locality = locality,
-        subLocality = subLocality,
-        thoroughfare = thoroughfare,
-        subThoroughfare = subThoroughfare,
-    )
 }

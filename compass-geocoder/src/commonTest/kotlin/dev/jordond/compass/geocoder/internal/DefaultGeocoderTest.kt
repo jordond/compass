@@ -4,11 +4,13 @@ import dev.jordond.compass.Coordinates
 import dev.jordond.compass.exception.NotFoundException
 import dev.jordond.compass.exception.NotSupportedException
 import dev.jordond.compass.geocoder.FakePlatformGeocoder
+import dev.jordond.compass.geocoder.ForwardGeocoder
 import dev.jordond.compass.geocoder.Geocoder
 import dev.jordond.compass.geocoder.GeocoderResult
-import dev.jordond.compass.geocoder.place
+import dev.jordond.compass.geocoder.ReverseGeocoder
+import dev.jordond.compass.geocoder.geocoder
+import dev.jordond.compass.test.place
 import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
@@ -19,25 +21,16 @@ import kotlin.test.assertIs
 import kotlin.test.assertSame
 import kotlin.test.assertTrue
 
-@OptIn(ExperimentalCoroutinesApi::class)
 class DefaultGeocoderTest {
-
-    private fun TestScopeGeocoder(fake: FakePlatformGeocoder, scope: kotlinx.coroutines.test.TestScope) =
-        DefaultGeocoder(fake, StandardTestDispatcher(scope.testScheduler))
 
     @Test
     fun isAvailableDelegatesToPlatform() = runTest {
         val fake = FakePlatformGeocoder(available = true)
-        val geocoder = TestScopeGeocoder(fake, this)
+        val geocoder = geocoder(fake)
+
         assertTrue(geocoder.isAvailable())
         fake.available = false
         assertFalse(geocoder.isAvailable())
-    }
-
-    @Test
-    fun platformGeocoderIsExposed() = runTest {
-        val fake = FakePlatformGeocoder()
-        assertSame(fake, TestScopeGeocoder(fake, this).platformGeocoder)
     }
 
     @Test
@@ -45,22 +38,20 @@ class DefaultGeocoderTest {
         val coordinates = listOf(Coordinates(1.0, 2.0), Coordinates(3.0, 4.0))
         val fake = FakePlatformGeocoder(onForward = { coordinates })
 
-        val result = TestScopeGeocoder(fake, this).forward("somewhere")
+        val result = geocoder(fake).forward("somewhere")
 
-        assertIs<GeocoderResult.Success<Coordinates>>(result)
-        assertEquals(coordinates, result.data)
+        assertEquals(GeocoderResult.Success(coordinates), result)
         assertEquals("somewhere", fake.lastAddress)
     }
 
     @Test
     fun reverseReturnsSuccessWithData() = runTest {
-        val places = listOf(place("A"), place("B"))
+        val places = listOf(place(name = "A"), place(name = "B"))
         val fake = FakePlatformGeocoder(onReverse = { _, _ -> places })
 
-        val result = TestScopeGeocoder(fake, this).reverse(10.5, -20.5)
+        val result = geocoder(fake).reverse(10.5, -20.5)
 
-        assertIs<GeocoderResult.Success<*>>(result)
-        assertEquals(places, result.data)
+        assertEquals(GeocoderResult.Success(places), result)
         assertEquals(10.5 to -20.5, fake.lastReverse)
     }
 
@@ -68,7 +59,7 @@ class DefaultGeocoderTest {
     fun reverseWithCoordinatesPassesLatitudeAndLongitude() = runTest {
         val fake = FakePlatformGeocoder(onReverse = { _, _ -> listOf(place()) })
 
-        TestScopeGeocoder(fake, this).reverse(Coordinates(5.0, 6.0))
+        geocoder(fake).reverse(Coordinates(5.0, 6.0))
 
         assertEquals(5.0 to 6.0, fake.lastReverse)
     }
@@ -76,7 +67,7 @@ class DefaultGeocoderTest {
     @Test
     fun placesAliasesReverse() = runTest {
         val fake = FakePlatformGeocoder(onReverse = { _, _ -> listOf(place()) })
-        val geocoder = TestScopeGeocoder(fake, this)
+        val geocoder = geocoder(fake)
 
         assertIs<GeocoderResult.Success<*>>(geocoder.places(1.0, 2.0))
         assertIs<GeocoderResult.Success<*>>(geocoder.places(Coordinates(1.0, 2.0)))
@@ -87,13 +78,13 @@ class DefaultGeocoderTest {
     fun locationsAliasesForward() = runTest {
         val fake = FakePlatformGeocoder(onForward = { listOf(Coordinates(1.0, 1.0)) })
 
-        assertIs<GeocoderResult.Success<Coordinates>>(TestScopeGeocoder(fake, this).locations("x"))
+        assertIs<GeocoderResult.Success<Coordinates>>(geocoder(fake).locations("x"))
         assertEquals(1, fake.forwardCalls)
     }
 
     @Test
     fun emptyListMapsToNotFound() = runTest {
-        val geocoder = TestScopeGeocoder(FakePlatformGeocoder(), this)
+        val geocoder = geocoder(FakePlatformGeocoder())
 
         assertSame(GeocoderResult.NotFound, geocoder.forward("x"))
         assertSame(GeocoderResult.NotFound, geocoder.reverse(1.0, 1.0))
@@ -102,7 +93,7 @@ class DefaultGeocoderTest {
     @Test
     fun unavailablePlatformMapsToNotSupportedWithoutCallingPlatform() = runTest {
         val fake = FakePlatformGeocoder(available = false)
-        val geocoder = TestScopeGeocoder(fake, this)
+        val geocoder = geocoder(fake)
 
         assertSame(GeocoderResult.NotSupported, geocoder.forward("x"))
         assertSame(GeocoderResult.NotSupported, geocoder.reverse(1.0, 1.0))
@@ -111,47 +102,33 @@ class DefaultGeocoderTest {
     }
 
     @Test
-    fun notSupportedExceptionMapsToNotSupported() = runTest {
-        val fake = FakePlatformGeocoder(onForward = { throw NotSupportedException() })
-        assertSame(GeocoderResult.NotSupported, TestScopeGeocoder(fake, this).forward("x"))
-    }
+    fun platformFailuresMapToErrorResults() = runTest {
+        val cases: List<Pair<Throwable, GeocoderResult.Error>> = listOf(
+            NotSupportedException() to GeocoderResult.NotSupported,
+            IllegalArgumentException("bad") to GeocoderResult.InvalidCoordinates,
+            NotFoundException() to GeocoderResult.NotFound,
+            IllegalStateException("boom") to GeocoderResult.GeocodeFailed("boom"),
+            RuntimeException() to GeocoderResult.GeocodeFailed("Unknown error"),
+        )
 
-    @Test
-    fun illegalArgumentExceptionMapsToInvalidCoordinates() = runTest {
-        val fake = FakePlatformGeocoder(onReverse = { _, _ -> throw IllegalArgumentException("bad") })
-        assertSame(GeocoderResult.InvalidCoordinates, TestScopeGeocoder(fake, this).reverse(999.0, 999.0))
-    }
+        cases.forEach { (failure, expected) ->
+            val geocoder = geocoder(
+                FakePlatformGeocoder(
+                    onForward = { throw failure },
+                    onReverse = { _, _ -> throw failure },
+                ),
+            )
 
-    @Test
-    fun notFoundExceptionMapsToNotFound() = runTest {
-        val fake = FakePlatformGeocoder(onForward = { throw NotFoundException() })
-        assertSame(GeocoderResult.NotFound, TestScopeGeocoder(fake, this).forward("x"))
-    }
-
-    @Test
-    fun otherThrowableMapsToGeocodeFailedWithMessage() = runTest {
-        val fake = FakePlatformGeocoder(onForward = { throw IllegalStateException("boom") })
-
-        val result = TestScopeGeocoder(fake, this).forward("x")
-
-        assertIs<GeocoderResult.GeocodeFailed>(result)
-        assertEquals("boom", result.message)
-    }
-
-    @Test
-    fun throwableWithoutMessageMapsToUnknownError() = runTest {
-        val fake = FakePlatformGeocoder(onReverse = { _, _ -> throw RuntimeException() })
-
-        val result = TestScopeGeocoder(fake, this).reverse(1.0, 1.0)
-
-        assertIs<GeocoderResult.GeocodeFailed>(result)
-        assertEquals("Unknown error", result.message)
+            assertEquals<GeocoderResult<*>>(expected, geocoder.forward("x"), "forward with $failure")
+            assertEquals<GeocoderResult<*>>(expected, geocoder.reverse(1.0, 1.0), "reverse with $failure")
+        }
     }
 
     @Test
     fun cancellationExceptionIsRethrown() = runTest {
         val fake = FakePlatformGeocoder(onForward = { throw CancellationException("cancelled") })
-        assertFailsWith<CancellationException> { TestScopeGeocoder(fake, this).forward("x") }
+
+        assertFailsWith<CancellationException> { geocoder(fake).forward("x") }
     }
 
     @Test
@@ -163,7 +140,7 @@ class DefaultGeocoderTest {
         val dispatcher = StandardTestDispatcher(testScheduler)
 
         assertIs<GeocoderResult.Success<*>>(Geocoder(fake, dispatcher).forward("x"))
-        assertIs<GeocoderResult.Success<*>>(dev.jordond.compass.geocoder.ForwardGeocoder(fake, dispatcher).forward("x"))
-        assertIs<GeocoderResult.Success<*>>(dev.jordond.compass.geocoder.ReverseGeocoder(fake, dispatcher).reverse(1.0, 2.0))
+        assertIs<GeocoderResult.Success<*>>(ForwardGeocoder(fake, dispatcher).forward("x"))
+        assertIs<GeocoderResult.Success<*>>(ReverseGeocoder(fake, dispatcher).reverse(1.0, 2.0))
     }
 }

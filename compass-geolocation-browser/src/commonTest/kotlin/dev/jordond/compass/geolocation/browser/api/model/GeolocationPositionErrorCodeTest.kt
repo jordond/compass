@@ -7,16 +7,14 @@ class GeolocationPositionErrorCodeTest {
 
     @Test
     fun codesMatchTheW3cGeolocationSpec() {
-        assertEquals(1, GeolocationPositionErrorCode.PermissionDenied.code)
-        assertEquals(2, GeolocationPositionErrorCode.PositionUnavailable.code)
-        assertEquals(3, GeolocationPositionErrorCode.Timeout.code)
-    }
-
-    @Test
-    fun everySpecCodeHasExactlyOneEntry() {
+        // The browser reports these numbers, and an error is mapped to an entry by its code alone
         assertEquals(
-            listOf(1, 2, 3),
-            GeolocationPositionErrorCode.entries.map { it.code }.sorted(),
+            mapOf(
+                GeolocationPositionErrorCode.PermissionDenied to 1,
+                GeolocationPositionErrorCode.PositionUnavailable to 2,
+                GeolocationPositionErrorCode.Timeout to 3,
+            ),
+            GeolocationPositionErrorCode.entries.associateWith { entry -> entry.code },
         )
     }
 }
