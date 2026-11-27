@@ -105,7 +105,6 @@ class DefaultGeocoderTest {
     fun platformFailuresMapToErrorResults() = runTest {
         val cases: List<Pair<Throwable, GeocoderResult.Error>> = listOf(
             NotSupportedException() to GeocoderResult.NotSupported,
-            IllegalArgumentException("bad") to GeocoderResult.InvalidCoordinates,
             NotFoundException() to GeocoderResult.NotFound,
             IllegalStateException("boom") to GeocoderResult.GeocodeFailed("boom"),
             RuntimeException() to GeocoderResult.GeocodeFailed("Unknown error"),
@@ -122,6 +121,19 @@ class DefaultGeocoderTest {
             assertEquals<GeocoderResult<*>>(expected, geocoder.forward("x"), "forward with $failure")
             assertEquals<GeocoderResult<*>>(expected, geocoder.reverse(1.0, 1.0), "reverse with $failure")
         }
+    }
+
+    @Test
+    fun anIllegalArgumentMeansInvalidCoordinatesOnlyForReverse() = runTest {
+        val geocoder = geocoder(
+            FakePlatformGeocoder(
+                onForward = { throw IllegalArgumentException("bad address") },
+                onReverse = { _, _ -> throw IllegalArgumentException("bad coordinates") },
+            ),
+        )
+
+        assertEquals<GeocoderResult<*>>(GeocoderResult.GeocodeFailed("bad address"), geocoder.forward("x"))
+        assertEquals<GeocoderResult<*>>(GeocoderResult.InvalidCoordinates, geocoder.reverse(1.0, 1.0))
     }
 
     @Test

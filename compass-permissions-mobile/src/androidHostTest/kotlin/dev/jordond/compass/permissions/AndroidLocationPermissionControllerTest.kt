@@ -151,8 +151,7 @@ class AndroidLocationPermissionControllerTest {
         val first = async { controller.requirePermissionFor(Priority.HighAccuracy) }
         val second = async { controller.requirePermissionFor(Priority.Balanced) }
 
-        // Waiting on a prompt cannot be cancelled, so a failed assertion must still answer every
-        // prompt or the test would hang instead of failing.
+        // A failed assertion must still answer every prompt so the test fails instead of hanging
         try {
             runCurrent()
             assertEquals(1, prompts.size, "prompts while the first request is unanswered")
@@ -170,6 +169,34 @@ class AndroidLocationPermissionControllerTest {
                 runCurrent()
             }
         }
+    }
+
+    @Test
+    fun cancellingWhileThePromptIsOpenReleasesTheCallerAndTheNextRequest() = runTest {
+        val prompts = mutableListOf<(PermissionState) -> Unit>()
+        val launched = mutableListOf<Job>()
+        every { requester.request(any(), any()) } answers {
+            prompts += secondArg<(PermissionState) -> Unit>()
+            Job().also { job -> launched += job }
+        }
+        val controller = controller()
+
+        val abandoned = async { controller.requirePermissionFor(Priority.HighAccuracy) }
+        runCurrent()
+        abandoned.cancel()
+        runCurrent()
+
+        assertTrue(abandoned.isCancelled)
+        assertTrue(launched.single().isCancelled, "the abandoned prompt request is cancelled")
+
+        val next = async { controller.requirePermissionFor(Priority.Balanced) }
+        runCurrent()
+        assertEquals(2, prompts.size, "the next request is not stuck behind the abandoned one")
+
+        // A late answer to the abandoned prompt is ignored
+        prompts[0].invoke(PermissionState.Denied)
+        prompts[1].invoke(PermissionState.Granted)
+        assertEquals(PermissionState.Granted, next.await())
     }
 
     private fun answerRequest(

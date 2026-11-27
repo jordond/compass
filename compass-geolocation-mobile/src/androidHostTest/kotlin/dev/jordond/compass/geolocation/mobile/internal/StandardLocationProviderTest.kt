@@ -250,6 +250,19 @@ class StandardLocationProviderTest {
     }
 
     @Test
+    fun changesDeliveredAfterStopTrackingDoNotRegisterAgain() {
+        val provider = provider()
+
+        provider.startTracking(LocationRequest())
+        provider.stopTracking()
+        listener.captured.onProviderEnabled(GPS_PROVIDER)
+        listener.captured.onProviderDisabled(GPS_PROVIDER)
+        broadcastSettingsChange()
+
+        verifyRegistrations(1)
+    }
+
+    @Test
     fun stopTrackingStopsWatchingTheLocationSettings() {
         val provider = provider()
 
