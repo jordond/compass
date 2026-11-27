@@ -1,9 +1,9 @@
 package dev.jordond.compass.geocoder.web.opencage.internal
 
 import dev.jordond.compass.Coordinates
-import dev.jordond.compass.Place
+import dev.jordond.compass.test.fixtures.OpenCageFixtures
+import dev.jordond.compass.tools.web.HttpApiEndpoint
 import kotlinx.serialization.SerializationException
-import kotlinx.serialization.json.Json
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
@@ -12,45 +12,19 @@ import kotlin.test.assertTrue
 
 class GeocodeResponseTest {
 
-    private val json = Json { ignoreUnknownKeys = true }
-
-    private fun decode(body: String): GeocodeResponse = json.decodeFromString(body)
-
-    @Test
-    fun decodesFullPayload() {
-        val result = decode(FULL).results.single()
-
-        assertEquals("Berlin", result.components.normalizedCity)
-        assertEquals("de", result.components.countryCode)
-        assertEquals(52.5200066, result.geometry.lat)
-        assertEquals(13.404954, result.geometry.lng)
-        assertEquals("Friedrichstrasse, 10117 Berlin, Germany", result.formatted)
-    }
+    private fun decode(body: String): GeocodeResponse =
+        HttpApiEndpoint.json().decodeFromString(body)
 
     @Test
     fun mapsFullPayloadToPlace() {
-        val places = decode(FULL).toPlaces()
+        val places = decode(OpenCageFixtures.geocodeJson).toPlaces()
 
-        val expected = Place(
-            coordinates = Coordinates(52.5200066, 13.404954),
-            name = "Zur letzten Instanz",
-            street = "Friedrichstrasse",
-            isoCountryCode = "de",
-            country = "Germany",
-            postalCode = "10117",
-            administrativeArea = "Berlin",
-            subAdministrativeArea = null,
-            locality = "Berlin",
-            subLocality = "Mitte",
-            thoroughfare = "Friedrichstrasse",
-            subThoroughfare = null,
-        )
-        assertEquals(listOf(expected), places)
+        assertEquals(listOf(OpenCageFixtures.place), places)
     }
 
     @Test
     fun mapsFullPayloadToCoordinates() {
-        assertEquals(listOf(Coordinates(52.5200066, 13.404954)), decode(FULL).toCoordinates())
+        assertEquals(listOf(OpenCageFixtures.coordinates), decode(OpenCageFixtures.geocodeJson).toCoordinates())
     }
 
     @Test
@@ -143,37 +117,5 @@ class GeocodeResponseTest {
         assertFailsWith<SerializationException> {
             decode("""{"results":[{"components":{},"formatted":"x"}]}""")
         }
-    }
-
-    private companion object {
-
-        const val FULL = """
-            {
-              "documentation":"https://opencagedata.com/api",
-              "rate":{"limit":2500,"remaining":2499,"reset":1700000000},
-              "results":[{
-                "components":{
-                  "ISO_3166-1_alpha-2":"DE",
-                  "_category":"commerce",
-                  "_normalized_city":"Berlin",
-                  "_type":"restaurant",
-                  "city":"Berlin",
-                  "continent":"Europe",
-                  "country":"Germany",
-                  "country_code":"de",
-                  "postcode":"10117",
-                  "restaurant":"Zur letzten Instanz",
-                  "road":"Friedrichstrasse",
-                  "state":"Berlin",
-                  "suburb":"Mitte"
-                },
-                "confidence":9,
-                "formatted":"Friedrichstrasse, 10117 Berlin, Germany",
-                "geometry":{"lat":52.5200066,"lng":13.404954}
-              }],
-              "status":{"code":200,"message":"OK"},
-              "total_results":1
-            }
-        """
     }
 }

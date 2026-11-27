@@ -26,7 +26,7 @@ kotlin {
         }
 
         commonTest.dependencies {
-            implementation(libs.ktor.client.mock)
+            implementation(projects.compassGeocoder)
         }
     }
 }

@@ -47,6 +47,17 @@ public class MockHttp(
      */
     public val parameters: Parameters get() = url.parameters
 
+    /**
+     * Every decoded query parameter of the only request made, so a test can assert the whole set.
+     */
+    public val query: Map<String, String>
+        get() = parameters.entries().associate { (name, values) -> name to values.single() }
+
+    /**
+     * The URL of the only request made, without its query.
+     */
+    public val urlWithoutQuery: String get() = url.toString().substringBefore(delimiter = "?")
+
     public val client: HttpClient = HttpApiEndpoint.httpClient(
         engine = MockEngine { request ->
             recorded += request

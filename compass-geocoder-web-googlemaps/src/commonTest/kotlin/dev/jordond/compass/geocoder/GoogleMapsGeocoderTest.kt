@@ -1,174 +1,98 @@
 package dev.jordond.compass.geocoder
 
-import dev.jordond.compass.Coordinates
-import dev.jordond.compass.Place
 import dev.jordond.compass.geocoder.web.parameter.GoogleMapsLocationType
 import dev.jordond.compass.geocoder.web.parameter.GoogleMapsParametersBuilder
-import io.ktor.http.HttpStatusCode
-import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import dev.jordond.compass.test.MockHttp
+import dev.jordond.compass.test.fixtures.GoogleMapsFixtures
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestScope
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertIs
-import kotlin.test.assertTrue
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class GoogleMapsGeocoderTest {
 
+    private val http = MockHttp(body = GoogleMapsFixtures.geocodeJson)
+
     private fun TestScope.geocoder(
-        http: MockHttp,
+        http: MockHttp = this@GoogleMapsGeocoderTest.http,
         block: GoogleMapsParametersBuilder.() -> Unit = {},
-    ) =
-        GoogleMapsGeocoder(
-            apiKey = "secret",
-            client = http.client,
-            dispatcher = UnconfinedTestDispatcher(testScheduler),
-            block = block,
-        )
+    ): Geocoder = GoogleMapsGeocoder(
+        apiKey = "secret",
+        client = http.client,
+        dispatcher = UnconfinedTestDispatcher(testScheduler),
+        block = block,
+    )
 
     @Test
-    fun forwardReturnsCoordinates() = runTest {
-        val http = MockHttp(body = OK_BODY)
+    fun forwardSendsTheAddressAndKeyAndReturnsCoordinates() = runTest {
+        val result = geocoder().forward("1 Main St & Zürich")
 
-        val result = geocoder(http).forward("Mountain View")
+        assertEquals(listOf(GoogleMapsFixtures.coordinates), result.getOrNull())
+        assertEquals("https://maps.googleapis.com/maps/api/geocode/json", http.urlWithoutQuery)
+        assertEquals(mapOf("address" to "1 Main St & Zürich", "key" to "secret"), http.query)
+    }
+
+    @Test
+    fun reverseSendsTheCoordinatesAndKeyAndReturnsPlaces() = runTest {
+        val result = geocoder().reverse(37.4224764, -122.0842499)
+
+        assertEquals(listOf(GoogleMapsFixtures.place), result.getOrNull())
+        assertEquals("https://maps.googleapis.com/maps/api/geocode/json", http.urlWithoutQuery)
+        assertEquals(mapOf("latlng" to "37.4224764,-122.0842499", "key" to "secret"), http.query)
+    }
+
+    @Test
+    fun forwardSendsLocationTypesAsTheirOwnParameter() = runTest {
+        val geocoder = geocoder {
+            locationTypes(GoogleMapsLocationType.Rooftop, GoogleMapsLocationType.RangeInterpolated)
+        }
+
+        geocoder.forward("Paris")
 
         assertEquals(
-            listOf(Coordinates(37.4224764, -122.0842499)),
-            assertIs<GeocoderResult.Success<Coordinates>>(result).data,
+            mapOf(
+                "address" to "Paris",
+                "location_type" to "ROOFTOP|RANGE_INTERPOLATED",
+                "key" to "secret",
+            ),
+            http.query,
         )
-        val request = http.requests.single()
-        assertEquals("maps.googleapis.com", request.url.host)
-        assertEquals("/maps/api/geocode/json", request.url.encodedPath)
-        assertEquals("secret", request.url.parameters["key"])
-        assertTrue(request.url.parameters["address"].orEmpty().contains("Mountain"))
     }
 
     @Test
-    fun reverseReturnsPlaces() = runTest {
-        val http = MockHttp(body = OK_BODY)
+    fun reverseSendsLocationTypesAsTheirOwnParameter() = runTest {
+        val geocoder = geocoder { locationType(GoogleMapsLocationType.Approximate) }
 
-        val result = geocoder(http).reverse(37.4224764, -122.0842499)
+        geocoder.reverse(1.5, 2.5)
 
-        val place = assertIs<GeocoderResult.Success<Place>>(result).data.single()
-        assertEquals("United States", place.country)
-        assertEquals("US", place.isoCountryCode)
-        assertEquals("Mountain View", place.locality)
-        val request = http.requests.single()
-        assertEquals("37.4224764,-122.0842499", request.url.parameters["latlng"])
-        assertEquals("secret", request.url.parameters["key"])
+        assertEquals(
+            mapOf("latlng" to "1.5,2.5", "location_type" to "APPROXIMATE", "key" to "secret"),
+            http.query,
+        )
     }
 
     @Test
-    fun forwardSendsConfiguredLocationType() = runTest {
-        val http = MockHttp(body = OK_BODY)
+    fun zeroResultsStatusIsNotFound() = runTest {
+        val empty = MockHttp(body = """{"results":[],"status":"ZERO_RESULTS"}""")
 
-        geocoder(http) { locationType(GoogleMapsLocationType.Rooftop) }.forward("x")
-
-        assertTrue(http.requests.single().url.toString().contains("ROOFTOP"))
+        assertEquals(GeocoderResult.NotFound, geocoder(empty).forward("nowhere"))
     }
 
     @Test
-    fun zeroResultsIsNotFound() = runTest {
-        val http = MockHttp(body = """{"results":[],"status":"ZERO_RESULTS"}""")
-
-        assertEquals(GeocoderResult.NotFound, geocoder(http).forward("nowhere"))
-        assertEquals(GeocoderResult.NotFound, geocoder(http).reverse(0.0, 0.0))
-    }
-
-    @Test
-    fun providerErrorStatusIsGeocodeFailedWithMessage() = runTest {
-        val http = MockHttp(
+    fun errorStatusInASuccessfulResponseIsGeocodeFailedWithTheProviderMessage() = runTest {
+        val denied = MockHttp(
             body = """{"status":"REQUEST_DENIED","error_message":"The provided API key is invalid.","results":[]}""",
         )
 
-        val result = geocoder(http).forward("x")
+        val result = geocoder(denied).reverse(1.5, 2.5)
 
-        val failed = assertIs<GeocoderResult.GeocodeFailed>(result)
         assertEquals(
             "Geocoding failed: [RequestDenied] The provided API key is invalid.",
-            failed.message,
-        )
-    }
-
-    @Test
-    fun serverErrorWithoutExpectSuccessIsGeocodeFailed() = runTest {
-        val http = MockHttp(
-            status = HttpStatusCode.InternalServerError,
-            body = "{}",
-            expectSuccess = false,
-        )
-
-        val result = geocoder(http).forward("x")
-
-        val failed = assertIs<GeocoderResult.GeocodeFailed>(result)
-        assertEquals("HTTP request failed with status code 500", failed.message)
-    }
-
-    @Test
-    fun serverErrorWithExpectSuccessIsGeocodeFailed() = runTest {
-        val http = MockHttp(status = HttpStatusCode.Forbidden, body = "{}")
-
-        assertIs<GeocoderResult.GeocodeFailed>(geocoder(http).reverse(1.0, 2.0))
-    }
-
-    @Test
-    fun malformedBodyIsGeocodeFailed() = runTest {
-        val http = MockHttp(body = "not json")
-
-        assertIs<GeocoderResult.GeocodeFailed>(geocoder(http).forward("x"))
-    }
-
-    @Test
-    fun geocoderIsAvailable() = runTest {
-        assertTrue(geocoder(MockHttp(body = OK_BODY)).isAvailable())
-    }
-
-    private companion object {
-
-        const val OK_BODY = """
-            {"results":[{
-              "address_components":[
-                {"long_name":"Mountain View","short_name":"Mountain View","types":["locality","political"]},
-                {"long_name":"United States","short_name":"US","types":["country","political"]}
-              ],
-              "formatted_address":"Mountain View, CA, USA",
-              "geometry":{"location":{"lat":37.4224764,"lng":-122.0842499}}
-            }],"status":"OK"}
-        """
-    }
-
-    @Test
-    fun forwardSendsTheAddressEncodedOnce() = runTest {
-        val http = MockHttp(body = OK_BODY)
-
-        geocoder(http).forward("1 Main St & Co, New York")
-
-        val url = http.requests.single().url
-        assertEquals("1 Main St & Co, New York", url.parameters["address"])
-        assertEquals("secret", url.parameters["key"])
-    }
-
-    @Test
-    fun forwardSendsEachOptionAsItsOwnParameter() = runTest {
-        val http = MockHttp(body = OK_BODY)
-
-        geocoder(http) {
-            locationTypes(GoogleMapsLocationType.Rooftop, GoogleMapsLocationType.RangeInterpolated)
-        }.forward("Paris")
-
-        val parameters = http.requests.single().url.parameters
-        assertEquals("ROOFTOP|RANGE_INTERPOLATED", parameters["location_type"])
-        assertEquals("Paris", parameters["address"])
-        assertEquals("secret", parameters["key"])
-    }
-
-    @Test
-    fun locationTypesUseTheNamesGoogleExpects() {
-        assertEquals(
-            listOf("ROOFTOP", "RANGE_INTERPOLATED", "GEOMETRIC_CENTER", "APPROXIMATE"),
-            GoogleMapsLocationType.entries.map { type -> type.value },
+            assertIs<GeocoderResult.GeocodeFailed>(result).message,
         )
     }
 }

@@ -34,7 +34,7 @@ public fun GeocodeResponse.resultsOrThrow(): List<ResultResponse> = when (status
     StatusResponse.Ok,
     StatusResponse.ZeroResults,
     -> results
-    else -> throw GeocodeException("[$status] $errorMessage")
+    else -> throw GeocodeException(listOfNotNull("[$status]", errorMessage).joinToString(" "))
 }
 
 internal fun List<ResultResponse>.toCoordinates(): List<Coordinates> {

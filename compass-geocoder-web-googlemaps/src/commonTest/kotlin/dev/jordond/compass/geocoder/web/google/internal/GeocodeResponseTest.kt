@@ -1,10 +1,10 @@
 package dev.jordond.compass.geocoder.web.google.internal
 
 import dev.jordond.compass.Coordinates
-import dev.jordond.compass.Place
 import dev.jordond.compass.geocoder.exception.GeocodeException
+import dev.jordond.compass.test.fixtures.GoogleMapsFixtures
+import dev.jordond.compass.tools.web.HttpApiEndpoint
 import kotlinx.serialization.SerializationException
-import kotlinx.serialization.json.Json
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
@@ -13,49 +13,21 @@ import kotlin.test.assertTrue
 
 class GeocodeResponseTest {
 
-    private val json = Json { ignoreUnknownKeys = true }
-
-    private fun decode(body: String): GeocodeResponse = json.decodeFromString(body)
-
-    @Test
-    fun decodesFullPayload() {
-        val response = decode(FULL)
-
-        assertEquals(StatusResponse.Ok, response.status)
-        assertNull(response.errorMessage)
-        assertEquals(1, response.results.size)
-        val result = response.results.single()
-        assertEquals("1600 Amphitheatre Pkwy, Mountain View, CA 94043, USA", result.formattedAddress)
-        assertEquals(7, result.addressComponents.size)
-        assertEquals(LocationResponse(37.4224764, -122.0842499), result.geometry?.location)
-    }
+    private fun decode(body: String): GeocodeResponse =
+        HttpApiEndpoint.json().decodeFromString(body)
 
     @Test
     fun mapsFullPayloadToPlace() {
-        val places = decode(FULL).results.toPlaces()
+        val places = decode(GoogleMapsFixtures.geocodeJson).results.toPlaces()
 
-        val expected = Place(
-            coordinates = Coordinates(37.4224764, -122.0842499),
-            name = "Amphitheatre Parkway",
-            street = "1600 Amphitheatre Pkwy, Mountain View, CA 94043, USA",
-            isoCountryCode = "US",
-            country = "United States",
-            postalCode = "94043",
-            administrativeArea = "California",
-            subAdministrativeArea = "Santa Clara County",
-            locality = "Mountain View",
-            subLocality = null,
-            thoroughfare = "Amphitheatre Parkway",
-            subThoroughfare = null,
-        )
-        assertEquals(listOf(expected), places)
+        assertEquals(listOf(GoogleMapsFixtures.place), places)
     }
 
     @Test
     fun mapsFullPayloadToCoordinates() {
-        val coordinates = decode(FULL).results.toCoordinates()
+        val coordinates = decode(GoogleMapsFixtures.geocodeJson).results.toCoordinates()
 
-        assertEquals(listOf(Coordinates(37.4224764, -122.0842499)), coordinates)
+        assertEquals(listOf(GoogleMapsFixtures.coordinates), coordinates)
     }
 
     @Test
@@ -180,11 +152,6 @@ class GeocodeResponseTest {
     }
 
     @Test
-    fun okStatusReturnsResults() {
-        assertEquals(1, decode(FULL).resultsOrThrow().size)
-    }
-
-    @Test
     fun errorStatusesThrowGeocodeExceptionWithStatusAndMessage() {
         val statuses = mapOf(
             "OVER_QUERY_LIMIT" to "OverQueryLimit",
@@ -203,12 +170,12 @@ class GeocodeResponseTest {
     }
 
     @Test
-    fun errorStatusWithoutMessageStillThrows() {
+    fun errorStatusWithoutMessageThrowsWithOnlyTheStatus() {
         val response = decode("""{"status":"REQUEST_DENIED"}""")
 
         val error = assertFailsWith<GeocodeException> { response.resultsOrThrow() }
 
-        assertTrue(error.message.orEmpty().contains("RequestDenied"))
+        assertEquals("Geocoding failed: [RequestDenied]", error.message)
     }
 
     @Test
@@ -219,30 +186,5 @@ class GeocodeResponseTest {
     @Test
     fun missingStatusFailsToDecode() {
         assertFailsWith<SerializationException> { decode("""{"results":[]}""") }
-    }
-
-    private companion object {
-
-        const val FULL = """
-            {"results":[{
-              "address_components":[
-                {"long_name":"1600","short_name":"1600","types":["street_number"]},
-                {"long_name":"Amphitheatre Parkway","short_name":"Amphitheatre Pkwy","types":["route"]},
-                {"long_name":"Mountain View","short_name":"Mountain View","types":["locality","political"]},
-                {"long_name":"Santa Clara County","short_name":"Santa Clara County","types":["administrative_area_level_2","political"]},
-                {"long_name":"California","short_name":"CA","types":["administrative_area_level_1","political"]},
-                {"long_name":"United States","short_name":"US","types":["country","political"]},
-                {"long_name":"94043","short_name":"94043","types":["postal_code"]}
-              ],
-              "formatted_address":"1600 Amphitheatre Pkwy, Mountain View, CA 94043, USA",
-              "geometry":{
-                "location":{"lat":37.4224764,"lng":-122.0842499},
-                "location_type":"ROOFTOP",
-                "viewport":{"northeast":{"lat":37.4238,"lng":-122.0829},"southwest":{"lat":37.4211,"lng":-122.0856}}
-              },
-              "place_id":"ChIJ2eUgeAK6j4ARbn5u_wAGqWA",
-              "types":["street_address"]
-            }],"status":"OK"}
-        """
     }
 }

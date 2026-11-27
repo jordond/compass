@@ -24,9 +24,5 @@ kotlin {
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.kotlinx.serialization.json)
         }
-
-        commonTest.dependencies {
-            implementation(libs.ktor.client.mock)
-        }
     }
 }

@@ -1,10 +1,9 @@
 package dev.jordond.compass.tools.web
 
-import dev.jordond.compass.InternalCompassApi
+import dev.jordond.compass.test.MockHttp
 import dev.jordond.compass.tools.web.exception.WebException
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.mock.MockEngine
-import io.ktor.client.engine.mock.respond
 import io.ktor.client.engine.mock.respondError
 import io.ktor.client.statement.bodyAsText
 import io.ktor.http.HttpStatusCode
@@ -15,38 +14,35 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertSame
 
-@OptIn(InternalCompassApi::class)
 class RequestTest {
 
-    private fun client(handler: MockEngine) = HttpClient(handler)
+    private val url = "https://example.test/path?q=1"
 
     @Test
     fun successfulResponseIsPassedToMapper() = runTest {
-        val urls = mutableListOf<String>()
-        val engine = MockEngine { request ->
-            urls += request.url.toString()
-            respond("hello", HttpStatusCode.OK)
-        }
+        val http = MockHttp(body = "hello")
 
-        val result = client(engine).makeRequest("https://example.com/path?q=1") { it.bodyAsText() }
+        val result = http.client.makeRequest(url) { response -> response.bodyAsText() }
 
         assertEquals("hello", result)
-        assertEquals(listOf("https://example.com/path?q=1"), urls)
+        assertEquals(url, http.url.toString())
     }
 
     @Test
     fun anyTwoHundredRangeStatusIsSuccess() = runTest {
-        val engine = MockEngine { respond("", HttpStatusCode.NoContent) }
-        val status = client(engine).makeRequest("https://example.com") { it.status }
+        val http = MockHttp(body = "", status = HttpStatusCode.NoContent)
+
+        val status = http.client.makeRequest(url) { response -> response.status }
+
         assertEquals(HttpStatusCode.NoContent, status)
     }
 
     @Test
-    fun nonSuccessStatusThrowsWebExceptionWithStatus() = runTest {
-        val engine = MockEngine { respondError(HttpStatusCode.BadRequest) }
+    fun errorStatusThrowsWebExceptionWithStatusAndMessage() = runTest {
+        val http = MockHttp(body = "{}", status = HttpStatusCode.BadRequest)
 
         val exception = assertFailsWith<WebException> {
-            client(engine).makeRequest("https://example.com") { "unused" }
+            http.client.makeRequest(url) { "unused" }
         }
 
         assertEquals(HttpStatusCode.BadRequest, exception.statusCode)
@@ -55,20 +51,35 @@ class RequestTest {
 
     @Test
     fun redirectStatusIsNotSuccess() = runTest {
-        val engine = MockEngine { respond("", HttpStatusCode.NotModified) }
+        val http = MockHttp(body = "", status = HttpStatusCode.NotModified)
+
         val exception = assertFailsWith<WebException> {
-            client(engine).makeRequest("https://example.com") { "unused" }
+            http.client.makeRequest(url) { "unused" }
         }
+
         assertEquals(HttpStatusCode.NotModified, exception.statusCode)
+    }
+
+    @Test
+    fun clientThatDoesNotExpectSuccessThrowsTheSameWebException() = runTest {
+        // A consumer can pass any client, this one leaves the status check to makeRequest
+        val client = HttpClient(MockEngine { respondError(HttpStatusCode.Forbidden) })
+
+        val exception = assertFailsWith<WebException> {
+            client.makeRequest(url) { "unused" }
+        }
+
+        assertEquals(HttpStatusCode.Forbidden, exception.statusCode)
+        assertEquals("HTTP request failed with status code 403", exception.message)
     }
 
     @Test
     fun mapperExceptionIsRethrownUnchanged() = runTest {
         val failure = IllegalStateException("bad body")
-        val engine = MockEngine { respond("x", HttpStatusCode.OK) }
+        val http = MockHttp(body = "x")
 
         val thrown = assertFailsWith<IllegalStateException> {
-            client(engine).makeRequest<String>("https://example.com") { throw failure }
+            http.client.makeRequest<String>(url) { throw failure }
         }
 
         assertSame(failure, thrown)
@@ -76,35 +87,31 @@ class RequestTest {
 
     @Test
     fun engineFailureIsRethrown() = runTest {
-        val failure = RuntimeException("no network")
-        val engine = MockEngine { throw failure }
+        val http = MockHttp { throw IllegalStateException("no network") }
 
-        val thrown = assertFailsWith<RuntimeException> {
-            client(engine).makeRequest("https://example.com") { "unused" }
+        val thrown = assertFailsWith<IllegalStateException> {
+            http.client.makeRequest(url) { "unused" }
         }
 
+        // Coroutines may hand back a copy of the exception, so compare the message
         assertEquals("no network", thrown.message)
     }
 
     @Test
     fun cancellationFromMapperIsRethrown() = runTest {
-        val engine = MockEngine { respond("x", HttpStatusCode.OK) }
+        val http = MockHttp(body = "x")
+
         assertFailsWith<CancellationException> {
-            client(engine).makeRequest<String>("https://example.com") {
-                throw CancellationException("stop")
-            }
+            http.client.makeRequest<String>(url) { throw CancellationException("stop") }
         }
     }
 
     @Test
-    fun clientThatExpectsSuccessStillThrowsWebException() = runTest {
-        val engine = MockEngine { respondError(HttpStatusCode.Forbidden) }
-        val client = HttpClient(engine) { expectSuccess = true }
+    fun cancellationFromEngineIsRethrown() = runTest {
+        val http = MockHttp { throw CancellationException("stop") }
 
-        val error = assertFailsWith<WebException> {
-            client.makeRequest("https://example.com") { it.status }
+        assertFailsWith<CancellationException> {
+            http.client.makeRequest(url) { "unused" }
         }
-
-        assertEquals(HttpStatusCode.Forbidden, error.statusCode)
     }
 }

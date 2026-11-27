@@ -1,9 +1,9 @@
 package dev.jordond.compass.geocoder.web.mapbox.internal
 
 import dev.jordond.compass.Coordinates
-import dev.jordond.compass.Place
+import dev.jordond.compass.test.fixtures.MapboxFixtures
+import dev.jordond.compass.tools.web.HttpApiEndpoint
 import kotlinx.serialization.SerializationException
-import kotlinx.serialization.json.Json
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
@@ -12,46 +12,19 @@ import kotlin.test.assertTrue
 
 class GeocodeResponseTest {
 
-    private val json = Json { ignoreUnknownKeys = true }
-
-    private fun decode(body: String): GeocodeResponse = json.decodeFromString(body)
-
-    @Test
-    fun decodesFullPayload() {
-        val response = decode(FULL)
-
-        val properties = response.features.single().properties
-        assertEquals("123 Main Street", properties?.name)
-        assertEquals(CoordinatesResponse(latitude = 38.897, longitude = -77.036), properties?.coordinates)
-        assertEquals("Main Street", properties?.context?.street?.name)
-        assertEquals("US", properties?.context?.country?.countryCode)
-        assertEquals("DC", properties?.context?.region?.regionCode)
-    }
+    private fun decode(body: String): GeocodeResponse =
+        HttpApiEndpoint.json().decodeFromString(body)
 
     @Test
     fun mapsFullPayloadToPlace() {
-        val places = decode(FULL).toPlaces()
+        val places = decode(MapboxFixtures.geocodeJson).toPlaces()
 
-        val expected = Place(
-            coordinates = Coordinates(38.897, -77.036),
-            name = "123 Main Street",
-            street = "Main Street",
-            isoCountryCode = "US",
-            country = "United States",
-            postalCode = "20500",
-            administrativeArea = "District of Columbia",
-            subAdministrativeArea = "Ward 2",
-            locality = "Georgetown",
-            subLocality = "Foggy Bottom",
-            thoroughfare = "Main Street",
-            subThoroughfare = null,
-        )
-        assertEquals(listOf(expected), places)
+        assertEquals(listOf(MapboxFixtures.place), places)
     }
 
     @Test
     fun mapsFullPayloadToCoordinates() {
-        assertEquals(listOf(Coordinates(38.897, -77.036)), decode(FULL).toCoordinates())
+        assertEquals(listOf(MapboxFixtures.coordinates), decode(MapboxFixtures.geocodeJson).toCoordinates())
     }
 
     @Test
@@ -148,33 +121,5 @@ class GeocodeResponseTest {
     @Test
     fun missingFeaturesFailsToDecode() {
         assertFailsWith<SerializationException> { decode("""{"message":"Not Authorized"}""") }
-    }
-
-    private companion object {
-
-        const val FULL = """
-            {"type":"FeatureCollection","features":[{
-              "type":"Feature",
-              "id":"dXJuOm1ieGFkcjo",
-              "geometry":{"type":"Point","coordinates":[-77.036,38.897]},
-              "properties":{
-                "mapbox_id":"dXJuOm1ieGFkcjo",
-                "feature_type":"address",
-                "name":"123 Main Street",
-                "coordinates":{"longitude":-77.036,"latitude":38.897,"accuracy":"rooftop"},
-                "context":{
-                  "address":{"name":"123 Main Street","address_number":"123","street_name":"Main Street"},
-                  "street":{"name":"Main Street"},
-                  "neighbourhood":{"name":"Foggy Bottom"},
-                  "postcode":{"name":"20500"},
-                  "locality":{"name":"Georgetown"},
-                  "place":{"name":"Washington"},
-                  "district":{"name":"Ward 2"},
-                  "region":{"name":"District of Columbia","region_code":"DC"},
-                  "country":{"name":"United States","country_code":"US"}
-                }
-              }
-            }],"attribution":"NOTICE: (c) 2024 Mapbox"}
-        """
     }
 }

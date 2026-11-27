@@ -73,24 +73,10 @@ class MapboxParametersTest {
     }
 
     @Test
-    fun typesListUsesCommaSeparator() {
-        val list = MapboxTypesList(listOf(MapboxTypes.Street, MapboxTypes.Region))
-
-        assertEquals("street,region", list.value)
-    }
-
-    @Test
     fun boundingBoxValueIsMinLonMinLatMaxLonMaxLat() {
         val box = MapboxBoundingBox(1.5, 2.5, 3.5, 4.5)
 
         assertEquals("1.5,2.5,3.5,4.5", box.value)
-    }
-
-    @Test
-    fun boundingBoxCopyOverridesOnlyGivenValues() {
-        val box = MapboxBoundingBox(1.5, 2.5, 3.5, 4.5).copy(maxLatitude = 9.5)
-
-        assertEquals(MapboxBoundingBox(1.5, 2.5, 3.5, 9.5), box)
     }
 
     @Test

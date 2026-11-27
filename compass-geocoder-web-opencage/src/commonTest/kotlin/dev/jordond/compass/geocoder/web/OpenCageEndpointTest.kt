@@ -2,51 +2,44 @@ package dev.jordond.compass.geocoder.web
 
 import dev.jordond.compass.Coordinates
 import kotlin.test.Test
-import kotlin.test.assertTrue
+import kotlin.test.assertEquals
 
 class OpenCageEndpointTest {
 
     private val base = "https://api.opencagedata.com/geocode/v1/json"
 
+    private val defaults = "limit=10&no_dedupe=0&no_record=0"
+
     @Test
-    fun forwardUrlUsesBaseUrlQueryAndKey() {
+    fun forwardUrlHasTheQueryDefaultParametersAndKey() {
         val url = OpenCageForwardEndpoint("secret").url("Toronto")
 
-        assertTrue(url.startsWith("$base?q=Toronto&"), url)
-        assertTrue(url.endsWith("&key=secret"), url)
+        assertEquals("$base?q=Toronto&$defaults&key=secret", url)
     }
 
     @Test
-    fun forwardUrlEncodesSpacesAndNonAsciiCharacters() {
-        val url = OpenCageForwardEndpoint("secret").url("Zürich Hauptbahnhof")
+    fun forwardUrlEncodesTheQueryOnce() {
+        val url = OpenCageForwardEndpoint("secret").url("1 Main St & Zürich")
 
-        assertTrue(url.startsWith("$base?q=Z%C3%BCrich%20Hauptbahnhof&"), url)
+        assertEquals("$base?q=1%20Main%20St%20%26%20Z%C3%BCrich&$defaults&key=secret", url)
     }
 
     @Test
-    fun forwardUrlIncludesDefaultParameters() {
-        val url = OpenCageForwardEndpoint("secret").url("Toronto")
-
-        assertTrue(url.contains("limit"), url)
-        assertTrue(url.contains("dedupe"), url)
-        assertTrue(url.contains("record"), url)
-    }
-
-    @Test
-    fun forwardUrlIncludesConfiguredCountryCodes() {
+    fun forwardUrlEncodesConfiguredCountryCodes() {
         val endpoint = OpenCageForwardEndpoint("secret") { countryCode("ca", "us") }
 
         val url = endpoint.url("Toronto")
 
-        assertTrue(url.contains("countrycode"), url)
-        assertTrue(url.endsWith("&key=secret"), url)
+        assertEquals(
+            "$base?q=Toronto&limit=10&countrycode=ca%2Cus&no_dedupe=0&no_record=0&key=secret",
+            url,
+        )
     }
 
     @Test
     fun reverseUrlJoinsLatitudeAndLongitudeWithPlus() {
         val url = OpenCageReverseEndpoint("secret").url(Coordinates(43.65, -79.38))
 
-        assertTrue(url.startsWith("$base?q=43.65+-79.38&"), url)
-        assertTrue(url.endsWith("&key=secret"), url)
+        assertEquals("$base?q=43.65+-79.38&$defaults&key=secret", url)
     }
 }

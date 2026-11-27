@@ -6,68 +6,54 @@ import dev.jordond.compass.geocoder.web.parameter.GoogleMapsLocationTypeList
 import dev.jordond.compass.geocoder.web.parameter.GoogleMapsParameters
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertTrue
 
 class GoogleMapsEndpointTest {
 
     private val base = "https://maps.googleapis.com/maps/api/geocode/json"
 
     @Test
-    fun forwardUrlUsesBaseUrlAddressAndKey() {
+    fun forwardUrlHasTheAddressAndKey() {
         val url = GoogleMapsForwardEndpoint("secret").url("Toronto")
 
         assertEquals("$base?address=Toronto&key=secret", url)
     }
 
     @Test
-    fun forwardUrlEncodesSpacesInTheQuery() {
-        val url = GoogleMapsForwardEndpoint("secret").url("1600 Amphitheatre Parkway")
+    fun forwardUrlEncodesTheAddressOnce() {
+        val url = GoogleMapsForwardEndpoint("secret").url("1 Main St & Zürich")
 
-        assertTrue(url.startsWith("$base?address=1600%20Amphitheatre%20Parkway&"), url)
+        assertEquals("$base?address=1%20Main%20St%20%26%20Z%C3%BCrich&key=secret", url)
     }
 
     @Test
-    fun forwardUrlEncodesNonAsciiCharacters() {
-        val url = GoogleMapsForwardEndpoint("secret").url("Zürich")
-
-        assertTrue(url.startsWith("$base?address=Z%C3%BCrich&"), url)
-    }
-
-    @Test
-    fun forwardUrlEndsWithKeyAfterParameters() {
+    fun forwardUrlPutsParametersBetweenTheAddressAndKey() {
         val endpoint = GoogleMapsForwardEndpoint("secret") {
-            locationType(GoogleMapsLocationType.Rooftop)
+            locationTypes(GoogleMapsLocationType.Rooftop, GoogleMapsLocationType.Approximate)
         }
 
         val url = endpoint.url("Toronto")
 
-        assertTrue(url.startsWith("$base?address=Toronto&"), url)
-        assertTrue(url.endsWith("&key=secret"), url)
-        assertTrue(url.contains("ROOFTOP"), url)
+        assertEquals("$base?address=Toronto&location_type=ROOFTOP%7CAPPROXIMATE&key=secret", url)
     }
 
     @Test
-    fun reverseUrlUsesLatLngAndKey() {
+    fun reverseUrlHasTheCoordinatesAndKey() {
         val url = GoogleMapsReverseEndpoint("secret").url(Coordinates(43.65, -79.38))
 
         assertEquals("$base?latlng=43.65,-79.38&key=secret", url)
     }
 
     @Test
-    fun reverseUrlIncludesParametersBeforeKey() {
+    fun reverseUrlPutsParametersBetweenTheCoordinatesAndKey() {
         val endpoint = GoogleMapsReverseEndpoint(
             apiKey = "secret",
             parameters = GoogleMapsParameters(
-                GoogleMapsLocationTypeList(
-                    GoogleMapsLocationType.Approximate,
-                ),
+                GoogleMapsLocationTypeList(GoogleMapsLocationType.Approximate),
             ),
         )
 
         val url = endpoint.url(Coordinates(1.5, 2.5))
 
-        assertTrue(url.startsWith("$base?latlng=1.5,2.5&"), url)
-        assertTrue(url.endsWith("&key=secret"), url)
-        assertTrue(url.contains("APPROXIMATE"), url)
+        assertEquals("$base?latlng=1.5,2.5&location_type=APPROXIMATE&key=secret", url)
     }
 }

@@ -22,9 +22,5 @@ kotlin {
 
             implementation(libs.kotlinx.coroutines.core)
         }
-
-        commonTest.dependencies {
-            implementation(libs.ktor.client.mock)
-        }
     }
 }

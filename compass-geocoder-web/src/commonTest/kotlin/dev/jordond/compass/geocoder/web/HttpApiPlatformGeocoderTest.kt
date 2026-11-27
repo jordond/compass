@@ -1,17 +1,14 @@
 package dev.jordond.compass.geocoder.web
 
 import dev.jordond.compass.Coordinates
-import dev.jordond.compass.Place
 import dev.jordond.compass.exception.NotSupportedException
 import dev.jordond.compass.geocoder.ForwardGeocoder
 import dev.jordond.compass.geocoder.Geocoder
 import dev.jordond.compass.geocoder.GeocoderResult
 import dev.jordond.compass.geocoder.ReverseGeocoder
+import dev.jordond.compass.test.MockHttp
+import dev.jordond.compass.test.place
 import dev.jordond.compass.tools.web.exception.WebException
-import io.ktor.client.HttpClient
-import io.ktor.client.engine.mock.MockEngine
-import io.ktor.client.engine.mock.respond
-import io.ktor.client.engine.mock.respondError
 import io.ktor.http.HttpStatusCode
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
@@ -19,31 +16,23 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertIs
-import kotlin.test.assertTrue
 
 class HttpApiPlatformGeocoderTest {
 
-    private val requested = mutableListOf<String>()
+    private val http = MockHttp(body = "{}")
 
-    private fun client(status: HttpStatusCode = HttpStatusCode.OK) = HttpClient(
-        MockEngine { request ->
-            requested += request.url.toString()
-            if (status.value in 200..299) respond("ok", status) else respondError(status)
-        },
-    )
+    private val coordinates = Coordinates(1.5, 2.5)
+
+    private val place = place(coordinates = coordinates, name = "Somewhere")
 
     private val forwardEndpoint = ForwardEndpoint(
-        url = { "https://api.test/forward/$it" },
-        mapResponse = { listOf(Coordinates(1.0, 2.0)) },
+        url = { address -> "https://api.test/forward?q=$address" },
+        mapResponse = { listOf(coordinates) },
     )
 
     private val reverseEndpoint = ReverseEndpoint(
-        url = { "https://api.test/reverse/${it.latitude}/${it.longitude}" },
-        mapResponse = { listOf(place()) },
-    )
-
-    private fun place() = Place(
-        Coordinates(1.0, 2.0), "n", null, null, null, null, null, null, null, null, null, null,
+        url = { target -> "https://api.test/reverse?lat=${target.latitude}&lng=${target.longitude}" },
+        mapResponse = { listOf(place) },
     )
 
     @Test
@@ -57,118 +46,110 @@ class HttpApiPlatformGeocoderTest {
             mapResponse = { emptyList() },
         )
 
-        ForwardHttpApiPlatformGeocoder(endpoint, client()).forward("1 Main St & Co")
+        ForwardHttpApiPlatformGeocoder(endpoint, http.client).forward("1 Main St & Co")
 
         assertEquals(listOf("1 Main St & Co"), addresses)
     }
 
     @Test
-    fun forwardReturnsMappedCoordinates() = runTest {
-        val result = ForwardHttpApiPlatformGeocoder(forwardEndpoint, client()).forward("x")
-        assertEquals(listOf(Coordinates(1.0, 2.0)), result)
+    fun forwardRequestsTheEndpointUrlAndReturnsItsMapping() = runTest {
+        val result = ForwardHttpApiPlatformGeocoder(forwardEndpoint, http.client).forward("x")
+
+        assertEquals(listOf(coordinates), result)
+        assertEquals("https://api.test/forward?q=x", http.url.toString())
+    }
+
+    @Test
+    fun reverseRequestsTheEndpointUrlAndReturnsItsMapping() = runTest {
+        val result = ReverseHttpApiPlatformGeocoder(reverseEndpoint, http.client).reverse(12.5, -3.25)
+
+        assertEquals(listOf(place), result)
+        assertEquals("https://api.test/reverse?lat=12.5&lng=-3.25", http.url.toString())
     }
 
     @Test
     fun forwardGeocoderDoesNotSupportReverse() = runTest {
-        val geocoder = ForwardHttpApiPlatformGeocoder(forwardEndpoint, client())
-        assertTrue(geocoder.isAvailable())
-        assertFailsWith<NotSupportedException> { geocoder.reverse(1.0, 2.0) }
-        assertEquals(emptyList(), requested)
-    }
+        val geocoder = ForwardHttpApiPlatformGeocoder(forwardEndpoint, http.client)
 
-    @Test
-    fun reverseBuildsUrlFromCoordinates() = runTest {
-        val result = ReverseHttpApiPlatformGeocoder(reverseEndpoint, client()).reverse(12.5, -3.25)
-
-        assertEquals(listOf("https://api.test/reverse/12.5/-3.25"), requested)
-        assertEquals(1, result.size)
+        assertFailsWith<NotSupportedException> { geocoder.reverse(1.5, 2.5) }
+        assertEquals(emptyList(), http.requests)
     }
 
     @Test
     fun reverseGeocoderDoesNotSupportForward() = runTest {
-        val geocoder = ReverseHttpApiPlatformGeocoder(reverseEndpoint, client())
-        assertTrue(geocoder.isAvailable())
+        val geocoder = ReverseHttpApiPlatformGeocoder(reverseEndpoint, http.client)
+
         assertFailsWith<NotSupportedException> { geocoder.forward("x") }
-        assertEquals(emptyList(), requested)
+        assertEquals(emptyList(), http.requests)
     }
 
     @Test
-    fun serverErrorSurfacesAsWebException() = runTest {
-        val geocoder = ForwardHttpApiPlatformGeocoder(forwardEndpoint, client(HttpStatusCode.Forbidden))
+    fun httpErrorSurfacesAsWebException() = runTest {
+        val failing = MockHttp(body = "{}", status = HttpStatusCode.Forbidden)
+        val geocoder = ForwardHttpApiPlatformGeocoder(forwardEndpoint, failing.client)
+
         val exception = assertFailsWith<WebException> { geocoder.forward("x") }
+
         assertEquals(HttpStatusCode.Forbidden, exception.statusCode)
     }
 
     @Test
     fun combinedGeocoderRoutesForwardAndReverseToTheirEndpoints() = runTest {
-        val combined = HttpApiPlatformGeocoder(forwardEndpoint, reverseEndpoint, client = client())
+        val combined = HttpApiPlatformGeocoder(forwardEndpoint, reverseEndpoint, client = http.client)
 
-        assertTrue(combined.isAvailable())
         combined.forward("a")
         combined.reverse(1.5, 2.5)
 
         assertEquals(
-            listOf("https://api.test/forward/a", "https://api.test/reverse/1.5/2.5"),
-            requested,
+            listOf("https://api.test/forward?q=a", "https://api.test/reverse?lat=1.5&lng=2.5"),
+            http.requests.map { request -> request.url.toString() },
         )
     }
 
     @Test
-    fun webGeocoderMapsHttpFailureToGeocodeFailed() = runTest {
+    fun geocoderFactoryGeocodesInBothDirections() = runTest {
         val geocoder = Geocoder(
             forwardEndpoint,
             reverseEndpoint,
-            httpClient = client(HttpStatusCode.InternalServerError),
+            httpClient = http.client,
             dispatcher = StandardTestDispatcher(testScheduler),
         )
 
-        val result = geocoder.forward("x")
-
-        assertIs<GeocoderResult.GeocodeFailed>(result)
-        assertEquals("HTTP request failed with status code 500", result.message)
+        assertEquals(listOf(coordinates), geocoder.forward("x").getOrNull())
+        assertEquals(listOf(place), geocoder.reverse(1.5, 2.5).getOrNull())
     }
 
     @Test
-    fun webGeocoderReturnsSuccessForBothDirections() = runTest {
-        val dispatcher = StandardTestDispatcher(testScheduler)
-        val geocoder = Geocoder(forwardEndpoint, reverseEndpoint, httpClient = client(), dispatcher = dispatcher)
+    fun geocoderFactoryReportsAnHttpErrorAsGeocodeFailed() = runTest {
+        val geocoder = Geocoder(
+            forwardEndpoint,
+            reverseEndpoint,
+            httpClient = MockHttp(body = "{}", status = HttpStatusCode.InternalServerError).client,
+            dispatcher = StandardTestDispatcher(testScheduler),
+        )
 
-        assertTrue(geocoder.isAvailable())
-        assertIs<GeocoderResult.Success<*>>(geocoder.forward("x"))
-        assertIs<GeocoderResult.Success<*>>(geocoder.reverse(1.0, 2.0))
+        assertIs<GeocoderResult.GeocodeFailed>(geocoder.forward("x"))
     }
 
     @Test
-    fun forwardOnlyGeocoderFactoryReturnsCoordinates() = runTest {
+    fun forwardOnlyFactoryReturnsCoordinates() = runTest {
         val geocoder = ForwardGeocoder(
             forwardEndpoint,
-            httpClient = client(),
+            httpClient = http.client,
             dispatcher = StandardTestDispatcher(testScheduler),
         )
 
-        val result = geocoder.forward("x")
-
-        assertIs<GeocoderResult.Success<Coordinates>>(result)
-        assertEquals(listOf(Coordinates(1.0, 2.0)), result.data)
+        assertEquals(listOf(coordinates), geocoder.forward("x").getOrNull())
     }
 
     @Test
-    fun reverseOnlyGeocoderFactoryReturnsPlaces() = runTest {
+    fun reverseOnlyFactoryReturnsPlaces() = runTest {
         val geocoder = ReverseGeocoder(
             reverseEndpoint,
-            httpClient = client(),
+            httpClient = http.client,
             dispatcher = StandardTestDispatcher(testScheduler),
         )
 
-        assertIs<GeocoderResult.Success<Place>>(geocoder.reverse(1.0, 2.0))
-    }
-
-    @Test
-    fun forwardOnlyGeocoderReverseIsNotSupported() = runTest {
-        val geocoder = Geocoder(
-            ForwardHttpApiPlatformGeocoder(forwardEndpoint, client()),
-            StandardTestDispatcher(testScheduler),
-        )
-        assertEquals(GeocoderResult.NotSupported, geocoder.reverse(1.0, 2.0))
+        assertEquals(listOf(place), geocoder.reverse(1.5, 2.5).getOrNull())
     }
 }

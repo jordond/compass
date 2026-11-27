@@ -6,11 +6,11 @@ import kotlin.test.assertEquals
 class OpenCageParametersTest {
 
     @Test
-    fun defaultsSendLimitOfTenAndDisabledFlags() {
+    fun defaultsSendLimitOfTenAndDisabledFlagsAndNoCountryCode() {
         val params = OpenCageParameters()
 
         assertEquals(
-            mapOf("limit" to "10", "countrycode" to "", "no_dedupe" to "0", "no_record" to "0"),
+            mapOf("limit" to "10", "no_dedupe" to "0", "no_record" to "0"),
             params.parameters,
         )
     }
@@ -41,10 +41,18 @@ class OpenCageParametersTest {
     }
 
     @Test
-    fun builderVarargCountryCodes() {
-        val params = openCageParameters { countryCode("ca", "mx") }
+    fun builderPassesEveryValueThrough() {
+        val params = openCageParameters {
+            limit = 1
+            countryCode("ca", "mx")
+            noDedupe = true
+            noRecord = true
+        }
 
-        assertEquals("ca,mx", params.parameters["countrycode"])
+        assertEquals(
+            mapOf("limit" to "1", "countrycode" to "ca,mx", "no_dedupe" to "1", "no_record" to "1"),
+            params.parameters,
+        )
     }
 
     @Test
@@ -55,18 +63,5 @@ class OpenCageParametersTest {
         }
 
         assertEquals(listOf("fr", "de"), params.countryCode)
-    }
-
-    @Test
-    fun builderPassesEveryValueThrough() {
-        val params = openCageParameters {
-            limit = 1
-            noDedupe = true
-            noRecord = true
-        }
-
-        assertEquals(1, params.limit)
-        assertEquals("1", params.parameters["no_dedupe"])
-        assertEquals("1", params.parameters["no_record"])
     }
 }
