@@ -29,6 +29,11 @@ kotlin {
             implementation(libs.ktor.client.mock)
         }
 
+        // The library ships no ktor engine for Linux, the default client test needs one
+        linuxTest.dependencies {
+            implementation(libs.ktor.client.cio)
+        }
+
         androidMain.dependencies {
             api(libs.ktor.client.android)
         }
