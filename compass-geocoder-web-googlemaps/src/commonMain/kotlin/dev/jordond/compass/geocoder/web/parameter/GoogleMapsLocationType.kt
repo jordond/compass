@@ -13,33 +13,31 @@ import dev.jordond.compass.tools.web.parameter.QueryParamValue
  *
  * See [Google Maps Geocoding API](https://developers.google.com/maps/documentation/geocoding/requests-reverse-geocoding#optional_parameters)
  */
-public enum class GoogleMapsLocationType : QueryParamValue {
+public enum class GoogleMapsLocationType(override val value: String) : QueryParamValue {
 
     /**
      * returns only the addresses for which Google has location information accurate down to street
      * address precision.
      */
-    Rooftop,
+    Rooftop("ROOFTOP"),
 
     /**
      * returns only the addresses that reflect an approximation (usually on a road) interpolated
      * between two precise points (such as intersections). An interpolated range generally indicates
      * that rooftop geocodes are unavailable for a street address.
      */
-    RangeInterpolated,
+    RangeInterpolated("RANGE_INTERPOLATED"),
 
     /**
      * returns only geometric centers of a location such as a polyline (for example, a street) or
      * polygon (region).
      */
-    GeometricCenter,
+    GeometricCenter("GEOMETRIC_CENTER"),
 
     /**
      * returns only the addresses that are characterized as approximate.
      */
-    Approximate;
-
-    override val value: String = name.uppercase()
+    Approximate("APPROXIMATE");
 }
 
 /**

@@ -19,6 +19,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -35,8 +36,11 @@ internal class DefaultGeolocator(
 
     init {
         coroutineScope.launch {
+            // Only a tracking session reports locations, a late or replayed fix must not undo a stop
             locator.locationUpdates.collect { value ->
-                status.update { TrackingStatus.Update(value) }
+                status.update { current ->
+                    if (current.isActive) TrackingStatus.Update(value) else current
+                }
             }
         }
     }
@@ -61,6 +65,9 @@ internal class DefaultGeolocator(
     override fun track(request: LocationRequest): Flow<TrackingStatus> = status.also {
         if (trackingJob?.isActive == true) return@also
 
+        // A failed attempt leaves its error behind, clear it so a retry reports its own outcome
+        status.update { current -> if (current is TrackingStatus.Error) TrackingStatus.Idle else current }
+
         trackingJob = coroutineScope.launch {
             if (!request.ignoreAvailableCheck && !isAvailable()) {
                 status.update { TrackingStatus.Error(GeolocatorResult.NotSupported) }
@@ -68,7 +75,9 @@ internal class DefaultGeolocator(
                 status.update { TrackingStatus.Tracking }
 
                 try {
-                    locator.track(request).launchIn(this)
+                    locator.track(request)
+                        .catch { cause -> status.update { TrackingStatus.Error(cause.toResult()) } }
+                        .launchIn(this)
                 } catch (cause: Throwable) {
                     if (cause is CancellationException) throw cause
                     status.update { TrackingStatus.Error(cause.toResult()) }

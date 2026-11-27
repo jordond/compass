@@ -9,7 +9,7 @@ import dev.jordond.compass.geocoder.web.parameter.GoogleMapsParametersBuilder
 import dev.jordond.compass.geocoder.web.parameter.googleMapsParameters
 import io.ktor.client.call.body
 import io.ktor.client.statement.HttpResponse
-import io.ktor.http.encodeURLQueryComponent
+import io.ktor.http.encodeURLParameter
 
 /**
  * A [ForwardEndpoint] that uses the Google Maps Geocoding API.
@@ -34,7 +34,7 @@ public class GoogleMapsForwardEndpoint(
     ) : this(apiKey, googleMapsParameters(block))
 
     override fun url(param: String): String {
-        val encodedQuery = param.encodeURLQueryComponent()
+        val encodedQuery = param.encodeURLParameter()
         return GoogleMapsPlatformGeocoder.forwardUrl(encodedQuery, apiKey, parameters)
     }
 

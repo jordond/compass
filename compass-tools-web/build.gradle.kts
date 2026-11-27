@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.poko)
     alias(libs.plugins.dokka)
     alias(libs.plugins.publish)
+    alias(libs.plugins.kotlinx.kover)
     alias(libs.plugins.convention.multiplatform)
 }
 
@@ -30,6 +31,10 @@ kotlin {
 
         appleMain.dependencies {
             api(libs.ktor.client.darwin)
+        }
+
+        linuxMain.dependencies {
+            api(libs.ktor.client.curl)
         }
 
         jsMain.dependencies {

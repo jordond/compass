@@ -25,7 +25,9 @@ public interface OpenCagePlatformGeocoder : HttpApiPlatformGeocoder {
             target: String,
             apiKey: String,
             params: OpenCageParameters,
-        ): String = "$BASE_URL?$target&${params.encode()}&key=$apiKey"
+        ): String = listOf(target, params.encode(), "key=$apiKey")
+            .filter { part -> part.isNotEmpty() }
+            .joinToString(separator = "&", prefix = "$BASE_URL?")
 
         internal fun forwardUrl(address: String, apiKey: String, params: OpenCageParameters) =
             createUrl(target = "q=$address", apiKey = apiKey, params = params)

@@ -31,7 +31,7 @@ public class OpenCageParameters(
 
     override val parameters: Map<String, String> = parametersOf(
         "limit" to limit,
-        "countrycode" to countryCode,
+        "countrycode" to countryCode.takeIf { codes -> codes.isNotEmpty() },
         "no_dedupe" to noDedupe.toInt(),
         "no_record" to noRecord.toInt(),
     )

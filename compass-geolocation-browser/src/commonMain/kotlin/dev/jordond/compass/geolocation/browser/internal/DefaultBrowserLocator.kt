@@ -14,7 +14,6 @@ import dev.jordond.compass.geolocation.browser.api.model.createGeolocationOption
 import dev.jordond.compass.geolocation.browser.api.model.value
 import dev.jordond.compass.geolocation.browser.api.navigator
 import dev.jordond.compass.geolocation.exception.GeolocationException
-import dev.jordond.compass.permissions.exception.PermissionDeniedException
 import dev.jordond.compass.permissions.exception.PermissionDeniedForeverException
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow
@@ -84,7 +83,7 @@ internal class DefaultBrowserLocator : BrowserLocator {
                 when {
                     continuation.isCompleted -> {}
                     error == null -> continuation.resume(true)
-                    else -> continuation.resumeWithException(PermissionDeniedException())
+                    else -> continuation.resumeWithException(error)
                 }
             }
         }

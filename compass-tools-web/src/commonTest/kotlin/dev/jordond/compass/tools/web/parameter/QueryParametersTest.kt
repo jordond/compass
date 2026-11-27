@@ -1,112 +1,100 @@
 package dev.jordond.compass.tools.web.parameter
 
 import kotlin.test.Test
-import kotlin.test.assertTrue
+import kotlin.test.assertEquals
 
 class QueryParametersTest {
 
-    @Test
-    fun shouldFilterOutNullValues() {
-        val actual = internalParametersOf(
-            "key1" to "value1",
-            "key2" to null,
-        )
+    private enum class Kind(override val value: String) : QueryParamValue {
+        A("a"),
+        B("b"),
+    }
 
-        actual shouldBeEqual mapOf("key1" to "value1")
+    private class Kinds(
+        override val values: List<Kind>,
+        override val separator: String = ",",
+    ) : QueryParamListValue<Kind>
+
+    private class Params(override val parameters: Map<String, String>) : QueryParameters
+
+    @Test
+    fun parametersOfDropsNullValues() {
+        val actual = internalParametersOf("key1" to "value1", "key2" to null)
+
+        assertEquals(mapOf("key1" to "value1"), actual)
     }
 
     @Test
-    fun shouldConvertListToCommaSeparatedString() {
-        val actual = internalParametersOf(
-            "key1" to listOf("value1", "value2"),
-            "key2" to listOf(true, false),
+    fun parametersOfConvertsEachKindOfValue() {
+        val actual = Params(emptyMap()).parametersOf(
+            "kind" to Kind.A,
+            "kinds" to Kinds(listOf(Kind.A, Kind.B)),
+            "piped" to Kinds(listOf(Kind.A, Kind.B), separator = "|"),
+            "list" to listOf(Kind.B, Kind.A),
+            "plainList" to listOf(true, false),
+            "number" to 5,
         )
-        val expected = mapOf(
-            "key1" to "value1,value2",
-            "key2" to "true,false",
+
+        assertEquals(
+            mapOf(
+                "kind" to "a",
+                "kinds" to "a,b",
+                "piped" to "a|b",
+                "list" to "b,a",
+                "plainList" to "true,false",
+                "number" to "5",
+            ),
+            actual,
         )
-        actual shouldBeEqual expected
     }
 
     @Test
-    fun shouldHandleQueryParamValue() {
-        val actual = internalParametersOf(
-            "key1" to object : QueryParamValue {
-                override val value: String = "foo"
-            },
-        )
-        val expected = mapOf(
-            "key1" to "foo",
-        )
-        actual shouldBeEqual expected
+    fun emptyListValueIsAnEmptyString() {
+        assertEquals("", Kinds(emptyList()).value)
     }
 
     @Test
-    fun shouldEncodeQueryParametersToUrlSafeString() {
-        val actual = object : QueryParameters {
-            override val parameters: Map<String, String> = mapOf(
-                "key1" to "value1",
-                "key2" to "value2",
-                "key3" to "value with spaces"
-            )
-        }.encode()
-        val expected = "key1%3Dvalue1%26key2%3Dvalue2%26key3%3Dvalue%20with%20spaces"
-        actual shouldBeEqual expected
+    fun encodeJoinsPairsWithAmpersandsAndKeepsOrder() {
+        val params = Params(mapOf("key1" to "value1", "key2" to "value2"))
+
+        assertEquals("key1=value1&key2=value2", params.encode())
     }
 
     @Test
-    fun shouldEncodeSpecialCharactersInUrl() {
-        val actual = object : QueryParameters {
-            override val parameters: Map<String, String> = mapOf(
-                "key1" to "value1 with",
-                "key2" to "value2/with",
-                "key3" to "value3?with",
-                "key4" to "value4#with",
-                "key5" to "value5&with",
-                "key6" to "value6=with",
-                "key7" to "value7+with",
-                "key8" to "value8%with",
-            )
-        }.encode()
-        val expected = "key1%3Dvalue1%20with%26key2%3Dvalue2%2Fwith%26key3%3Dvalue3%3Fwith%26" +
-            "key4%3Dvalue4%23with%26key5%3Dvalue5%26with%26key6%3Dvalue6%3Dwith%26" +
-            "key7%3Dvalue7%2Bwith%26key8%3Dvalue8%25with"
-        actual shouldBeEqual expected
-    }
-
-    @Test
-    fun shouldHandleDefaultQueryListParam() {
-        val actual = internalParametersOf(
-            "key1" to FooParamList(listOf(FooParam.Bar, FooParam.Baz)),
+    fun encodeEscapesReservedCharactersInKeysAndValues() {
+        val params = Params(
+            mapOf(
+                "space" to "a b",
+                "slash" to "a/b",
+                "question" to "a?b",
+                "hash" to "a#b",
+                "ampersand" to "a&b",
+                "equals" to "a=b",
+                "plus" to "a+b",
+                "percent" to "a%b",
+                "comma" to "a,b",
+                "unicode" to "Zürich",
+                "a key&more" to "x",
+            ),
         )
-        val expected = mapOf("key1" to "bar,baz")
-        actual shouldBeEqual expected
+
+        assertEquals(
+            "space=a%20b&slash=a%2Fb&question=a%3Fb&hash=a%23b&ampersand=a%26b&equals=a%3Db&" +
+                "plus=a%2Bb&percent=a%25b&comma=a%2Cb&unicode=Z%C3%BCrich&a%20key%26more=x",
+            params.encode(),
+        )
     }
 
     @Test
-    fun shouldHandleCustomQueryListParamSeparator() {
-        val actual = internalParametersOf(
-            "key1" to FooParamList(listOf(FooParam.Bar, FooParam.Baz), "|"),
-        )
-        val expected = mapOf("key1" to "bar|baz")
-        actual shouldBeEqual expected
+    fun encodeOfNoParametersIsEmpty() {
+        assertEquals("", Params(emptyMap()).encode())
     }
 
-    // TODO: Replace this with kotest once it hits 5.9 for wasm support
-    private infix fun <A : Any> A.shouldBeEqual(expected: A): A {
-        assertTrue { this == expected }
-        return this
+    @Test
+    fun booleanToIntMapsTrueToOneAndFalseToZero() {
+        with(Params(emptyMap())) {
+            assertEquals(1, true.toInt())
+            assertEquals(0, false.toInt())
+        }
     }
 }
-
-private enum class FooParam : QueryParamValue {
-    Bar,
-    Baz;
-
-    override val value: String = name.lowercase()
-}
-
-private class FooParamList(
-    override val values: List<FooParam>,
-    override val separator: String = ",",
-) : QueryParamListValue<FooParam>

@@ -20,7 +20,9 @@ public interface MapboxPlatformGeocoder : HttpApiPlatformGeocoder {
         private const val BASE_URL = "https://api.mapbox.com/search/geocode/v6"
 
         private fun createUrl(target: String, apiKey: String, params: MapboxParameters): String =
-            "$BASE_URL/$target&${params.encode()}&access_token=$apiKey"
+            listOf(target, params.encode(), "access_token=$apiKey")
+                .filter { part -> part.isNotEmpty() }
+                .joinToString(separator = "&", prefix = "$BASE_URL/")
 
         internal fun forwardUrl(query: String, apiKey: String, params: MapboxParameters) =
             createUrl("forward?q=$query", apiKey, params)

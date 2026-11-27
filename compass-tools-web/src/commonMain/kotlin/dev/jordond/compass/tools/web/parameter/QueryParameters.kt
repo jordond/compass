@@ -1,6 +1,6 @@
 package dev.jordond.compass.tools.web.parameter
 
-import io.ktor.http.encodeURLQueryComponent
+import io.ktor.http.encodeURLParameter
 
 /**
  * Represents a set of query parameters for a URL request.
@@ -17,10 +17,9 @@ public interface QueryParameters {
      *
      * @return The URL-encoded query parameters.
      */
-    public fun encode(): String = parameters
-        .map { (key, value) -> "$key=$value" }
-        .joinToString("&")
-        .encodeURLQueryComponent(encodeFull = true)
+    public fun encode(): String = parameters.entries.joinToString("&") { (key, value) ->
+        "${key.encodeURLParameter()}=${value.encodeURLParameter()}"
+    }
 
     /**
      * Convert a boolean value to an integer.

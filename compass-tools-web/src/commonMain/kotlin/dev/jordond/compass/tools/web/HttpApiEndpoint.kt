@@ -1,7 +1,9 @@
 package dev.jordond.compass.tools.web
 
+import dev.jordond.compass.InternalCompassApi
 import io.ktor.client.HttpClient
 import io.ktor.client.HttpClientConfig
+import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.plugins.HttpRequestRetry
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.logging.LogLevel
@@ -68,31 +70,24 @@ public interface HttpApiEndpoint<Params, Result> {
             maxRetries: Int = 3,
             block: HttpClientConfig<*>.() -> Unit = {},
         ): HttpClient = HttpClient {
-            expectSuccess = true
-
-            if (enableRetry) {
-                install(HttpRequestRetry) {
-                    retryOnServerErrors(maxRetries = maxRetries)
-                    exponentialDelay()
-                }
-            }
-
-            if (enableLogging) {
-                install(Logging) {
-                    level = LogLevel.ALL
-                    logger = object : Logger {
-                        override fun log(message: String) {
-                            co.touchlab.kermit.Logger.i { message }
-                        }
-                    }
-                }
-            }
-
-            install(ContentNegotiation) {
-                json(json)
-            }
-
+            applyDefaults(json, enableLogging, enableRetry, maxRetries)
             apply(block)
+        }
+
+        /**
+         * Create the same [HttpClient] as the default one on top of the given [engine].
+         *
+         * Internal API, used to run the default client configuration against a test engine.
+         */
+        @InternalCompassApi
+        public fun httpClient(
+            engine: HttpClientEngine,
+            json: Json = json(),
+            enableLogging: Boolean = false,
+            enableRetry: Boolean = true,
+            maxRetries: Int = 3,
+        ): HttpClient = HttpClient(engine) {
+            applyDefaults(json, enableLogging, enableRetry, maxRetries)
         }
     }
 }
@@ -112,4 +107,35 @@ public fun <Params, Result> HttpApiEndpoint(
 ): HttpApiEndpoint<Params, Result> = object : HttpApiEndpoint<Params, Result> {
     override fun url(param: Params): String = url(param)
     override suspend fun mapResponse(response: HttpResponse): Result = mapResponse(response)
+}
+
+private fun HttpClientConfig<*>.applyDefaults(
+    json: Json,
+    enableLogging: Boolean,
+    enableRetry: Boolean,
+    maxRetries: Int,
+) {
+    expectSuccess = true
+
+    if (enableRetry) {
+        install(HttpRequestRetry) {
+            retryOnServerErrors(maxRetries = maxRetries)
+            exponentialDelay()
+        }
+    }
+
+    if (enableLogging) {
+        install(Logging) {
+            level = LogLevel.ALL
+            logger = object : Logger {
+                override fun log(message: String) {
+                    co.touchlab.kermit.Logger.i { message }
+                }
+            }
+        }
+    }
+
+    install(ContentNegotiation) {
+        json(json)
+    }
 }

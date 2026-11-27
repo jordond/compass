@@ -21,6 +21,7 @@ actual class BrowserGeolocationScreen actual constructor() : Screen {
         GeolocationContent(
             state = state,
             currentLocation = model::currentLocation,
+            getLastLocation = model::getLastLocation,
             startTracking = model::startTracking,
             stopTracking = model::stopTracking,
         )

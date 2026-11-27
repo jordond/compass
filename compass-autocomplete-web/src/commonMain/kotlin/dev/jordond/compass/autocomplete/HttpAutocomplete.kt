@@ -22,7 +22,11 @@ public fun <T> Autocomplete(
     httpService: HttpAutocompleteService<T>,
     options: AutocompleteOptions = AutocompleteOptions(),
     dispatcher: CoroutineDispatcher = Dispatchers.Default,
-): Autocomplete<T> = Autocomplete(httpService, options, dispatcher)
+): Autocomplete<T> = Autocomplete<T>(
+    service = httpService,
+    options = options,
+    dispatcher = dispatcher,
+)
 
 /**
  * Creates a new [Autocomplete] instance that uses a HTTP service to provide autocomplete
@@ -44,5 +48,5 @@ public fun <T> Autocomplete(
     dispatcher: CoroutineDispatcher = Dispatchers.Default,
 ): Autocomplete<T> {
     val service = HttpAutocompleteService(endpoint, json, httpClient)
-    return Autocomplete(service, options, dispatcher)
+    return Autocomplete(httpService = service, options = options, dispatcher = dispatcher)
 }

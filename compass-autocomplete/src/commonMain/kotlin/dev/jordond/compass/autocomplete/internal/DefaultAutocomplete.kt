@@ -20,7 +20,7 @@ internal class DefaultAutocomplete<T>(
         }
 
         try {
-            if (query.length <= options.minimumQuery) {
+            if (query.length < options.minimumQuery) {
                 return AutocompleteResult.Success(emptyList())
             }
 

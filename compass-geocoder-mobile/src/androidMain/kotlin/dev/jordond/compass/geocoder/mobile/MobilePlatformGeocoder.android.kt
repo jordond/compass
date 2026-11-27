@@ -16,6 +16,7 @@ import java.util.Locale
 internal class AndroidPlatformGeocoder(
     private val context: Context,
     private val locale: Locale?,
+    private val sdkInt: Int = Build.VERSION.SDK_INT,
 ) : MobilePlatformGeocoder {
 
     override fun isAvailable(): Boolean = Geocoder.isPresent()
@@ -23,7 +24,7 @@ internal class AndroidPlatformGeocoder(
     override suspend fun reverse(latitude: Double, longitude: Double): List<Place> {
         val geocoder = createGeocoder()
 
-        return if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+        return if (sdkInt < Build.VERSION_CODES.TIRAMISU) {
             @Suppress("DEPRECATION")
             syncOperation { geocoder.getFromLocation(latitude, longitude, MAX_RESULTS) }.toPlaces()
         } else {
@@ -35,7 +36,7 @@ internal class AndroidPlatformGeocoder(
 
     override suspend fun placeFromAddress(address: String): List<Place> {
         val geocoder = createGeocoder()
-        return if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+        return if (sdkInt < Build.VERSION_CODES.TIRAMISU) {
             @Suppress("DEPRECATION")
             syncOperation { geocoder.getFromLocationName(address, MAX_RESULTS) }.toPlaces()
         } else {
@@ -47,7 +48,7 @@ internal class AndroidPlatformGeocoder(
 
     override suspend fun forward(address: String): List<Coordinates> {
         val geocoder = createGeocoder()
-        return if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+        return if (sdkInt < Build.VERSION_CODES.TIRAMISU) {
             @Suppress("DEPRECATION")
             syncOperation {
                 geocoder.getFromLocationName(address, MAX_RESULTS)

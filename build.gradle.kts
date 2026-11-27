@@ -10,17 +10,21 @@ plugins {
     alias(libs.plugins.dokka)
     alias(libs.plugins.dependencies)
     alias(libs.plugins.binaryCompatibility)
+    alias(libs.plugins.kotlinx.kover)
 }
 
 apiValidation {
     nonPublicMarkers += "dev.jordond.compass.InternalCompassApi"
-    ignoredProjects += listOf("composeApp", "androidApp")
+    ignoredProjects += listOf("composeApp", "androidApp", "test-support")
 }
 
 dependencies {
     subprojects
         .filter { it.name.startsWith("compass-") }
-        .forEach { dokka(project(it.path)) }
+        .forEach { project ->
+            dokka(project(project.path))
+            kover(project(project.path))
+        }
 }
 
 dokka {
