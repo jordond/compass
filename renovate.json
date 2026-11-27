@@ -6,6 +6,8 @@
   "labels": [
     "dependencies"
   ],
+  "platformAutomerge": false,
+  "automergeStrategy": "squash",
   "packageRules": [
     {
       "groupName": "Kotlin",
@@ -15,6 +17,39 @@
         "org.jetbrains.kotlin{/,}**",
         "org.jetbrains.kotlinx:binary-compatibility-validator{/,}**"
       ]
+    },
+    {
+      "description": "The README badge follows the Compose Multiplatform version in the catalog.",
+      "groupName": "Compose Multiplatform",
+      "matchPackageNames": [
+        "org.jetbrains.compose:compose-gradle-plugin",
+        "org.jetbrains.compose.components{/,}**",
+        "org.jetbrains.compose.foundation{/,}**",
+        "org.jetbrains.compose.runtime{/,}**",
+        "org.jetbrains.compose.ui{/,}**"
+      ]
+    },
+    {
+      "description": "Minor and patch updates merge once CI passes. Majors need a review.",
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "digest",
+        "pin",
+        "pinDigest"
+      ],
+      "automerge": true
+    },
+    {
+      "description": "The docs follow each Compass release without a review, majors included. CI skips markdown, so there are no checks to wait for.",
+      "matchManagers": [
+        "custom.regex"
+      ],
+      "matchPackageNames": [
+        "dev.jordond.compass:core"
+      ],
+      "automerge": true,
+      "ignoreTests": true
     }
   ],
   "customManagers": [
