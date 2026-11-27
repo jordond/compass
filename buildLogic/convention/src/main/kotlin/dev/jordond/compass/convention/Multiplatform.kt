@@ -13,6 +13,8 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 
+private const val TEST_SUPPORT = ":test-support"
+
 fun Project.configureMultiplatform(
     platform: Platform,
     name: String = this.name,
@@ -43,6 +45,8 @@ internal fun KotlinMultiplatformExtension.configurePlatforms(
     name: String,
 ) {
     applyDefaultHierarchyTemplate()
+
+    val isTestSupport = project.path == TEST_SUPPORT
 
     compilerOptions {
         freeCompilerArgs.add("-Xexpect-actual-classes")
@@ -138,6 +142,7 @@ internal fun KotlinMultiplatformExtension.configurePlatforms(
             implementation(project.libs.findLibrary("kotlinx-coroutines-test").get())
             implementation(project.libs.findLibrary("kotest-assertions").get())
             implementation(project.libs.findLibrary("turbine").get())
+            if (!isTestSupport) implementation(project.project(TEST_SUPPORT))
         }
     }
 
@@ -149,6 +154,7 @@ internal fun KotlinMultiplatformExtension.configurePlatforms(
                 implementation(project.libs.findLibrary("kotest-assertions").get())
                 implementation(project.libs.findLibrary("mockk-android").get())
                 implementation(project.libs.findLibrary("mockk-agent").get())
+                if (!isTestSupport) implementation(project.project(TEST_SUPPORT))
             }
         }
     }

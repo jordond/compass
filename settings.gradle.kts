@@ -60,5 +60,6 @@ include(
     ":compass-tools-web",
 )
 
+include(":test-support")
 include(":demo:composeApp")
 include(":demo:androidApp")

@@ -15,7 +15,7 @@ plugins {
 
 apiValidation {
     nonPublicMarkers += "dev.jordond.compass.InternalCompassApi"
-    ignoredProjects += listOf("composeApp", "androidApp")
+    ignoredProjects += listOf("composeApp", "androidApp", "test-support")
 }
 
 dependencies {
