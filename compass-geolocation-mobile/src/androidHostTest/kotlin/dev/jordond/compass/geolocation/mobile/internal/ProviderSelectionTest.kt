@@ -5,6 +5,7 @@ import android.location.LocationManager.GPS_PROVIDER
 import android.location.LocationManager.NETWORK_PROVIDER
 import android.location.LocationManager.PASSIVE_PROVIDER
 import android.os.Build.VERSION_CODES
+import androidx.core.location.LocationRequestCompat
 import dev.jordond.compass.Priority
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -23,6 +24,7 @@ class ProviderSelectionTest {
             assertEquals(
                 FUSED_PROVIDER,
                 select(priority, listOf(FUSED_PROVIDER, GPS_PROVIDER, NETWORK_PROVIDER)),
+                "provider for $priority",
             )
         }
     }
@@ -78,7 +80,7 @@ class ProviderSelectionTest {
         // The passive provider only reports fixes another app already asked for, so it can stay
         // quiet indefinitely. Returning null lets the caller fail instead of hanging.
         for (priority in listOf(Priority.HighAccuracy, Priority.Balanced)) {
-            assertNull(select(priority, listOf(PASSIVE_PROVIDER)))
+            assertNull(select(priority, listOf(PASSIVE_PROVIDER)), "provider for $priority")
         }
     }
 
@@ -101,13 +103,11 @@ class ProviderSelectionTest {
     @Test
     fun selectsNothingWhenLocationIsOff() {
         // Location being switched off outranks any provider still reporting itself as enabled.
-        assertEquals(
-            null,
-            selectProvider(
+        assertNull(
+            select(
                 priority = Priority.HighAccuracy,
+                providers = listOf(FUSED_PROVIDER, GPS_PROVIDER, NETWORK_PROVIDER),
                 locationEnabled = false,
-                enabledProviders = listOf(FUSED_PROVIDER, GPS_PROVIDER, NETWORK_PROVIDER),
-                sdkInt = FUSED_CAPABLE,
             ),
         )
     }
@@ -117,13 +117,28 @@ class ProviderSelectionTest {
         assertNull(select(Priority.HighAccuracy, emptyList()))
     }
 
+    @Test
+    fun mapsPrioritiesToRequestQuality() {
+        val expected = mapOf(
+            Priority.HighAccuracy to LocationRequestCompat.QUALITY_HIGH_ACCURACY,
+            Priority.Balanced to LocationRequestCompat.QUALITY_BALANCED_POWER_ACCURACY,
+            Priority.LowPower to LocationRequestCompat.QUALITY_LOW_POWER,
+            Priority.Passive to LocationRequestCompat.QUALITY_LOW_POWER,
+        )
+
+        for ((priority, quality) in expected) {
+            assertEquals(quality, priority.toQuality(), "quality for $priority")
+        }
+    }
+
     private fun select(
         priority: Priority,
         providers: Collection<String>,
         sdkInt: Int = FUSED_CAPABLE,
+        locationEnabled: Boolean = true,
     ): String? = selectProvider(
         priority = priority,
-        locationEnabled = true,
+        locationEnabled = locationEnabled,
         enabledProviders = providers,
         sdkInt = sdkInt,
     )

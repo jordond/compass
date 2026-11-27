@@ -2,9 +2,12 @@ package dev.jordond.compass.geolocation.mobile.internal
 
 import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Intent
 import android.content.IntentFilter
 import android.location.Location
 import android.location.LocationManager
+import android.location.LocationManager.GPS_PROVIDER
+import android.location.LocationManager.NETWORK_PROVIDER
 import android.os.CancellationSignal
 import androidx.core.content.ContextCompat
 import androidx.core.location.LocationListenerCompat
@@ -14,16 +17,21 @@ import androidx.core.util.Consumer
 import dev.jordond.compass.Priority
 import dev.jordond.compass.exception.NotFoundException
 import dev.jordond.compass.geolocation.LocationRequest
+import io.mockk.CapturingSlot
+import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
-import io.mockk.Runs
 import io.mockk.mockk
 import io.mockk.mockkConstructor
 import io.mockk.mockkStatic
 import io.mockk.slot
 import io.mockk.unmockkAll
 import io.mockk.verify
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.cancelAndJoin
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
 import java.util.concurrent.Executor
 import kotlin.test.AfterTest
@@ -37,14 +45,19 @@ import kotlin.test.assertSame
 import kotlin.test.assertTrue
 
 // SDK_INT is 0 on the host, so provider selection never takes the fused provider branch.
+@OptIn(ExperimentalCoroutinesApi::class)
 class StandardLocationProviderTest {
 
     private val executor = mockk<Executor>()
     private val locationManager = mockk<LocationManager>()
-    private val context = mockk<Context>(relaxed = true)
+    private val context = mockk<Context>()
+
+    private val listener = slot<LocationListenerCompat>()
+    private val platformRequest = slot<LocationRequestCompat>()
+    private val settingsReceiver = slot<BroadcastReceiver>()
 
     private var locationEnabled = true
-    private var enabledProviders = listOf(LocationManager.GPS_PROVIDER, LocationManager.NETWORK_PROVIDER)
+    private var enabledProviders = listOf(GPS_PROVIDER, NETWORK_PROVIDER)
 
     @BeforeTest
     fun setUp() {
@@ -52,18 +65,33 @@ class StandardLocationProviderTest {
         mockkStatic(LocationManagerCompat::class)
         mockkConstructor(CancellationSignal::class)
         mockkConstructor(IntentFilter::class)
-        mockkConstructor(BroadcastReceiver::class)
 
         every { context.applicationContext } returns context
         every { context.getSystemService(Context.LOCATION_SERVICE) } returns locationManager
-        every { ContextCompat.getMainExecutor(any()) } returns executor
-        every { ContextCompat.registerReceiver(any(), any(), any(), any()) } returns null
+        every { context.unregisterReceiver(any()) } just Runs
+        every { ContextCompat.getMainExecutor(context) } returns executor
+        every {
+            ContextCompat.registerReceiver(
+                context,
+                capture(settingsReceiver),
+                any(),
+                ContextCompat.RECEIVER_NOT_EXPORTED,
+            )
+        } returns null
         every { anyConstructed<IntentFilter>().addAction(any()) } just Runs
         every { anyConstructed<CancellationSignal>().cancel() } just Runs
         every { LocationManagerCompat.isLocationEnabled(locationManager) } answers { locationEnabled }
         every { locationManager.getProviders(true) } answers { enabledProviders }
-        every { LocationManagerCompat.requestLocationUpdates(any(), any<String>(), any<LocationRequestCompat>(), any<Executor>(), any<LocationListenerCompat>()) } just Runs
-        every { LocationManagerCompat.removeUpdates(any(), any()) } just Runs
+        every {
+            LocationManagerCompat.requestLocationUpdates(
+                locationManager,
+                any<String>(),
+                capture(platformRequest),
+                executor,
+                capture(listener),
+            )
+        } just Runs
+        every { LocationManagerCompat.removeUpdates(locationManager, any()) } just Runs
     }
 
     @AfterTest
@@ -75,8 +103,8 @@ class StandardLocationProviderTest {
     fun lastLocationPicksTheMostRecentFixAcrossProviders() = runTest {
         val old = location(elapsedNanos = 100)
         val fresh = location(elapsedNanos = 900)
-        every { locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER) } returns old
-        every { locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER) } returns fresh
+        every { locationManager.getLastKnownLocation(GPS_PROVIDER) } returns old
+        every { locationManager.getLastKnownLocation(NETWORK_PROVIDER) } returns fresh
 
         assertSame(fresh, provider().lastLocation())
     }
@@ -84,8 +112,8 @@ class StandardLocationProviderTest {
     @Test
     fun lastLocationSkipsProvidersWithoutAFix() = runTest {
         val only = location(elapsedNanos = 5)
-        every { locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER) } returns null
-        every { locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER) } returns only
+        every { locationManager.getLastKnownLocation(GPS_PROVIDER) } returns null
+        every { locationManager.getLastKnownLocation(NETWORK_PROVIDER) } returns only
 
         assertSame(only, provider().lastLocation())
     }
@@ -131,14 +159,28 @@ class StandardLocationProviderTest {
         val result = provider().currentLocation(Priority.HighAccuracy)
 
         assertSame(fix, result)
-        assertEquals(LocationManager.GPS_PROVIDER, requested.captured)
+        assertEquals(GPS_PROVIDER, requested.captured)
     }
 
     @Test
     fun currentLocationThrowsNotFoundWhenTheProviderReturnsNothing() = runTest {
-        stubCurrentLocation(slot<String>()) { consumer -> consumer.accept(null) }
+        stubCurrentLocation { consumer -> consumer.accept(null) }
 
         assertFailsWith<NotFoundException> { provider().currentLocation(Priority.HighAccuracy) }
+    }
+
+    @Test
+    fun cancellingCurrentLocationCancelsThePlatformRequest() = runTest {
+        stubCurrentLocation { _ -> }
+        val provider = provider()
+
+        val job = launch { provider.currentLocation(Priority.HighAccuracy) }
+        runCurrent()
+        verify(exactly = 0) { anyConstructed<CancellationSignal>().cancel() }
+
+        job.cancelAndJoin()
+
+        verify(exactly = 1) { anyConstructed<CancellationSignal>().cancel() }
     }
 
     @Test
@@ -149,29 +191,17 @@ class StandardLocationProviderTest {
         provider.startTracking(request)
         provider.startTracking(request)
 
-        verify(exactly = 1) {
-            LocationManagerCompat.requestLocationUpdates(
-                locationManager,
-                LocationManager.NETWORK_PROVIDER,
-                any<LocationRequestCompat>(),
-                executor,
-                any<LocationListenerCompat>(),
-            )
-        }
+        verifyRegistrations(1)
+        verifyRegistrations(1, onProvider = NETWORK_PROVIDER)
     }
 
     @Test
     fun startTrackingBuildsTheRequestFromTheCompassRequest() {
-        val captured = slot<LocationRequestCompat>()
-        every {
-            LocationManagerCompat.requestLocationUpdates(any(), any<String>(), capture(captured), any<Executor>(), any<LocationListenerCompat>())
-        } just Runs
-
         provider().startTracking(LocationRequest(priority = Priority.HighAccuracy, interval = 3_000L))
 
-        assertEquals(3_000L, captured.captured.intervalMillis)
-        assertEquals(3_000L, captured.captured.minUpdateIntervalMillis)
-        assertEquals(LocationRequestCompat.QUALITY_HIGH_ACCURACY, captured.captured.quality)
+        assertEquals(3_000L, platformRequest.captured.intervalMillis)
+        assertEquals(3_000L, platformRequest.captured.minUpdateIntervalMillis)
+        assertEquals(LocationRequestCompat.QUALITY_HIGH_ACCURACY, platformRequest.captured.quality)
     }
 
     @Test
@@ -187,11 +217,22 @@ class StandardLocationProviderTest {
         enabledProviders = emptyList()
         assertFailsWith<NotFoundException> { provider.startTracking(LocationRequest()) }
 
-        enabledProviders = listOf(LocationManager.GPS_PROVIDER)
+        enabledProviders = listOf(GPS_PROVIDER)
         provider.startTracking(LocationRequest())
 
+        verifyRegistrations(1)
+    }
+
+    @Test
+    fun startTrackingWatchesForLocationSettingChanges() {
+        provider().startTracking(LocationRequest())
+
+        assertTrue(settingsReceiver.isCaptured)
         verify(exactly = 1) {
-            LocationManagerCompat.requestLocationUpdates(any(), any<String>(), any<LocationRequestCompat>(), any<Executor>(), any<LocationListenerCompat>())
+            anyConstructed<IntentFilter>().addAction(LocationManager.MODE_CHANGED_ACTION)
+        }
+        verify(exactly = 1) {
+            anyConstructed<IntentFilter>().addAction(LocationManager.PROVIDERS_CHANGED_ACTION)
         }
     }
 
@@ -200,13 +241,22 @@ class StandardLocationProviderTest {
         val provider = provider()
 
         provider.startTracking(LocationRequest())
+        val registered = listener.captured
         provider.stopTracking()
         provider.startTracking(LocationRequest())
 
-        verify(exactly = 1) { LocationManagerCompat.removeUpdates(locationManager, any()) }
-        verify(exactly = 2) {
-            LocationManagerCompat.requestLocationUpdates(any(), any<String>(), any<LocationRequestCompat>(), any<Executor>(), any<LocationListenerCompat>())
-        }
+        verify(exactly = 1) { LocationManagerCompat.removeUpdates(locationManager, registered) }
+        verifyRegistrations(2)
+    }
+
+    @Test
+    fun stopTrackingStopsWatchingTheLocationSettings() {
+        val provider = provider()
+
+        provider.startTracking(LocationRequest())
+        provider.stopTracking()
+
+        verify(exactly = 1) { context.unregisterReceiver(settingsReceiver.captured) }
     }
 
     @Test
@@ -214,81 +264,97 @@ class StandardLocationProviderTest {
         provider().stopTracking()
 
         verify(exactly = 0) { LocationManagerCompat.removeUpdates(any(), any()) }
+        verify(exactly = 0) { context.unregisterReceiver(any()) }
     }
 
     @Test
     fun locationChangesAreEmittedToLocationUpdates() = runTest {
-        val listener = slot<LocationListenerCompat>()
-        every {
-            LocationManagerCompat.requestLocationUpdates(any(), any<String>(), any<LocationRequestCompat>(), any<Executor>(), capture(listener))
-        } just Runs
         val provider = provider()
-        val received = mutableListOf<Location>()
-        val job = launch { provider.locationUpdates.collect { received += it } }
+        val fix = location()
 
         provider.startTracking(LocationRequest())
-        val fix = location()
         listener.captured.onLocationChanged(fix)
-        testScheduler.advanceUntilIdle()
 
-        assertEquals(listOf(fix), received)
-        job.cancel()
+        assertSame(fix, provider.locationUpdates.first())
     }
 
     @Test
     fun aDisabledProviderMovesTheSessionToTheNextBestOne() {
-        val listener = slot<LocationListenerCompat>()
-        every {
-            LocationManagerCompat.requestLocationUpdates(any(), any<String>(), any<LocationRequestCompat>(), any<Executor>(), capture(listener))
-        } just Runs
         val provider = provider()
 
         provider.startTracking(LocationRequest(priority = Priority.HighAccuracy))
-        enabledProviders = listOf(LocationManager.NETWORK_PROVIDER)
-        listener.captured.onProviderDisabled(LocationManager.GPS_PROVIDER)
+        enabledProviders = listOf(NETWORK_PROVIDER)
+        listener.captured.onProviderDisabled(GPS_PROVIDER)
 
-        verify(exactly = 1) { LocationManagerCompat.removeUpdates(locationManager, any()) }
-        verify(exactly = 1) {
-            LocationManagerCompat.requestLocationUpdates(
-                locationManager,
-                LocationManager.NETWORK_PROVIDER,
-                any<LocationRequestCompat>(),
-                executor,
-                any<LocationListenerCompat>(),
-            )
-        }
+        verifyListenerRemovals(1)
+        verifyRegistrations(1, onProvider = GPS_PROVIDER)
+        verifyRegistrations(1, onProvider = NETWORK_PROVIDER)
+    }
+
+    @Test
+    fun aNewlyEnabledBetterProviderTakesOverTheSession() {
+        enabledProviders = listOf(NETWORK_PROVIDER)
+        val provider = provider()
+
+        provider.startTracking(LocationRequest(priority = Priority.HighAccuracy))
+        enabledProviders = listOf(GPS_PROVIDER, NETWORK_PROVIDER)
+        listener.captured.onProviderEnabled(GPS_PROVIDER)
+
+        verifyListenerRemovals(1)
+        verifyRegistrations(1, onProvider = NETWORK_PROVIDER)
+        verifyRegistrations(1, onProvider = GPS_PROVIDER)
     }
 
     @Test
     fun aRefreshWithTheSameBestProviderDoesNotReRegister() {
-        val listener = slot<LocationListenerCompat>()
-        every {
-            LocationManagerCompat.requestLocationUpdates(any(), any<String>(), any<LocationRequestCompat>(), any<Executor>(), capture(listener))
-        } just Runs
         val provider = provider()
 
         provider.startTracking(LocationRequest(priority = Priority.HighAccuracy))
-        listener.captured.onProviderEnabled(LocationManager.NETWORK_PROVIDER)
+        listener.captured.onProviderEnabled(NETWORK_PROVIDER)
+        broadcastSettingsChange()
 
-        verify(exactly = 1) {
-            LocationManagerCompat.requestLocationUpdates(any(), any<String>(), any<LocationRequestCompat>(), any<Executor>(), any<LocationListenerCompat>())
-        }
-        verify(exactly = 0) { LocationManagerCompat.removeUpdates(any(), any()) }
+        verifyRegistrations(1)
+        verifyListenerRemovals(0)
     }
 
     @Test
     fun turningLocationOffDuringTrackingUnregistersTheListener() {
-        val listener = slot<LocationListenerCompat>()
-        every {
-            LocationManagerCompat.requestLocationUpdates(any(), any<String>(), any<LocationRequestCompat>(), any<Executor>(), capture(listener))
-        } just Runs
         val provider = provider()
 
         provider.startTracking(LocationRequest())
         locationEnabled = false
-        listener.captured.onProviderDisabled(LocationManager.GPS_PROVIDER)
+        broadcastSettingsChange()
 
-        verify(exactly = 1) { LocationManagerCompat.removeUpdates(locationManager, any()) }
+        verifyListenerRemovals(1)
+        verifyRegistrations(1)
+    }
+
+    @Test
+    fun trackingResumesWhenLocationIsTurnedBackOn() {
+        val provider = provider()
+
+        provider.startTracking(LocationRequest(priority = Priority.HighAccuracy))
+        locationEnabled = false
+        broadcastSettingsChange()
+        locationEnabled = true
+        broadcastSettingsChange()
+
+        verifyListenerRemovals(1)
+        verifyRegistrations(2, onProvider = GPS_PROVIDER)
+    }
+
+    @Test
+    fun trackingResumesWhenAProviderComesBackAfterAllWereDisabled() {
+        val provider = provider()
+
+        provider.startTracking(LocationRequest(priority = Priority.HighAccuracy))
+        enabledProviders = emptyList()
+        listener.captured.onProviderDisabled(GPS_PROVIDER)
+        enabledProviders = listOf(NETWORK_PROVIDER)
+        broadcastSettingsChange()
+
+        verifyRegistrations(1, onProvider = GPS_PROVIDER)
+        verifyRegistrations(1, onProvider = NETWORK_PROVIDER)
     }
 
     private fun provider() = StandardLocationProvider(context)
@@ -297,16 +363,38 @@ class StandardLocationProviderTest {
         every { elapsedRealtimeNanos } returns elapsedNanos
     }
 
+    private fun broadcastSettingsChange() {
+        settingsReceiver.captured.onReceive(context, mockk<Intent>())
+    }
+
+    private fun verifyRegistrations(count: Int, onProvider: String? = null) {
+        verify(exactly = count) {
+            LocationManagerCompat.requestLocationUpdates(
+                locationManager,
+                onProvider ?: any<String>(),
+                any<LocationRequestCompat>(),
+                executor,
+                any<LocationListenerCompat>(),
+            )
+        }
+    }
+
+    private fun verifyListenerRemovals(count: Int) {
+        verify(exactly = count) {
+            LocationManagerCompat.removeUpdates(locationManager, listener.captured)
+        }
+    }
+
     private fun stubCurrentLocation(
-        requested: io.mockk.CapturingSlot<String>,
+        requested: CapturingSlot<String> = slot(),
         respond: (Consumer<Location?>) -> Unit,
     ) {
         every {
             LocationManagerCompat.getCurrentLocation(
-                any<LocationManager>(),
+                locationManager,
                 capture(requested),
                 any<CancellationSignal>(),
-                any<Executor>(),
+                executor,
                 any<Consumer<Location?>>(),
             )
         } answers {

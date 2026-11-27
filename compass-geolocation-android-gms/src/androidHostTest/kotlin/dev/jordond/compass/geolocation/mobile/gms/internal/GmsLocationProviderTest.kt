@@ -13,13 +13,10 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.LocationSettingsResponse
 import com.google.android.gms.location.Priority as GmsPriority
 import com.google.android.gms.location.SettingsClient
-import com.google.android.gms.tasks.OnCanceledListener
-import com.google.android.gms.tasks.OnFailureListener
-import com.google.android.gms.tasks.OnSuccessListener
-import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.CancellationToken
 import dev.jordond.compass.Priority
 import dev.jordond.compass.exception.NotFoundException
+import dev.jordond.compass.geolocation.mobile.gms.fakeTask
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkStatic
@@ -27,7 +24,10 @@ import io.mockk.slot
 import io.mockk.unmockkAll
 import io.mockk.verify
 import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
@@ -40,13 +40,17 @@ import kotlin.test.assertSame
 import kotlin.test.assertTrue
 import dev.jordond.compass.geolocation.LocationRequest as CompassLocationRequest
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class GmsLocationProviderTest {
 
-    private val context = mockk<Context>(relaxed = true)
+    private val context = mockk<Context>()
     private val fused = mockk<FusedLocationProviderClient>(relaxed = true)
     private val settings = mockk<SettingsClient>()
     private val locationManager = mockk<LocationManager>()
     private val looper = mockk<Looper>()
+
+    private val gmsRequest = slot<LocationRequest>()
+    private val callback = slot<LocationCallback>()
 
     @BeforeTest
     fun setUp() {
@@ -58,6 +62,9 @@ class GmsLocationProviderTest {
         every { LocationServices.getFusedLocationProviderClient(context) } returns fused
         every { LocationServices.getSettingsClient(context) } returns settings
         every { Looper.getMainLooper() } returns looper
+        every {
+            fused.requestLocationUpdates(capture(gmsRequest), capture(callback), looper)
+        } returns mockk(relaxed = true)
     }
 
     @AfterTest
@@ -68,21 +75,22 @@ class GmsLocationProviderTest {
     @Test
     fun lastLocationResumesWithTheFusedFix() = runTest {
         val fix = mockk<Location>()
-        every { fused.lastLocation } returns task(result = fix)
+        every { fused.lastLocation } returns fakeTask(result = fix)
 
         assertSame(fix, provider().lastLocation())
     }
 
     @Test
     fun lastLocationIsNullWhenTheClientHasNone() = runTest {
-        every { fused.lastLocation } returns task<Location>(result = null)
+        every { fused.lastLocation } returns fakeTask<Location>(result = null)
 
         assertNull(provider().lastLocation())
     }
 
     @Test
     fun lastLocationRethrowsClientFailures() = runTest {
-        every { fused.lastLocation } returns task<Location>(failure = IllegalStateException("denied"))
+        every { fused.lastLocation } returns
+            fakeTask<Location>(failure = IllegalStateException("denied"))
 
         assertEquals(
             "denied",
@@ -92,7 +100,7 @@ class GmsLocationProviderTest {
 
     @Test
     fun lastLocationSurfacesACancelledTaskAsCancellation() = runTest {
-        every { fused.lastLocation } returns task<Location>(cancelled = true)
+        every { fused.lastLocation } returns fakeTask<Location>(cancelled = true)
 
         assertFailsWith<CancellationException> { provider().lastLocation() }
     }
@@ -100,7 +108,7 @@ class GmsLocationProviderTest {
     @Test
     fun locationEnabledIsTrueWhenTheSettingsCheckPasses() = runTest {
         every { settings.checkLocationSettings(any()) } returns
-            completedTask(mockk<LocationSettingsResponse>())
+            fakeTask(mockk<LocationSettingsResponse>())
 
         assertTrue(provider().locationEnabled())
     }
@@ -108,7 +116,7 @@ class GmsLocationProviderTest {
     @Test
     fun locationEnabledFallsBackToThePlatformSettingWhenTheCheckFails() = runTest {
         every { settings.checkLocationSettings(any()) } returns
-            completedTask<LocationSettingsResponse>(failure = RuntimeException("resolution required"))
+            fakeTask<LocationSettingsResponse>(failure = RuntimeException("resolution required"))
         every { LocationManagerCompat.isLocationEnabled(locationManager) } returns true
 
         assertTrue(provider().locationEnabled())
@@ -117,7 +125,7 @@ class GmsLocationProviderTest {
     @Test
     fun locationEnabledIsFalseWhenBothTheCheckAndThePlatformSayOff() = runTest {
         every { settings.checkLocationSettings(any()) } returns
-            completedTask<LocationSettingsResponse>(failure = RuntimeException("off"))
+            fakeTask<LocationSettingsResponse>(failure = RuntimeException("off"))
         every { LocationManagerCompat.isLocationEnabled(locationManager) } returns false
 
         assertFalse(provider().locationEnabled())
@@ -136,50 +144,61 @@ class GmsLocationProviderTest {
         for ((priority, gmsPriority) in expected) {
             val fix = mockk<Location>()
             every { fused.getCurrentLocation(gmsPriority, any<CancellationToken>()) } returns
-                completedTask(fix)
+                fakeTask(fix)
 
-            assertSame(fix, provider.currentLocation(priority))
+            assertSame(fix, provider.currentLocation(priority), "fix for $priority")
         }
+    }
+
+    @Test
+    fun cancellingCurrentLocationCancelsTheFusedRequest() = runTest {
+        val token = slot<CancellationToken>()
+        every { fused.getCurrentLocation(any<Int>(), capture(token)) } returns
+            fakeTask<Location>(complete = false)
+        val provider = provider()
+
+        val job = launch { provider.currentLocation(Priority.Balanced) }
+        runCurrent()
+        assertFalse(token.captured.isCancellationRequested)
+
+        job.cancelAndJoin()
+
+        assertTrue(token.captured.isCancellationRequested)
     }
 
     @Test
     fun currentLocationThrowsNotFoundWhenTheClientReturnsNull() = runTest {
         every { fused.getCurrentLocation(any<Int>(), any<CancellationToken>()) } returns
-            completedTask<Location>(result = null)
+            fakeTask<Location>(result = null)
 
         assertFailsWith<NotFoundException> { provider().currentLocation(Priority.Balanced) }
     }
 
     @Test
     fun startTrackingRegistersOnceWithAnIntervalMatchedRequest() {
-        val request = slot<LocationRequest>()
-        every { fused.requestLocationUpdates(capture(request), any<LocationCallback>(), looper) } returns
-            mockk(relaxed = true)
         val provider = provider()
-        val compassRequest = CompassLocationRequest(priority = Priority.HighAccuracy, interval = 4_000L)
+        val request = CompassLocationRequest(priority = Priority.HighAccuracy, interval = 4_000L)
 
-        provider.startTracking(compassRequest)
-        provider.startTracking(compassRequest)
+        provider.startTracking(request)
+        provider.startTracking(request)
 
-        verify(exactly = 1) { fused.requestLocationUpdates(any<LocationRequest>(), any<LocationCallback>(), looper) }
-        assertEquals(GmsPriority.PRIORITY_HIGH_ACCURACY, request.captured.priority)
-        assertEquals(4_000L, request.captured.intervalMillis)
-        assertEquals(4_000L, request.captured.minUpdateIntervalMillis)
+        verifyRegistrations(1)
+        assertEquals(GmsPriority.PRIORITY_HIGH_ACCURACY, gmsRequest.captured.priority)
+        assertEquals(4_000L, gmsRequest.captured.intervalMillis)
+        assertEquals(4_000L, gmsRequest.captured.minUpdateIntervalMillis)
     }
 
     @Test
     fun stopTrackingRemovesTheCallbackAndAllowsANewSession() {
-        val registered = slot<LocationCallback>()
-        every { fused.requestLocationUpdates(any<LocationRequest>(), capture(registered), looper) } returns
-            mockk(relaxed = true)
         val provider = provider()
 
         provider.startTracking(CompassLocationRequest())
+        val registered = callback.captured
         provider.stopTracking()
         provider.startTracking(CompassLocationRequest())
 
-        verify(exactly = 1) { fused.removeLocationUpdates(any<LocationCallback>()) }
-        verify(exactly = 2) { fused.requestLocationUpdates(any<LocationRequest>(), any<LocationCallback>(), looper) }
+        verify(exactly = 1) { fused.removeLocationUpdates(registered) }
+        verifyRegistrations(2)
     }
 
     @Test
@@ -191,18 +210,15 @@ class GmsLocationProviderTest {
 
     @Test
     fun locationResultsAreEmittedToLocationUpdates() = runTest {
-        val registered = slot<LocationCallback>()
-        every { fused.requestLocationUpdates(any<LocationRequest>(), capture(registered), looper) } returns
-            mockk(relaxed = true)
         val provider = provider()
         val received = mutableListOf<Location>()
-        val job = launch { provider.locationUpdates.collect { received += it } }
+        val job = launch { provider.locationUpdates.collect { location -> received += location } }
 
         provider.startTracking(CompassLocationRequest())
         val fix = mockk<Location>()
-        registered.captured.onLocationResult(mockk<LocationResult> { every { lastLocation } returns fix })
-        registered.captured.onLocationResult(mockk<LocationResult> { every { lastLocation } returns null })
-        testScheduler.advanceUntilIdle()
+        callback.captured.onLocationResult(locationResult(fix))
+        callback.captured.onLocationResult(locationResult(null))
+        runCurrent()
 
         assertEquals(listOf(fix), received)
         job.cancel()
@@ -210,34 +226,13 @@ class GmsLocationProviderTest {
 
     private fun provider() = GmsLocationProvider(context)
 
-    private fun <T> completedTask(
-        result: T? = null,
-        failure: Exception? = null,
-    ): Task<T> = mockk {
-        every { isComplete } returns true
-        every { isCanceled } returns false
-        every { exception } returns failure
-        every { getResult() } returns result
+    private fun locationResult(last: Location?): LocationResult = mockk {
+        every { lastLocation } returns last
     }
 
-    private fun <T> task(
-        result: T? = null,
-        failure: Exception? = null,
-        cancelled: Boolean = false,
-    ): Task<T> {
-        val task = mockk<Task<T>>()
-        every { task.addOnSuccessListener(any<OnSuccessListener<in T>>()) } answers {
-            if (failure == null && !cancelled) firstArg<OnSuccessListener<T?>>().onSuccess(result)
-            task
+    private fun verifyRegistrations(count: Int) {
+        verify(exactly = count) {
+            fused.requestLocationUpdates(any<LocationRequest>(), any<LocationCallback>(), looper)
         }
-        every { task.addOnCanceledListener(any<OnCanceledListener>()) } answers {
-            if (cancelled) firstArg<OnCanceledListener>().onCanceled()
-            task
-        }
-        every { task.addOnFailureListener(any<OnFailureListener>()) } answers {
-            if (failure != null) firstArg<OnFailureListener>().onFailure(failure)
-            task
-        }
-        return task
     }
 }

@@ -56,9 +56,6 @@ class LocationProviderRegistryTest {
     }
 
     private fun resetRegistry() {
-        LocationProviderRegistry::class.java.getDeclaredField("factory").apply {
-            isAccessible = true
-            set(null, null)
-        }
+        LocationProviderRegistry.factory = null
     }
 }

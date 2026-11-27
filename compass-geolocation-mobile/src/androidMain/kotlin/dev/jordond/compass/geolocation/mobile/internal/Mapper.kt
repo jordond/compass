@@ -15,8 +15,13 @@ import kotlinx.coroutines.withContext
 
 /**
  * Converts a [Location] to a [dev.jordond.compass.Location].
+ *
+ * @param sdkInt The API level to map for.
  */
-internal suspend fun Location.toModel(context: Context): dev.jordond.compass.Location {
+internal suspend fun Location.toModel(
+    context: Context,
+    sdkInt: Int = VERSION.SDK_INT,
+): dev.jordond.compass.Location {
     // Defensive copy to prevent ConcurrentModificationException when multiple
     // collectors of the SharedFlow invoke toModel on the same Location instance.
     val location = Location(this)
@@ -37,13 +42,13 @@ internal suspend fun Location.toModel(context: Context): dev.jordond.compass.Loc
                 ),
             accuracy = location.accuracy.toDouble(),
             azimuth =
-                if (!hasBearing()) {
+                if (!location.hasBearing()) {
                     null
                 } else {
                     Azimuth(
                         degrees = location.bearing,
                         accuracy =
-                            if (VERSION.SDK_INT < VERSION_CODES.O || !location.hasBearingAccuracy()) {
+                            if (sdkInt < VERSION_CODES.O || !location.hasBearingAccuracy()) {
                                 null
                             } else {
                                 location.bearingAccuracyDegrees
@@ -51,13 +56,13 @@ internal suspend fun Location.toModel(context: Context): dev.jordond.compass.Loc
                     )
                 },
             speed =
-                if (!hasSpeed()) {
+                if (!location.hasSpeed()) {
                     null
                 } else {
                     Speed(
                         mps = location.speed,
                         accuracy =
-                            if (VERSION.SDK_INT < VERSION_CODES.O || !location.hasSpeedAccuracy()) {
+                            if (sdkInt < VERSION_CODES.O || !location.hasSpeedAccuracy()) {
                                 null
                             } else {
                                 location.speedAccuracyMetersPerSecond
@@ -85,7 +90,7 @@ internal suspend fun Location.toModel(context: Context): dev.jordond.compass.Loc
                     Altitude(
                         meters = location.altitude,
                         accuracy =
-                            if (VERSION.SDK_INT < VERSION_CODES.O || !location.hasVerticalAccuracy()) {
+                            if (sdkInt < VERSION_CODES.O || !location.hasVerticalAccuracy()) {
                                 null
                             } else {
                                 location.verticalAccuracyMeters

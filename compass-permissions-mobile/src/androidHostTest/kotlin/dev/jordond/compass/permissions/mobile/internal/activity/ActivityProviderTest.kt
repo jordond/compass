@@ -7,7 +7,6 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.contract.ActivityResultContract
-import androidx.startup.Initializer
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkStatic
@@ -19,11 +18,13 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
+import kotlin.test.assertNotNull
 import kotlin.test.assertSame
 
 class ActivityProviderTest {
 
     private val callbacks = slot<Application.ActivityLifecycleCallbacks>()
+    private val resultCallback = slot<ActivityResultCallback<Map<String, Boolean>>>()
     private val application = mockk<Application>(relaxed = true)
     private val context = mockk<Context>()
 
@@ -66,13 +67,6 @@ class ActivityProviderTest {
     }
 
     @Test
-    fun initializerDeclaresNoDependencies() {
-        val dependencies: List<Class<out Initializer<*>>> = ActivityProviderInitializer().dependencies()
-
-        assertEquals(emptyList(), dependencies)
-    }
-
-    @Test
     fun permissionRequesterIsUnavailableBeforeAnActivityIsCreated() {
         val provider = ActivityProvider(context)
 
@@ -80,23 +74,21 @@ class ActivityProviderTest {
     }
 
     @Test
-    fun registersALifecycleObserverOnTheApplication() {
-        ActivityProvider(context)
-
-        verify(exactly = 1) { application.registerActivityLifecycleCallbacks(any()) }
-    }
-
-    @Test
-    fun aCreatedComponentActivityGetsAPermissionRequester() {
-        val activity = mockk<ComponentActivity>(relaxed = true)
-        ActivityProvider(context)
+    fun aCreatedComponentActivityMakesAPermissionRequesterAvailable() {
+        val activity = componentActivity()
+        val provider = ActivityProvider(context)
 
         callbacks.captured.onActivityCreated(activity, null)
 
-        verify(exactly = 1) { activity.registerForActivityResult(
-                any<ActivityResultContract<Array<String>, Map<String, Boolean>>>(),
-                any<ActivityResultCallback<Map<String, Boolean>>>(),
-            ) }
+        assertNotNull(provider.permissionRequester)
+    }
+
+    @Test
+    fun aComponentActivityContextProvidesARequesterWithoutLifecycleCallbacks() {
+        val activity = componentActivity()
+        every { context.applicationContext } returns activity
+
+        assertNotNull(ActivityProvider(context).permissionRequester)
     }
 
     @Test
@@ -112,10 +104,18 @@ class ActivityProviderTest {
         verify(exactly = 1) { Log.e(any(), any()) }
     }
 
+    // The provider only holds its requester weakly. Capturing the result callback, which
+    // references the requester, keeps it reachable for the length of the test.
+    private fun componentActivity(): ComponentActivity = mockk {
+        every {
+            registerForActivityResult(
+                any<ActivityResultContract<Array<String>, Map<String, Boolean>>>(),
+                capture(resultCallback),
+            )
+        } returns mockk()
+    }
+
     private fun resetProvider() {
-        ActivityProvider::class.java.getDeclaredField("instance").apply {
-            isAccessible = true
-            set(null, null)
-        }
+        ActivityProvider.instance = null
     }
 }

@@ -13,7 +13,10 @@ import io.mockk.mockkStatic
 import io.mockk.slot
 import io.mockk.unmockkAll
 import io.mockk.verify
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.async
+import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
@@ -22,6 +25,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class AndroidLocationPermissionControllerTest {
 
     private val fine = Manifest.permission.ACCESS_FINE_LOCATION
@@ -110,8 +114,10 @@ class AndroidLocationPermissionControllerTest {
             val permissions = slot<List<String>>()
             answerRequest(PermissionState.Granted, permissions)
 
-            assertEquals(PermissionState.Granted, controller().requirePermissionFor(priority))
-            assertEquals(listOf(coarse), permissions.captured)
+            val state = controller().requirePermissionFor(priority)
+
+            assertEquals(PermissionState.Granted, state, "state for $priority")
+            assertEquals(listOf(coarse), permissions.captured, "permissions for $priority")
         }
     }
 
@@ -132,6 +138,38 @@ class AndroidLocationPermissionControllerTest {
 
         assertEquals(PermissionState.Granted, controller().requirePermissionFor(Priority.Balanced))
         verify(exactly = 0) { requester.request(any(), any()) }
+    }
+
+    @Test
+    fun concurrentRequestsPromptOneAtATime() = runTest {
+        val prompts = mutableListOf<(PermissionState) -> Unit>()
+        every { requester.request(any(), any()) } answers {
+            prompts += secondArg<(PermissionState) -> Unit>()
+            mockk<Job>()
+        }
+        val controller = controller()
+        val first = async { controller.requirePermissionFor(Priority.HighAccuracy) }
+        val second = async { controller.requirePermissionFor(Priority.Balanced) }
+
+        // Waiting on a prompt cannot be cancelled, so a failed assertion must still answer every
+        // prompt or the test would hang instead of failing.
+        try {
+            runCurrent()
+            assertEquals(1, prompts.size, "prompts while the first request is unanswered")
+
+            prompts.removeAt(0).invoke(PermissionState.Denied)
+            runCurrent()
+            assertEquals(1, prompts.size, "prompts once the first request is answered")
+
+            prompts.removeAt(0).invoke(PermissionState.Granted)
+            assertEquals(PermissionState.Denied, first.await())
+            assertEquals(PermissionState.Granted, second.await())
+        } finally {
+            while (prompts.isNotEmpty()) {
+                prompts.removeAt(0).invoke(PermissionState.Denied)
+                runCurrent()
+            }
+        }
     }
 
     private fun answerRequest(

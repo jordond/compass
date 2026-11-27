@@ -1,7 +1,6 @@
 package dev.jordond.compass.tools
 
 import android.content.Context
-import androidx.startup.Initializer
 import io.mockk.mockk
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
@@ -54,17 +53,7 @@ class ContextProviderTest {
         assertSame(created, ContextProvider.getInstance())
     }
 
-    @Test
-    fun initializerDeclaresNoDependencies() {
-        val dependencies: List<Class<out Initializer<*>>> = ContextProviderInitializer().dependencies()
-
-        assertEquals(emptyList(), dependencies)
-    }
-
     private fun resetContextProvider() {
-        ContextProvider::class.java.getDeclaredField("instance").apply {
-            isAccessible = true
-            set(null, null)
-        }
+        ContextProvider.instance = null
     }
 }

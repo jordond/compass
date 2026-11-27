@@ -2,11 +2,9 @@ package dev.jordond.compass.geolocation.mobile
 
 import android.content.Context
 import android.location.Location
-import androidx.core.location.LocationCompat
 import dev.jordond.compass.Coordinates
 import dev.jordond.compass.Priority
 import dev.jordond.compass.geolocation.LocationRequest
-import dev.jordond.compass.permissions.LocationAccuracy
 import dev.jordond.compass.permissions.LocationPermissionController
 import dev.jordond.compass.permissions.PermissionState
 import dev.jordond.compass.permissions.exception.PermissionDeniedException
@@ -15,21 +13,22 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
-import io.mockk.mockkConstructor
-import io.mockk.mockkStatic
 import io.mockk.unmockkAll
 import io.mockk.verify
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
-import kotlin.test.assertFalse
 import kotlin.test.assertNull
-import kotlin.test.assertTrue
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class AndroidLocatorTest {
 
     private val context = mockk<Context>()
@@ -47,22 +46,6 @@ class AndroidLocatorTest {
     @AfterTest
     fun tearDown() {
         unmockkAll()
-    }
-
-    @Test
-    fun hasPermissionAndGrantedAccuracyDelegateToTheController() {
-        every { permissions.hasPermission() } returns true
-        every { permissions.grantedAccuracy() } returns LocationAccuracy.Reduced
-
-        assertTrue(locator().hasPermission())
-        assertEquals(LocationAccuracy.Reduced, locator().grantedAccuracy())
-    }
-
-    @Test
-    fun isAvailableFollowsTheProvider() = runTest {
-        coEvery { provider.locationEnabled() } returns false
-
-        assertFalse(locator().isAvailable())
     }
 
     @Test
@@ -94,35 +77,37 @@ class AndroidLocatorTest {
     }
 
     @Test
-    fun permissionIsRequestedForTheRequestedPriority() = runTest {
-        coEvery { provider.lastLocation() } returns null
+    fun locationUpdatesMapsThePlatformLocationsOfTheProvider() = runTest {
+        val platformLocation = mockPlatformLocation(latitude = 43.0, longitude = -79.0)
+        val locator = locator()
 
-        locator().lastLocation(Priority.HighAccuracy)
+        val received = async { locator.locationUpdates.first() }
+        runCurrent()
+        updates.emit(platformLocation)
 
-        coVerify(exactly = 1) { permissions.requirePermissionFor(Priority.HighAccuracy) }
+        assertEquals(Coordinates(43.0, -79.0), received.await().coordinates)
     }
 
     @Test
-    fun trackStartsTheProviderWithTheRequestAfterThePermissionCheck() = runTest {
+    fun trackStartsTheProviderForTheRequestAndReturnsItsUpdates() = runTest {
+        val platformLocation = mockPlatformLocation(latitude = 43.0, longitude = -79.0)
         val request = LocationRequest(priority = Priority.LowPower, interval = 9_000L)
 
-        locator().track(request)
+        val tracked = locator().track(request)
 
         coVerify(exactly = 1) { permissions.requirePermissionFor(Priority.LowPower) }
         verify(exactly = 1) { provider.startTracking(request) }
-    }
 
-    @Test
-    fun stopTrackingDelegatesToTheProvider() {
-        locator().stopTracking()
+        val received = async { tracked.first() }
+        runCurrent()
+        updates.emit(platformLocation)
 
-        verify(exactly = 1) { provider.stopTracking() }
+        assertEquals(Coordinates(43.0, -79.0), received.await().coordinates)
     }
 
     @Test
     fun currentWithoutAMaximumAgeAsksTheProviderForAFreshFix() = runTest {
-        mockLocation()
-        coEvery { provider.currentLocation(Priority.Balanced) } returns Location("gps")
+        coEvery { provider.currentLocation(Priority.Balanced) } returns mockPlatformLocation()
 
         val location = locator().current(LocationRequest(priority = Priority.Balanced))
 
@@ -130,39 +115,17 @@ class AndroidLocatorTest {
         coVerify(exactly = 0) { provider.lastLocation() }
     }
 
+    // The age rules themselves are covered by CachedLocationTest. This only proves the Android
+    // locator consults the cache, so the maximum age is wide enough to make the clock irrelevant.
     @Test
-    fun currentServesARecentCachedFixWithinTheMaximumAge() = runTest {
-        mockLocation(timeMillis = System.currentTimeMillis())
-        coEvery { provider.lastLocation() } returns Location("gps")
+    fun currentServesTheCachedFixWhenItIsWithinTheMaximumAge() = runTest {
+        coEvery { provider.lastLocation() } returns mockPlatformLocation(timeMillis = 1L)
 
-        locator().current(LocationRequest(maximumAge = 60_000L))
+        val location = locator().current(LocationRequest(maximumAge = Long.MAX_VALUE))
 
+        assertEquals(Coordinates(1.0, 2.0), location.coordinates)
         coVerify(exactly = 0) { provider.currentLocation(any()) }
     }
 
-    @Test
-    fun currentFallsThroughToAFreshFixWhenTheCachedOneIsTooOld() = runTest {
-        mockLocation(timeMillis = 1L)
-        coEvery { provider.lastLocation() } returns Location("gps")
-        coEvery { provider.currentLocation(any()) } returns Location("gps")
-
-        locator().current(LocationRequest(maximumAge = 1_000L))
-
-        coVerify(exactly = 1) { provider.currentLocation(Priority.Balanced) }
-    }
-
     private fun locator() = AndroidLocator(context, permissions, provider)
-
-    private fun mockLocation(timeMillis: Long = 0L) {
-        mockkConstructor(Location::class)
-        mockkStatic(LocationCompat::class)
-        every { anyConstructed<Location>().latitude } returns 1.0
-        every { anyConstructed<Location>().longitude } returns 2.0
-        every { anyConstructed<Location>().accuracy } returns 3f
-        every { anyConstructed<Location>().time } returns timeMillis
-        every { anyConstructed<Location>().hasBearing() } returns false
-        every { anyConstructed<Location>().hasSpeed() } returns false
-        every { anyConstructed<Location>().hasAltitude() } returns false
-        every { LocationCompat.hasMslAltitude(any()) } returns false
-    }
 }

@@ -18,7 +18,7 @@ import dev.jordond.compass.InternalCompassApi
 public object LocationProviderRegistry {
 
     @Volatile
-    private var factory: Factory? = null
+    internal var factory: Factory? = null
 
     /**
      * Builds a [PlatformLocationProvider] for a device, or returns `null` when it cannot serve the

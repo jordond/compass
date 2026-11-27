@@ -1,17 +1,20 @@
 package dev.jordond.compass.geocoder.mobile
 
 import android.content.Context
-import android.location.Address
 import android.location.Geocoder
+import android.location.Geocoder.GeocodeListener
+import android.os.Build
 import dev.jordond.compass.Coordinates
 import dev.jordond.compass.exception.NotSupportedException
-import dev.jordond.compass.geocoder.exception.GeocodeException
+import io.mockk.EqMatcher
+import io.mockk.OfTypeMatcher
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkConstructor
 import io.mockk.mockkStatic
 import io.mockk.unmockkAll
 import kotlinx.coroutines.test.runTest
+import java.util.Locale
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -20,7 +23,6 @@ import kotlin.test.assertFailsWith
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
-// SDK_INT is 0 on the host, so these exercise the pre-Tiramisu synchronous geocoder path.
 @Suppress("DEPRECATION")
 class AndroidPlatformGeocoderTest {
 
@@ -40,7 +42,7 @@ class AndroidPlatformGeocoderTest {
 
     @Test
     fun isAvailableFollowsGeocoderIsPresent() {
-        val geocoder = AndroidPlatformGeocoder(context, null)
+        val geocoder = geocoder()
 
         every { Geocoder.isPresent() } returns false
         assertFalse(geocoder.isAvailable())
@@ -52,7 +54,7 @@ class AndroidPlatformGeocoderTest {
     @Test
     fun everyOperationThrowsNotSupportedWhenNoGeocoderIsPresent() = runTest {
         every { Geocoder.isPresent() } returns false
-        val geocoder = AndroidPlatformGeocoder(context, null)
+        val geocoder = geocoder()
 
         assertFailsWith<NotSupportedException> { geocoder.reverse(1.0, 2.0) }
         assertFailsWith<NotSupportedException> { geocoder.placeFromAddress("home") }
@@ -64,7 +66,7 @@ class AndroidPlatformGeocoderTest {
         every { anyConstructed<Geocoder>().getFromLocation(43.0, -79.0, 5) } returns
             mutableListOf(address(43.0, -79.0, name = "Home"))
 
-        val places = AndroidPlatformGeocoder(context, null).reverse(43.0, -79.0)
+        val places = geocoder().reverse(43.0, -79.0)
 
         assertEquals(1, places.size)
         assertEquals("Home", places.single().name)
@@ -76,7 +78,7 @@ class AndroidPlatformGeocoderTest {
         every { anyConstructed<Geocoder>().getFromLocationName("1 Main St", 5) } returns
             mutableListOf(address(1.0, 2.0, name = "Main"), address(3.0, 4.0, name = "Side"))
 
-        val places = AndroidPlatformGeocoder(context, null).placeFromAddress("1 Main St")
+        val places = geocoder().placeFromAddress("1 Main St")
 
         assertEquals(listOf("Main", "Side"), places.map { it.name })
     }
@@ -86,30 +88,45 @@ class AndroidPlatformGeocoderTest {
         every { anyConstructed<Geocoder>().getFromLocationName("1 Main St", 5) } returns
             mutableListOf(address(1.0, 2.0), address(3.0, 4.0))
 
-        val coordinates = AndroidPlatformGeocoder(context, null).forward("1 Main St")
+        val coordinates = geocoder().forward("1 Main St")
 
         assertEquals(listOf(Coordinates(1.0, 2.0), Coordinates(3.0, 4.0)), coordinates)
     }
 
     @Test
-    fun noResultsProduceAnEmptyList() = runTest {
-        every { anyConstructed<Geocoder>().getFromLocationName(any<String>(), any()) } returns null
+    fun aLocaleIsHandedToThePlatformGeocoder() = runTest {
+        val locale = Locale.CANADA_FRENCH
+        every {
+            constructedWith<Geocoder>(OfTypeMatcher<Context>(Context::class), EqMatcher(locale))
+                .getFromLocationName("1 rue Principale", 5)
+        } returns mutableListOf(address(1.0, 2.0))
 
-        assertEquals(emptyList(), AndroidPlatformGeocoder(context, null).forward("nowhere"))
+        val coordinates = geocoder(locale = locale).forward("1 rue Principale")
+
+        assertEquals(listOf(Coordinates(1.0, 2.0)), coordinates)
     }
 
     @Test
-    fun geocoderFailuresSurfaceAsGeocodeException() = runTest {
-        every { anyConstructed<Geocoder>().getFromLocation(any(), any(), any()) } throws
-            java.io.IOException("boom")
+    fun tiramisuAndAboveUseTheListenerApi() = runTest {
+        every {
+            anyConstructed<Geocoder>().getFromLocation(43.0, -79.0, 5, any<GeocodeListener>())
+        } answers {
+            arg<GeocodeListener>(3).onGeocode(mutableListOf(address(43.0, -79.0, name = "Home")))
+        }
+        every {
+            anyConstructed<Geocoder>().getFromLocationName("1 Main St", 5, any<GeocodeListener>())
+        } answers {
+            arg<GeocodeListener>(2).onGeocode(mutableListOf(address(1.0, 2.0, name = "Main")))
+        }
+        val geocoder = geocoder(sdkInt = Build.VERSION_CODES.TIRAMISU)
 
-        assertFailsWith<GeocodeException> { AndroidPlatformGeocoder(context, null).reverse(0.0, 0.0) }
+        assertEquals(listOf("Home"), geocoder.reverse(43.0, -79.0).map { it.name })
+        assertEquals(listOf("Main"), geocoder.placeFromAddress("1 Main St").map { it.name })
+        assertEquals(listOf(Coordinates(1.0, 2.0)), geocoder.forward("1 Main St"))
     }
 
-    private fun address(lat: Double, lon: Double, name: String? = null): Address =
-        mockk(relaxed = true) {
-            every { latitude } returns lat
-            every { longitude } returns lon
-            every { featureName } returns name
-        }
+    private fun geocoder(
+        locale: Locale? = null,
+        sdkInt: Int = Build.VERSION_CODES.S,
+    ) = AndroidPlatformGeocoder(context, locale, sdkInt)
 }

@@ -33,7 +33,7 @@ internal class ActivityProvider(
     companion object {
 
         @SuppressLint("StaticFieldLeak")
-        private var instance: ActivityProvider? = null
+        internal var instance: ActivityProvider? = null
 
         fun create(context: Context): ActivityProvider {
             if (instance == null) {
