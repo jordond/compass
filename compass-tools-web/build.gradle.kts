@@ -25,6 +25,10 @@ kotlin {
             api(libs.ktor.serialization.json)
         }
 
+        commonTest.dependencies {
+            implementation(libs.ktor.client.mock)
+        }
+
         androidMain.dependencies {
             api(libs.ktor.client.android)
         }
