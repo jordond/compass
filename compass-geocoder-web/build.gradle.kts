@@ -41,6 +41,10 @@ kotlin {
             api(libs.ktor.client.darwin)
         }
 
+        linuxMain.dependencies {
+            api(libs.ktor.client.curl)
+        }
+
         jsMain.dependencies {
             api(libs.ktor.client.js)
         }
