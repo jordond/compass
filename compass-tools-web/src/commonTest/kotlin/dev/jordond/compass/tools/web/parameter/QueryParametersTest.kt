@@ -50,7 +50,7 @@ class QueryParametersTest {
                 "key3" to "value with spaces"
             )
         }.encode()
-        val expected = "key1%3Dvalue1%26key2%3Dvalue2%26key3%3Dvalue%20with%20spaces"
+        val expected = "key1=value1&key2=value2&key3=value%20with%20spaces"
         actual shouldBeEqual expected
     }
 
@@ -68,9 +68,9 @@ class QueryParametersTest {
                 "key8" to "value8%with",
             )
         }.encode()
-        val expected = "key1%3Dvalue1%20with%26key2%3Dvalue2%2Fwith%26key3%3Dvalue3%3Fwith%26" +
-            "key4%3Dvalue4%23with%26key5%3Dvalue5%26with%26key6%3Dvalue6%3Dwith%26" +
-            "key7%3Dvalue7%2Bwith%26key8%3Dvalue8%25with"
+        val expected = "key1=value1%20with&key2=value2%2Fwith&key3=value3%3Fwith&" +
+            "key4=value4%23with&key5=value5%26with&key6=value6%3Dwith&" +
+            "key7=value7%2Bwith&key8=value8%25with"
         actual shouldBeEqual expected
     }
 

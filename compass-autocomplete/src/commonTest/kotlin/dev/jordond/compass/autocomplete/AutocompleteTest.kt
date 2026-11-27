@@ -220,4 +220,14 @@ class AutocompleteTest {
             autocomplete.search("ab"),
         )
     }
+
+    @Test
+    fun searchCallsServiceForQueryOfExactlyTheMinimumLength() = runTest {
+        val service = FakeService()
+        val autocomplete = autocomplete(service, AutocompleteOptions(minimumQuery = 3))
+
+        autocomplete.search("abc")
+
+        assertEquals(listOf("abc"), service.queries)
+    }
 }

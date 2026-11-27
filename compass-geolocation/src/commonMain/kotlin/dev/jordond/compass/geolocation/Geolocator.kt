@@ -93,15 +93,15 @@ public interface Geolocator {
     public fun track(request: LocationRequest = LocationRequest()): Flow<TrackingStatus>
 
     /**
-     * Start tracking the location and wait for the first location update.
+     * Start tracking the location and wait for the first status that isn't [TrackingStatus.Idle].
      *
      * Useful for checking if the tracking has started or if the permission has been denied.
      *
      * @param request The location request details.
-     * @return The first location update.
+     * @return The first tracking status after tracking was requested.
      */
     public suspend fun startTracking(request: LocationRequest = LocationRequest()): TrackingStatus =
-        track(request).first()
+        track(request).first { status -> status !is TrackingStatus.Idle }
 
     /**
      * Stop tracking the location.

@@ -8,7 +8,7 @@ import dev.jordond.compass.geocoder.web.template.internal.GeocodeResponse
 import dev.jordond.compass.geocoder.web.template.internal.toCoordinates
 import io.ktor.client.call.body
 import io.ktor.client.statement.HttpResponse
-import io.ktor.http.encodeURLQueryComponent
+import io.ktor.http.encodeURLParameter
 
 /**
  * A [ForwardEndpoint] that uses the TEMPLATE Geocoding API.
@@ -33,7 +33,7 @@ public class TemplateForwardEndpoint(
     ) : this(apiKey, templateParameters(block))
 
     override fun url(param: String): String {
-        val encodedQuery = param.encodeURLQueryComponent()
+        val encodedQuery = param.encodeURLParameter()
         return TemplatePlatformGeocoder.forwardUrl(encodedQuery, apiKey, parameters)
     }
 

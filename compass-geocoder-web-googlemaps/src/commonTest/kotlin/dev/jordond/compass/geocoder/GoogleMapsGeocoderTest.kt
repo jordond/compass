@@ -138,4 +138,37 @@ class GoogleMapsGeocoderTest {
             }],"status":"OK"}
         """
     }
+
+    @Test
+    fun forwardSendsTheAddressEncodedOnce() = runTest {
+        val http = MockHttp(body = OK_BODY)
+
+        geocoder(http).forward("1 Main St & Co, New York")
+
+        val url = http.requests.single().url
+        assertEquals("1 Main St & Co, New York", url.parameters["address"])
+        assertEquals("secret", url.parameters["key"])
+    }
+
+    @Test
+    fun forwardSendsEachOptionAsItsOwnParameter() = runTest {
+        val http = MockHttp(body = OK_BODY)
+
+        geocoder(http) {
+            locationTypes(GoogleMapsLocationType.Rooftop, GoogleMapsLocationType.RangeInterpolated)
+        }.forward("Paris")
+
+        val parameters = http.requests.single().url.parameters
+        assertEquals("ROOFTOP|RANGE_INTERPOLATED", parameters["location_type"])
+        assertEquals("Paris", parameters["address"])
+        assertEquals("secret", parameters["key"])
+    }
+
+    @Test
+    fun locationTypesUseTheNamesGoogleExpects() {
+        assertEquals(
+            listOf("ROOFTOP", "RANGE_INTERPOLATED", "GEOMETRIC_CENTER", "APPROXIMATE"),
+            GoogleMapsLocationType.entries.map { type -> type.value },
+        )
+    }
 }

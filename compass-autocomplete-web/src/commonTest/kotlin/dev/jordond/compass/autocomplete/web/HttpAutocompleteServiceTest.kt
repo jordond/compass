@@ -129,4 +129,33 @@ class HttpAutocompleteServiceTest {
 
         assertEquals(AutocompleteResult.Failed("HTTP request failed with status code 502"), result)
     }
+
+    @Test
+    fun autocompleteFromHttpServiceSearches() = runTest {
+        val service = HttpAutocompleteService(endpoint, client = mockClient { jsonResponse(suggestionsJson) })
+
+        val autocomplete = Autocomplete(
+            httpService = service,
+            dispatcher = UnconfinedTestDispatcher(testScheduler),
+        )
+
+        assertEquals(
+            AutocompleteResult.Success(listOf("Paris, France", "Paris, Texas")),
+            autocomplete.search("paris"),
+        )
+    }
+
+    @Test
+    fun autocompleteFromEndpointSearches() = runTest {
+        val autocomplete = Autocomplete(
+            endpoint = endpoint,
+            httpClient = mockClient { jsonResponse(suggestionsJson) },
+            dispatcher = UnconfinedTestDispatcher(testScheduler),
+        )
+
+        assertEquals(
+            AutocompleteResult.Success(listOf("Paris, France", "Paris, Texas")),
+            autocomplete.search("paris"),
+        )
+    }
 }

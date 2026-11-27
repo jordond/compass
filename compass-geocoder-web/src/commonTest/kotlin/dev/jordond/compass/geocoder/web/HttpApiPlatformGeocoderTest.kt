@@ -47,10 +47,19 @@ class HttpApiPlatformGeocoderTest {
     )
 
     @Test
-    fun forwardPercentEncodesAddressBeforeBuildingUrl() = runTest {
-        ForwardHttpApiPlatformGeocoder(forwardEndpoint, client()).forward("1 Main St & Co")
+    fun forwardPassesTheRawAddressToTheEndpoint() = runTest {
+        val addresses = mutableListOf<String>()
+        val endpoint = ForwardEndpoint(
+            url = { address ->
+                addresses += address
+                "https://api.test/forward"
+            },
+            mapResponse = { emptyList() },
+        )
 
-        assertEquals(listOf("https://api.test/forward/1%20Main%20St%20%26%20Co"), requested)
+        ForwardHttpApiPlatformGeocoder(endpoint, client()).forward("1 Main St & Co")
+
+        assertEquals(listOf("1 Main St & Co"), addresses)
     }
 
     @Test

@@ -50,7 +50,7 @@ You can also use the helper extension function for more concise code:
 
 ```kotlin
 val forwardEndpoint = ForwardEndpoint(
-    url = { param -> "https://my-api.com/api/geocode?query=$param" },
+    url = { param -> "https://my-api.com/api/geocode?query=${param.encodeURLParameter()}" },
     mapResponse = { response -> 
         response.body<MyAPIResponse>().resultsOrThrow().toCoordinates() 
     },

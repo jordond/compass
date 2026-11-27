@@ -25,7 +25,9 @@ public interface TemplatePlatformGeocoder : HttpApiPlatformGeocoder {
             target: String,
             apiKey: String,
             params: TemplateParameters,
-        ): String = "$BASE_URL?$target&${params.encode()}key=$apiKey"
+        ): String = listOf(target, params.encode(), "key=$apiKey")
+            .filter { part -> part.isNotEmpty() }
+            .joinToString(separator = "&", prefix = "$BASE_URL?")
 
         internal fun forwardUrl(address: String, apiKey: String, params: TemplateParameters) =
             createUrl(target = "address=$address", apiKey = apiKey, params = params)

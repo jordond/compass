@@ -369,4 +369,47 @@ class DefaultGeolocatorTest {
         }
         assertEquals(1, locator.stopCalls)
     }
+
+    @Test
+    fun startTrackingWaitsForTrackingToBegin() = runTest {
+        val geolocator = geolocator(FakeLocator().apply { onTrack = neverEnding() })
+
+        assertEquals(TrackingStatus.Tracking, geolocator.startTracking())
+    }
+
+    @Test
+    fun startTrackingReturnsTheErrorWhenTrackingFails() = runTest {
+        val locator = FakeLocator().apply { onTrack = { throw PermissionDeniedException() } }
+        val geolocator = geolocator(locator)
+
+        geolocator.trackingStatus.test {
+            assertEquals(TrackingStatus.Idle, awaitItem())
+            geolocator.track()
+            assertEquals(TrackingStatus.Tracking, awaitItem())
+            assertEquals(TrackingStatus.Error(GeolocatorResult.PermissionDenied(false)), awaitItem())
+
+            // The retry must report its own outcome, not the error left by the first attempt
+            locator.onTrack = neverEnding()
+            assertEquals(TrackingStatus.Tracking, geolocator.startTracking())
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
+    fun errorThrownByTheLocationFlowBecomesAnErrorStatus() = runTest {
+        val locator = FakeLocator().apply {
+            onTrack = { flow { throw GeolocationException("signal lost") } }
+        }
+        val geolocator = geolocator(locator)
+
+        geolocator.trackingStatus.test {
+            assertEquals(TrackingStatus.Idle, awaitItem())
+            geolocator.track()
+            assertEquals(TrackingStatus.Tracking, awaitItem())
+            assertEquals(
+                TrackingStatus.Error(GeolocatorResult.GeolocationFailed("Geolocation failed: signal lost")),
+                awaitItem(),
+            )
+        }
+    }
 }

@@ -16,7 +16,7 @@ class GoogleMapsEndpointTest {
     fun forwardUrlUsesBaseUrlAddressAndKey() {
         val url = GoogleMapsForwardEndpoint("secret").url("Toronto")
 
-        assertEquals("$base?address=Toronto&&key=secret", url)
+        assertEquals("$base?address=Toronto&key=secret", url)
     }
 
     @Test
@@ -50,7 +50,7 @@ class GoogleMapsEndpointTest {
     fun reverseUrlUsesLatLngAndKey() {
         val url = GoogleMapsReverseEndpoint("secret").url(Coordinates(43.65, -79.38))
 
-        assertEquals("$base?latlng=43.65,-79.38&&key=secret", url)
+        assertEquals("$base?latlng=43.65,-79.38&key=secret", url)
     }
 
     @Test

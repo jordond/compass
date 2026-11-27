@@ -7,7 +7,6 @@ import dev.jordond.compass.tools.web.HttpApiEndpoint
 import dev.jordond.compass.tools.web.makeRequest
 import io.ktor.client.HttpClient
 import io.ktor.client.statement.HttpResponse
-import io.ktor.http.encodeURLParameter
 
 /**
  * A [HttpApiPlatformGeocoder] for forward geocoding that uses the provided [ForwardEndpoint].
@@ -24,7 +23,7 @@ public class ForwardHttpApiPlatformGeocoder(
     override fun isAvailable(): Boolean = true
 
     override suspend fun forward(address: String): List<Coordinates> {
-        val url = endpoint.url(address.encodeURLParameter())
+        val url = endpoint.url(address)
         return client.makeRequest(url, endpoint::mapResponse)
     }
 

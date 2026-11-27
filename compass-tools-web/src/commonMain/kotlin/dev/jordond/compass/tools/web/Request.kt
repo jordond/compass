@@ -4,6 +4,7 @@ import co.touchlab.kermit.Logger
 import dev.jordond.compass.InternalCompassApi
 import dev.jordond.compass.tools.web.exception.WebException
 import io.ktor.client.HttpClient
+import io.ktor.client.plugins.ResponseException
 import io.ktor.client.request.get
 import io.ktor.client.request.url
 import io.ktor.client.statement.HttpResponse
@@ -39,6 +40,13 @@ public suspend fun <Result> HttpClient.makeRequest(
         throw cancellation
     } catch (webException: WebException) {
         throw webException
+    } catch (cause: ResponseException) {
+        // Clients with expectSuccess, like the default one, throw before the status check above
+        val status = cause.response.status
+        throw WebException(
+            statusCode = status,
+            message = "HTTP request failed with status code ${status.value}",
+        )
     } catch (cause: Throwable) {
         Logger.e(cause) { "Unable to make web request" }
         throw cause

@@ -8,7 +8,7 @@ import dev.jordond.compass.geocoder.web.parameter.OpenCageParametersBuilder
 import dev.jordond.compass.geocoder.web.parameter.openCageParameters
 import io.ktor.client.call.body
 import io.ktor.client.statement.HttpResponse
-import io.ktor.http.encodeURLQueryComponent
+import io.ktor.http.encodeURLParameter
 
 /**
  * A [ForwardEndpoint] that uses the OpenCage Geocoding API.
@@ -33,7 +33,7 @@ public class OpenCageForwardEndpoint(
     ) : this(apiKey, openCageParameters(block))
 
     override fun url(param: String): String {
-        val encodedQuery = param.encodeURLQueryComponent()
+        val encodedQuery = param.encodeURLParameter()
         return OpenCagePlatformGeocoder.forwardUrl(encodedQuery, apiKey, parameters)
     }
 

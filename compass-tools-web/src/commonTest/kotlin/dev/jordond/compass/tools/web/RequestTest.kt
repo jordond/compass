@@ -95,4 +95,16 @@ class RequestTest {
             }
         }
     }
+
+    @Test
+    fun clientThatExpectsSuccessStillThrowsWebException() = runTest {
+        val engine = MockEngine { respondError(HttpStatusCode.Forbidden) }
+        val client = HttpClient(engine) { expectSuccess = true }
+
+        val error = assertFailsWith<WebException> {
+            client.makeRequest("https://example.com") { it.status }
+        }
+
+        assertEquals(HttpStatusCode.Forbidden, error.statusCode)
+    }
 }

@@ -8,7 +8,7 @@ import dev.jordond.compass.geocoder.web.parameter.MapboxParametersBuilder
 import dev.jordond.compass.geocoder.web.parameter.mapboxParameters
 import io.ktor.client.call.body
 import io.ktor.client.statement.HttpResponse
-import io.ktor.http.encodeURLQueryComponent
+import io.ktor.http.encodeURLParameter
 
 /**
  * A [ForwardEndpoint] that uses the Mapbox Geocoding API.
@@ -33,7 +33,7 @@ public class MapboxForwardEndpoint(
     ) : this(apiKey, mapboxParameters(block))
 
     override fun url(param: String): String {
-        val encodedQuery = param.encodeURLQueryComponent()
+        val encodedQuery = param.encodeURLParameter()
         return MapboxPlatformGeocoder.forwardUrl(encodedQuery, apiKey, parameters)
     }
 
