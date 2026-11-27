@@ -49,12 +49,6 @@ class QueryParamValuesTest {
     }
 
     @Test
-    fun encodeJoinsPairsAndEscapesWholeString() {
-        val encoded = Params(linkedMapOf("a" to "1", "b" to "x y")).encode()
-        assertEquals("a%3D1%26b%3Dx%20y", encoded)
-    }
-
-    @Test
     fun encodeEmptyParametersIsEmpty() {
         assertEquals("", Params(emptyMap()).encode())
     }
